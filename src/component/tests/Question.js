@@ -1,6 +1,7 @@
 import React from "react";
 import Answers from './Answers';
 import { withStyles, Typography } from '@material-ui/core';
+import { withContext } from "../../context";
 
 const styles = theme => ({
 	question: {
@@ -15,18 +16,15 @@ const styles = theme => ({
 	}
 })
 
-const Question = ({ classes, currentQuestion, handleAnswerActions }) => (
+const Question = ({ classes, currentQuestion }) => (
   <div className={classes.question}>
     <Typography
       variant="subtitle1"
     >
       {currentQuestion.question}
     </Typography>
-    <Answers 
-      currentQuestion={currentQuestion} 
-      handleActions={handleAnswerActions}
-    />
+    <Answers />
   </div>
 )
 
-export default withStyles(styles)(Question)
+export default withContext(withStyles(styles)(Question))  

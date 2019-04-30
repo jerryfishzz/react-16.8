@@ -10,11 +10,11 @@ import {
   Divider, 
   Tooltip 
 } from '@material-ui/core';
-import * as R from 'ramda'
 import NotesIcon from '@material-ui/icons/Notes';
 import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
-
+import { getTheAlphanumericOrder } from '../../store';
+import { withContext } from '../../context';
 
 const styles = theme => ({
   root: {
@@ -35,10 +35,6 @@ const styles = theme => ({
     marginRight: 40
   },
 });
-
-const alphanumericString = 'ABCDEFG'
-
-const gotTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
@@ -90,7 +86,7 @@ const Notes = ({ currentQuestion, classes }) => {
                   alignItems="flex-start"
                 >
                   <ListItemAvatar>
-                    <Avatar className={classes.avatar}>{gotTheAlphanumericOrder(i)}</Avatar>
+                    <Avatar className={classes.avatar}>{getTheAlphanumericOrder(i)}</Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={a.note} />
                 </ListItem>
@@ -113,4 +109,4 @@ const Notes = ({ currentQuestion, classes }) => {
   )
 }
 
-export default withStyles(styles)(Notes)
+export default withContext(withStyles(styles)(Notes))  

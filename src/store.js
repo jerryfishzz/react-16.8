@@ -1,3 +1,5 @@
+import * as R from 'ramda'
+
 export const questionLibrary = [
   {
     "question": "Which of commands is to create a database named runoob.",
@@ -56,3 +58,6 @@ export const questionLibrary = [
     "otherNotes": ""
   }
 ]
+
+const alphanumericString = 'ABCDEFG'
+export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)

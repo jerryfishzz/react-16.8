@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import Shuffle from '@material-ui/icons/Shuffle';
 import { questionLibrary } from '../../store.js'
+import { withContext } from '../../context.js';
 
 const styles = {
   flex: {
@@ -35,4 +36,4 @@ const Header = ({ classes, shuffleQuestions }) => (
   </AppBar>
 )
 
-export default withStyles(styles)(Header)
+export default withContext(withStyles(styles)(Header)) 

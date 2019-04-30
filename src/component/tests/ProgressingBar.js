@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { withContext } from "../../context";
 
 const styles = theme => ({
   container: {
@@ -60,4 +61,4 @@ const ProgressingBar =
     </Grid>
   </Grid>
   
-export default withStyles(styles, { withTheme: true })(ProgressingBar)
+export default withContext(withStyles(styles, { withTheme: true })(ProgressingBar))  

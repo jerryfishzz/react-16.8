@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import * as R from 'ramda'
 import shuffle from 'shuffle-array'
 import { questionLibrary } from './store'
 import { CssBaseline } from '@material-ui/core';
 import { Header } from './component/layouts';
 import Tests from './component/tests';
+import { Provider } from './context';
 
 // Necessary properties for the question with answers
 const propertiesForAnswers = {
@@ -88,24 +89,29 @@ export default class App extends Component {
     this.initializeQuestions()
   }
 
+  getContext = () => ({
+    ...this.state,
+    shuffleQuestions: this.initializeQuestions,
+    handleAnswerActions: this.handleAnswerActions,
+    handleNext: this.nextQuestion,
+    handleBack: this.previousQuestion
+  })
+
   render () {
     const { testQuestions, currentQuestion, currentQuestionNumber } = this.state
 
     return (
-      <Fragment>
+      <Provider value={this.getContext()}>
         <CssBaseline />
-        <Header 
-          shuffleQuestions={this.initializeQuestions}
-        />
+        <Header />
         <Tests 
           testQuestions={testQuestions} 
           currentQuestion={currentQuestion}
           currentQuestionNumber={currentQuestionNumber}
-          handleAnswerActions={this.handleAnswerActions}
           nextQuestion={this.nextQuestion}
           previousQuestion={this.previousQuestion}
         />
-      </Fragment>
+      </Provider>
     )
   }
 }

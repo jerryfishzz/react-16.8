@@ -8,11 +8,8 @@ import {
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
-import * as R from 'ramda'
-
-const alphanumericString = 'ABCDEFG'
-
-const gotTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
+import { getTheAlphanumericOrder } from '../../store';
+import { withContext } from '../../context';
 
 const styles = theme => ({
   root: {
@@ -23,7 +20,7 @@ const styles = theme => ({
 
 class Answers extends React.Component {
   handleListItemClick = i => {
-    this.props.handleActions('selectedAnswer', i)
+    this.props.handleAnswerActions('selectedAnswer', i)
   };
 
   componentDidMount() {
@@ -65,7 +62,7 @@ class Answers extends React.Component {
       <div className={classes.root}>
         <List component="nav">
           {currentQuestion.answers.map((a, i) => {
-            const answerContent = gotTheAlphanumericOrder(i) + '. ' + a.content
+            const answerContent = getTheAlphanumericOrder(i) + '. ' + a.content
             
             return (
               <ListItem 
@@ -89,4 +86,4 @@ class Answers extends React.Component {
   }
 }
 
-export default withStyles(styles)(Answers)
+export default withContext(withStyles(styles)(Answers))   

@@ -9,6 +9,7 @@ import {
 import Question from './Question';
 import ProgressingBar from './ProgressingBar';
 import Notes from './Notes';
+import { withContext } from '../../context';
 
 const styles = theme => ({
 	'@global': {
@@ -42,7 +43,7 @@ const styles = theme => ({
    }
 })
 
-export default withStyles(styles)(class extends Component {
+class Tests extends Component {
   state = {
 		numberOfQuestion: 0
 	}
@@ -53,26 +54,6 @@ export default withStyles(styles)(class extends Component {
 		}))
 	}
 
-	nextQuestion = () => {
-		this.props.nextQuestion();
-	}
-
-	previousQuestion = () => {
-		this.props.previousQuestion();
-	}
-
-	handleNext = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep + 1,
-    }));
-  };
-
-  handleBack = () => {
-    this.setState(state => ({
-      activeStep: state.activeStep - 1,
-    }));
-	};
-	
 	submitAnswer = (i = null) => {
 		if (i === null) return null
 		
@@ -84,8 +65,7 @@ export default withStyles(styles)(class extends Component {
       classes,
       currentQuestionNumber,
       testQuestions,
-      currentQuestion,
-      handleAnswerActions
+      currentQuestion
      } = this.props 
   
     return (
@@ -102,10 +82,7 @@ export default withStyles(styles)(class extends Component {
               </Typography>
             </Grid>	
 
-            <Question
-              currentQuestion={currentQuestion}
-              handleAnswerActions={handleAnswerActions}
-            />
+            <Question />
             
             <Button 
               className={classes.submitBtn}
@@ -117,13 +94,7 @@ export default withStyles(styles)(class extends Component {
               Submit
             </Button>
 
-            <ProgressingBar 
-              key={currentQuestionNumber}
-              testQuestions={testQuestions} 
-              currentQuestionNumber={currentQuestionNumber}
-              handleNext={this.nextQuestion}
-              handleBack={this.previousQuestion}
-            />
+            <ProgressingBar key={currentQuestionNumber} />
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} className={classes.item}>
@@ -133,13 +104,12 @@ export default withStyles(styles)(class extends Component {
                 Notes
               </Typography>
             </Grid>
-
-            <Notes 
-              currentQuestion={currentQuestion}
-            />
+            <Notes />
           </Paper>
         </Grid>
       </Grid>
     )
   }
-})
+}
+
+export default withContext(withStyles(styles)(Tests))  
