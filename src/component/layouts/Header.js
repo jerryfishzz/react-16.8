@@ -10,6 +10,7 @@ import {
 import Shuffle from '@material-ui/icons/Shuffle';
 import { questionLibrary } from '../../store.js'
 import { withContext } from '../../context.js';
+import CreateDialog from '../tests/Dialog'
 
 const styles = {
   flex: {
@@ -32,6 +33,7 @@ const Header = ({ classes, shuffleQuestions }) => (
           <Shuffle />
         </Fab>
       </Tooltip>
+      <CreateDialog />
     </Toolbar>
   </AppBar>
 )

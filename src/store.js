@@ -2,6 +2,7 @@ import * as R from 'ramda'
 
 export const questionLibrary = [
   {
+    "id": "jvcx8cmv",
     "question": "Which of commands is to create a database named runoob.",
     "answers": [
       {
@@ -28,15 +29,19 @@ export const questionLibrary = [
     "otherNotes": "Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent aliquet fermentum turpis. Morbi vel rutrum nulla. Cras euismod sem magna. Nullam id odio tempus, pulvinar sapien sit amet, scelerisque eros. Curabitur aliquam, augue vel venenatis posuere, lorem leo rhoncus est, quis viverra elit elit a nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus a scelerisque leo. Mauris viverra purus quis orci suscipit, id rhoncus ex pharetra. Nam vestibulum ligula sit amet aliquet bibendum. Praesent at aliquet eros, eu sodales nulla. Donec eget suscipit enim, et blandit sapien. Aliquam erat volutpat. Nullam finibus lobortis varius. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent aliquet fermentum turpis. Morbi vel rutrum nulla. Cras euismod sem magna. Nullam id odio tempus, pulvinar sapien sit amet, scelerisque eros. Curabitur aliquam, augue vel venenatis posuere, lorem leo rhoncus est, quis viverra elit elit a nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus a scelerisque leo. Mauris viverra purus quis orci suscipit, id rhoncus ex pharetra. Nam vestibulum ligula sit amet aliquet bibendum. Praesent at aliquet eros, eu sodales nulla. Donec eget suscipit enim, et blandit sapien. Aliquam erat volutpat. Nullam finibus lobortis varius. Nam porttitor dignissim ligula, vel tristique ipsum tincidunt vitae. Nam faucibus quis justo in tempor."
   },
   {
+    "id": "jvcxf19t",
     "question": "If you just created a database and didn't insert any record, can you see the database when you use the command to display all the databases."
   },
   {
+    "id": "jvcxfrhh",
     "question": "List all Tables in Oracle database, owned by current Oracle user"
   },
   {
+    "id": "jvcxg7ku",
     "question": "B-tree is not necessarily balanced."
   },
   {
+    "id": "jvcxgnwa",
     "question": "Which of the following expressions is problematic? Consume that count is not defined anywhere in the context.",
     "answers": [
       {
@@ -61,3 +66,5 @@ export const questionLibrary = [
 
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
+
+export const tags = ["SQL", "React", "JavaScript", "PHP", "NoSQL", "Database", "Algorithms And Data Structure"]

@@ -4,12 +4,15 @@ import {
   Grid, 
   Paper, 
   withStyles, 
-  Button 
+  Button,
+  IconButton
 } from '@material-ui/core';
-import Question from './Question';
+import Question from './Question'
 import ProgressingBar from './ProgressingBar';
 import Notes from './Notes';
 import { withContext } from '../../context';
+import { Edit, Delete } from '@material-ui/icons';
+import Form from './Form'
 
 const styles = theme => ({
 	'@global': {
@@ -59,13 +62,22 @@ class Tests extends Component {
 		
     this.props.handleAnswerActions('submittedAnswer', i)
   }
+
+  handleEdit = () => {
+    const { enableEdit } = this.props
+    enableEdit()
+  }
   
   render() {
     const {
       classes,
       currentQuestionNumber,
       testQuestions,
-      currentQuestion
+      currentQuestion,
+      editQuestion,
+      onEdit,
+      tags,
+      addTag
      } = this.props 
   
     return (
@@ -75,11 +87,20 @@ class Tests extends Component {
             <Grid container alignItems="center">
               <Typography
                 variant='h5'
-                inline={true}
+                inline
                 gutterBottom
               >
                 Question {currentQuestionNumber + 1} / {testQuestions.length}
               </Typography>
+              <IconButton 
+                color='primary' 
+                onClick={this.handleEdit}
+              >
+                <Edit />
+              </IconButton>
+              <IconButton color='primary' >
+                <Delete />
+              </IconButton>
             </Grid>	
 
             <Question />
@@ -101,10 +122,22 @@ class Tests extends Component {
           <Paper className={classes.paper}>
             <Grid container alignItems="center">
               <Typography variant='h5' gutterBottom>
-                Notes
+                {editQuestion
+                  ? "Edit Question"
+                  : "Notes"
+                }
               </Typography>
             </Grid>
-            <Notes />
+            {editQuestion
+              ? <Form 
+                  editQuestion={editQuestion}
+                  currentQuestion={currentQuestion}
+                  onSubmit={onEdit}
+                  tags={tags}
+                  addTag={addTag}
+                />
+              : <Notes />
+            }
           </Paper>
         </Grid>
       </Grid>

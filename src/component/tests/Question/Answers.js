@@ -8,8 +8,8 @@ import {
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
-import { getTheAlphanumericOrder } from '../../store';
-import { withContext } from '../../context';
+import { getTheAlphanumericOrder } from '../../../store';
+import { withContext } from '../../../context';
 
 const styles = theme => ({
   root: {

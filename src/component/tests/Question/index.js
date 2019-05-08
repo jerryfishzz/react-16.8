@@ -1,7 +1,7 @@
 import React from "react";
 import Answers from './Answers';
 import { withStyles, Typography } from '@material-ui/core';
-import { withContext } from "../../context";
+import { withContext } from "../../../context";
 
 const styles = theme => ({
 	question: {

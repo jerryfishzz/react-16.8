@@ -19,8 +19,15 @@ export default class App extends Component {
   state = {
     testQuestions: [],
     currentQuestionNumber: 0,
-    currentQuestion: ''
+    currentQuestion: '',
+    editQuestion: false
   }
+
+  // toggleEditQuestion = () => {
+  //   this.setState(({ editQuestion }) => ({
+  //     editQuestion: !editQuestion
+  //   }))
+  // }
 
   // If the question has answers, add some proprerties for it
   addPropertiesForAnswers = obj => {
@@ -44,7 +51,8 @@ export default class App extends Component {
   nextQuestion = () => {
     this.setState((prevState) => (
       {
-        currentQuestionNumber: prevState.currentQuestionNumber + 1
+        currentQuestionNumber: prevState.currentQuestionNumber + 1,
+        editQuestion: false
       }
     ), this.updateCurrentQuestion)
   }
@@ -52,7 +60,8 @@ export default class App extends Component {
   previousQuestion = () => {
     this.setState((prevState) => (
       {
-        currentQuestionNumber: prevState.currentQuestionNumber - 1
+        currentQuestionNumber: prevState.currentQuestionNumber - 1,
+        editQuestion: false
       }
     ), this.updateCurrentQuestion)
   }
@@ -80,10 +89,50 @@ export default class App extends Component {
 
       return {
         testQuestions: currentTestQuestions,
-        currentQuestion: newCurrentQuestion
+        currentQuestion: newCurrentQuestion,
+        editQuestion: false
       }
     })
   }
+
+  submitQuestion = question => {
+    this.setState(({testQuestions}) => ({
+      testQuestions: [
+        ...testQuestions, 
+        this.addPropertiesForAnswers(question)
+      ],
+      editQuestion: false,
+    }))
+  }
+
+  editQuestion = question => {
+    this.setState(({testQuestions}) => ({
+      testQuestions: [
+        ...testQuestions.filter(q => q.id !== question.id),
+        question
+      ],
+      currentQuestion: question,
+      editQuestion: false
+    }))
+  }
+
+  enableEdit = () => {
+    this.setState({
+      editQuestion: true
+    })
+  }
+
+  // disableEdit = () => {
+  //   this.setState({
+  //     editQuestion: false
+  //   })
+  // }
+
+  // addTag = tag => {
+  //   this.setState(({ tags }) => ({
+  //     tags: [...tags, tag]
+  //   }))
+  // }
 
   componentDidMount() {
     this.initializeQuestions()
@@ -94,23 +143,18 @@ export default class App extends Component {
     shuffleQuestions: this.initializeQuestions,
     handleAnswerActions: this.handleAnswerActions,
     handleNext: this.nextQuestion,
-    handleBack: this.previousQuestion
+    handleBack: this.previousQuestion,
+    onSubmit: this.submitQuestion,
+    enableEdit: this.enableEdit,
+    onEdit: this.editQuestion
   })
 
   render () {
-    const { testQuestions, currentQuestion, currentQuestionNumber } = this.state
-
     return (
       <Provider value={this.getContext()}>
         <CssBaseline />
         <Header />
-        <Tests 
-          testQuestions={testQuestions} 
-          currentQuestion={currentQuestion}
-          currentQuestionNumber={currentQuestionNumber}
-          nextQuestion={this.nextQuestion}
-          previousQuestion={this.previousQuestion}
-        />
+        <Tests />
       </Provider>
     )
   }
