@@ -1,26 +1,23 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { 
-  withStyles, 
-  Typography, 
+  withStyles,
   Button, 
-  Select, 
-  FormControl, 
-  InputLabel, 
-  MenuItem, 
-  TextField 
+  TextField, 
+  Typography
 } from '@material-ui/core';
-import { getTheAlphanumericOrder } from '../../../store'
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
-import { withContext } from '../../../context';
 import uniqid from 'uniqid'
 import Tags from "./Tags";
+import classNames from 'classnames';
+import CreateSnackbar from '../Snackbar'
 
 const styles = theme => ({
   container: {
-    margin: '24px 0',
     display: 'flex',
     flexWrap: 'wrap',
+    height: 'calc(100% - 39.6px - 28px)',
+    overflowY: 'auto',
   },
   textField: {
     width: '50%',
@@ -38,11 +35,21 @@ const styles = theme => ({
     borderRadius: 5,
     margin: '10px 0'
   },
-  answer: {
-    zIndex: 1
-  },
-  otherNotes: {
+  lower: {
     zIndex: 0
+  },
+  required: {
+    marginRight: 3
+  },
+  form: {
+    height: 500,
+    overflowY: 'auto',
+  },
+  createBtn: {
+    marginTop: 10
+  },
+  white: {
+    backgroundColor: 'white'
   }
 });
 
@@ -113,8 +120,27 @@ class Form extends React.Component {
   }
 
   handleSubmit = () => {
-    const { test } = this.state
+    const { test } = this.state,
+      { editQuestion } = this.props
     this.props.onSubmit(test)
+    
+    if (!editQuestion) {
+      this.setState({
+        test: {
+          id: uniqid(),
+          question: '',
+          answers: [
+            {
+              "content": '',
+              "correctness": false,
+              "note": ''
+            }
+          ],
+          otherNotes: ''
+        },
+        isFormValidate: false
+      })
+    }
   }
 
   validateForm = () => {
@@ -134,14 +160,19 @@ class Form extends React.Component {
   }
 
   render() {
-    const { classes } = this.props,
+    const { classes, paddingRight, editQuestion } = this.props,
       { test: { question, answers, otherNotes }, isFormValidate } = this.state
 
     return (
-      <form className={classes.container}>
+      <form 
+        className={classes.container}
+        style={paddingRight ? {paddingRight: paddingRight} : null}
+      >
         <div className={classes.background}>
+          <Typography> 
+            <span className={classes.required}>Question</span>*
+          </Typography>
           <TextField
-            label="Question"
             multiline
             rows="2"
             margin="normal"
@@ -149,14 +180,19 @@ class Form extends React.Component {
             variant="outlined"
             value={question}
             required
+            className={classes.white}
             onChange={this.handleChange('question')}
           />
         </div>
         
-        <div className={classes.background}>
+        <div className={classes.background}> 
+          <Tags />
+        </div>
+
+        <div className={classNames(classes.background, classes.lower)}>
           <AnswerForm 
             answers={answers}
-            className={classes.answer}
+            editQuestion={editQuestion}
             onAnswerChange={this.onAnswerChange}
             onDelete={this.onDelete}
             onNewAnswer={this.onNewAnswer}
@@ -164,27 +200,26 @@ class Form extends React.Component {
         </div>
 
         <div className={classes.background}>
+          <Typography> 
+            Other Notes
+          </Typography>
           <TextField
-            className={classes.otherNotes}
-            label="Other Notes"
             multiline
-            rows="2"
+            rows="4"
             margin="normal"
             fullWidth
             variant="outlined"
             value={otherNotes}
+            className={classes.white}
             onChange={this.handleChange('otherNotes')}
           />
         </div>
-
-        <Button
-          color="primary" 
-          variant="contained" 
-          onClick={this.handleSubmit}
-          disabled={!isFormValidate}
-        >
-          Create
-        </Button>
+        
+        <CreateSnackbar 
+          handleSubmit={this.handleSubmit}
+          isFormValidate={isFormValidate}
+          editQuestion={editQuestion}
+        />
       </form>
     )
   }

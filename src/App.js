@@ -23,12 +23,6 @@ export default class App extends Component {
     editQuestion: false
   }
 
-  // toggleEditQuestion = () => {
-  //   this.setState(({ editQuestion }) => ({
-  //     editQuestion: !editQuestion
-  //   }))
-  // }
-
   // If the question has answers, add some proprerties for it
   addPropertiesForAnswers = obj => {
     const hasAnswers = R.has('answers')
@@ -44,7 +38,8 @@ export default class App extends Component {
 
     this.setState({
       testQuestions: R.map(this.addPropertiesForAnswers)(randomizedQuestions),
-      currentQuestionNumber: 0
+      currentQuestionNumber: 0,
+      editQuestion: false
     }, this.updateCurrentQuestion)
   }
   
@@ -111,8 +106,7 @@ export default class App extends Component {
         ...testQuestions.filter(q => q.id !== question.id),
         question
       ],
-      currentQuestion: question,
-      editQuestion: false
+      currentQuestion: question
     }))
   }
 
@@ -121,18 +115,6 @@ export default class App extends Component {
       editQuestion: true
     })
   }
-
-  // disableEdit = () => {
-  //   this.setState({
-  //     editQuestion: false
-  //   })
-  // }
-
-  // addTag = tag => {
-  //   this.setState(({ tags }) => ({
-  //     tags: [...tags, tag]
-  //   }))
-  // }
 
   componentDidMount() {
     this.initializeQuestions()

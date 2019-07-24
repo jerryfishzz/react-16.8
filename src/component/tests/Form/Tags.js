@@ -1,14 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import Select from 'react-select';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import NoSsr from '@material-ui/core/NoSsr';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
-import MenuItem from '@material-ui/core/MenuItem';
+import { 
+  withStyles, 
+  Typography, 
+  NoSsr, 
+  TextField, 
+  Paper, 
+  Chip, 
+  MenuItem 
+} from '@material-ui/core';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import CreatableSelect from 'react-select/lib/Creatable';
@@ -17,7 +17,6 @@ import { tags } from '../../../store';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 250,
   },
   input: {
     display: 'flex',
@@ -42,9 +41,6 @@ const styles = theme => ({
   noOptionsMessage: {
     padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
   },
-  singleValue: {
-    fontSize: 16,
-  },
   placeholder: {
     position: 'absolute',
     left: 2,
@@ -56,7 +52,14 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     left: 0,
     right: 0,
-    // backgroundColor: 'white'
+  },
+  contentContainer: {
+    marginTop: 8,
+    marginBottom: 8
+  },
+  white: {
+    backgroundColor: 'white',
+    borderRadius: 5,
   }
 });
 
@@ -105,13 +108,14 @@ const Option = props => {
         fontWeight: props.isSelected ? 500 : 400,
       }}
       {...props.innerProps}
+      
     >
       {props.children}
     </MenuItem>
   );
 }
 
-function Placeholder(props) {
+const Placeholder = props => {
   return (
     <Typography
       color="textSecondary"
@@ -123,11 +127,11 @@ function Placeholder(props) {
   );
 }
 
-function ValueContainer(props) {
+const ValueContainer = props => {
   return <div className={props.selectProps.classes.valueContainer}>{props.children}</div>;
 }
 
-function MultiValue(props) {
+const MultiValue = props => {
   return (
     <Chip
       tabIndex={-1}
@@ -141,7 +145,7 @@ function MultiValue(props) {
   );
 }
 
-function Menu(props) {
+const Menu = props => {
   return (
     <Paper square className={props.selectProps.classes.paper} {...props.innerProps}>
       {props.children}
@@ -208,34 +212,29 @@ class Tags extends React.Component {
 
     return (
       <div className={classes.root}>
-        <NoSsr>
-          <CreatableSelect
-            isClearable
-            classes={classes}
-            styles={selectStyles}
-            textFieldProps={{
-              label: 'Label',
-              InputLabelProps: {
-                shrink: true,
-              },
-            }}
-            options={suggestions}
-            components={components}
-            value={this.state.multi}
-            onChange={this.handleChange}
-            onCreateOption={this.handleCreate}
-            placeholder="Select multiple countries"
-            isMulti
-          />
-        </NoSsr>
+        <Typography>
+          Tags
+        </Typography>
+        <div className={classes.contentContainer}>
+          <NoSsr>
+            <CreatableSelect
+              isClearable
+              classes={classes}
+              styles={selectStyles}
+              options={suggestions}
+              components={components}
+              value={this.state.multi}
+              onChange={this.handleChange}
+              onCreateOption={this.handleCreate}
+              placeholder="Choose tags"
+              isMulti
+              className={classes.white}
+            />
+          </NoSsr>
+        </div>
       </div>
     );
   }
 }
-
-Tags.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles, { withTheme: true })(Tags);

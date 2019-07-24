@@ -5,7 +5,10 @@ import {
   DialogContent, 
   DialogContentText, 
   DialogTitle, 
-  Fab 
+  DialogActions,
+  Button,
+  Fab,
+  Tooltip
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import Form from './Form'
@@ -15,49 +18,46 @@ class CreateDialog extends Component {
     open: false
   }
 
-  handleToggle = () => {
-    this.setState({
-      open : !this.state.open
-    })
-  }
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false })
+  };
 
   handleSubmit = test => {
-    this.handleToggle()
     this.props.onSubmit(test)
   }
 
   render() {
-    const { open } = this.state,
-      { editQuestion, currentQuestion, tags, addTag } = this.props
+    const { open } = this.state
 
     return (
       <Fragment>
         <Fab 
-          onClick={this.handleToggle} 
+          onClick={this.handleClickOpen} 
           size="small"
           color="secondary"
-        > {/** Tutorial uses Button variant="fab". This will be depreciated soon. Here is the recommended way. */}
+        >
           <AddIcon />
         </Fab>
         <Dialog
           open={open}
-          onClose={this.handleToggle}
+          onClose={this.handleClose}
           fullWidth
           maxWidth='md'
-        > {/** Decide the max width */}
+        >
           <DialogTitle>
             Create a New Question
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Please fill out the form below.
+              Please fill out the form below. Items with * are required.
             </DialogContentText>
             <Form 
-              editQuestion={editQuestion} 
-              currentQuestion={currentQuestion}
+              editQuestion={false} 
               onSubmit={this.handleSubmit}
-              tags={tags}
-              addTag={addTag}
             />
           </DialogContent>
         </Dialog>

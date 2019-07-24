@@ -86,7 +86,9 @@ const Notes = ({ currentQuestion, classes }) => {
                   alignItems="flex-start"
                 >
                   <ListItemAvatar>
-                    <Avatar className={classes.avatar}>{getTheAlphanumericOrder(i)}</Avatar>
+                    <Avatar className={classes.avatar}>
+                      {getTheAlphanumericOrder(i)}
+                    </Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={a.note} />
                 </ListItem>

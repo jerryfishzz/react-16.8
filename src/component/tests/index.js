@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { 
   Typography, 
   Grid, 
@@ -13,6 +13,8 @@ import Notes from './Notes';
 import { withContext } from '../../context';
 import { Edit, Delete } from '@material-ui/icons';
 import Form from './Form'
+import CreateSnackbar from './Snackbar'
+import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 
 const styles = theme => ({
 	'@global': {
@@ -41,9 +43,12 @@ const styles = theme => ({
       height: '50%'
     }
   },
-   submitBtn: {
-     margin: '10px 0'
-   }
+  submitBtn: {
+    margin: '10px 0'
+  },
+  flex: {
+    flex: 1
+  }
 })
 
 class Tests extends Component {
@@ -67,7 +72,7 @@ class Tests extends Component {
     const { enableEdit } = this.props
     enableEdit()
   }
-  
+
   render() {
     const {
       classes,
@@ -75,9 +80,7 @@ class Tests extends Component {
       testQuestions,
       currentQuestion,
       editQuestion,
-      onEdit,
-      tags,
-      addTag
+      onEdit
      } = this.props 
   
     return (
@@ -87,6 +90,7 @@ class Tests extends Component {
             <Grid container alignItems="center">
               <Typography
                 variant='h5'
+                className={classes.flex}
                 inline
                 gutterBottom
               >
@@ -127,15 +131,22 @@ class Tests extends Component {
                   : "Notes"
                 }
               </Typography>
+              
             </Grid>
             {editQuestion
-              ? <Form 
-                  editQuestion={editQuestion}
-                  currentQuestion={currentQuestion}
-                  onSubmit={onEdit}
-                  tags={tags}
-                  addTag={addTag}
-                />
+              ? <Fragment>
+                  <Typography
+                    variant="subtitle1"
+                  >
+                    Items with * are required.
+                  </Typography>
+                  <Form 
+                    paddingRight={10}
+                    editQuestion={editQuestion}
+                    currentQuestion={currentQuestion}
+                    onSubmit={onEdit}
+                  />
+                </Fragment>
               : <Notes />
             }
           </Paper>
