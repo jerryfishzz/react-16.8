@@ -32,12 +32,16 @@ export default class App extends Component {
   }
 
   // Get the questions from the library, shuffling and taking the first 10 only
-  initializeQuestions = () => {
+  initializeQuestions = questions => {
+    const questionsForInitializing = questions ? questions : questionLibrary
+
     const randomizeQuestions = R.compose(R.take(10), shuffle)
-    const randomizedQuestions = randomizeQuestions(questionLibrary)
+    const randomizedQuestions = randomizeQuestions(questionsForInitializing)
 
     this.setState({
-      testQuestions: R.map(this.addPropertiesForAnswers)(randomizedQuestions),
+      testQuestions: !questions 
+        ? R.map(this.addPropertiesForAnswers)(randomizedQuestions)
+        : randomizedQuestions,
       currentQuestionNumber: 0,
       editQuestion: false
     }, this.updateCurrentQuestion)

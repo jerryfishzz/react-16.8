@@ -16,41 +16,6 @@ import Form from './Form'
 import CreateSnackbar from './Snackbar'
 import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 
-const styles = theme => ({
-	'@global': {
-    'html, body, #root': {
-      height: '100%'
-    } 
-	},
-	container: {
-    height: 'calc(100% - 64px)'
-  },
-	paper: {
-    [theme.breakpoints.up('sm')]: {
-      padding: 40,
-    },
-		[theme.breakpoints.down('xs')]: {
-      padding: 20,
-    },
-		height: 'calc(100% - 5px)',
-    marginTop: 5,
-  },
-	item: {
-    [theme.breakpoints.up('sm')]: {
-      height: '100%'
-    },
-		[theme.breakpoints.down('xs')]: {
-      height: '50%'
-    }
-  },
-  submitBtn: {
-    margin: '10px 0'
-  },
-  flex: {
-    flex: 1
-  }
-})
-
 class Tests extends Component {
   state = {
 		numberOfQuestion: 0
@@ -155,5 +120,40 @@ class Tests extends Component {
     )
   }
 }
+
+const styles = theme => ({
+	'@global': {
+    'html, body, #root': {
+      height: '100%'
+    } 
+	},
+	container: {
+    height: 'calc(100% - 64px)'
+  },
+	paper: {
+    [theme.breakpoints.up('sm')]: {
+      padding: 40,
+    },
+		[theme.breakpoints.down('xs')]: {
+      padding: 20,
+    },
+		height: 'calc(100% - 5px)',
+    marginTop: 5,
+  },
+	item: {
+    [theme.breakpoints.up('sm')]: {
+      height: '100%'
+    },
+		[theme.breakpoints.down('xs')]: {
+      height: '50%'
+    }
+  },
+  submitBtn: {
+    margin: '10px 0'
+  },
+  flex: {
+    flex: 1
+  }
+})
 
 export default withContext(withStyles(styles)(Tests))  

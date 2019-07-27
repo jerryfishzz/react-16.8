@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 })
 
-const Header = ({ classes, shuffleQuestions }) => (
+const Header = ({ classes, shuffleQuestions, testQuestions }) => (
   <AppBar position="static">
     <Toolbar>
       <Typography 
@@ -36,7 +36,7 @@ const Header = ({ classes, shuffleQuestions }) => (
           color="secondary"
           size="small"
           className={classes.fab}
-          onClick={() => shuffleQuestions(questionLibrary)}
+          onClick={() => shuffleQuestions(testQuestions)}
         >
           <Shuffle />
         </Fab>
