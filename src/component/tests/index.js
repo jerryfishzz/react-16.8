@@ -38,6 +38,10 @@ class Tests extends Component {
     enableEdit()
   }
 
+  handleDelete = id => {
+    this.props.onDelete(id)
+  }
+
   render() {
     const {
       classes,
@@ -45,7 +49,7 @@ class Tests extends Component {
       testQuestions,
       currentQuestion,
       editQuestion,
-      onEdit
+      onEdit,
      } = this.props 
   
     return (
@@ -67,7 +71,11 @@ class Tests extends Component {
               >
                 <Edit />
               </IconButton>
-              <IconButton color='primary' >
+              <IconButton 
+                color='primary' 
+                onClick={() => this.handleDelete(currentQuestion.id)}
+                disabled={testQuestions.length <= 1}
+              >
                 <Delete />
               </IconButton>
             </Grid>	

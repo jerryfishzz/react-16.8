@@ -120,6 +120,12 @@ export default class App extends Component {
     })
   }
 
+  deleteQuestion = id => {
+    this.setState(({ testQuestions }) => ({
+      testQuestions: testQuestions.filter(q => q.id !== id)
+    }), this.updateCurrentQuestion)
+  }
+
   componentDidMount() {
     this.initializeQuestions()
   }
@@ -132,7 +138,8 @@ export default class App extends Component {
     handleBack: this.previousQuestion,
     onSubmit: this.submitQuestion,
     enableEdit: this.enableEdit,
-    onEdit: this.editQuestion
+    onEdit: this.editQuestion,
+    onDelete: this.deleteQuestion
   })
 
   render () {
