@@ -30,15 +30,76 @@ export const questionLibrary = [
   },
   {
     "id": "jvcxf19t",
-    "question": "If you just created a database and didn't insert any record, can you see the database when you use the command to display all the databases."
+    "question": "Inside which HTML element do we put the JavaScript?",
+    "answers": [
+      {
+        "content": "<js>",
+        "correctness": false,
+        "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at neque eget nisi congue lacinia. In sem felis, porttitor eu interdum pulvinar, pretium a elit. Phasellus varius tortor a nisl pretium egestas. Mauris arcu sapien, placerat et dictum ut, dictum sed quam."
+      },
+      {
+        "content": "<javascript>",
+        "correctness": false,
+        "note": "Etiam vel nibh a sem venenatis sagittis nec quis velit. Nunc quis elementum enim. Mauris eget dictum metus. Maecenas at porta magna. Vivamus aliquam vestibulum dolor non finibus. Nam suscipit augue in arcu tincidunt, et euismod neque condimentum. Proin at nisi tincidunt, scelerisque diam a, iaculis ligula."
+      },
+      {
+        "content": "<script>",
+        "correctness": true,
+        "note": ""
+      },
+      {
+        "content": "<scripting>",
+        "correctness": false,
+        "note": ""
+      }
+    ],
   },
   {
     "id": "jvcxfrhh",
-    "question": "List all Tables in Oracle database, owned by current Oracle user"
+    "question": "What is the correct JavaScript syntax to change the content of the HTML element below?<p id=\"demo\">This is a demonstration.</p>",
+    "answers": [
+      {
+        "content": "document.getElementById(\"demo\").innerHTML = \"Hello World!\"",
+        "correctness": true,
+        "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at neque eget nisi congue lacinia. In sem felis, porttitor eu interdum pulvinar, pretium a elit. Phasellus varius tortor a nisl pretium egestas. Mauris arcu sapien, placerat et dictum ut, dictum sed quam."
+      },
+      {
+        "content": "document.getElementByName(\"p\").innerHTML = \"Hello World!\"",
+        "correctness": false,
+        "note": "Etiam vel nibh a sem venenatis sagittis nec quis velit. Nunc quis elementum enim. Mauris eget dictum metus. Maecenas at porta magna. Vivamus aliquam vestibulum dolor non finibus. Nam suscipit augue in arcu tincidunt, et euismod neque condimentum. Proin at nisi tincidunt, scelerisque diam a, iaculis ligula."
+      },
+      {
+        "content": "document.getElement(\"p\").innerHTML = \"Hello World!\"",
+        "correctness": false,
+        "note": ""
+      },
+      {
+        "content": "#demo.innerHTML = \"Hello World!\"",
+        "correctness": false,
+        "note": ""
+      }
+    ],
   },
   {
     "id": "jvcxg7ku",
-    "question": "B-tree is not necessarily balanced."
+    "question": "Where is the correct place to insert a JavaScript?",
+    "answers": [
+      {
+        "content": " The <body> section",
+        "correctness":false,
+        "note": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at neque eget nisi congue lacinia. In sem felis, porttitor eu interdum pulvinar, pretium a elit. Phasellus varius tortor a nisl pretium egestas. Mauris arcu sapien, placerat et dictum ut, dictum sed quam."
+      },
+      {
+        "content": "The <head> section",
+        "correctness": false,
+        "note": "Etiam vel nibh a sem venenatis sagittis nec quis velit. Nunc quis elementum enim. Mauris eget dictum metus. Maecenas at porta magna. Vivamus aliquam vestibulum dolor non finibus. Nam suscipit augue in arcu tincidunt, et euismod neque condimentum. Proin at nisi tincidunt, scelerisque diam a, iaculis ligula."
+      },
+      {
+        "content": "Both the <head> section and the <body> section are correct",
+        "correctness": true,
+        "note": ""
+      },
+    ],
   },
   {
     "id": "jvcxgnwa",
