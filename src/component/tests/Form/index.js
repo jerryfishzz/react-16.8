@@ -66,6 +66,7 @@ class Form extends React.Component {
           test: {
             id: uniqid(),
             question: '',
+            tages: [],
             answers: [{"correctness": false}],
             otherNotes: ''
           },
@@ -119,9 +120,19 @@ class Form extends React.Component {
     }), this.validateForm)
   }
 
+  onTagChange = newTagArr => {
+    this.setState(prevState => ({
+      test: {
+        ...prevState.test,
+        tags: newTagArr.map(tag => tag.value)
+      }
+    }))
+  }
+
   handleSubmit = () => {
     const { test } = this.state,
       { editQuestion } = this.props
+
     this.props.onSubmit(test)
     
     if (!editQuestion) {
@@ -129,6 +140,7 @@ class Form extends React.Component {
         test: {
           id: uniqid(),
           question: '',
+          tags: [],
           answers: [
             {
               "content": '',
@@ -160,8 +172,8 @@ class Form extends React.Component {
   }
 
   render() {
-    const { classes, paddingRight, editQuestion } = this.props,
-      { test: { question, answers, otherNotes }, isFormValidate } = this.state
+    const { classes, paddingRight, editQuestion, onAddSuggestion, suggestions } = this.props,
+      { test: { question, tags, answers, otherNotes }, isFormValidate } = this.state
 
     return (
       <form 
@@ -186,7 +198,12 @@ class Form extends React.Component {
         </div>
         
         <div className={classes.background}> 
-          <Tags />
+          <Tags 
+            tags={tags} 
+            suggestions={suggestions}
+            onTagChange={this.onTagChange}
+            onAddSuggestion={onAddSuggestion}
+          />
         </div>
 
         <div className={classNames(classes.background, classes.lower)}>

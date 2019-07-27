@@ -50,6 +50,8 @@ class Tests extends Component {
       currentQuestion,
       editQuestion,
       onEdit,
+      suggestions,
+      onAddSuggestion
      } = this.props 
   
     return (
@@ -114,10 +116,12 @@ class Tests extends Component {
                     Items with * are required.
                   </Typography>
                   <Form 
+                    suggestions={suggestions}
                     paddingRight={10}
                     editQuestion={editQuestion}
                     currentQuestion={currentQuestion}
                     onSubmit={onEdit}
+                    onAddSuggestion={onAddSuggestion}
                   />
                 </Fragment>
               : <Notes />

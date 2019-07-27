@@ -4,6 +4,7 @@ export const questionLibrary = [
   {
     "id": "jvcx8cmv",
     "question": "Which of commands is to create a database named runoob.",
+    "tags": ["SQL", "React"],
     "answers": [
       {
         "content": "use runoob",
@@ -31,6 +32,7 @@ export const questionLibrary = [
   {
     "id": "jvcxf19t",
     "question": "Inside which HTML element do we put the JavaScript?",
+    "tags": ["PHP", "NoSQL", "Database", "Algorithms And Data Structure"],
     "answers": [
       {
         "content": "<js>",
@@ -57,6 +59,7 @@ export const questionLibrary = [
   {
     "id": "jvcxfrhh",
     "question": "What is the correct JavaScript syntax to change the content of the HTML element below?<p id=\"demo\">This is a demonstration.</p>",
+    "tags": ["NoSQL", "Database", "Algorithms And Data Structure"],
     "answers": [
       {
         "content": "document.getElementById(\"demo\").innerHTML = \"Hello World!\"",
@@ -83,6 +86,7 @@ export const questionLibrary = [
   {
     "id": "jvcxg7ku",
     "question": "Where is the correct place to insert a JavaScript?",
+    "tags": ["SQL", "React", "JavaScript", "PHP", "NoSQL", "Database", "Algorithms And Data Structure"],
     "answers": [
       {
         "content": " The <body> section",
@@ -104,6 +108,7 @@ export const questionLibrary = [
   {
     "id": "jvcxgnwa",
     "question": "Which of the following expressions is problematic? Consume that count is not defined anywhere in the context.",
+    "tags": ["SQL", "React", "Algorithms And Data Structure"],
     "answers": [
       {
         "content": "var getPrice = count => count * 4.00",

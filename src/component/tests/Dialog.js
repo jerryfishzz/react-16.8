@@ -32,6 +32,7 @@ class CreateDialog extends Component {
 
   render() {
     const { open } = this.state
+    const { suggestions, onAddSuggestion } = this.props
 
     return (
       <Fragment>
@@ -56,8 +57,10 @@ class CreateDialog extends Component {
               Please fill out the form below. Items with * are required.
             </DialogContentText>
             <Form 
+              suggestions={suggestions}
               editQuestion={false} 
               onSubmit={this.handleSubmit}
+              onAddSuggestion={onAddSuggestion}
             />
           </DialogContent>
         </Dialog>

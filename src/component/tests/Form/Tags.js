@@ -98,7 +98,7 @@ const Control = props => {
 }
 
 const Option = props => {
-  console.log(props)
+  // console.log(props)
   return (
     <MenuItem
       buttonRef={props.innerRef}
@@ -164,31 +164,47 @@ const components = {
 };
 
 class Tags extends React.Component {
-  getInitialsuggestions = () => (
-    tags.map(tag => ({
+  setTags = tagArr => (
+    tagArr.map(tag => ({
       value: tag,
       label: tag,
     }))
   )
   
-  state = {
-    multi: [],
-    suggestions: this.getInitialsuggestions()
-  };
+  // state = {
+  //   // multi: [],
+  //   // suggestions: this.setTags(tags)
+  // };
+
+  // componentDidMount() {
+  //   const { tags } = this.props
+
+  //   this.setState({
+  //     multi: this.setTags(tags)
+  //   })
+  // }
 
   handleChange = value => {
-    this.setState({
-      multi: value,
-    });
+    // this.setState({
+    //   multi: value,
+    // });
+
+    this.props.onTagChange(value)
   };
 
   handleCreate =  inputValue => {
     const newOption = this.createOption(inputValue)
+    const { tags } = this.props
+    const newTagArr = [...this.setTags(tags), newOption]
+
+    this.handleChange(newTagArr)
+
+    this.props.onAddSuggestion(inputValue)
     
-    this.setState(({ multi, suggestions }) => ({
-      multi: [...multi, newOption],
-      suggestions: [...suggestions, newOption]
-    }));
+    // this.setState(({ multi, suggestions }) => ({
+    //   // multi: [...multi, newOption],
+    //   suggestions: [...suggestions, newOption]
+    // }));
   };
   
   createOption = label => ({
@@ -197,8 +213,11 @@ class Tags extends React.Component {
   })
 
   render() {
-    const { classes, theme } = this.props,
-      { suggestions } = this.state
+    const { classes, theme, tags, suggestions } = this.props
+          // { suggestions } = this.state
+
+    const formattedTags = tags ? this.setTags(tags) : []
+    const formattedSuggestions = this.setTags(suggestions)
 
     const selectStyles = {
       input: base => ({
@@ -221,9 +240,9 @@ class Tags extends React.Component {
               isClearable
               classes={classes}
               styles={selectStyles}
-              options={suggestions}
+              options={formattedSuggestions}
               components={components}
-              value={this.state.multi}
+              value={formattedTags}
               onChange={this.handleChange}
               onCreateOption={this.handleCreate}
               placeholder="Choose tags"

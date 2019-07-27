@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as R from 'ramda'
 import shuffle from 'shuffle-array'
-import { questionLibrary } from './store'
+import { questionLibrary, tags } from './store'
 import { CssBaseline } from '@material-ui/core';
 import { Header } from './component/layouts';
 import Tests from './component/tests';
@@ -20,7 +20,8 @@ export default class App extends Component {
     testQuestions: [],
     currentQuestionNumber: 0,
     currentQuestion: '',
-    editQuestion: false
+    editQuestion: false,
+    suggestions: tags
   }
 
   // If the question has answers, add some proprerties for it
@@ -67,8 +68,13 @@ export default class App extends Component {
 
   updateCurrentQuestion = () => {
     const {currentQuestionNumber, testQuestions} = this.state
+    const position = currentQuestionNumber === testQuestions.length
+      ? currentQuestionNumber - 1
+      : currentQuestionNumber
+
     this.setState({
-      currentQuestion: R.nth(currentQuestionNumber)(testQuestions)
+      currentQuestion: R.nth(position)(testQuestions),
+      currentQuestionNumber: position
     })
   }
 
@@ -126,6 +132,12 @@ export default class App extends Component {
     }), this.updateCurrentQuestion)
   }
 
+  addSuggestion = newSuggestion => {
+    this.setState(prevState => ({
+      suggestions: [...prevState.suggestions, newSuggestion]
+    }), this.updateCurrentQuestion)
+  }
+
   componentDidMount() {
     this.initializeQuestions()
   }
@@ -139,7 +151,8 @@ export default class App extends Component {
     onSubmit: this.submitQuestion,
     enableEdit: this.enableEdit,
     onEdit: this.editQuestion,
-    onDelete: this.deleteQuestion
+    onDelete: this.deleteQuestion,
+    onAddSuggestion: this.addSuggestion,
   })
 
   render () {
