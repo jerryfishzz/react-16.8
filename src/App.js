@@ -32,9 +32,19 @@ export default class App extends Component {
     return R.merge(obj)(propertiesForAnswers)
   }
 
+  resetQuestion = question => ({
+    ...question,
+    submittedAnswer: null,
+    selectedAnswer: null,
+    isSubmitted: false,
+    hasAnswers: true
+  })
+
   // Get the questions from the library, shuffling and taking the first 10 only
   initializeQuestions = questions => {
-    const questionsForInitializing = questions ? questions : questionLibrary
+    const questionsForInitializing = questions 
+      ? questions.map(q => this.resetQuestion(q))
+      : questionLibrary
 
     const randomizeQuestions = R.compose(R.take(10), shuffle)
     const randomizedQuestions = randomizeQuestions(questionsForInitializing)
