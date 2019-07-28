@@ -19,7 +19,7 @@ export default class App extends Component {
   state = {
     testQuestions: [],
     currentQuestionNumber: 0,
-    currentQuestion: '',
+    currentQuestion: null,
     editQuestion: false,
     suggestions: tags
   }
@@ -68,14 +68,21 @@ export default class App extends Component {
 
   updateCurrentQuestion = () => {
     const {currentQuestionNumber, testQuestions} = this.state
-    const position = currentQuestionNumber === testQuestions.length
-      ? currentQuestionNumber - 1
-      : currentQuestionNumber
 
-    this.setState({
-      currentQuestion: R.nth(position)(testQuestions),
-      currentQuestionNumber: position
-    })
+    if (!testQuestions.length) {
+      this.setState({
+        currentQuestion: {},
+      })
+    } else {
+      const position = currentQuestionNumber === testQuestions.length
+        ? currentQuestionNumber - 1
+        : currentQuestionNumber
+
+      this.setState({
+        currentQuestion: R.nth(position)(testQuestions),
+        currentQuestionNumber: position
+      })
+    }
   }
 
   // This for two actions from Answers component: submit and click
@@ -157,6 +164,12 @@ export default class App extends Component {
   })
 
   render () {
+    const { currentQuestion } = this.state
+
+    if (!currentQuestion) {
+      return <div>Loading</div>
+    }
+
     return (
       <Provider value={this.getContext()}>
         <CssBaseline />

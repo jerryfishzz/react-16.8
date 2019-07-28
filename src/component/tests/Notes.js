@@ -55,37 +55,37 @@ const Notes = ({ currentQuestion, classes }) => {
   return (
     <div className={classes.root}>
       {hasNotes
-      ? currentQuestion.isSubmitted
-        ? <List>
-            {currentQuestion.answers.map((a, i) => {
-              if (!a.note) return null
+        ? currentQuestion.isSubmitted
+          ? <List>
+              {currentQuestion.answers.map((a, i) => {
+                if (!a.note) return null
 
-              return (
-                <ListItem 
-                  key={i}
-                  alignItems="flex-start"
-                >
-                  <ListItemAvatar>
-                    <Avatar className={classes.avatar}>
-                      {getTheAlphanumericOrder(i)}
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText primary={a.note} />
-                </ListItem>
-              )
-            })}
-            {otherNotes}
-          </List>
+                return (
+                  <ListItem 
+                    key={i}
+                    alignItems="flex-start"
+                  >
+                    <ListItemAvatar>
+                      <Avatar className={classes.avatar}>
+                        {getTheAlphanumericOrder(i)}
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={a.note} />
+                  </ListItem>
+                )
+              })}
+              {otherNotes}
+            </List>
+          : <Typography
+              variant="subtitle1"
+            >
+              Contents will be displayed after choosing an answer and submitting.
+            </Typography>
         : <Typography
             variant="subtitle1"
           >
-            Contents will be displayed after choosing an answer and submitting.
+            Nothing to show.
           </Typography>
-      : <Typography
-          variant="subtitle1"
-        >
-          Nothing for this question.
-        </Typography>
       }
     </div> 
   )

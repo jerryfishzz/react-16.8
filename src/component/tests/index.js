@@ -63,36 +63,47 @@ class Tests extends Component {
                 inline
                 gutterBottom
               >
-                Question {currentQuestionNumber + 1} / {testQuestions.length}
+                {testQuestions.length 
+                  ? `Question ${currentQuestionNumber + 1} / ${testQuestions.length}`
+                  : 'No questions to diplay'
+                }
               </Typography>
-              <IconButton 
-                color='primary' 
-                onClick={this.handleEdit}
-              >
-                <Edit />
-              </IconButton>
-              <IconButton 
-                color='primary' 
-                onClick={() => this.handleDelete(currentQuestion.id)}
-                disabled={testQuestions.length <= 1}
-              >
-                <Delete />
-              </IconButton>
+              {testQuestions.length !== 0 && 
+                <Fragment>
+                  <IconButton 
+                    color='primary' 
+                    onClick={this.handleEdit}
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton 
+                    color='primary' 
+                    onClick={() => this.handleDelete(currentQuestion.id)}
+                    
+                  >
+                    <Delete />
+                  </IconButton>
+                </Fragment>
+              }
             </Grid>	
 
-            <Question />
-            
-            <Button 
-              className={classes.submitBtn}
-              variant="contained"
-              color='primary'
-              onClick={() => this.submitAnswer(currentQuestion.selectedAnswer)}
-              disabled={!currentQuestion.hasAnswers || currentQuestion.isSubmitted}
-            >
-              Submit
-            </Button>
+            {testQuestions.length !== 0 &&
+              <Fragment>
+                <Question />
+                
+                <Button 
+                  className={classes.submitBtn}
+                  variant="contained"
+                  color='primary'
+                  onClick={() => this.submitAnswer(currentQuestion.selectedAnswer)}
+                  disabled={!currentQuestion.hasAnswers || currentQuestion.isSubmitted}
+                >
+                  Submit
+                </Button>
 
-            <ProgressingBar key={currentQuestionNumber} />
+                <ProgressingBar key={currentQuestionNumber} />
+              </Fragment>
+            }
           </Paper>
         </Grid>
         <Grid item xs={12} sm={6} className={classes.item}>
