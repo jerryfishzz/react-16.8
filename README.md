@@ -1,6 +1,6 @@
 # Handy Test
 
-A multi-choice self-test app. Write down your study notes then review them. Don't worry about you will forget.
+A multichoice self-test app. Write down your study notes then review them. Don't worry about you will forget.
 
 ## Installation
 
