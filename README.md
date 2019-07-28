@@ -24,7 +24,7 @@ This app will be still temporarily based on the current working mode: multichoic
 
 - Partially or completely migrate from context API to redux
 
-- Add layout for code since it focuses on programming currently.
+- Add proper style for text showing code since this is a programming test app.
 
 - Mobile supportive. Then it can be called **handy**. It probably looks like my another complete project: [mobile flashcard].
 
