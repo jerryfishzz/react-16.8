@@ -1,6 +1,6 @@
 # Handy Test
 
-Write down your study points then review them as a test. Never worry about that you will forget them.
+A multi-choice self-test app. Write down your study notes then review them. Don't worry about you will forget.
 
 ## Installation
 
@@ -12,13 +12,11 @@ Just `npm install` and `npm start`, then enjoy it.
 
 - [React Select] For dropdown menu
 
-## Limitations and Existing Issues
+## Limitations
 
 This project is still under construction. Not all the functionalities have been implemented.
 
-- Can only support multichoice questions with one correct answer.
-
-- Cannot delete question.
+- Only support multichoice questions with one correct answer.
 
 ## Future Progress
 
