@@ -1,7 +1,6 @@
 import React from "react";
 import { 
   withStyles,
-  Button, 
   TextField, 
   Typography
 } from '@material-ui/core';
@@ -11,47 +10,6 @@ import uniqid from 'uniqid'
 import Tags from "./Tags";
 import classNames from 'classnames';
 import CreateSnackbar from '../Snackbar'
-
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    height: 'calc(100% - 39.6px - 28px)',
-    overflowY: 'auto',
-  },
-  textField: {
-    width: '50%',
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-  background: {
-    backgroundColor: '#eeeeee',
-    width: '100%',
-    padding: 15,
-    borderRadius: 5,
-    margin: '10px 0'
-  },
-  lower: {
-    zIndex: 0
-  },
-  required: {
-    marginRight: 3
-  },
-  form: {
-    height: 500,
-    overflowY: 'auto',
-  },
-  createBtn: {
-    marginTop: 10
-  },
-  white: {
-    backgroundColor: 'white'
-  }
-});
 
 class Form extends React.Component {
   getInitialState = () => {
@@ -241,5 +199,46 @@ class Form extends React.Component {
     )
   }
 }
+
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    height: 'calc(100% - 39.6px - 28px)',
+    overflowY: 'auto',
+  },
+  textField: {
+    width: '50%',
+  },
+  dense: {
+    marginTop: 19,
+  },
+  menu: {
+    width: 200,
+  },
+  background: {
+    backgroundColor: '#eeeeee',
+    width: '100%',
+    padding: 15,
+    borderRadius: 5,
+    margin: '10px 0'
+  },
+  lower: {
+    zIndex: 0
+  },
+  required: {
+    marginRight: 3
+  },
+  form: {
+    height: 500,
+    overflowY: 'auto',
+  },
+  createBtn: {
+    marginTop: 10
+  },
+  white: {
+    backgroundColor: 'white'
+  }
+});
 
 export default withStyles(styles)(Form);

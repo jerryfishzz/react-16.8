@@ -13,8 +13,6 @@ import Notes from './Notes';
 import { withContext } from '../../context';
 import { Edit, Delete } from '@material-ui/icons';
 import Form from './Form'
-import CreateSnackbar from './Snackbar'
-import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 
 class Tests extends Component {
   state = {

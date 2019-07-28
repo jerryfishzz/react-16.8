@@ -6,15 +6,6 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-const styles = theme => ({
-  close: {
-    padding: theme.spacing.unit / 2,
-  },
-  button: {
-    marginTop: 10
-  }
-});
-
 class CreateSnackbar extends React.Component {
   state = {
     open: false,
@@ -81,5 +72,14 @@ class CreateSnackbar extends React.Component {
 CreateSnackbar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+const styles = theme => ({
+  close: {
+    padding: theme.spacing.unit / 2,
+  },
+  button: {
+    marginTop: 10
+  }
+});
 
 export default withStyles(styles)(CreateSnackbar);

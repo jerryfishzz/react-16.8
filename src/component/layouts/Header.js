@@ -8,18 +8,8 @@ import {
   Tooltip 
 } from '@material-ui/core';
 import Shuffle from '@material-ui/icons/Shuffle';
-import { questionLibrary } from '../../store.js'
 import { withContext } from '../../context.js';
 import CreateDialog from '../tests/Dialog'
-
-const styles = theme => ({
-  flex: {
-    flex: 1
-  },
-  fab: {
-    marginRight: theme.spacing.unit,
-  }
-})
 
 const Header = ({ classes, shuffleQuestions, testQuestions }) => (
   <AppBar position="static">
@@ -45,5 +35,14 @@ const Header = ({ classes, shuffleQuestions, testQuestions }) => (
     </Toolbar>
   </AppBar>
 )
+
+const styles = theme => ({
+  flex: {
+    flex: 1
+  },
+  fab: {
+    marginRight: theme.spacing.unit,
+  }
+})
 
 export default withContext(withStyles(styles)(Header)) 

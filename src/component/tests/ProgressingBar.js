@@ -9,12 +9,6 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { withContext } from "../../context";
 
-const styles = theme => ({
-  container: {
-    marginTop: 10
-  }
-})
-
 const ProgressingBar = 
   ({ 
     testQuestions, 
@@ -60,5 +54,11 @@ const ProgressingBar =
       />
     </Grid>
   </Grid>
-  
+
+const styles = theme => ({
+  container: {
+    marginTop: 10
+  }
+})
+
 export default withContext(withStyles(styles, { withTheme: true })(ProgressingBar))  

@@ -11,13 +11,6 @@ import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import { getTheAlphanumericOrder } from '../../../store';
 import { withContext } from '../../../context';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
-});
-
 class Answers extends React.Component {
   handleListItemClick = i => {
     this.props.handleAnswerActions('selectedAnswer', i)
@@ -85,5 +78,12 @@ class Answers extends React.Component {
     );
   }
 }
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+  },
+});
 
 export default withContext(withStyles(styles)(Answers))   

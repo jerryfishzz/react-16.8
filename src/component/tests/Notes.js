@@ -16,26 +16,6 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 import { getTheAlphanumericOrder } from '../../store';
 import { withContext } from '../../context';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-    height: 'calc(100% - 39.391px)',
-    overflowY: 'auto',
-  },
-  avatar: {
-    backgroundColor: indigo[500]
-  },
-  avatarOther: {
-    backgroundColor: deepPurple[500]
-  },
-  divider: {
-    marginTop: 10,
-    marginBottom: 10,
-    marginRight: 40
-  },
-});
-
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
 
@@ -110,5 +90,25 @@ const Notes = ({ currentQuestion, classes }) => {
     </div> 
   )
 }
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    height: 'calc(100% - 39.391px)',
+    overflowY: 'auto',
+  },
+  avatar: {
+    backgroundColor: indigo[500]
+  },
+  avatarOther: {
+    backgroundColor: deepPurple[500]
+  },
+  divider: {
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 40
+  },
+});
 
 export default withContext(withStyles(styles)(Notes))  

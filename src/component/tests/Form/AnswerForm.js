@@ -10,100 +10,9 @@ import {
   withStyles,
   Grid,
   Avatar,
-  Divider
 } from '@material-ui/core';
 import { getTheAlphanumericOrder } from '../../../store';
-import Tags from './Tags';
 import indigo from '@material-ui/core/colors/indigo';
-
-const styles = theme => ({
-  textField: {
-    width: '100%',
-  },
-  root: {
-    zIndex: 0
-  },
-  contentContainer: {
-    backgroundColor: 'white',
-    padding: '20px 15px',
-    borderRadius: 5,
-  },
-  sectionContainer: {
-    height: 307.2,
-    overflowY: 'auto',
-  },
-  headerContainer: {
-    marginBottom: 15
-  },
-  delete: {
-    [theme.breakpoints.up('md')]: {
-      marginTop: 30,
-    }
-  },
-  deleteEdit: {
-    [theme.breakpoints.up('xl')]: {
-      marginTop: 30,
-    }
-  },
-  answers: {
-    [theme.breakpoints.up('md')]: {
-      paddingLeft: 20
-    }
-  },
-  answersEdit: {
-    [theme.breakpoints.up('xl')]: {
-      paddingLeft: 20
-    }
-  },
-  correctness: {
-    marginTop: 15,
-    paddingBottom: 20
-  },
-  avatarContainer: {
-    [theme.breakpoints.down('sm')]: {
-      width: '50%',
-      flex: 1,
-      justifyContent: 'flex-start'
-    }
-  },
-  avatarContainerEdit: {
-    [theme.breakpoints.down('lg')]: {
-      width: '50%',
-      flex: 1,
-      justifyContent: 'flex-start'
-    }
-  },
-  avatar: {
-    backgroundColor: indigo[500]
-  },
-  space: {
-    height: 16
-  },
-  answerHeader: {
-    [theme.breakpoints.up('md')]: {
-      flexDirection: "column", 
-      alignItems: "center", 
-      justifyContent: "flex-start"
-    },
-    [theme.breakpoints.down('sm')]: {
-      alignItems: "center",
-      marginTop: -5,
-      marginBottom: 10
-    }
-  },
-  answerHeaderEdit: {
-    [theme.breakpoints.up('xl')]: {
-      flexDirection: "column", 
-      alignItems: "center", 
-      justifyContent: "flex-start"
-    },
-    [theme.breakpoints.down('lg')]: {
-      alignItems: "center",
-      marginTop: -5,
-      marginBottom: 10
-    }
-  }
-});
 
 const AnswerForm = ({ 
   answers, 
@@ -250,5 +159,94 @@ const AnswerForm = ({
     </div>
   )
 }
+
+const styles = theme => ({
+  textField: {
+    width: '100%',
+  },
+  root: {
+    zIndex: 0
+  },
+  contentContainer: {
+    backgroundColor: 'white',
+    padding: '20px 15px',
+    borderRadius: 5,
+  },
+  sectionContainer: {
+    height: 307.2,
+    overflowY: 'auto',
+  },
+  headerContainer: {
+    marginBottom: 15
+  },
+  delete: {
+    [theme.breakpoints.up('md')]: {
+      marginTop: 30,
+    }
+  },
+  deleteEdit: {
+    [theme.breakpoints.up('xl')]: {
+      marginTop: 30,
+    }
+  },
+  answers: {
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: 20
+    }
+  },
+  answersEdit: {
+    [theme.breakpoints.up('xl')]: {
+      paddingLeft: 20
+    }
+  },
+  correctness: {
+    marginTop: 15,
+    paddingBottom: 20
+  },
+  avatarContainer: {
+    [theme.breakpoints.down('sm')]: {
+      width: '50%',
+      flex: 1,
+      justifyContent: 'flex-start'
+    }
+  },
+  avatarContainerEdit: {
+    [theme.breakpoints.down('lg')]: {
+      width: '50%',
+      flex: 1,
+      justifyContent: 'flex-start'
+    }
+  },
+  avatar: {
+    backgroundColor: indigo[500]
+  },
+  space: {
+    height: 16
+  },
+  answerHeader: {
+    [theme.breakpoints.up('md')]: {
+      flexDirection: "column", 
+      alignItems: "center", 
+      justifyContent: "flex-start"
+    },
+    [theme.breakpoints.down('sm')]: {
+      alignItems: "center",
+      marginTop: -5,
+      marginBottom: 10
+    }
+  },
+  answerHeaderEdit: {
+    [theme.breakpoints.up('xl')]: {
+      flexDirection: "column", 
+      alignItems: "center", 
+      justifyContent: "flex-start"
+    },
+    [theme.breakpoints.down('lg')]: {
+      alignItems: "center",
+      marginTop: -5,
+      marginBottom: 10
+    }
+  }
+});
 
 export default withStyles(styles)(AnswerForm)

@@ -12,56 +12,6 @@ import {
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import CreatableSelect from 'react-select/lib/Creatable';
-import { tags } from '../../../store';
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  input: {
-    display: 'flex',
-    padding: 0,
-  },
-  valueContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flex: 1,
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
-  },
-  chipFocused: {
-    backgroundColor: emphasize(
-      theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
-      0.08,
-    ),
-  },
-  noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
-  },
-  placeholder: {
-    position: 'absolute',
-    left: 2,
-    fontSize: 16,
-  },
-  paper: {
-    position: 'absolute',
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0,
-  },
-  contentContainer: {
-    marginTop: 8,
-    marginBottom: 8
-  },
-  white: {
-    backgroundColor: 'white',
-    borderRadius: 5,
-  }
-});
 
 const NoOptionsMessage = props => {
   return (
@@ -170,25 +120,8 @@ class Tags extends React.Component {
       label: tag,
     }))
   )
-  
-  // state = {
-  //   // multi: [],
-  //   // suggestions: this.setTags(tags)
-  // };
-
-  // componentDidMount() {
-  //   const { tags } = this.props
-
-  //   this.setState({
-  //     multi: this.setTags(tags)
-  //   })
-  // }
 
   handleChange = value => {
-    // this.setState({
-    //   multi: value,
-    // });
-
     this.props.onTagChange(value)
   };
 
@@ -200,11 +133,6 @@ class Tags extends React.Component {
     this.handleChange(newTagArr)
 
     this.props.onAddSuggestion(inputValue)
-    
-    // this.setState(({ multi, suggestions }) => ({
-    //   // multi: [...multi, newOption],
-    //   suggestions: [...suggestions, newOption]
-    // }));
   };
   
   createOption = label => ({
@@ -214,7 +142,6 @@ class Tags extends React.Component {
 
   render() {
     const { classes, theme, tags, suggestions } = this.props
-          // { suggestions } = this.state
 
     const formattedTags = tags ? this.setTags(tags) : []
     const formattedSuggestions = this.setTags(suggestions)
@@ -255,5 +182,54 @@ class Tags extends React.Component {
     );
   }
 }
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  input: {
+    display: 'flex',
+    padding: 0,
+  },
+  valueContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flex: 1,
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  chip: {
+    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+  },
+  chipFocused: {
+    backgroundColor: emphasize(
+      theme.palette.type === 'light' ? theme.palette.grey[300] : theme.palette.grey[700],
+      0.08,
+    ),
+  },
+  noOptionsMessage: {
+    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+  },
+  placeholder: {
+    position: 'absolute',
+    left: 2,
+    fontSize: 16,
+  },
+  paper: {
+    position: 'absolute',
+    zIndex: 1,
+    marginTop: theme.spacing.unit,
+    left: 0,
+    right: 0,
+  },
+  contentContainer: {
+    marginTop: 8,
+    marginBottom: 8
+  },
+  white: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+  }
+});
 
 export default withStyles(styles, { withTheme: true })(Tags);
