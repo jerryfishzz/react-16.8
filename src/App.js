@@ -128,7 +128,8 @@ export default class App extends Component {
 
   deleteQuestion = id => {
     this.setState(({ testQuestions }) => ({
-      testQuestions: testQuestions.filter(q => q.id !== id)
+      testQuestions: testQuestions.filter(q => q.id !== id),
+      editQuestion: false,
     }), this.updateCurrentQuestion)
   }
 
