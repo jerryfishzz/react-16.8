@@ -6,7 +6,7 @@ import { CssBaseline } from '@material-ui/core';
 import { Header } from './component/layouts';
 import Tests from './component/tests';
 import { Provider } from './context';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 // Necessary properties for the question with answers
 const propertiesForAnswers = {
