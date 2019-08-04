@@ -10,6 +10,7 @@ import uniqid from 'uniqid'
 import Tags from "./Tags";
 import classNames from 'classnames';
 import CreateSnackbar from '../Snackbar'
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 
 class Form extends React.Component {
   getInitialState = () => {
@@ -17,7 +18,10 @@ class Form extends React.Component {
 
     return editQuestion 
       ? {
-          test: currentQuestion,
+          test: {
+            ...currentQuestion,
+            otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.otherNotes)))
+          },
           isFormValidate: true
         }
       : {
@@ -26,7 +30,7 @@ class Form extends React.Component {
             question: '',
             tages: [],
             answers: [{"correctness": false}],
-            otherNotes: ''
+            otherNotes: EditorState.createEmpty()
           },
           isFormValidate: false
         }
@@ -89,9 +93,16 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { test } = this.state,
-      { editQuestion } = this.props
+          { editQuestion } = this.props
+    
+    const contentState = test.otherNotes.getCurrentContent();
+    const newOther = JSON.stringify(convertToRaw(contentState))
+    const finalTest = {
+      ...test,
+      otherNotes: newOther
+    }
 
-    this.props.onSubmit(test)
+    this.props.onSubmit(finalTest)
     
     if (!editQuestion) {
       this.setState({
@@ -106,7 +117,7 @@ class Form extends React.Component {
               "note": ''
             }
           ],
-          otherNotes: ''
+          otherNotes: EditorState.createEmpty()
         },
         isFormValidate: false
       })
@@ -128,6 +139,21 @@ class Form extends React.Component {
         : false
     }) 
   }
+
+  handleDraftChange = editorState => {
+    // const contentState = editorState.getCurrentContent();
+    this.setState((prevState) => ({
+      test: {
+        ...prevState.test,
+        otherNotes: editorState
+      }
+    }));
+  };
+
+  onToggleCode = (e) => {
+    e.preventDefault()
+    this.handleDraftChange(RichUtils.toggleCode(this.state.test.otherNotes));
+  };
 
   render() {
     const { classes, paddingRight, editQuestion, onAddSuggestion, suggestions } = this.props,
@@ -178,16 +204,20 @@ class Form extends React.Component {
           <Typography> 
             Other Notes
           </Typography>
-          <TextField
-            multiline
-            rows="4"
-            margin="normal"
-            fullWidth
-            variant="outlined"
-            value={otherNotes}
-            className={classes.white}
-            onChange={this.handleChange('otherNotes')}
-          />
+
+
+
+          <div className={classes.draftContent}>
+            <div className={classes.editor}>
+              <button onClick={this.onToggleCode}>Code Block</button>
+              <Editor
+                editorState={this.state.test.otherNotes}
+                handleKeyCommand={this.handleKeyCommand}
+                onChange={this.handleDraftChange}
+              />
+            </div>
+            <button onClick={this.handleSubmit}>Submit</button>
+          </div>
         </div>
         
         <CreateSnackbar 
@@ -238,6 +268,14 @@ const styles = theme => ({
   },
   white: {
     backgroundColor: 'white'
+  },
+  draftContent: {
+    width: 480,
+    margin: '0 auto'
+  },
+  editor: {
+    border: '1px solid grey',
+    padding: 6
   }
 });
 

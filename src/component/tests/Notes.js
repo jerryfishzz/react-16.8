@@ -15,6 +15,7 @@ import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import { getTheAlphanumericOrder } from '../../store';
 import { withContext } from '../../context';
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
@@ -32,6 +33,15 @@ const Notes = ({ currentQuestion, classes }) => {
     }
   } 
 
+  const isJson = (str) => {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+  }
+
   const otherNotes = currentQuestion.otherNotes 
     ? <Fragment>
         <Divider variant="inset" className={classes.divider} />
@@ -44,9 +54,20 @@ const Notes = ({ currentQuestion, classes }) => {
               </Avatar>
             </ListItemAvatar>
           </Tooltip> 
-          <ListItemText 
-            primary={currentQuestion.otherNotes}
-          />
+          
+          {isJson(currentQuestion.otherNotes)
+            ? <ListItemText>
+                <Editor
+                  editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.otherNotes)))}
+                  readOnly={true}
+                />
+              </ListItemText>
+            : <ListItemText 
+                primary={currentQuestion.otherNotes}
+              />
+          }
+            
+          
         </ListItem>
         
       </Fragment>
