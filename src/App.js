@@ -6,7 +6,8 @@ import { CssBaseline } from '@material-ui/core';
 import { Header } from './component/layouts';
 import Tests from './component/tests';
 import { Provider } from './context';
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import ForTest from './component/ForTest';
 
 // Necessary properties for the question with answers
 const propertiesForAnswers = {
@@ -186,7 +187,10 @@ export default class App extends Component {
         <Provider value={this.getContext()}>
           <CssBaseline />
           <Header />
-          <Tests />
+          <Switch>
+            <Route path='/' exact component={Tests} />
+            <Route path='/fortest' component={ForTest} />
+          </Switch>
         </Provider>
       </Router>
     )

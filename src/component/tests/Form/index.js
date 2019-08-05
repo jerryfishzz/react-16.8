@@ -157,7 +157,7 @@ class Form extends React.Component {
 
   render() {
     const { classes, paddingRight, editQuestion, onAddSuggestion, suggestions } = this.props,
-      { test: { question, tags, answers, otherNotes }, isFormValidate } = this.state
+      { test: { question, tags, answers }, isFormValidate } = this.state
 
     return (
       <form 
@@ -206,18 +206,26 @@ class Form extends React.Component {
           </Typography>
 
 
-
-          <div className={classes.draftContent}>
-            <div className={classes.editor}>
-              <button onClick={this.onToggleCode}>Code Block</button>
-              <Editor
-                editorState={this.state.test.otherNotes}
-                handleKeyCommand={this.handleKeyCommand}
-                onChange={this.handleDraftChange}
-              />
+          <TextField
+            multiline
+            rows="4"
+            margin="normal"
+            fullWidth
+            variant="outlined"
+            className={classes.white}
+          >
+            <div>
+            <button onClick={this.onToggleCode}>Code Block</button>
+            <Editor
+              editorState={this.state.test.otherNotes}
+              handleKeyCommand={this.handleKeyCommand}
+              onChange={this.handleDraftChange}
+            />
             </div>
-            <button onClick={this.handleSubmit}>Submit</button>
-          </div>
+          </TextField>
+
+
+          
         </div>
         
         <CreateSnackbar 

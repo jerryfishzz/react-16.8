@@ -15,7 +15,7 @@ import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import { getTheAlphanumericOrder } from '../../store';
 import { withContext } from '../../context';
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
