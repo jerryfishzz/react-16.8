@@ -22,7 +22,8 @@ class Form extends React.Component {
             ...currentQuestion,
             otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.otherNotes)))
           },
-          isFormValidate: true
+          isFormValidate: true,
+          isFocus: false
         }
       : {
           test: {
@@ -32,7 +33,8 @@ class Form extends React.Component {
             answers: [{"correctness": false}],
             otherNotes: EditorState.createEmpty()
           },
-          isFormValidate: false
+          isFormValidate: false,
+          isFocus: false
         }
   }
 
@@ -155,6 +157,15 @@ class Form extends React.Component {
     this.handleDraftChange(RichUtils.toggleCode(this.state.test.otherNotes));
   };
 
+  getFocus = e => {
+    setTimeout(this.setState({isFocus: true}), 500)
+    
+  }
+
+  loseFocus = e => {
+    this.setState({isFocus: false})
+  }
+
   render() {
     const { classes, paddingRight, editQuestion, onAddSuggestion, suggestions } = this.props,
       { test: { question, tags, answers }, isFormValidate } = this.state
@@ -205,7 +216,7 @@ class Form extends React.Component {
             Other Notes
           </Typography>
 
-
+          <button onClick={this.onToggleCode}>Code Block</button>
           <TextField
             multiline
             rows="4"
@@ -213,18 +224,26 @@ class Form extends React.Component {
             fullWidth
             variant="outlined"
             className={classes.white}
+            InputProps={{
+              endAdornment: (
+                <div className={classes.draftContent} onClick={this.getFocus} onBlur={this.loseFocus}>
+                  <div className={this.state.isFocus ? classes.editor : classes.editor1}>
+                    
+                    <Editor
+                      editorState={this.state.test.otherNotes}
+                      handleKeyCommand={this.handleKeyCommand}
+                      onChange={this.handleDraftChange}
+                      placeholder='Hello'
+                    />
+                  </div>
+                </div>
+              ),
+            }}
           >
-            <div>
-            <button onClick={this.onToggleCode}>Code Block</button>
-            <Editor
-              editorState={this.state.test.otherNotes}
-              handleKeyCommand={this.handleKeyCommand}
-              onChange={this.handleDraftChange}
-            />
-            </div>
+            
           </TextField>
 
-
+          
           
         </div>
         
@@ -278,12 +297,20 @@ const styles = theme => ({
     backgroundColor: 'white'
   },
   draftContent: {
-    width: 480,
+    width: '100%',
     margin: '0 auto'
   },
   editor: {
-    border: '1px solid grey',
-    padding: 6
+    border: '2px solid red',
+    padding: 6,
+    
+  },
+  editor1: {
+    border: '1px solid green',
+    padding: 6,
+    '&:hover': {
+      border: '1px solid black',
+    }
   }
 });
 
