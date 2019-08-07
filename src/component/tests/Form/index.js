@@ -13,6 +13,12 @@ import CreateSnackbar from '../Snackbar'
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 
 class Form extends React.Component {
+  constructor(props) {
+    super(props);
+    this.setDomEditorRef = ref => this.domEditor = ref
+  }
+
+
   getInitialState = () => {
     const { editQuestion, currentQuestion } = this.props
 
@@ -23,7 +29,8 @@ class Form extends React.Component {
             otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.otherNotes)))
           },
           isFormValidate: true,
-          isFocus: false
+          isFocus: false,
+          
         }
       : {
           test: {
@@ -39,6 +46,10 @@ class Form extends React.Component {
   }
 
   state = this.getInitialState()
+
+  componentDidMount(){
+    this.domEditor.focus()
+  }
 
   handleChange = name => ({ target: { value } }) => {
     this.setState(({ test }) => 
@@ -234,6 +245,7 @@ class Form extends React.Component {
                       handleKeyCommand={this.handleKeyCommand}
                       onChange={this.handleDraftChange}
                       placeholder='Hello'
+                      ref={this.setDomEditorRef}
                     />
                   </div>
                 </div>
