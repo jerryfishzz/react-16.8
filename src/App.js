@@ -14,7 +14,6 @@ const propertiesForAnswers = {
   "submittedAnswer": null,
   "selectedAnswer": null,
   "isSubmitted": false,
-  "hasAnswers": true
 }
 
 export default class App extends Component {
@@ -39,7 +38,6 @@ export default class App extends Component {
     submittedAnswer: null,
     selectedAnswer: null,
     isSubmitted: false,
-    hasAnswers: true
   })
 
   // Get the questions from the library, shuffling and taking the first 10 only
