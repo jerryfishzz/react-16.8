@@ -32,8 +32,8 @@ class Tests extends Component {
   }
 
   handleEdit = () => {
-    const { enableEdit } = this.props
-    enableEdit()
+    const { toggleEdit } = this.props
+    toggleEdit()
   }
 
   handleDelete = id => {
@@ -71,7 +71,7 @@ class Tests extends Component {
               {testQuestions.length !== 0 && 
                 <Fragment>
                   <IconButton 
-                    color='primary' 
+                    color={!editQuestion ? 'primary' : 'secondary'} 
                     onClick={this.handleEdit}
                   >
                     <Edit />

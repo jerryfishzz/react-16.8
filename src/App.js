@@ -137,10 +137,10 @@ export default class App extends Component {
     }))
   }
 
-  enableEdit = () => {
-    this.setState({
-      editQuestion: true
-    })
+  toggleEdit = () => {
+    this.setState(({ editQuestion }) => ({
+      editQuestion: !editQuestion
+    }))
   }
 
   deleteQuestion = id => {
@@ -167,7 +167,7 @@ export default class App extends Component {
     handleNext: this.nextQuestion,
     handleBack: this.previousQuestion,
     onSubmit: this.submitQuestion,
-    enableEdit: this.enableEdit,
+    toggleEdit: this.toggleEdit,
     onEdit: this.editQuestion,
     onDelete: this.deleteQuestion,
     onAddSuggestion: this.addSuggestion,
