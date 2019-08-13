@@ -60,7 +60,7 @@ class Tests extends Component {
               <Typography
                 variant='h5'
                 className={classes.flex}
-                inline
+                display="inline"
                 gutterBottom
               >
                 {testQuestions.length 
