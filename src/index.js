@@ -4,6 +4,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors' 
+import { createStore, compose } from 'redux'
+import reducer from './reducers'
+import { Provider } from 'react-redux'
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(
+  reducer, 
+  composeEnhancers(),
+)
 
 const theme = createMuiTheme({
   typography: {
@@ -21,7 +31,9 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </MuiThemeProvider>, 
   document.getElementById('root'));
 

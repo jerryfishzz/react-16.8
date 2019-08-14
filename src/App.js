@@ -8,6 +8,8 @@ import Tests from './component/tests';
 import { Provider } from './context';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ForTest from './component/ForTest';
+import { connect } from 'react-redux'
+import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
 
 // Necessary properties for the question with answers
 const propertiesForAnswers = {
@@ -16,7 +18,7 @@ const propertiesForAnswers = {
   "isSubmitted": false,
 }
 
-export default class App extends Component {
+class App extends Component {
   state = {
     testQuestions: [],
     currentQuestionNumber: 0,
@@ -65,6 +67,8 @@ export default class App extends Component {
         editQuestion: false
       }
     ), this.updateCurrentQuestion)
+
+    this.props.nextQuestion()
   }
 
   previousQuestion = () => {
@@ -74,6 +78,8 @@ export default class App extends Component {
         editQuestion: false
       }
     ), this.updateCurrentQuestion)
+
+    this.props.previousQuestion()
   }
 
   updateCurrentQuestion = () => {
@@ -194,3 +200,8 @@ export default class App extends Component {
     )
   }
 }
+
+
+
+
+export default connect(null, { nextQuestion, previousQuestion })(App)
