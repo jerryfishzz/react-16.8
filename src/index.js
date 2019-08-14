@@ -7,12 +7,13 @@ import { blue } from '@material-ui/core/colors'
 import { createStore, compose } from 'redux'
 import reducer from './reducers'
 import { Provider } from 'react-redux'
+import middleware from './middleware'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
 const store = createStore(
   reducer, 
-  composeEnhancers(),
+  composeEnhancers(middleware),
 )
 
 const theme = createMuiTheme({
