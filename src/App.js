@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ForTest from './component/ForTest';
 import { connect } from 'react-redux'
 import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
+import { toggleEdit, resetEdit } from './actions/test/editQuestion';
 
 // Necessary properties for the question with answers
 const propertiesForAnswers = {
@@ -69,6 +70,7 @@ class App extends Component {
     ), this.updateCurrentQuestion)
 
     this.props.nextQuestion()
+    this.props.resetEdit()
   }
 
   previousQuestion = () => {
@@ -80,6 +82,7 @@ class App extends Component {
     ), this.updateCurrentQuestion)
 
     this.props.previousQuestion()
+    this.props.resetEdit()
   }
 
   updateCurrentQuestion = () => {
@@ -147,6 +150,8 @@ class App extends Component {
     this.setState(({ editQuestion }) => ({
       editQuestion: !editQuestion
     }))
+
+    this.props.toggleEdit()
   }
 
   deleteQuestion = id => {
@@ -204,4 +209,12 @@ class App extends Component {
 
 
 
-export default connect(null, { nextQuestion, previousQuestion })(App)
+export default connect(
+  null, 
+  { 
+    nextQuestion, 
+    previousQuestion,
+    toggleEdit,
+    resetEdit
+  }
+)(App)

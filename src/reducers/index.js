@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import currentQuestionNumber from './test/currentQuestionNumber'
+import test from "./test/test";
 
 export default combineReducers({
-  currentQuestionNumber
+  test
 })
