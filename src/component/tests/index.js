@@ -13,6 +13,8 @@ import Notes from './Notes';
 import { withContext } from '../../context';
 import { Edit, Delete } from '@material-ui/icons';
 import Form from './Form'
+import { connect } from 'react-redux'
+
 
 class Tests extends Component {
   state = {
@@ -54,6 +56,8 @@ class Tests extends Component {
   
     return (
       <Grid container className={classes.container}>
+
+        {/* Left */}
         <Grid item xs={12} sm={6} className={classes.item}>
           <Paper className={classes.paper}>
             <Grid container alignItems="center">
@@ -106,6 +110,8 @@ class Tests extends Component {
             }
           </Paper>
         </Grid>
+        
+        {/* Right */}
         <Grid item xs={12} sm={6} className={classes.item}>
           <Paper className={classes.paper}>
             <Grid container alignItems="center">
@@ -115,7 +121,6 @@ class Tests extends Component {
                   : "Notes"
                 }
               </Typography>
-              
             </Grid>
             {editQuestion
               ? <Fragment>
@@ -140,6 +145,10 @@ class Tests extends Component {
       </Grid>
     )
   }
+}
+
+const mapStateToProps = ({ editQuestion }) => {
+  return { editQuestion }
 }
 
 const styles = theme => ({
@@ -177,4 +186,4 @@ const styles = theme => ({
   }
 })
 
-export default withContext(withStyles(styles)(Tests))  
+export default connect(mapStateToProps)(withContext(withStyles(styles)(Tests)))  

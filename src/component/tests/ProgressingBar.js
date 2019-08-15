@@ -7,7 +7,8 @@ import {
 } from '@material-ui/core';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import { withContext } from "../../context";
+import { connect } from 'react-redux'
+import { handleNext, handleBack } from "../../actions/test/shared";
 
 const ProgressingBar = 
   ({ 
@@ -55,10 +56,20 @@ const ProgressingBar =
     </Grid>
   </Grid>
 
+const mapStateToProps = ({ test: { testQuestions, currentQuestionNumber } }) => {
+  return {
+    testQuestions,
+    currentQuestionNumber
+  }
+}
+
 const styles = theme => ({
   container: {
     marginTop: 10
   }
 })
 
-export default withContext(withStyles(styles, { withTheme: true })(ProgressingBar))  
+export default connect(
+  mapStateToProps,
+  { handleNext, handleBack }
+)(withStyles(styles, { withTheme: true })(ProgressingBar))
