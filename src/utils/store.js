@@ -276,3 +276,9 @@ export function _getQuestions () {
     setTimeout(() => res(questions), 1000)
   })
 }
+
+export function _getTags() {
+  return new Promise((res, rej) => {
+    setTimeout(() => res(tags), 1000)
+  })
+}

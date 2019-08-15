@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
 import { toggleEdit, resetEdit } from './actions/test/editQuestion';
 import { handleReceiveQuestions } from './actions/test/testQuestions';
+import { handleReceiveTags } from './actions/tags';
 
 // Necessary properties for the question with answers
 const propertiesForAnswers = {
@@ -173,6 +174,9 @@ class App extends Component {
     
     this.props.handleReceiveQuestions()
       .catch(err => alert(err))
+
+    this.props.handleReceiveTags()
+      .catch(err => alert(err))
   }
 
   getContext = () => ({
@@ -190,7 +194,6 @@ class App extends Component {
 
   render () {
     const { currentQuestion } = this.state
-    console.log(this.props.currentQuestion)
 
     if (!currentQuestion) {
       return <div>Loading</div>
@@ -226,6 +229,7 @@ export default connect(
     previousQuestion,
     toggleEdit,
     resetEdit,
-    handleReceiveQuestions
+    handleReceiveQuestions,
+    handleReceiveTags
   }
 )(App)
