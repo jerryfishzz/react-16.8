@@ -2,10 +2,13 @@ import { NEXT_QUESTION, PREVIOUS_QUESTION } from "../../actions/test/currentQues
 import currentQuestionNumber from "./currentQuestionNumber";
 import { TOGGLE_EDIT, RESET_EDIT } from "../../actions/test/editQuestion";
 import editQuestion from "./editQuestion";
+import { RECEIVE_QUESTIONS } from "../../actions/test/testQuestions";
+import testQuestions from "./testQuestions";
 
 const initialState = { 
   currentQuestionNumber: 0, 
-  editQuestion: false
+  editQuestion: false,
+  testQuestions: []
 }
 
 export default function test(state = initialState, action) {
@@ -21,6 +24,11 @@ export default function test(state = initialState, action) {
       return {
         ...state,
         editQuestion: editQuestion(state.editQuestion, action)
+      }
+    case RECEIVE_QUESTIONS:
+      return {
+        ...state,
+        testQuestions: testQuestions(state.testQuestions, action)
       }
     default:
       return state

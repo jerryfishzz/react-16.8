@@ -11,6 +11,7 @@ import ForTest from './component/ForTest';
 import { connect } from 'react-redux'
 import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
 import { toggleEdit, resetEdit } from './actions/test/editQuestion';
+import { handleReceiveQuestions } from './actions/test/testQuestions';
 
 // Necessary properties for the question with answers
 const propertiesForAnswers = {
@@ -169,6 +170,8 @@ class App extends Component {
 
   componentDidMount() {
     this.initializeQuestions()
+    
+    this.props.handleReceiveQuestions()
   }
 
   getContext = () => ({
@@ -215,6 +218,7 @@ export default connect(
     nextQuestion, 
     previousQuestion,
     toggleEdit,
-    resetEdit
+    resetEdit,
+    handleReceiveQuestions
   }
 )(App)
