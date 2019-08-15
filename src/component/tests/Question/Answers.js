@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
-import { getTheAlphanumericOrder } from '../../../store';
+import { getTheAlphanumericOrder } from '../../../utils/store';
 import { withContext } from '../../../context';
 
 class Answers extends React.Component {

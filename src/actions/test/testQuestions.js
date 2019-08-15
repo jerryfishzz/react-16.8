@@ -1,4 +1,4 @@
-import { getQuestions } from "../../api";
+import { getQuestions } from "../../utils/api";
 import shuffle from 'shuffle-array'
 import * as R from 'ramda'
 

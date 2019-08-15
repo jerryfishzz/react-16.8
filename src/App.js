@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import * as R from 'ramda'
 import shuffle from 'shuffle-array'
-import { questionLibrary, tags } from './store'
+import { questionLibrary, tags } from './utils/store'
 import { CssBaseline } from '@material-ui/core';
 import { Header } from './component/layouts';
 import Tests from './component/tests';
