@@ -172,6 +172,7 @@ class App extends Component {
     this.initializeQuestions()
     
     this.props.handleReceiveQuestions()
+      .catch(err => alert(err))
   }
 
   getContext = () => ({
