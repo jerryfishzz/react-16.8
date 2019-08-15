@@ -190,6 +190,7 @@ class App extends Component {
 
   render () {
     const { currentQuestion } = this.state
+    console.log(this.props.currentQuestion)
 
     if (!currentQuestion) {
       return <div>Loading</div>
@@ -210,11 +211,16 @@ class App extends Component {
   }
 }
 
-
-
+const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => {
+  return {
+    currentQuestion: testQuestions.length 
+      ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+      : {}
+  }
+}
 
 export default connect(
-  null, 
+  mapStateToProps, 
   { 
     nextQuestion, 
     previousQuestion,
