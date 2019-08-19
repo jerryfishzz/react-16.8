@@ -63,29 +63,29 @@ class App extends Component {
     }, this.updateCurrentQuestion)
   }
   
-  nextQuestion = () => {
-    this.setState((prevState) => (
-      {
-        currentQuestionNumber: prevState.currentQuestionNumber + 1,
-        editQuestion: false
-      }
-    ), this.updateCurrentQuestion)
+  // nextQuestion = () => {
+  //   this.setState((prevState) => (
+  //     {
+  //       currentQuestionNumber: prevState.currentQuestionNumber + 1,
+  //       editQuestion: false
+  //     }
+  //   ), this.updateCurrentQuestion)
 
-    this.props.nextQuestion()
-    this.props.resetEdit()
-  }
+  //   this.props.nextQuestion()
+  //   this.props.resetEdit()
+  // }
 
-  previousQuestion = () => {
-    this.setState((prevState) => (
-      {
-        currentQuestionNumber: prevState.currentQuestionNumber - 1,
-        editQuestion: false
-      }
-    ), this.updateCurrentQuestion)
+  // previousQuestion = () => {
+  //   this.setState((prevState) => (
+  //     {
+  //       currentQuestionNumber: prevState.currentQuestionNumber - 1,
+  //       editQuestion: false
+  //     }
+  //   ), this.updateCurrentQuestion)
 
-    this.props.previousQuestion()
-    this.props.resetEdit()
-  }
+  //   this.props.previousQuestion()
+  //   this.props.resetEdit()
+  // }
 
   updateCurrentQuestion = () => {
     const {currentQuestionNumber, testQuestions} = this.state

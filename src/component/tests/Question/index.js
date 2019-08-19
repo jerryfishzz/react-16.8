@@ -1,14 +1,14 @@
 import React from "react";
 import Answers from './Answers';
 import { withStyles, Typography } from '@material-ui/core';
-import { withContext } from "../../../context";
+import { connect } from 'react-redux'
 
 const Question = ({ classes, currentQuestion }) => (
   <div className={classes.question}>
     <Typography
       variant="subtitle1"
     >
-      {currentQuestion.question}
+      {currentQuestion.data.question}
     </Typography>
     <Answers />
   </div>
@@ -27,4 +27,14 @@ const styles = theme => ({
 	}
 })
 
-export default withContext(withStyles(styles)(Question))  
+const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => {
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
+  return {
+    currentQuestion
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Question))
