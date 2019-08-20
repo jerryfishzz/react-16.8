@@ -9,7 +9,7 @@ import {
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import { getTheAlphanumericOrder } from '../../../utils/store';
-import { withContext } from '../../../context';
+import { connect } from 'react-redux'
 
 class Answers extends React.Component {
   handleListItemClick = i => {
@@ -34,11 +34,11 @@ class Answers extends React.Component {
     let icon
 
     if (i === currentQuestion.selectedAnswer) {
-      icon = currentQuestion.answers[i].correctness
+      icon = currentQuestion.data.answers[i].correctness
         ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
         : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
     } else {
-      icon = currentQuestion.answers[i].correctness
+      icon = currentQuestion.data.answers[i].correctness
         ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
         : null
     }
@@ -49,12 +49,12 @@ class Answers extends React.Component {
   render() {
     const { classes, currentQuestion } = this.props;
 
-    if (!currentQuestion.answers) return null
+    // if (!currentQuestion.data.answers) return null
 
     return (
       <div className={classes.root}>
         <List component="nav">
-          {currentQuestion.answers.map((a, i) => {
+          {currentQuestion.data.answers.map((a, i) => {
             const answerContent = getTheAlphanumericOrder(i) + '. ' + a.content
             
             return (
@@ -79,6 +79,16 @@ class Answers extends React.Component {
   }
 }
 
+const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => {
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
+  return {
+    currentQuestion
+  }
+}
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -86,4 +96,4 @@ const styles = theme => ({
   },
 });
 
-export default withContext(withStyles(styles)(Answers))   
+export default connect(mapStateToProps)(withStyles(styles)(Answers)) 
