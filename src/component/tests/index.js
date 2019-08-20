@@ -147,8 +147,11 @@ class Tests extends Component {
   }
 }
 
-const mapStateToProps = ({ editQuestion }) => {
-  return { editQuestion }
+const mapStateToProps = ({ editQuestion, currentQuestionNumber }) => {
+  return { 
+    editQuestion,
+    currentQuestionNumber
+  }
 }
 
 const styles = theme => ({
