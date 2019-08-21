@@ -107,26 +107,26 @@ class App extends Component {
   }
 
   // This for two actions from Answers component: submit and click
-  handleAnswerActions = (action, i) => {
-    const { currentQuestion, currentQuestionNumber } = this.state
+  // handleAnswerActions = (action, i) => {
+  //   const { currentQuestion, currentQuestionNumber } = this.state
 
-    // Makes a shallow clone of an object
-    let newCurrentQuestion = R.assoc(action, i)(currentQuestion) 
+  //   // Makes a shallow clone of an object
+  //   let newCurrentQuestion = R.assoc(action, i)(currentQuestion) 
 
-    if (action === 'submittedAnswer') newCurrentQuestion.isSubmitted = true
+  //   if (action === 'submittedAnswer') newCurrentQuestion.isSubmitted = true
 
-    this.setState(prevState => {
-      let currentTestQuestions = prevState.testQuestions
+  //   this.setState(prevState => {
+  //     let currentTestQuestions = prevState.testQuestions
 
-      currentTestQuestions.splice(currentQuestionNumber, 1, newCurrentQuestion)
+  //     currentTestQuestions.splice(currentQuestionNumber, 1, newCurrentQuestion)
 
-      return {
-        testQuestions: currentTestQuestions,
-        currentQuestion: newCurrentQuestion,
-        editQuestion: false
-      }
-    })
-  }
+  //     return {
+  //       testQuestions: currentTestQuestions,
+  //       currentQuestion: newCurrentQuestion,
+  //       editQuestion: false
+  //     }
+  //   })
+  // }
 
   submitQuestion = question => {
     this.setState(({testQuestions}) => ({
@@ -182,7 +182,7 @@ class App extends Component {
   getContext = () => ({
     ...this.state,
     shuffleQuestions: this.initializeQuestions,
-    handleAnswerActions: this.handleAnswerActions,
+    // handleAnswerActions: this.handleAnswerActions,
     handleNext: this.nextQuestion,
     handleBack: this.previousQuestion,
     onSubmit: this.submitQuestion,

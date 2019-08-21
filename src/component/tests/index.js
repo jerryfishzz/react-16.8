@@ -14,6 +14,7 @@ import { withContext } from '../../context';
 import { Edit, Delete } from '@material-ui/icons';
 import Form from './Form'
 import { connect } from 'react-redux'
+import { submitQuestion } from '../../actions/test/testQuestions';
 
 
 class Tests extends Component {
@@ -27,11 +28,11 @@ class Tests extends Component {
 		}))
 	}
 
-	submitAnswer = (i = null) => {
-		if (i === null) return null
+	// submitAnswer = (i = null) => {
+	// 	if (i === null) return null
 		
-    this.props.handleAnswerActions('submittedAnswer', i)
-  }
+  //   this.props.handleAnswerActions('submittedAnswer', i)
+  // }
 
   handleEdit = () => {
     const { toggleEdit } = this.props
@@ -51,8 +52,13 @@ class Tests extends Component {
       editQuestion,
       onEdit,
       suggestions,
-      onAddSuggestion
+      onAddSuggestion,
+      submitQuestion
      } = this.props 
+
+    // const currentQuestion = testQuestions.length 
+    //   ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    //   : {}
   
     return (
       <Grid container className={classes.container}>
@@ -99,8 +105,8 @@ class Tests extends Component {
                   className={classes.submitBtn}
                   variant="contained"
                   color='primary'
-                  onClick={() => this.submitAnswer(currentQuestion.selectedAnswer)}
-                  disabled={currentQuestion.isSubmitted || !currentQuestion.selectedAnswer}
+                  onClick={() => submitQuestion(currentQuestion.id, currentQuestion.selectedAnswer)}
+                  disabled={currentQuestion.isSubmitted || currentQuestion.selectedAnswer === null}
                 >
                   Submit
                 </Button>
@@ -147,10 +153,16 @@ class Tests extends Component {
   }
 }
 
-const mapStateToProps = ({ editQuestion, currentQuestionNumber }) => {
+const mapStateToProps = ({ test: { editQuestion, currentQuestionNumber, testQuestions } }) => {
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
   return { 
     editQuestion,
-    currentQuestionNumber
+    currentQuestionNumber,
+    testQuestions,
+    currentQuestion
   }
 }
 
@@ -189,4 +201,7 @@ const styles = theme => ({
   }
 })
 
-export default connect(mapStateToProps)(withContext(withStyles(styles)(Tests)))  
+export default connect(
+  mapStateToProps,
+  { submitQuestion }
+)(withContext(withStyles(styles)(Tests)))  

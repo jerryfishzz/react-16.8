@@ -15,6 +15,7 @@ export default function testQuestions(state, action) {
         return state.map(question => {
           if (question.id === action.id) {
             question.submittedAnswer = action.index
+            question.isSubmitted = true
           }
           return question
         })
