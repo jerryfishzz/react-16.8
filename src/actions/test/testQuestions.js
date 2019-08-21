@@ -4,6 +4,7 @@ import * as R from 'ramda'
 import { formatQuestion } from "../../utils/helpers";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
+export const CLICK_ANSWER = 'CLICK_ANSWER'
 
 function receiveQuestions(questions) {
   return {
@@ -25,5 +26,13 @@ export function handleReceiveQuestions() {
     } catch(err) {
       throw Error('Get questions error')
     }
+  }
+}
+
+export function clickAnswer(id, index) {
+  return {
+    type: CLICK_ANSWER,
+    id,
+    index
   }
 }

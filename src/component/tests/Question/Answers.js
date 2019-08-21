@@ -10,11 +10,13 @@ import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import { getTheAlphanumericOrder } from '../../../utils/store';
 import { connect } from 'react-redux'
+// import { withContext } from '../../../context';
+import { clickAnswer } from '../../../actions/test/testQuestions';
 
 class Answers extends React.Component {
-  handleListItemClick = i => {
-    this.props.handleAnswerActions('selectedAnswer', i)
-  };
+  // handleListItemClick = i => {
+  //   this.props.handleAnswerActions('selectedAnswer', i)
+  // };
 
   componentDidMount() {
     // For Font Awesome
@@ -47,9 +49,15 @@ class Answers extends React.Component {
   }
 
   render() {
-    const { classes, currentQuestion } = this.props;
+    const { classes, clickAnswer, currentQuestionNumber, testQuestions } = this.props;
+
+    // Re-render only happens when the state itself in redux appears in the render method. Cannot just use a result calculated by mapStateToProps without any real state in redux.
+    const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
 
     // if (!currentQuestion.data.answers) return null
+    // console.log(currentQuestion.selectedAnswer)
 
     return (
       <div className={classes.root}>
@@ -65,7 +73,7 @@ class Answers extends React.Component {
                 onClick={
                   currentQuestion.isSubmitted 
                   ? null 
-                  : () => this.handleListItemClick(i)
+                  : () => clickAnswer(currentQuestion.id, i)
                 }
               >
                 <ListItemText primary={answerContent} />
@@ -83,9 +91,12 @@ const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => 
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
+  // console.log(currentQuestion)
 
   return {
-    currentQuestion
+    currentQuestion,
+    currentQuestionNumber,
+    testQuestions
   }
 }
 
@@ -96,4 +107,7 @@ const styles = theme => ({
   },
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Answers)) 
+export default connect(
+  mapStateToProps,
+  {clickAnswer}
+)(withStyles(styles)(Answers))

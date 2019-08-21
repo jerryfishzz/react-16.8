@@ -2,7 +2,7 @@ import { NEXT_QUESTION, PREVIOUS_QUESTION } from "../../actions/test/currentQues
 import currentQuestionNumber from "./currentQuestionNumber";
 import { TOGGLE_EDIT, RESET_EDIT } from "../../actions/test/editQuestion";
 import editQuestion from "./editQuestion";
-import { RECEIVE_QUESTIONS } from "../../actions/test/testQuestions";
+import { RECEIVE_QUESTIONS, CLICK_ANSWER } from "../../actions/test/testQuestions";
 import testQuestions from "./testQuestions";
 
 const initialState = { 
@@ -26,6 +26,7 @@ export default function test(state = initialState, action) {
         editQuestion: editQuestion(state.editQuestion, action)
       }
     case RECEIVE_QUESTIONS:
+    case CLICK_ANSWER:
       return {
         ...state,
         testQuestions: testQuestions(state.testQuestions, action)

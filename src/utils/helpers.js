@@ -6,6 +6,7 @@ const questionStatusForTest = {
 
 export function formatQuestion(question) {
   return {
+    id: question.id,
     data: question,
     ...questionStatusForTest
   }
