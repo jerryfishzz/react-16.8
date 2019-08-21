@@ -136,10 +136,10 @@ class Tests extends Component {
                     Items with * are required.
                   </Typography>
                   <Form 
-                    suggestions={suggestions}
+                    
                     paddingRight={10}
-                    editQuestion={editQuestion}
-                    currentQuestion={currentQuestion}
+                    
+                    
                     onSubmit={onEdit}
                     onAddSuggestion={onAddSuggestion}
                   />

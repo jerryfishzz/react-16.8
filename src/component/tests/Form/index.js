@@ -11,6 +11,7 @@ import Tags from "./Tags";
 import classNames from 'classnames';
 import CreateSnackbar from '../Snackbar'
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
+import { connect } from 'react-redux'
 
 class Form extends React.Component {
   constructor(props) {
@@ -26,7 +27,10 @@ class Form extends React.Component {
       ? {
           test: {
             ...currentQuestion,
-            otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.otherNotes)))
+            data: {
+              ...currentQuestion.data,
+              otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes)))
+            }
           },
           isFormValidate: true,
           isFocus: false,
@@ -35,10 +39,12 @@ class Form extends React.Component {
       : {
           test: {
             id: uniqid(),
-            question: '',
-            tages: [],
-            answers: [{"correctness": false}],
-            otherNotes: EditorState.createEmpty()
+            data: {
+              question: '',
+              tages: [],
+              answers: [{"correctness": false}],
+              otherNotes: EditorState.createEmpty()
+            }
           },
           isFormValidate: false,
           isFocus: false
@@ -56,7 +62,11 @@ class Form extends React.Component {
       ({
         test: {
           ...test,
-          [name]: value
+          data: {
+            ...test.data,
+            [name]: value
+          }
+          
         },
       }), 
       () => {
@@ -66,31 +76,41 @@ class Form extends React.Component {
   }
 
   onAnswerChange = (index, prop, value) => {
-    this.setState(({ test, test: { answers } }) => ({
+    this.setState(({ test, test: { data: { answers } } }) => ({
       test: {
         ...test,
-        answers: answers.map((a, i) => {
-          if (i === index) a[prop] = value
-          return a
-        })
+        data: {
+          ...test.data,
+          answers: answers.map((a, i) => {
+            if (i === index) a[prop] = value
+            return a
+          })
+        }
       }
     }), this.validateForm)
   }
   
   onNewAnswer = () => {
-    this.setState(({ test, test : { answers } }) => ({
+    this.setState(({ test, test : { data: { answers } } }) => ({
       test: {
         ...test,
-        answers: [...answers, {"correctness": false}]
+        data: {
+          ...test.data,
+          answers: [...answers, {"correctness": false}]
+        }
       }
     }), this.validateForm)
   }
 
   onDelete = index => {
-    this.setState(({ test, test : { answers } }) => ({
+    this.setState(({ test, test : { data: { answers } } }) => ({
       test: {
         ...test,
-        answers: answers.filter((a, i) => i !== index)
+        data: {
+          ...test.data,
+          answers: answers.filter((a, i) => i !== index)
+        }
+        
       }
     }), this.validateForm)
   }
@@ -99,7 +119,11 @@ class Form extends React.Component {
     this.setState(prevState => ({
       test: {
         ...prevState.test,
-        tags: newTagArr.map(tag => tag.value)
+        data: {
+          ...prevState.test.data,
+          tags: newTagArr.map(tag => tag.value)
+        }
+        
       }
     }))
   }
@@ -108,11 +132,15 @@ class Form extends React.Component {
     const { test } = this.state,
           { editQuestion } = this.props
     
-    const contentState = test.otherNotes.getCurrentContent();
+    const contentState = test.data.otherNotes.getCurrentContent();
     const newOther = JSON.stringify(convertToRaw(contentState))
     const finalTest = {
       ...test,
-      otherNotes: newOther
+      data: {
+        ...test.data,
+        otherNotes: newOther
+      }
+      
     }
 
     this.props.onSubmit(finalTest)
@@ -121,16 +149,19 @@ class Form extends React.Component {
       this.setState({
         test: {
           id: uniqid(),
-          question: '',
-          tags: [],
-          answers: [
-            {
-              "content": '',
-              "correctness": false,
-              "note": ''
-            }
-          ],
-          otherNotes: EditorState.createEmpty()
+          data: {
+            question: '',
+            tags: [],
+            answers: [
+              {
+                "content": '',
+                "correctness": false,
+                "note": ''
+              }
+            ],
+            otherNotes: EditorState.createEmpty()
+          }
+          
         },
         isFormValidate: false
       })
@@ -140,7 +171,7 @@ class Form extends React.Component {
   validateForm = () => {
     // todo: validate answer content
 
-    const { test: { question, answers } } = this.state
+    const { test: { data: { question, answers } } } = this.state
 
     const isExisted = x => x ? true : false
     const arrOfcontent = answers.map(a => a.content)
@@ -158,14 +189,18 @@ class Form extends React.Component {
     this.setState((prevState) => ({
       test: {
         ...prevState.test,
-        otherNotes: editorState
+        data: {
+          ...prevState.test.data,
+          otherNotes: editorState
+        }
+        
       }
     }));
   };
 
   onToggleCode = (e) => {
     e.preventDefault()
-    this.handleDraftChange(RichUtils.toggleCode(this.state.test.otherNotes));
+    this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
   };
 
   getFocus = e => {
@@ -179,7 +214,8 @@ class Form extends React.Component {
 
   render() {
     const { classes, paddingRight, editQuestion, onAddSuggestion, suggestions } = this.props,
-      { test: { question, tags, answers }, isFormValidate } = this.state
+          { test: { data: { question, tags, answers }, isFormValidate } } = this.state
+    // console.log(answers)
 
     return (
       <form 
@@ -237,12 +273,15 @@ class Form extends React.Component {
             className={classes.white}
             InputProps={{
               endAdornment: (
-                <div className={classes.draftContent} onClick={this.getFocus} onBlur={this.loseFocus}>
+                <div 
+                  className={classes.draftContent} 
+                  onClick={this.getFocus} 
+                  onBlur={this.loseFocus}
+                >
                   <div className={this.state.isFocus ? classes.editor : classes.editor1}>
                     
                     <Editor
-                      editorState={this.state.test.otherNotes}
-                      handleKeyCommand={this.handleKeyCommand}
+                      editorState={this.state.test.data.otherNotes}
                       onChange={this.handleDraftChange}
                       placeholder='Hello'
                       ref={this.setDomEditorRef}
@@ -266,6 +305,19 @@ class Form extends React.Component {
         />
       </form>
     )
+  }
+}
+
+const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions, editQuestion }, tags }) => {
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
+  return {
+    currentQuestion,
+    currentQuestionNumber,
+    editQuestion,
+    suggestions: tags
   }
 }
 
@@ -326,4 +378,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(Form);
+export default connect(mapStateToProps)(withStyles(styles)(Form));
