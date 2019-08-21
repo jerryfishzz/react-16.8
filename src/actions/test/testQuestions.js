@@ -5,6 +5,7 @@ import { formatQuestion } from "../../utils/helpers";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
+export const SUBMIT_QUESTION = 'SUBMIT_QUESTION'
 
 function receiveQuestions(questions) {
   return {
@@ -32,6 +33,14 @@ export function handleReceiveQuestions() {
 export function clickAnswer(id, index) {
   return {
     type: CLICK_ANSWER,
+    id,
+    index
+  }
+}
+
+export function submitQuestion(id, index) {
+  return {
+    type: SUBMIT_QUESTION,
     id,
     index
   }

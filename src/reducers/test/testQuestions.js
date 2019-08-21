@@ -1,4 +1,4 @@
-import { RECEIVE_QUESTIONS, CLICK_ANSWER } from "../../actions/test/testQuestions";
+import { RECEIVE_QUESTIONS, CLICK_ANSWER, SUBMIT_QUESTION } from "../../actions/test/testQuestions";
 
 export default function testQuestions(state, action) {
   switch (action.type) {
@@ -11,6 +11,13 @@ export default function testQuestions(state, action) {
         }
         return question
       })
+    case SUBMIT_QUESTION:
+        return state.map(question => {
+          if (question.id === action.id) {
+            question.submittedAnswer = action.index
+          }
+          return question
+        })
     default:
       break;
   }

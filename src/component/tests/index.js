@@ -100,7 +100,7 @@ class Tests extends Component {
                   variant="contained"
                   color='primary'
                   onClick={() => this.submitAnswer(currentQuestion.selectedAnswer)}
-                  disabled={currentQuestion.isSubmitted}
+                  disabled={currentQuestion.isSubmitted || !currentQuestion.selectedAnswer}
                 >
                   Submit
                 </Button>
