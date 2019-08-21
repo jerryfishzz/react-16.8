@@ -10,14 +10,9 @@ import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import { getTheAlphanumericOrder } from '../../../utils/store';
 import { connect } from 'react-redux'
-// import { withContext } from '../../../context';
 import { clickAnswer } from '../../../actions/test/testQuestions';
 
 class Answers extends React.Component {
-  // handleListItemClick = i => {
-  //   this.props.handleAnswerActions('selectedAnswer', i)
-  // };
-
   componentDidMount() {
     // For Font Awesome
     loadCSS(
@@ -56,9 +51,6 @@ class Answers extends React.Component {
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
 
-    // if (!currentQuestion.data.answers) return null
-    // console.log(currentQuestion.selectedAnswer)
-
     return (
       <div className={classes.root}>
         <List component="nav">
@@ -91,7 +83,6 @@ const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => 
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
-  // console.log(currentQuestion)
 
   return {
     currentQuestion,
