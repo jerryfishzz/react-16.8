@@ -15,18 +15,19 @@ import { Edit, Delete } from '@material-ui/icons';
 import Form from './Form'
 import { connect } from 'react-redux'
 import { submitQuestion } from '../../actions/test/testQuestions';
+import { toggleEdit } from '../../actions/test/editQuestion';
 
 
 class Tests extends Component {
-  state = {
-		numberOfQuestion: 0
-	}
+  // state = {
+	// 	numberOfQuestion: 0
+	// }
   
-  componentDidMount() {
-		this.setState((prevState) => ({
-			questionNumber: prevState.questionNumber + 1
-		}))
-	}
+  // componentDidMount() {
+	// 	this.setState((prevState) => ({
+	// 		questionNumber: prevState.questionNumber + 1
+	// 	}))
+	// }
 
 	// submitAnswer = (i = null) => {
 	// 	if (i === null) return null
@@ -51,7 +52,6 @@ class Tests extends Component {
       currentQuestion,
       editQuestion,
       onEdit,
-      suggestions,
       onAddSuggestion,
       submitQuestion
      } = this.props 
@@ -203,5 +203,5 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { submitQuestion }
+  { submitQuestion, toggleEdit }
 )(withContext(withStyles(styles)(Tests)))  
