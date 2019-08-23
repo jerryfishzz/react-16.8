@@ -58,7 +58,7 @@ class Tests extends Component {
       editQuestion,
       handleSubmitQuestion,
       
-      onEdit,
+      
       onAddSuggestion,
       
      } = this.props 
@@ -147,7 +147,7 @@ class Tests extends Component {
                     paddingRight={10}
                     
                     
-                    onSubmit={onEdit}
+                    
                     onAddSuggestion={onAddSuggestion}
                   />
                 </Fragment>

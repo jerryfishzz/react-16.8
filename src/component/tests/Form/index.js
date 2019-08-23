@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import CreateSnackbar from '../Snackbar'
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
+import { handleSaveQuestion } from "../../../actions/test/testQuestions";
 
 class Form extends React.Component {
   constructor(props) {
@@ -130,7 +131,7 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { test } = this.state,
-          { editQuestion } = this.props
+          { editQuestion, handleSaveQuestion } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOther = JSON.stringify(convertToRaw(contentState))
@@ -143,9 +144,10 @@ class Form extends React.Component {
       
     }
 
-    this.props.onSubmit(finalTest)
+    handleSaveQuestion(test.id, finalTest)
+      .catch(err => alert(err))
     
-    if (!editQuestion) {
+    if (!editQuestion) { // If not in editing mode (create new: editQuestion is null), reset state
       this.setState({
         test: {
           id: uniqid(),
@@ -377,4 +379,7 @@ const styles = theme => ({
   }
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Form));
+export default connect(
+  mapStateToProps,
+  { handleSaveQuestion }
+)(withStyles(styles)(Form));

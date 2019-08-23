@@ -282,3 +282,16 @@ export function _getTags() {
     setTimeout(() => res(tags), 1000)
   })
 }
+
+export function _updateQuestion (question) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      questions = {
+        ...questions,
+        [question.id]: question
+      }
+
+      res(questions)
+    }, 1000)
+  })
+}

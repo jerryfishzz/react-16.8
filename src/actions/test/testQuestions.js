@@ -1,4 +1,4 @@
-import { getQuestions } from "../../utils/api";
+import { getQuestions, updateQuestion } from "../../utils/api";
 import shuffle from 'shuffle-array'
 import * as R from 'ramda'
 import { formatQuestion } from "../../utils/helpers";
@@ -7,6 +7,7 @@ export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
 export const SUBMIT_QUESTION = 'SUBMIT_QUESTION'
 export const REMOVE_QUESTION = 'REMOVE_QUESTION'
+export const SAVE_QUESTION = 'SAVE_QUESTION'
 
 function receiveQuestions(questions) {
   return {
@@ -51,5 +52,28 @@ export function removeQuestion(id) {
   return {
     type: REMOVE_QUESTION,
     id
+  }
+}
+
+function saveQuestion(updatedQuestion) {
+  return {
+    type: SAVE_QUESTION,
+    updatedQuestion
+  }
+}
+
+export function handleSaveQuestion(id, updatedQuestion) {
+  return async (dispatch, getState) => {
+    const { test: { testQuestions } } = getState()
+    const currentQuestion = testQuestions.filter(question => question.id === id)[0]
+
+    dispatch(saveQuestion(updatedQuestion))
+
+    try {
+      await updateQuestion(updatedQuestion)
+    } catch(err) {
+      dispatch(saveQuestion(currentQuestion))
+      throw Error('Update error')
+    }
   }
 }

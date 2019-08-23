@@ -138,15 +138,15 @@ class App extends Component {
   //   }))
   // }
 
-  editQuestion = question => {
-    this.setState(({testQuestions}) => ({
-      testQuestions: [
-        ...testQuestions.filter(q => q.id !== question.id),
-        question
-      ],
-      currentQuestion: question
-    }))
-  }
+  // editQuestion = question => {
+  //   this.setState(({testQuestions}) => ({
+  //     testQuestions: [
+  //       ...testQuestions.filter(q => q.id !== question.id),
+  //       question
+  //     ],
+  //     currentQuestion: question
+  //   }))
+  // }
 
   // toggleEdit = () => {
   //   this.setState(({ editQuestion }) => ({
@@ -187,7 +187,7 @@ class App extends Component {
     // handleBack: this.previousQuestion,
     // onSubmit: this.submitQuestion,
     // toggleEdit: this.toggleEdit,
-    onEdit: this.editQuestion,
+    // onEdit: this.editQuestion,
     // onDelete: this.deleteQuestion,
     onAddSuggestion: this.addSuggestion,
   })
