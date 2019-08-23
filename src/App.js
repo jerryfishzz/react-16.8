@@ -128,15 +128,15 @@ class App extends Component {
   //   })
   // }
 
-  submitQuestion = question => {
-    this.setState(({testQuestions}) => ({
-      testQuestions: [
-        ...testQuestions, 
-        this.addPropertiesForAnswers(question)
-      ],
-      editQuestion: false,
-    }))
-  }
+  // submitQuestion = question => {
+  //   this.setState(({testQuestions}) => ({
+  //     testQuestions: [
+  //       ...testQuestions, 
+  //       this.addPropertiesForAnswers(question)
+  //     ],
+  //     editQuestion: false,
+  //   }))
+  // }
 
   editQuestion = question => {
     this.setState(({testQuestions}) => ({
@@ -183,9 +183,9 @@ class App extends Component {
     ...this.state,
     shuffleQuestions: this.initializeQuestions,
     // handleAnswerActions: this.handleAnswerActions,
-    handleNext: this.nextQuestion,
-    handleBack: this.previousQuestion,
-    onSubmit: this.submitQuestion,
+    // handleNext: this.nextQuestion,
+    // handleBack: this.previousQuestion,
+    // onSubmit: this.submitQuestion,
     // toggleEdit: this.toggleEdit,
     onEdit: this.editQuestion,
     // onDelete: this.deleteQuestion,

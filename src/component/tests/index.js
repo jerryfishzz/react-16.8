@@ -51,10 +51,12 @@ class Tests extends Component {
   render() {
     const {
       classes,
+      
       currentQuestionNumber,
       testQuestions,
       currentQuestion,
       editQuestion,
+
       onEdit,
       onAddSuggestion,
       submitQuestion
