@@ -9,7 +9,7 @@ import { Provider } from './context';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ForTest from './component/ForTest';
 import { connect } from 'react-redux'
-import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
+// import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
 import { toggleEdit, resetEdit } from './actions/test/editQuestion';
 import { handleReceiveQuestions } from './actions/test/testQuestions';
 import { handleReceiveTags } from './actions/tags';
@@ -232,8 +232,8 @@ const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => 
 export default connect(
   mapStateToProps, 
   { 
-    nextQuestion, 
-    previousQuestion,
+    // nextQuestion, 
+    // previousQuestion,
     // toggleEdit,
     resetEdit,
     handleReceiveQuestions,
