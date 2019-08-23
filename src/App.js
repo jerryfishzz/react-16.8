@@ -148,13 +148,13 @@ class App extends Component {
     }))
   }
 
-  toggleEdit = () => {
-    this.setState(({ editQuestion }) => ({
-      editQuestion: !editQuestion
-    }))
+  // toggleEdit = () => {
+  //   this.setState(({ editQuestion }) => ({
+  //     editQuestion: !editQuestion
+  //   }))
 
-    this.props.toggleEdit()
-  }
+  //   this.props.toggleEdit()
+  // }
 
   deleteQuestion = id => {
     this.setState(({ testQuestions }) => ({
@@ -186,7 +186,7 @@ class App extends Component {
     handleNext: this.nextQuestion,
     handleBack: this.previousQuestion,
     onSubmit: this.submitQuestion,
-    toggleEdit: this.toggleEdit,
+    // toggleEdit: this.toggleEdit,
     onEdit: this.editQuestion,
     onDelete: this.deleteQuestion,
     onAddSuggestion: this.addSuggestion,
@@ -233,7 +233,7 @@ export default connect(
   { 
     nextQuestion, 
     previousQuestion,
-    toggleEdit,
+    // toggleEdit,
     resetEdit,
     handleReceiveQuestions,
     handleReceiveTags
