@@ -1,6 +1,6 @@
 import { nextQuestion, previousQuestion, shrinkFromDelete } from "./currentQuestionNumber";
 import { resetEdit } from "./editQuestion";
-import { removeQuestion } from "./testQuestions";
+import { removeQuestion, submitQuestion } from "./testQuestions";
 
 export function handleNext() {
   return dispatch => {
@@ -25,5 +25,12 @@ export function handleRemoveQuestion(id) {
     if (currentQuestionNumber === testQuestions.length) {
       dispatch(shrinkFromDelete())
     }
+  }
+}
+
+export function handleSubmitQuestion(id, index) {
+  return dispatch => {
+    dispatch(submitQuestion(id, index))
+    dispatch(resetEdit())
   }
 }

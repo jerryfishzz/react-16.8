@@ -14,9 +14,9 @@ import { withContext } from '../../context';
 import { Edit, Delete } from '@material-ui/icons';
 import Form from './Form'
 import { connect } from 'react-redux'
-import { submitQuestion } from '../../actions/test/testQuestions';
+// import { submitQuestion } from '../../actions/test/testQuestions';
 import { toggleEdit } from '../../actions/test/editQuestion';
-import { handleRemoveQuestion } from '../../actions/test/shared';
+import { handleRemoveQuestion, handleSubmitQuestion } from '../../actions/test/shared';
 
 
 class Tests extends Component {
@@ -56,7 +56,7 @@ class Tests extends Component {
       testQuestions,
       currentQuestion,
       editQuestion,
-      submitQuestion,
+      handleSubmitQuestion,
       
       onEdit,
       onAddSuggestion,
@@ -112,7 +112,7 @@ class Tests extends Component {
                   className={classes.submitBtn}
                   variant="contained"
                   color='primary'
-                  onClick={() => submitQuestion(currentQuestion.id, currentQuestion.selectedAnswer)}
+                  onClick={() => handleSubmitQuestion(currentQuestion.id, currentQuestion.selectedAnswer)}
                   disabled={currentQuestion.isSubmitted || currentQuestion.selectedAnswer === null}
                 >
                   Submit
@@ -210,5 +210,5 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { submitQuestion, toggleEdit, handleRemoveQuestion }
+  { submitQuestion, toggleEdit, handleRemoveQuestion, handleSubmitQuestion }
 )(withContext(withStyles(styles)(Tests)))  
