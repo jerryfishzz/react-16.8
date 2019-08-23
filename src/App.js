@@ -156,12 +156,12 @@ class App extends Component {
   //   this.props.toggleEdit()
   // }
 
-  deleteQuestion = id => {
-    this.setState(({ testQuestions }) => ({
-      testQuestions: testQuestions.filter(q => q.id !== id),
-      editQuestion: false,
-    }), this.updateCurrentQuestion)
-  }
+  // deleteQuestion = id => {
+  //   this.setState(({ testQuestions }) => ({
+  //     testQuestions: testQuestions.filter(q => q.id !== id),
+  //     editQuestion: false,
+  //   }), this.updateCurrentQuestion)
+  // }
 
   addSuggestion = newSuggestion => {
     this.setState(prevState => ({
@@ -188,7 +188,7 @@ class App extends Component {
     onSubmit: this.submitQuestion,
     // toggleEdit: this.toggleEdit,
     onEdit: this.editQuestion,
-    onDelete: this.deleteQuestion,
+    // onDelete: this.deleteQuestion,
     onAddSuggestion: this.addSuggestion,
   })
 

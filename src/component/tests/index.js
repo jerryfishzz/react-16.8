@@ -16,6 +16,7 @@ import Form from './Form'
 import { connect } from 'react-redux'
 import { submitQuestion } from '../../actions/test/testQuestions';
 import { toggleEdit } from '../../actions/test/editQuestion';
+import { handleRemoveQuestion } from '../../actions/test/shared';
 
 
 class Tests extends Component {
@@ -40,8 +41,11 @@ class Tests extends Component {
     toggleEdit()
   }
 
+  // This should be used to prevent this question being chosen again from database. 
+  // Implement the simple delete first. Later will work on the above logic.
   handleDelete = id => {
-    this.props.onDelete(id)
+    const { handleRemoveQuestion } = this.props
+    handleRemoveQuestion(id)
   }
 
   render() {
@@ -203,5 +207,5 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { submitQuestion, toggleEdit }
+  { submitQuestion, toggleEdit, handleRemoveQuestion }
 )(withContext(withStyles(styles)(Tests)))  
