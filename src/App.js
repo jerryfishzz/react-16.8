@@ -193,15 +193,14 @@ class App extends Component {
   })
 
   render () {
-    const { currentQuestion } = this.state
     const { testQuestions } = this.props
 
-    if (!currentQuestion) {
+    if (!testQuestions) {
       return <div>Loading</div>
     }
 
     if(!testQuestions.length) { // Need to consider when no questions
-      return <div>Loading</div>
+      return <div>No questions</div>
     }
 
     return (
@@ -221,9 +220,11 @@ class App extends Component {
 
 const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => {
   return {
-    currentQuestion: testQuestions.length 
-      ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
-      : {},
+    currentQuestion: testQuestions
+      ? testQuestions.length 
+          ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+          : {}
+      : null,
     testQuestions
   }
 }

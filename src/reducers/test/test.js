@@ -8,7 +8,7 @@ import testQuestions from "./testQuestions";
 const initialState = { 
   currentQuestionNumber: 0, 
   editQuestion: false,
-  testQuestions: []
+  testQuestions: null
 }
 
 export default function test(state = initialState, action) {
