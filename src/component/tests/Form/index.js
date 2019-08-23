@@ -214,8 +214,7 @@ class Form extends React.Component {
 
   render() {
     const { classes, paddingRight, editQuestion, onAddSuggestion, suggestions } = this.props,
-          { test: { data: { question, tags, answers }, isFormValidate } } = this.state
-    // console.log(answers)
+          { test: { data: { question, tags, answers } }, isFormValidate } = this.state
 
     return (
       <form 
