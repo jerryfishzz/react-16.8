@@ -51,15 +51,16 @@ class Tests extends Component {
   render() {
     const {
       classes,
-      
+
       currentQuestionNumber,
       testQuestions,
       currentQuestion,
       editQuestion,
-
+      submitQuestion,
+      
       onEdit,
       onAddSuggestion,
-      submitQuestion
+      
      } = this.props 
 
     // const currentQuestion = testQuestions.length 

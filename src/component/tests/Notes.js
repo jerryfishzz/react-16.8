@@ -14,22 +14,29 @@ import NotesIcon from '@material-ui/icons/Notes';
 import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import { getTheAlphanumericOrder } from '../../utils/store';
-import { withContext } from '../../context';
+// import { withContext } from '../../context';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { connect } from 'react-redux'
 
-const Notes = ({ currentQuestion, classes }) => {
+const Notes = ({ testQuestions, currentQuestionNumber, classes }) => {
+  // Must do it here because the parent component re-rendering won't necessarily make its child component re-render if there is no props related with state change passing down to the child directly
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
   let hasNotes = false
+  const { data } = currentQuestion
 
-  if (currentQuestion.answers) {
-    for (let i = 0; i < currentQuestion.answers.length; i++) {
-      if (currentQuestion.answers[i].note) {
+  if (data.answers) {
+    for (let i = 0; i < data.answers.length; i++) {
+      if (data.answers[i].note) {
         hasNotes = true
         break
       }
     }
 
     if (!hasNotes) {
-      if (currentQuestion.otherNotes) hasNotes = true
+      if (data.otherNotes) hasNotes = true
     }
   } 
 
@@ -42,7 +49,7 @@ const Notes = ({ currentQuestion, classes }) => {
     return true;
   }
 
-  const otherNotes = currentQuestion.otherNotes 
+  const otherNotes = data.otherNotes 
     ? <Fragment>
         <Divider variant="inset" className={classes.divider} />
         
@@ -55,15 +62,15 @@ const Notes = ({ currentQuestion, classes }) => {
             </ListItemAvatar>
           </Tooltip> 
           
-          {isJson(currentQuestion.otherNotes)
+          {isJson(data.otherNotes)
             ? <ListItemText>
                 <Editor
-                  editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.otherNotes)))}
+                  editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(data.otherNotes)))}
                   readOnly={true}
                 />
               </ListItemText>
             : <ListItemText 
-                primary={currentQuestion.otherNotes}
+                primary={data.otherNotes}
               />
           }
             
@@ -78,7 +85,7 @@ const Notes = ({ currentQuestion, classes }) => {
       {hasNotes
         ? currentQuestion.isSubmitted
           ? <List>
-              {currentQuestion.answers.map((a, i) => {
+              {data.answers.map((a, i) => {
                 if (!a.note) return null
 
                 return (
@@ -132,4 +139,17 @@ const styles = theme => ({
   },
 });
 
-export default withContext(withStyles(styles)(Notes))  
+const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => {
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
+  return { 
+    // editQuestion,
+    currentQuestionNumber,
+    testQuestions,
+    // currentQuestion
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Notes))
