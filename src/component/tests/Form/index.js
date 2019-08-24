@@ -23,6 +23,7 @@ class Form extends React.Component {
 
   getInitialState = () => {
     const { editQuestion, currentQuestion } = this.props
+    const id = uniqid()
 
     return editQuestion 
       ? {
@@ -39,8 +40,9 @@ class Form extends React.Component {
         }
       : {
           test: {
-            id: uniqid(),
+            id,
             data: {
+              id,
               question: '',
               tages: [],
               answers: [{"correctness": false}],
