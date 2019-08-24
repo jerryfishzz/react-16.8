@@ -1,4 +1,8 @@
-import { nextQuestion, previousQuestion, shrinkFromDelete } from "./currentQuestionNumber";
+import { 
+  nextQuestion, 
+  previousQuestion, 
+  shrinkFromDelete 
+} from "./currentQuestionNumber";
 import { resetEdit } from "./editQuestion";
 import { removeQuestion, submitQuestion } from "./testQuestions";
 
@@ -34,4 +38,3 @@ export function handleSubmitQuestion(id, index) {
     dispatch(resetEdit())
   }
 }
-

@@ -65,7 +65,8 @@ function saveQuestion(updatedQuestion) {
 export function handleSaveQuestion(id, updatedQuestion) {
   return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
-    const currentQuestion = testQuestions.filter(question => question.id === id)[0]
+    const currentQuestion = 
+      testQuestions.filter(question => question.id === id)[0]
 
     dispatch(saveQuestion(updatedQuestion))
 

@@ -1,8 +1,3 @@
-// import * as R from 'ramda'
-
-// const alphanumericString = 'ABCDEFG'
-// export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
-
 let tags = ["SQL", "React", "JavaScript", "PHP", "NoSQL", "Database", "Algorithms And Data Structure"]
 
 let questions = {
