@@ -10,58 +10,58 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ForTest from './component/ForTest';
 import { connect } from 'react-redux'
 // import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
-import { toggleEdit, resetEdit } from './actions/test/editQuestion';
+// import { toggleEdit, resetEdit } from './actions/test/editQuestion';
 import { handleReceiveQuestions } from './actions/test/testQuestions';
 import { handleReceiveTags } from './actions/tags';
 
 // Necessary properties for the question with answers
-const propertiesForAnswers = {
-  "submittedAnswer": null,
-  "selectedAnswer": null,
-  "isSubmitted": false,
-}
+// const propertiesForAnswers = {
+//   "submittedAnswer": null,
+//   "selectedAnswer": null,
+//   "isSubmitted": false,
+// }
 
 class App extends Component {
-  state = {
-    testQuestions: [],
-    currentQuestionNumber: 0,
-    currentQuestion: null,
-    editQuestion: false,
-    suggestions: tags
-  }
+  // state = {
+  //   testQuestions: [],
+  //   currentQuestionNumber: 0,
+  //   currentQuestion: null,
+  //   editQuestion: false,
+  //   suggestions: tags
+  // }
 
   // If the question has answers, add some proprerties for it
-  addPropertiesForAnswers = obj => {
-    const hasAnswers = R.has('answers')
+  // addPropertiesForAnswers = obj => {
+  //   const hasAnswers = R.has('answers')
 
-    if (!hasAnswers(obj)) return obj
-    return R.merge(obj)(propertiesForAnswers)
-  }
+  //   if (!hasAnswers(obj)) return obj
+  //   return R.merge(obj)(propertiesForAnswers)
+  // }
 
-  resetQuestion = question => ({
-    ...question,
-    submittedAnswer: null,
-    selectedAnswer: null,
-    isSubmitted: false,
-  })
+  // resetQuestion = question => ({
+  //   ...question,
+  //   submittedAnswer: null,
+  //   selectedAnswer: null,
+  //   isSubmitted: false,
+  // })
 
   // Get the questions from the library, shuffling and taking the first 10 only
-  initializeQuestions = questions => {
-    const questionsForInitializing = questions 
-      ? questions.map(q => this.resetQuestion(q))
-      : questionLibrary
+  // initializeQuestions = questions => {
+  //   const questionsForInitializing = questions 
+  //     ? questions.map(q => this.resetQuestion(q))
+  //     : questionLibrary
 
-    const randomizeQuestions = R.compose(R.take(10), shuffle)
-    const randomizedQuestions = randomizeQuestions(questionsForInitializing)
+  //   const randomizeQuestions = R.compose(R.take(10), shuffle)
+  //   const randomizedQuestions = randomizeQuestions(questionsForInitializing)
 
-    this.setState({
-      testQuestions: !questions 
-        ? R.map(this.addPropertiesForAnswers)(randomizedQuestions)
-        : randomizedQuestions,
-      currentQuestionNumber: 0,
-      editQuestion: false
-    }, this.updateCurrentQuestion)
-  }
+  //   this.setState({
+  //     testQuestions: !questions 
+  //       ? R.map(this.addPropertiesForAnswers)(randomizedQuestions)
+  //       : randomizedQuestions,
+  //     currentQuestionNumber: 0,
+  //     editQuestion: false
+  //   }, this.updateCurrentQuestion)
+  // }
   
   // nextQuestion = () => {
   //   this.setState((prevState) => (
@@ -87,24 +87,24 @@ class App extends Component {
   //   this.props.resetEdit()
   // }
 
-  updateCurrentQuestion = () => {
-    const {currentQuestionNumber, testQuestions} = this.state
+  // updateCurrentQuestion = () => {
+  //   const {currentQuestionNumber, testQuestions} = this.state
 
-    if (!testQuestions.length) {
-      this.setState({
-        currentQuestion: {},
-      })
-    } else {
-      const position = currentQuestionNumber === testQuestions.length
-        ? currentQuestionNumber - 1
-        : currentQuestionNumber
+  //   if (!testQuestions.length) {
+  //     this.setState({
+  //       currentQuestion: {},
+  //     })
+  //   } else {
+  //     const position = currentQuestionNumber === testQuestions.length
+  //       ? currentQuestionNumber - 1
+  //       : currentQuestionNumber
 
-      this.setState({
-        currentQuestion: R.nth(position)(testQuestions),
-        currentQuestionNumber: position
-      })
-    }
-  }
+  //     this.setState({
+  //       currentQuestion: R.nth(position)(testQuestions),
+  //       currentQuestionNumber: position
+  //     })
+  //   }
+  // }
 
   // This for two actions from Answers component: submit and click
   // handleAnswerActions = (action, i) => {
@@ -170,7 +170,7 @@ class App extends Component {
   // }
 
   componentDidMount() {
-    this.initializeQuestions()
+    // this.initializeQuestions()
     
     this.props.handleReceiveQuestions()
       .catch(err => alert(err))
@@ -235,7 +235,7 @@ export default connect(
     // nextQuestion, 
     // previousQuestion,
     // toggleEdit,
-    resetEdit,
+    // resetEdit,
     handleReceiveQuestions,
     handleReceiveTags
   }

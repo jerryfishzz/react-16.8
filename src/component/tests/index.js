@@ -61,7 +61,7 @@ class Tests extends Component {
       
       
       
-     } = this.props 
+    } = this.props 
 
     // const currentQuestion = testQuestions.length 
     //   ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
