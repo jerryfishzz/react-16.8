@@ -215,7 +215,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { classes, paddingRight, editQuestion, onAddSuggestion, suggestions } = this.props,
+    const { classes, paddingRight, editQuestion } = this.props,
           { test: { data: { question, tags, answers } }, isFormValidate } = this.state
 
     return (
@@ -243,7 +243,6 @@ class Form extends React.Component {
         <div className={classes.background}> 
           <Tags 
             tags={tags} 
-            suggestions={suggestions}
             onTagChange={this.onTagChange}
             
           />
@@ -318,7 +317,6 @@ const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions, editQue
     currentQuestion,
     currentQuestionNumber,
     editQuestion,
-    suggestions: tags
   }
 }
 

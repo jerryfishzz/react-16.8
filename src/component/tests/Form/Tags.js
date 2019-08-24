@@ -185,6 +185,12 @@ class Tags extends React.Component {
   }
 }
 
+const mapStateToProps = ({ tags }) => {
+  return {
+    suggestions: tags
+  }
+}
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -234,4 +240,4 @@ const styles = theme => ({
   }
 });
 
-export default connect(null, { handleAddTagToDB })(withStyles(styles, { withTheme: true })(Tags));
+export default connect(mapStateToProps, { handleAddTagToDB })(withStyles(styles, { withTheme: true })(Tags));
