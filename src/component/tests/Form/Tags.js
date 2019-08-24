@@ -135,6 +135,10 @@ class Tags extends React.Component {
     this.handleChange(newTagArr)
 
     this.props.handleAddTagToDB(inputValue)
+      .catch(err => {
+        this.handleChange(this.setTags(tags))
+        alert(err)
+      })
   };
   
   createOption = label => ({
