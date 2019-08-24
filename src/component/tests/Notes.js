@@ -13,13 +13,16 @@ import {
 import NotesIcon from '@material-ui/icons/Notes';
 import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
-import { getTheAlphanumericOrder } from '../../utils/helpers';
-// import { withContext } from '../../context';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
 
+import { getTheAlphanumericOrder } from '../../utils/helpers';
+
 const Notes = ({ testQuestions, currentQuestionNumber, classes }) => {
-  // Must do it here because the parent component re-rendering won't necessarily make its child component re-render if there is no props related with state change passing down to the child directly
+  // Must do it here because the parent component re-rendering 
+  // won't necessarily make its child component re-render 
+  // if there is no props related with state change 
+  // passing down to the child directly
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
@@ -40,7 +43,7 @@ const Notes = ({ testQuestions, currentQuestionNumber, classes }) => {
     }
   } 
 
-  const isJson = (str) => {
+  const isJson = str => {
     try {
         JSON.parse(str);
     } catch (e) {
@@ -65,7 +68,11 @@ const Notes = ({ testQuestions, currentQuestionNumber, classes }) => {
           {isJson(data.otherNotes)
             ? <ListItemText>
                 <Editor
-                  editorState={EditorState.createWithContent(convertFromRaw(JSON.parse(data.otherNotes)))}
+                  editorState={
+                    EditorState.createWithContent(
+                      convertFromRaw(JSON.parse(data.otherNotes))
+                    )
+                  }
                   readOnly={true}
                 />
               </ListItemText>
@@ -73,10 +80,7 @@ const Notes = ({ testQuestions, currentQuestionNumber, classes }) => {
                 primary={data.otherNotes}
               />
           }
-            
-          
         </ListItem>
-        
       </Fragment>
     : null
 
@@ -139,16 +143,12 @@ const styles = theme => ({
   },
 });
 
-const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => {
-  const currentQuestion = testQuestions.length 
-    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
-    : {}
-
+const mapStateToProps = ({ 
+  test: { currentQuestionNumber, testQuestions } 
+}) => {
   return { 
-    // editQuestion,
     currentQuestionNumber,
     testQuestions,
-    // currentQuestion
   }
 }
 

@@ -8,6 +8,7 @@ import {
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { connect } from 'react-redux'
+
 import { handleNext, handleBack } from "../../actions/test/shared";
 
 const ProgressingBar = 
@@ -56,7 +57,9 @@ const ProgressingBar =
     </Grid>
   </Grid>
 
-const mapStateToProps = ({ test: { testQuestions, currentQuestionNumber } }) => {
+const mapStateToProps = ({ 
+  test: { testQuestions, currentQuestionNumber } 
+}) => {
   return {
     testQuestions,
     currentQuestionNumber

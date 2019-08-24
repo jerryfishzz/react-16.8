@@ -7,42 +7,28 @@ import {
   Button,
   IconButton
 } from '@material-ui/core';
+import { Edit, Delete } from '@material-ui/icons';
+import { connect } from 'react-redux'
+
 import Question from './Question'
 import ProgressingBar from './ProgressingBar';
 import Notes from './Notes';
-import { withContext } from '../../context';
-import { Edit, Delete } from '@material-ui/icons';
 import Form from './Form'
-import { connect } from 'react-redux'
-// import { submitQuestion } from '../../actions/test/testQuestions';
 import { toggleEdit } from '../../actions/test/editQuestion';
-import { handleRemoveQuestion, handleSubmitQuestion } from '../../actions/test/shared';
+import { 
+  handleRemoveQuestion, 
+  handleSubmitQuestion 
+} from '../../actions/test/shared';
 
 
 class Tests extends Component {
-  // state = {
-	// 	numberOfQuestion: 0
-	// }
-  
-  // componentDidMount() {
-	// 	this.setState((prevState) => ({
-	// 		questionNumber: prevState.questionNumber + 1
-	// 	}))
-	// }
-
-	// submitAnswer = (i = null) => {
-	// 	if (i === null) return null
-		
-  //   this.props.handleAnswerActions('submittedAnswer', i)
-  // }
-
   handleEdit = () => {
     const { toggleEdit } = this.props
     toggleEdit()
   }
 
   // This should be used to prevent this question being chosen again from database. 
-  // Implement the simple delete first. Later will work on the above logic.
+  // Implement the simple delete first. Later will work on the above requiremnet.
   handleDelete = id => {
     const { handleRemoveQuestion } = this.props
     handleRemoveQuestion(id)
@@ -51,22 +37,13 @@ class Tests extends Component {
   render() {
     const {
       classes,
-
       currentQuestionNumber,
       testQuestions,
       currentQuestion,
       editQuestion,
       handleSubmitQuestion,
-      
-      
-      
-      
     } = this.props 
 
-    // const currentQuestion = testQuestions.length 
-    //   ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
-    //   : {}
-  
     return (
       <Grid container className={classes.container}>
 
@@ -96,7 +73,6 @@ class Tests extends Component {
                   <IconButton 
                     color='primary' 
                     onClick={() => this.handleDelete(currentQuestion.id)}
-                    
                   >
                     <Delete />
                   </IconButton>
@@ -112,8 +88,16 @@ class Tests extends Component {
                   className={classes.submitBtn}
                   variant="contained"
                   color='primary'
-                  onClick={() => handleSubmitQuestion(currentQuestion.id, currentQuestion.selectedAnswer)}
-                  disabled={currentQuestion.isSubmitted || currentQuestion.selectedAnswer === null}
+                  onClick={
+                    () => handleSubmitQuestion(
+                      currentQuestion.id, 
+                      currentQuestion.selectedAnswer
+                    )
+                  }
+                  disabled={
+                    currentQuestion.isSubmitted || 
+                    currentQuestion.selectedAnswer === null
+                  }
                 >
                   Submit
                 </Button>
@@ -142,14 +126,7 @@ class Tests extends Component {
                   >
                     Items with * are required.
                   </Typography>
-                  <Form 
-                    
-                    paddingRight={10}
-                    
-                    
-                    
-                    
-                  />
+                  <Form paddingRight={10} />
                 </Fragment>
               : <Notes />
             }
@@ -160,7 +137,9 @@ class Tests extends Component {
   }
 }
 
-const mapStateToProps = ({ test: { editQuestion, currentQuestionNumber, testQuestions } }) => {
+const mapStateToProps = ({ 
+  test: { editQuestion, currentQuestionNumber, testQuestions } 
+}) => {
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
