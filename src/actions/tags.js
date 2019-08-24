@@ -1,6 +1,7 @@
-import { getTags } from "../utils/api";
+import { getTags, addTagToDB } from "../utils/api";
 
 export const RECEIVE_TAGS = 'RECEIVE_TAGS'
+export const ADD_TAG = 'ADD_TAG'
 
 function receiveTags(tags) {
   return {
@@ -21,3 +22,21 @@ export function handleReceiveTags() {
   }
 }
 
+function addTag(newTag) {
+  return {
+    type: ADD_TAG,
+    newTag
+  }
+}
+
+export function handleAddTagToDB(newTag) {
+  return async dispatch => {
+    try {
+      await addTagToDB(newTag)
+
+      dispatch(addTag(newTag))
+    } catch(err) {
+      throw Error('Add tag error')
+    }
+  }
+}

@@ -59,7 +59,7 @@ class Tests extends Component {
       handleSubmitQuestion,
       
       
-      onAddSuggestion,
+      
       
      } = this.props 
 
@@ -148,7 +148,7 @@ class Tests extends Component {
                     
                     
                     
-                    onAddSuggestion={onAddSuggestion}
+                    
                   />
                 </Fragment>
               : <Notes />

@@ -163,11 +163,11 @@ class App extends Component {
   //   }), this.updateCurrentQuestion)
   // }
 
-  addSuggestion = newSuggestion => {
-    this.setState(prevState => ({
-      suggestions: [...prevState.suggestions, newSuggestion]
-    }), this.updateCurrentQuestion)
-  }
+  // addSuggestion = newSuggestion => {
+  //   this.setState(prevState => ({
+  //     suggestions: [...prevState.suggestions, newSuggestion]
+  //   }), this.updateCurrentQuestion)
+  // }
 
   componentDidMount() {
     this.initializeQuestions()
@@ -189,7 +189,7 @@ class App extends Component {
     // toggleEdit: this.toggleEdit,
     // onEdit: this.editQuestion,
     // onDelete: this.deleteQuestion,
-    onAddSuggestion: this.addSuggestion,
+    // onAddSuggestion: this.addSuggestion,
   })
 
   render () {

@@ -12,6 +12,8 @@ import {
 import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import CreatableSelect from 'react-select/lib/Creatable';
+import { connect } from 'react-redux'
+import { handleAddTagToDB } from '../../../actions/tags';
 
 const NoOptionsMessage = props => {
   return (
@@ -125,14 +127,14 @@ class Tags extends React.Component {
     this.props.onTagChange(value)
   };
 
-  handleCreate =  inputValue => {
+  handleCreate = inputValue => {
     const newOption = this.createOption(inputValue)
     const { tags } = this.props
     const newTagArr = [...this.setTags(tags), newOption]
 
     this.handleChange(newTagArr)
 
-    this.props.onAddSuggestion(inputValue)
+    this.props.handleAddTagToDB(inputValue)
   };
   
   createOption = label => ({
@@ -232,4 +234,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles, { withTheme: true })(Tags);
+export default connect(null, { handleAddTagToDB })(withStyles(styles, { withTheme: true })(Tags));

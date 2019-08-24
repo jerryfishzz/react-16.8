@@ -245,7 +245,7 @@ class Form extends React.Component {
             tags={tags} 
             suggestions={suggestions}
             onTagChange={this.onTagChange}
-            onAddSuggestion={onAddSuggestion}
+            
           />
         </div>
 

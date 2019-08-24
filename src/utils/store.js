@@ -136,7 +136,7 @@ export const questionLibrary = [
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 
-export const tags = ["SQL", "React", "JavaScript", "PHP", "NoSQL", "Database", "Algorithms And Data Structure"]
+export let tags = ["SQL", "React", "JavaScript", "PHP", "NoSQL", "Database", "Algorithms And Data Structure"]
 
 let questions = {
   "jvcx8cmv": {
@@ -292,6 +292,19 @@ export function _updateQuestion (question) {
       }
 
       res(questions)
+    }, 1000)
+  })
+}
+
+export function _addTagToDB(newTag) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      tags = [
+        ...tags,
+        newTag
+      ]
+
+      res(newTag)
     }, 1000)
   })
 }
