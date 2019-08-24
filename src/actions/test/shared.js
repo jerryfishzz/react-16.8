@@ -34,3 +34,4 @@ export function handleSubmitQuestion(id, index) {
     dispatch(resetEdit())
   }
 }
+

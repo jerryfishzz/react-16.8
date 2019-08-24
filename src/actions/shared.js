@@ -5,7 +5,7 @@ import shuffle from 'shuffle-array'
 import * as R from 'ramda'
 import { formatQuestion } from "../utils/helpers";
 
-export function initializeApp() {
+export function initializeApp(cb = null) {
   return async dispatch => {
     try {
       const [questions, tags] = await getInitialData()
@@ -17,6 +17,8 @@ export function initializeApp() {
 
       dispatch(receiveQuestions(randomizedQuestionsForTest))
       dispatch(receiveTags(tags))
+
+      if (cb) dispatch(cb())
     } catch(err) {
       throw Error('Initialize error')
     }

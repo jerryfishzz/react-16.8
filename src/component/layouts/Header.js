@@ -12,6 +12,7 @@ import { withContext } from '../../context.js';
 import CreateDialog from '../tests/Dialog'
 import { connect } from 'react-redux'
 import { initializeApp } from '../../actions/shared.js';
+import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 
 const Header = ({ classes, shuffleQuestions, testQuestions }) => (
   <AppBar position="static">
@@ -42,6 +43,15 @@ const mapStateToProps = ({ test: { testQuestions } }) => {
   return { testQuestions }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    shuffleQuestions: () => {
+      dispatch(initializeApp(resetNumber))
+      // dispatch(())
+    }
+  }
+}
+
 const styles = theme => ({
   flex: {
     flex: 1
@@ -53,5 +63,5 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { shuffleQuestions: initializeApp }
+  mapDispatchToProps
 )(withStyles(styles)(Header))

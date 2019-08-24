@@ -1,4 +1,4 @@
-import { NEXT_QUESTION, PREVIOUS_QUESTION, SHRINK_FROM_DELETE } from "../../actions/test/currentQuestionNumber";
+import { NEXT_QUESTION, PREVIOUS_QUESTION, SHRINK_FROM_DELETE, RESET_NUMBER } from "../../actions/test/currentQuestionNumber";
 import currentQuestionNumber from "./currentQuestionNumber";
 import { TOGGLE_EDIT, RESET_EDIT } from "../../actions/test/editQuestion";
 import editQuestion from "./editQuestion";
@@ -16,6 +16,7 @@ export default function test(state = initialState, action) {
     case NEXT_QUESTION:
     case PREVIOUS_QUESTION:
     case SHRINK_FROM_DELETE:
+    case RESET_NUMBER:
       return {
         ...state,
         currentQuestionNumber: currentQuestionNumber(state.currentQuestionNumber, action)
