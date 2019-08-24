@@ -211,4 +211,4 @@ const styles = theme => ({
 export default connect(
   mapStateToProps,
   { toggleEdit, handleRemoveQuestion, handleSubmitQuestion }
-)(withContext(withStyles(styles)(Tests)))  
+)(withStyles(styles)(Tests))

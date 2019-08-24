@@ -9,28 +9,28 @@ export const SUBMIT_QUESTION = 'SUBMIT_QUESTION'
 export const REMOVE_QUESTION = 'REMOVE_QUESTION'
 export const SAVE_QUESTION = 'SAVE_QUESTION'
 
-function receiveQuestions(questions) {
+export function receiveQuestions(questions) {
   return {
     type: RECEIVE_QUESTIONS,
     questions
   }
 }
 
-export function handleReceiveQuestions() {
-  return async dispatch => {
-    try {
-      const questionsObj = await getQuestions()
-      const questionsArr = Object.keys(questionsObj).map(id => formatQuestion(questionsObj[id]))
+// export function handleReceiveQuestions() {
+//   return async dispatch => {
+//     try {
+//       const questionsObj = await getQuestions()
+//       const questionsArr = Object.keys(questionsObj).map(id => formatQuestion(questionsObj[id]))
 
-      const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
-      const randomizedQuestionsForTest = shuffleArrayThenTakeFirstTen(questionsArr)
+//       const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
+//       const randomizedQuestionsForTest = shuffleArrayThenTakeFirstTen(questionsArr)
 
-      dispatch(receiveQuestions(randomizedQuestionsForTest))
-    } catch(err) {
-      throw Error('Get questions error')
-    }
-  }
-}
+//       dispatch(receiveQuestions(randomizedQuestionsForTest))
+//     } catch(err) {
+//       throw Error('Get questions error')
+//     }
+//   }
+// }
 
 export function clickAnswer(id, index) {
   return {

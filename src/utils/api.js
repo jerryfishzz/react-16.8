@@ -4,9 +4,15 @@ export function getQuestions() {
   return _getQuestions()
 }
 
-
 export function getTags() {
   return _getTags()
+}
+
+export function getInitialData() {
+  return Promise.all([
+    _getQuestions(),
+    _getTags()
+  ])
 }
 
 export function updateQuestion(question) {

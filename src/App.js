@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import * as R from 'ramda'
-import shuffle from 'shuffle-array'
-import { questionLibrary, tags } from './utils/store'
+// import * as R from 'ramda'
+// import shuffle from 'shuffle-array'
+// import { questionLibrary, tags } from './utils/store'
 import { CssBaseline } from '@material-ui/core';
 import { Header } from './component/layouts';
 import Tests from './component/tests';
@@ -11,8 +11,9 @@ import ForTest from './component/ForTest';
 import { connect } from 'react-redux'
 // import { nextQuestion, previousQuestion } from './actions/test/currentQuestionNumber';
 // import { toggleEdit, resetEdit } from './actions/test/editQuestion';
-import { handleReceiveQuestions } from './actions/test/testQuestions';
-import { handleReceiveTags } from './actions/tags';
+// import { handleReceiveQuestions } from './actions/test/testQuestions';
+// import { handleReceiveTags } from './actions/tags';
+import { initializeApp } from './actions/shared';
 
 // Necessary properties for the question with answers
 // const propertiesForAnswers = {
@@ -172,10 +173,13 @@ class App extends Component {
   componentDidMount() {
     // this.initializeQuestions()
     
-    this.props.handleReceiveQuestions()
-      .catch(err => alert(err))
+    // this.props.handleReceiveQuestions()
+    //   .catch(err => alert(err))
 
-    this.props.handleReceiveTags()
+    // this.props.handleReceiveTags()
+    //   .catch(err => alert(err))
+
+    this.props.initializeApp()
       .catch(err => alert(err))
   }
 
@@ -236,7 +240,8 @@ export default connect(
     // previousQuestion,
     // toggleEdit,
     // resetEdit,
-    handleReceiveQuestions,
-    handleReceiveTags
+    // handleReceiveQuestions,
+    // handleReceiveTags,
+    initializeApp
   }
 )(App)
