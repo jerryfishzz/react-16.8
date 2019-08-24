@@ -11,7 +11,7 @@ import {
   Grid,
   Avatar,
 } from '@material-ui/core';
-import { getTheAlphanumericOrder } from '../../../utils/store';
+import { getTheAlphanumericOrder } from '../../../utils/helpers';
 import indigo from '@material-ui/core/colors/indigo';
 
 const AnswerForm = ({ 

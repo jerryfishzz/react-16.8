@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
-import { getTheAlphanumericOrder } from '../../../utils/store';
+import { getTheAlphanumericOrder } from '../../../utils/helpers';
 import { connect } from 'react-redux'
 import { clickAnswer } from '../../../actions/test/testQuestions';
 
