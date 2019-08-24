@@ -1,4 +1,10 @@
-import { RECEIVE_QUESTIONS, CLICK_ANSWER, SUBMIT_QUESTION, REMOVE_QUESTION, SAVE_QUESTION } from "../../actions/test/testQuestions";
+import { 
+  RECEIVE_QUESTIONS, 
+  CLICK_ANSWER, 
+  SUBMIT_QUESTION, 
+  REMOVE_QUESTION, 
+  SAVE_QUESTION 
+} from "../../actions/test/testQuestions";
 
 export default function testQuestions(state, action) {
   switch (action.type) {
@@ -23,7 +29,9 @@ export default function testQuestions(state, action) {
       return state.filter(question => question.id !== action.id )
     case SAVE_QUESTION: 
       return state.map(question => {
-        if (question.id === action.updatedQuestion.id) return action.updatedQuestion
+        if (question.id === action.updatedQuestion.id) {
+          return action.updatedQuestion
+        }
         return question
       })
     default:

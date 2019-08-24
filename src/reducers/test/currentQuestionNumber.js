@@ -1,4 +1,9 @@
-import { NEXT_QUESTION, PREVIOUS_QUESTION, SHRINK_FROM_DELETE, RESET_NUMBER } from "../../actions/test/currentQuestionNumber";
+import { 
+  NEXT_QUESTION, 
+  PREVIOUS_QUESTION, 
+  SHRINK_FROM_DELETE, 
+  RESET_NUMBER 
+} from "../../actions/test/currentQuestionNumber";
 
 export default function currentQuestionNumber(state, action) {
   switch (action.type) {
