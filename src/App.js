@@ -183,9 +183,9 @@ class App extends Component {
       .catch(err => alert(err))
   }
 
-  getContext = () => ({
-    ...this.state,
-    shuffleQuestions: this.initializeQuestions,
+  // getContext = () => ({
+  //   ...this.state,
+  //   shuffleQuestions: this.initializeQuestions,
     // handleAnswerActions: this.handleAnswerActions,
     // handleNext: this.nextQuestion,
     // handleBack: this.previousQuestion,
@@ -194,7 +194,7 @@ class App extends Component {
     // onEdit: this.editQuestion,
     // onDelete: this.deleteQuestion,
     // onAddSuggestion: this.addSuggestion,
-  })
+  // })
 
   render () {
     const { testQuestions } = this.props
@@ -209,14 +209,12 @@ class App extends Component {
 
     return (
       <Router>
-        <Provider value={this.getContext()}>
-          <CssBaseline />
-          <Header />
-          <Switch>
-            <Route path='/' exact component={Tests} />
-            <Route path='/fortest' component={ForTest} />
-          </Switch>
-        </Provider>
+        <CssBaseline />
+        <Header />
+        <Switch>
+          <Route path='/' exact component={Tests} />
+          <Route path='/fortest' component={ForTest} />
+        </Switch>
       </Router>
     )
   }
