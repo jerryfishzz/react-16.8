@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 import { initializeApp } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 
-const Header = ({ classes, shuffleQuestions, testQuestions }) => (
+const Header = ({ classes, shuffleQuestions }) => (
   <AppBar position="static">
     <Toolbar>
       <Typography 
@@ -29,7 +29,7 @@ const Header = ({ classes, shuffleQuestions, testQuestions }) => (
           color="secondary"
           size="small"
           className={classes.fab}
-          onClick={() => shuffleQuestions(testQuestions)}
+          onClick={shuffleQuestions}
         >
           <Shuffle />
         </Fab>
@@ -39,9 +39,7 @@ const Header = ({ classes, shuffleQuestions, testQuestions }) => (
   </AppBar>
 )
 
-const mapStateToProps = ({ test: { testQuestions } }) => {
-  return { testQuestions }
-}
+
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -62,6 +60,6 @@ const styles = theme => ({
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(withStyles(styles)(Header))
