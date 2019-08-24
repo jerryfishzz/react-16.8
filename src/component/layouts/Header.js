@@ -10,6 +10,8 @@ import {
 import Shuffle from '@material-ui/icons/Shuffle';
 import { withContext } from '../../context.js';
 import CreateDialog from '../tests/Dialog'
+import { connect } from 'react-redux'
+import { initializeApp } from '../../actions/shared.js';
 
 const Header = ({ classes, shuffleQuestions, testQuestions }) => (
   <AppBar position="static">
@@ -36,6 +38,10 @@ const Header = ({ classes, shuffleQuestions, testQuestions }) => (
   </AppBar>
 )
 
+const mapStateToProps = ({ test: { testQuestions } }) => {
+  return { testQuestions }
+}
+
 const styles = theme => ({
   flex: {
     flex: 1
@@ -45,4 +51,7 @@ const styles = theme => ({
   }
 })
 
-export default withContext(withStyles(styles)(Header)) 
+export default connect(
+  mapStateToProps,
+  { shuffleQuestions: initializeApp }
+)(withStyles(styles)(Header))
