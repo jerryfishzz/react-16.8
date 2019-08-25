@@ -28,7 +28,10 @@ class Form extends React.Component {
           tages: [],
           answers: [{"correctness": false}],
           otherNotes: EditorState.createEmpty()
-        }
+        },
+        submittedAnswer: null,
+        selectedAnswer: null,
+        isSubmitted: false,
       },
       isFormValidate: false,
       isFocus: false
@@ -43,7 +46,7 @@ class Form extends React.Component {
     if (!isNewlyCreated) {
       this.setState({
         test: {
-          id: currentQuestion.id,
+          ...currentQuestion,
           data: {
             ...currentQuestion.data,
             otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes)))
@@ -71,7 +74,7 @@ class Form extends React.Component {
     )
   }
 
-  onAnswerChange = (index, prop, value) => {
+  onAnswerChange = prop => index => ({ target: { value } }) => {
     this.setState(({ test, test: { data: { answers } } }) => ({
       test: {
         ...test,
@@ -141,7 +144,6 @@ class Form extends React.Component {
         ...test.data,
         otherNotes: newOther
       }
-      
     }
 
     handleSaveQuestion(test.id, finalTest)
@@ -160,7 +162,10 @@ class Form extends React.Component {
           tages: [],
           answers: [{"correctness": false}],
           otherNotes: EditorState.createEmpty()
-        }
+        },
+        submittedAnswer: null,
+        selectedAnswer: null,
+        isSubmitted: false,
       },
       isFormValidate: false,
       isFocus: false

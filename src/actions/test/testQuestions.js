@@ -1,4 +1,5 @@
 import { updateQuestion } from "../../utils/api";
+import { formatForDB } from "../../utils/helpers";
 // import shuffle from 'shuffle-array'
 // import * as R from 'ramda'
 // import { formatQuestion } from "../../utils/helpers";
@@ -71,7 +72,8 @@ export function handleSaveQuestion(id, updatedQuestion) {
     dispatch(saveQuestion(updatedQuestion))
 
     try {
-      await updateQuestion(updatedQuestion)
+      const questionForDB = formatForDB(updatedQuestion)
+      await updateQuestion(questionForDB)
     } catch(err) {
       dispatch(saveQuestion(currentQuestion))
       throw Error('Update error')

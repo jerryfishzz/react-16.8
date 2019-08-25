@@ -22,9 +22,9 @@ const AnswerForm = ({
   onNewAnswer,
   isNewlyCreated
 }) => {
-  const handleAnswerChange = (index, prop) => ({ target: { value } }) => { // target is event.target
-    onAnswerChange(index, prop, value)
-  }
+  const handleContentChange = onAnswerChange('content')
+  const handleCorrectnessChange = onAnswerChange('correctness')
+  const handleNoteChange = onAnswerChange('note')
 
   const answerContent = answers.map((a, i) => {
     const orderCode = getTheAlphanumericOrder(i)
@@ -100,7 +100,7 @@ const AnswerForm = ({
               value={answers[i].content}
               required
               className={classes.textField}
-              onChange={handleAnswerChange(i, 'content')}
+              onChange={handleContentChange(i)}
             /> 
             <FormControl fullWidth className={classes.correctness}>
               <InputLabel>
@@ -108,7 +108,7 @@ const AnswerForm = ({
               </InputLabel>
               <Select
                 value={answers[i].correctness}
-                onChange={handleAnswerChange(i, 'correctness')}
+                onChange={handleCorrectnessChange(i)}
               >
                 <MenuItem value={true}>
                   <em>True</em>
@@ -125,7 +125,7 @@ const AnswerForm = ({
               variant="outlined"
               value={answers[i].note}
               className={classes.textField}
-              onChange={handleAnswerChange(i, 'note')}
+              onChange={handleNoteChange(i)}
             />
           </Grid>
         </Grid>

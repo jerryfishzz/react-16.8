@@ -16,3 +16,13 @@ export function formatQuestion(question) {
     ...questionStatusForTest
   }
 }
+
+export function formatForDB(storeQuestion) {
+  return {
+    id: storeQuestion.id,
+    question: storeQuestion.data.question,
+    tags: storeQuestion.data.tags,
+    answers: storeQuestion.data.answers,
+    otherNotes: storeQuestion.data.otherNotes
+  }
+}
