@@ -12,6 +12,7 @@ import CreateDialog from '../tests/Dialog'
 import { connect } from 'react-redux'
 import { initializeApp } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
+import { resetEdit } from '../../actions/test/editQuestion';
 
 const Header = ({ classes, shuffleQuestions }) => (
   <AppBar position="static">
@@ -41,9 +42,16 @@ const Header = ({ classes, shuffleQuestions }) => (
 
 
 const mapDispatchToProps = dispatch => {
+  const resetNumberAndEdit = () => {
+    return dispatch => {
+      dispatch(resetNumber())
+      dispatch(resetEdit())
+    }
+  }
+
   return {
     shuffleQuestions: () => {
-      dispatch(initializeApp(resetNumber))
+      dispatch(initializeApp(resetNumberAndEdit))
     }
   }
 }
