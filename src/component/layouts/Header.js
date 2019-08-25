@@ -8,7 +8,6 @@ import {
   Tooltip 
 } from '@material-ui/core';
 import Shuffle from '@material-ui/icons/Shuffle';
-import { withContext } from '../../context.js';
 import CreateDialog from '../tests/Dialog'
 import { connect } from 'react-redux'
 import { initializeApp } from '../../actions/shared.js';

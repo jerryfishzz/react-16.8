@@ -1,7 +1,7 @@
-import { getQuestions, updateQuestion } from "../../utils/api";
-import shuffle from 'shuffle-array'
-import * as R from 'ramda'
-import { formatQuestion } from "../../utils/helpers";
+import { updateQuestion } from "../../utils/api";
+// import shuffle from 'shuffle-array'
+// import * as R from 'ramda'
+// import { formatQuestion } from "../../utils/helpers";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
