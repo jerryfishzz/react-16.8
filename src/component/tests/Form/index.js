@@ -21,7 +21,7 @@ class Form extends React.Component {
 
     this.state = {
       test: {
-        id: '',
+        id: uniqid(),
         data: {
           id: '',
           question: '',
@@ -63,7 +63,6 @@ class Form extends React.Component {
             ...test.data,
             [name]: value
           }
-          
         },
       }), 
       () => {
@@ -127,7 +126,7 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { test } = this.state,
-          { editQuestion, handleSaveQuestion } = this.props
+          { handleSaveQuestion, isNewlyCreated } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOther = JSON.stringify(convertToRaw(contentState))
@@ -143,27 +142,24 @@ class Form extends React.Component {
     handleSaveQuestion(test.id, finalTest)
       .catch(err => alert(err))
     
-    if (!editQuestion) { // If not in editing mode (create new: editQuestion is null), reset state
-      this.setState({
-        test: {
-          id: uniqid(),
-          data: {
-            question: '',
-            tags: [],
-            answers: [
-              {
-                "content": '',
-                "correctness": false,
-                "note": ''
-              }
-            ],
-            otherNotes: EditorState.createEmpty()
-          }
-          
-        },
-        isFormValidate: false
-      })
-    }
+    if (isNewlyCreated) this.resetForm()
+  }
+
+  resetForm = () => {
+    this.setState({
+      test: {
+        id: uniqid(),
+        data: {
+          id: '',
+          question: '',
+          tages: [],
+          answers: [{"correctness": false}],
+          otherNotes: EditorState.createEmpty()
+        }
+      },
+      isFormValidate: false,
+      isFocus: false
+    })
   }
 
   validateForm = () => {
