@@ -20,7 +20,7 @@ const AnswerForm = ({
   onAnswerChange,
   onDelete,
   onNewAnswer,
-  editQuestion
+  isNewlyCreated
 }) => {
   const handleAnswerChange = (index, prop) => ({ target: { value } }) => { // target is event.target
     onAnswerChange(index, prop, value)
@@ -41,10 +41,10 @@ const AnswerForm = ({
             item
             container 
             xs={12}
-            md={editQuestion ? null : 1}
-            xl={editQuestion ? 1 : null}
+            md={isNewlyCreated ? null : 1}
+            xl={isNewlyCreated ? 1 : null}
             
-            className={editQuestion
+            className={isNewlyCreated
               ? classes.answerHeaderEdit
               : classes.answerHeader
             }
@@ -53,7 +53,7 @@ const AnswerForm = ({
               item 
               container 
               justify="center" 
-              className={editQuestion
+              className={isNewlyCreated
                 ? classes.avatarContainerEdit
                 : classes.avatarContainer
               }
@@ -65,7 +65,7 @@ const AnswerForm = ({
             {answers.length > 1
               ? <Grid 
                   item 
-                  className={editQuestion
+                  className={isNewlyCreated
                     ? classes.deleteEdit
                     : classes.delete
                   }
@@ -85,9 +85,9 @@ const AnswerForm = ({
           <Grid 
             item 
             xs={12} 
-            md={editQuestion ? null : 11}
-            xl={editQuestion ? 11 : null} 
-            className={editQuestion
+            md={isNewlyCreated ? null : 11}
+            xl={isNewlyCreated ? 11 : null} 
+            className={isNewlyCreated
               ? classes.answersEdit
               : classes.answers
             }

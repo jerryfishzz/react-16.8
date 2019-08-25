@@ -78,7 +78,12 @@ class Form extends React.Component {
         data: {
           ...test.data,
           answers: answers.map((a, i) => {
-            if (i === index) a[prop] = value
+            if (i === index) {
+              return {
+                ...a,
+                [prop]: value
+              }
+            }
             return a
           })
         }
@@ -207,8 +212,8 @@ class Form extends React.Component {
   }
 
   render() {
-    const { classes, paddingRight, editQuestion } = this.props,
-          { test: { data: { question, tags, answers } }, isFormValidate } = this.state
+    const { classes, paddingRight, editQuestion, isNewlyCreated } = this.props
+    const { test: { data: { question, tags, answers } }, isFormValidate } = this.state
 
     return (
       <form 
@@ -242,7 +247,7 @@ class Form extends React.Component {
         <div className={classNames(classes.background, classes.lower)}>
           <AnswerForm 
             answers={answers}
-            editQuestion={editQuestion}
+            isNewlyCreated={isNewlyCreated}
             onAnswerChange={this.onAnswerChange}
             onDelete={this.onDelete}
             onNewAnswer={this.onNewAnswer}
