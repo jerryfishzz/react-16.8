@@ -3,16 +3,18 @@ import Answers from './Answers';
 import { withStyles, Typography } from '@material-ui/core';
 import { connect } from 'react-redux'
 
-const Question = ({ classes, currentQuestion }) => (
-  <div className={classes.question}>
-    <Typography
-      variant="subtitle1"
-    >
-      {currentQuestion.data.question}
-    </Typography>
-    <Answers />
-  </div>
-)
+const Question = ({ classes, currentQuestion }) => {
+  return (
+    <div className={classes.question}>
+      <Typography
+        variant="subtitle1"
+      >
+        {currentQuestion.data.question}
+      </Typography>
+      <Answers />
+    </div>
+  )
+}
 
 const styles = theme => ({
 	question: {
@@ -27,13 +29,15 @@ const styles = theme => ({
 	}
 })
 
-const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => {
+const mapStateToProps = ({ 
+  test: { currentQuestionNumber, testQuestions } 
+}) => {
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
 
   return {
-    currentQuestion
+    currentQuestion,
   }
 }
 

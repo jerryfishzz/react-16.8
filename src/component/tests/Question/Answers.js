@@ -44,13 +44,8 @@ class Answers extends React.Component {
   }
 
   render() {
-    const { classes, clickAnswer, currentQuestionNumber, testQuestions } = this.props;
-
-    // Re-render only happens when the state itself in redux appears in the render method. Cannot just use a result calculated by mapStateToProps without any real state in redux.
-    const currentQuestion = testQuestions.length 
-    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
-    : {}
-
+    const { classes, clickAnswer, currentQuestion } = this.props;
+    
     return (
       <div className={classes.root}>
         <List component="nav">
@@ -86,8 +81,6 @@ const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => 
 
   return {
     currentQuestion,
-    currentQuestionNumber,
-    testQuestions
   }
 }
 

@@ -13,15 +13,22 @@ export default function testQuestions(state, action) {
     case CLICK_ANSWER:
       return state.map(question => {
         if (question.id === action.id) {
-          question.selectedAnswer = action.index
+          // Need to use immutable way
+          return {
+            ...question,
+            selectedAnswer: action.index
+          }
         }
         return question
       })
     case SUBMIT_QUESTION:
       return state.map(question => {
         if (question.id === action.id) {
-          question.submittedAnswer = action.index
-          question.isSubmitted = true
+          return {
+            ...question,
+            submittedAnswer: action.index,
+            isSubmitted: true
+          }
         }
         return question
       })

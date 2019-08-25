@@ -18,15 +18,7 @@ import { connect } from 'react-redux'
 
 import { getTheAlphanumericOrder } from '../../utils/helpers';
 
-const Notes = ({ testQuestions, currentQuestionNumber, classes }) => {
-  // Must do it here because the parent component re-rendering 
-  // won't necessarily make its child component re-render 
-  // if there is no props related with state change 
-  // passing down to the child directly
-  const currentQuestion = testQuestions.length 
-    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
-    : {}
-
+const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
   const { data } = currentQuestion
 
@@ -146,9 +138,12 @@ const styles = theme => ({
 const mapStateToProps = ({ 
   test: { currentQuestionNumber, testQuestions } 
 }) => {
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
   return { 
-    currentQuestionNumber,
-    testQuestions,
+    currentQuestion
   }
 }
 
