@@ -35,7 +35,7 @@ class Form extends React.Component {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.domEditor.focus()
 
     const { isNewlyCreated, currentQuestion } = this.props
@@ -234,9 +234,8 @@ class Form extends React.Component {
         
         <div className={classes.background}> 
           <Tags 
-            tags={tags} 
+            ownedTags={tags} 
             onTagChange={this.onTagChange}
-            
           />
         </div>
 
@@ -285,9 +284,6 @@ class Form extends React.Component {
           >
             
           </TextField>
-
-          
-          
         </div>
         
         <CreateSnackbar 

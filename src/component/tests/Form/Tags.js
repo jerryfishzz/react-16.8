@@ -129,14 +129,14 @@ class Tags extends React.Component {
 
   handleCreate = inputValue => {
     const newOption = this.createOption(inputValue)
-    const { tags } = this.props
-    const newTagArr = [...this.setTags(tags), newOption]
+    const { ownedTags } = this.props
+    const newTagArr = [...this.setTags(ownedTags), newOption]
 
     this.handleChange(newTagArr)
 
     this.props.handleAddTagToDB(inputValue)
       .catch(err => {
-        this.handleChange(this.setTags(tags))
+        this.handleChange(this.setTags(ownedTags))
         alert(err)
       })
   };
@@ -147,9 +147,9 @@ class Tags extends React.Component {
   })
 
   render() {
-    const { classes, theme, tags, suggestions } = this.props
+    const { classes, theme, ownedTags, suggestions } = this.props
 
-    const formattedTags = tags ? this.setTags(tags) : []
+    const formattedTags = ownedTags ? this.setTags(ownedTags) : []
     const formattedSuggestions = this.setTags(suggestions)
 
     const selectStyles = {
@@ -189,9 +189,10 @@ class Tags extends React.Component {
   }
 }
 
-const mapStateToProps = ({ tags }) => {
+const mapStateToProps = ({ tags }, { ownedTags }) => {
   return {
-    suggestions: tags
+    suggestions: tags,
+    ownedTags
   }
 }
 
@@ -244,4 +245,7 @@ const styles = theme => ({
   }
 });
 
-export default connect(mapStateToProps, { handleAddTagToDB })(withStyles(styles, { withTheme: true })(Tags));
+export default connect(
+  mapStateToProps, 
+  { handleAddTagToDB }
+)(withStyles(styles, { withTheme: true })(Tags));
