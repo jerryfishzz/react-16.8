@@ -55,7 +55,7 @@ class CreateDialog extends Component {
             </DialogContentText>
             <Form 
               suggestions={suggestions}
-              editQuestion={false} 
+              isNewlyCreated={true} 
               onSubmit={this.handleSubmit}
               onAddSuggestion={onAddSuggestion}
             />

@@ -44,7 +44,6 @@ const mapDispatchToProps = dispatch => {
   return {
     shuffleQuestions: () => {
       dispatch(initializeApp(resetNumber))
-      // dispatch(())
     }
   }
 }

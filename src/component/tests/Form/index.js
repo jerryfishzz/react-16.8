@@ -18,46 +18,40 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
     this.setDomEditorRef = ref => this.domEditor = ref
-  }
 
-
-  getInitialState = () => {
-    const { editQuestion, currentQuestion } = this.props
-    const id = uniqid()
-
-    return editQuestion 
-      ? {
-          test: {
-            ...currentQuestion,
-            data: {
-              ...currentQuestion.data,
-              otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes)))
-            }
-          },
-          isFormValidate: true,
-          isFocus: false,
-          
+    this.state = {
+      test: {
+        id: '',
+        data: {
+          id: '',
+          question: '',
+          tages: [],
+          answers: [{"correctness": false}],
+          otherNotes: EditorState.createEmpty()
         }
-      : {
-          test: {
-            id,
-            data: {
-              id,
-              question: '',
-              tages: [],
-              answers: [{"correctness": false}],
-              otherNotes: EditorState.createEmpty()
-            }
-          },
-          isFormValidate: false,
-          isFocus: false
-        }
+      },
+      isFormValidate: false,
+      isFocus: false
+    }
   }
-
-  state = this.getInitialState()
 
   componentDidMount(){
     this.domEditor.focus()
+
+    const { isNewlyCreated, currentQuestion } = this.props
+
+    if (!isNewlyCreated) {
+      this.setState({
+        test: {
+          id: currentQuestion.id,
+          data: {
+            ...currentQuestion.data,
+            otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes)))
+          }
+        },
+        isFormValidate: true,
+      })
+    }
   }
 
   handleChange = name => ({ target: { value } }) => {
@@ -310,7 +304,10 @@ class Form extends React.Component {
   }
 }
 
-const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions, editQuestion }, tags }) => {
+const mapStateToProps = (
+  { test: { currentQuestionNumber, testQuestions, editQuestion } },
+  { isNewlyCreated }
+) => {
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
@@ -319,6 +316,7 @@ const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions, editQue
     currentQuestion,
     currentQuestionNumber,
     editQuestion,
+    isNewlyCreated
   }
 }
 
