@@ -151,11 +151,9 @@ class Form extends React.Component {
     }
 
     if (isNewlyCreated) {
-      handleCreateQuestion(finalTest, this.resetForm)
-        .catch(err => alert(err))
+      return handleCreateQuestion(finalTest, this.resetForm)
     } else {
-      handleSaveQuestion(test.id, finalTest)
-        .catch(err => alert(err))
+      return handleSaveQuestion(test.id, finalTest)
     }
   }
 

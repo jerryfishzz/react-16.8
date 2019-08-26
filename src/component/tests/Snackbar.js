@@ -9,11 +9,23 @@ import CloseIcon from '@material-ui/icons/Close';
 class CreateSnackbar extends React.Component {
   state = {
     open: false,
+    isSubmitting: false
   };
 
-  handleClick = () => {
-    this.props.handleSubmit()
-    this.setState({ open: true });
+  handleClick = async () => {
+    this.toggleSubmitting()
+
+    try {
+      await this.props.handleSubmit()
+
+      this.setState({ 
+        open: true,
+        isSubmitting: false
+      });
+    } catch(err) {
+      alert(err)
+      this.toggleSubmitting()
+    }
   };
 
   handleClose = (event, reason) => {
@@ -24,8 +36,15 @@ class CreateSnackbar extends React.Component {
     this.setState({ open: false });
   };
 
+  toggleSubmitting = () => {
+    this.setState(({ isSubmitting }) => ({
+      isSubmitting: !isSubmitting
+    }))
+  }
+
   render() {
     const { classes, isFormValidate, isNewlyCreated } = this.props;
+    const { isSubmitting } = this.state
     
     return (
       <div>
@@ -33,7 +52,7 @@ class CreateSnackbar extends React.Component {
           color="primary" 
           variant="contained" 
           onClick={this.handleClick}
-          disabled={!isFormValidate}
+          disabled={!isFormValidate || isSubmitting}
           className={classes.button}
         >
           {!isNewlyCreated
