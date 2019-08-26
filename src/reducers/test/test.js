@@ -12,7 +12,8 @@ import {
   CLICK_ANSWER, 
   SUBMIT_QUESTION, 
   REMOVE_QUESTION, 
-  SAVE_QUESTION 
+  SAVE_QUESTION, 
+  CREATE_QUESTION
 } from "../../actions/test/testQuestions";
 import testQuestions from "./testQuestions";
 
@@ -44,6 +45,7 @@ export default function test(state = initialState, action) {
     case SUBMIT_QUESTION:
     case REMOVE_QUESTION:
     case SAVE_QUESTION:
+    case CREATE_QUESTION:
       return {
         ...state,
         testQuestions: testQuestions(state.testQuestions, action)

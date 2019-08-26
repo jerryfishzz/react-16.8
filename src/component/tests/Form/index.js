@@ -12,7 +12,7 @@ import classNames from 'classnames';
 import CreateSnackbar from '../Snackbar'
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
-import { handleSaveQuestion } from "../../../actions/test/testQuestions";
+import { handleSaveQuestion, handleCreateQuestion } from "../../../actions/test/testQuestions";
 
 class Form extends React.Component {
   constructor(props) {
@@ -26,7 +26,11 @@ class Form extends React.Component {
           id: '',
           question: '',
           tages: [],
-          answers: [{"correctness": false}],
+          answers: [{
+            content: '',
+            correctness: false,
+            note: ''
+          }],
           otherNotes: EditorState.createEmpty()
         },
         submittedAnswer: null,
@@ -134,7 +138,7 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { test } = this.state,
-          { handleSaveQuestion, isNewlyCreated } = this.props
+          { handleSaveQuestion, handleCreateQuestion, isNewlyCreated } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOther = JSON.stringify(convertToRaw(contentState))
@@ -146,10 +150,13 @@ class Form extends React.Component {
       }
     }
 
-    handleSaveQuestion(test.id, finalTest)
-      .catch(err => alert(err))
-    
-    if (isNewlyCreated) this.resetForm()
+    if (isNewlyCreated) {
+      handleCreateQuestion(finalTest, this.resetForm)
+        .catch(err => alert(err))
+    } else {
+      handleSaveQuestion(test.id, finalTest)
+        .catch(err => alert(err))
+    }
   }
 
   resetForm = () => {
@@ -160,7 +167,11 @@ class Form extends React.Component {
           id: '',
           question: '',
           tages: [],
-          answers: [{"correctness": false}],
+          answers: [{
+            content: '',
+            correctness: false,
+            note: ''
+          }],
           otherNotes: EditorState.createEmpty()
         },
         submittedAnswer: null,
@@ -217,7 +228,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { classes, paddingRight, editQuestion, isNewlyCreated } = this.props
+    const { classes, paddingRight, isNewlyCreated } = this.props
     const { test: { data: { question, tags, answers } }, isFormValidate } = this.state
 
     return (
@@ -299,7 +310,7 @@ class Form extends React.Component {
         <CreateSnackbar 
           handleSubmit={this.handleSubmit}
           isFormValidate={isFormValidate}
-          editQuestion={editQuestion}
+          isNewlyCreated={isNewlyCreated}
         />
       </form>
     )
@@ -381,5 +392,5 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { handleSaveQuestion }
+  { handleSaveQuestion, handleCreateQuestion }
 )(withStyles(styles)(Form));

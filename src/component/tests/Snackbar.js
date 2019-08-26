@@ -25,7 +25,7 @@ class CreateSnackbar extends React.Component {
   };
 
   render() {
-    const { classes, isFormValidate, editQuestion } = this.props;
+    const { classes, isFormValidate, isNewlyCreated } = this.props;
     
     return (
       <div>
@@ -36,7 +36,7 @@ class CreateSnackbar extends React.Component {
           disabled={!isFormValidate}
           className={classes.button}
         >
-          {editQuestion
+          {!isNewlyCreated
             ? "Edit"
             : "Create"
           }
@@ -50,7 +50,7 @@ class CreateSnackbar extends React.Component {
           autoHideDuration={6000}
           onClose={this.handleClose}
           message={
-            editQuestion
+            !isNewlyCreated
               ? "Question has been editted."
               : "Question has been submitted."
           }

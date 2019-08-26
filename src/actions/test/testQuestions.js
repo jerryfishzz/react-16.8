@@ -1,4 +1,4 @@
-import { updateQuestion } from "../../utils/api";
+import { updateQuestion, addQuestionToDB } from "../../utils/api";
 import { formatForDB } from "../../utils/helpers";
 // import shuffle from 'shuffle-array'
 // import * as R from 'ramda'
@@ -9,6 +9,7 @@ export const CLICK_ANSWER = 'CLICK_ANSWER'
 export const SUBMIT_QUESTION = 'SUBMIT_QUESTION'
 export const REMOVE_QUESTION = 'REMOVE_QUESTION'
 export const SAVE_QUESTION = 'SAVE_QUESTION'
+export const CREATE_QUESTION = 'CREATE_QUESTION'
 
 export function receiveQuestions(questions) {
   return {
@@ -77,6 +78,27 @@ export function handleSaveQuestion(id, updatedQuestion) {
     } catch(err) {
       dispatch(saveQuestion(currentQuestion))
       throw Error('Update error')
+    }
+  }
+}
+
+function createQuestion(newQuestion) {
+  return {
+    type: CREATE_QUESTION,
+    newQuestion
+  }
+}
+
+export function handleCreateQuestion(newQuestion, cb) {
+  return async dispatch => {
+    try {
+      const questionForDB = formatForDB(newQuestion)
+      await addQuestionToDB(questionForDB)
+
+      dispatch(createQuestion(newQuestion))
+      cb()
+    } catch(err) {
+      throw Error('Create question error')
     }
   }
 }

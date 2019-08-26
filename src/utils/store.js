@@ -170,3 +170,16 @@ export function _addTagToDB(newTag) {
     }, 1000)
   })
 }
+
+export function _addQuestionToDB(newQuestion) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      questions = {
+        ...questions,
+        [newQuestion.id]: newQuestion
+      }
+
+      res(newQuestion)
+    }, 1000)
+  })
+}
