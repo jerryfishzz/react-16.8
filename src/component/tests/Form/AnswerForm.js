@@ -116,15 +116,12 @@ const AnswerForm = ({
                 </MenuItem>
               </Select>
             </FormControl>
-            <TextField
-              label="Note"
-              multiline
-              rows="4"
-              variant="outlined"
-              value={answers[i].note}
-              className={classes.textField}
-              onChange={handleNoteChange(i)}
+            
+            <DraftEditor 
+              contents={answers[i].note} 
+              handleDraftChange={handleNoteChange(i)}
             />
+
           </Grid>
         </Grid>
       </Fragment>

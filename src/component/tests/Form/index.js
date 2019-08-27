@@ -30,7 +30,7 @@ class Form extends React.Component {
           answers: [{
             content: EditorState.createEmpty(),
             correctness: false,
-            note: ''
+            note: EditorState.createEmpty()
           }],
           otherNotes: EditorState.createEmpty()
         },
@@ -57,7 +57,8 @@ class Form extends React.Component {
             question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
             answers: currentQuestion.data.answers.map(answer => ({
               ...answer,
-              content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content)))
+              content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
+              note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
             })),
             otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
           }
@@ -152,7 +153,8 @@ class Form extends React.Component {
 
     const newAnswers = test.data.answers.map(answer => ({
       ...answer,
-      content: JSON.stringify(convertToRaw(answer.content.getCurrentContent()))
+      content: JSON.stringify(convertToRaw(answer.content.getCurrentContent())),
+      note: JSON.stringify(convertToRaw(answer.note.getCurrentContent()))
     }))
 
     const finalTest = {
