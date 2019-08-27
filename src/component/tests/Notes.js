@@ -21,7 +21,7 @@ import { getTheAlphanumericOrder } from '../../utils/helpers';
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
   const { data } = currentQuestion
-
+console.log(typeof data.otherNotes)
   if (data.answers) {
     for (let i = 0; i < data.answers.length; i++) {
       if (data.answers[i].note) {

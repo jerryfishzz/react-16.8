@@ -14,7 +14,7 @@ import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "dr
 import { connect } from 'react-redux'
 import { handleSaveQuestion, handleCreateQuestion } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
-import { isExisted, validateDraft } from "../../../utils/helpers";
+import { isExisted } from "../../../utils/helpers";
 
 class Form extends React.Component {
   constructor(props) {
@@ -201,13 +201,13 @@ class Form extends React.Component {
 
 //   isExisted = x => x ? true : false
 
-//   validateDraft = name => {
-//     // const isExisted = x => x ? true : false
-//     const { blocks } = convertToRaw(name.getCurrentContent())
-//     const arrayOfName = blocks.map(block => block.text)
-// // console.log(JSON.stringify(convertToRaw(name.getCurrentContent())))
-//     return R.any(this.isExisted)(arrayOfName)
-//   }
+  validateDraft = name => {
+    // const isExisted = x => x ? true : false
+    const { blocks } = convertToRaw(name.getCurrentContent())
+    const arrayOfName = blocks.map(block => block.text)
+// console.log(JSON.stringify(convertToRaw(name.getCurrentContent())))
+    return R.any(isExisted)(arrayOfName)
+  }
 
   validateForm = () => {
     // todo: validate answer content
@@ -226,10 +226,10 @@ class Form extends React.Component {
     // const { blocks } = convertToRaw(question.getCurrentContent());
     // console.log(questionState)
     // const arrayOfQuestion = blocks.map(block => block.text)
-    const isQuestionValidate = validateDraft(question)
+    const isQuestionValidate = this.validateDraft(question)
 
 
-    const contentValidatingStates = answers.map(answer => validateDraft(answer.content))
+    const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
     const isAnswerValidate = R.all(isExisted)(contentValidatingStates)
 
     this.setState({
