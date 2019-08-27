@@ -198,12 +198,14 @@ class Form extends React.Component {
     })
   }
 
+  isExisted = x => x ? true : false
+
   validateDraft = name => {
-    const isExisted = x => x ? true : false
+    // const isExisted = x => x ? true : false
     const { blocks } = convertToRaw(name.getCurrentContent())
     const arrayOfName = blocks.map(block => block.text)
 // console.log(JSON.stringify(convertToRaw(name.getCurrentContent())))
-    return R.any(isExisted)(arrayOfName)
+    return R.any(this.isExisted)(arrayOfName)
   }
 
   validateForm = () => {
@@ -218,7 +220,7 @@ class Form extends React.Component {
     // const newOther = JSON.stringify(convertToRaw(contentState))
     // console.log(newOther)
 
-    const isExisted = x => x ? true : false
+    // const isExisted = x => x ? true : false
 
     // const { blocks } = convertToRaw(question.getCurrentContent());
     // console.log(questionState)
@@ -226,8 +228,8 @@ class Form extends React.Component {
     const isQuestionValidate = this.validateDraft(question)
 
 
-    const arrOfcontent = answers.map(a => a.content)
-    const isAnswerValidate = R.all(isExisted)(arrOfcontent)
+    const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
+    const isAnswerValidate = R.all(this.isExisted)(contentValidatingStates)
 
     this.setState({
       isFormValidate: (isQuestionValidate && isAnswerValidate)
