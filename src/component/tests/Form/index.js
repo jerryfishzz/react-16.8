@@ -13,6 +13,7 @@ import CreateSnackbar from '../Snackbar'
 import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
 import { handleSaveQuestion, handleCreateQuestion } from "../../../actions/test/testQuestions";
+import DraftEditor from "./DraftEditor";
 
 class Form extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    this.domEditor.focus()
+    // this.domEditor.focus()
 
     const { isNewlyCreated, currentQuestion } = this.props
 
@@ -186,6 +187,13 @@ class Form extends React.Component {
 
     const { test: { data: { question, answers } } } = this.state
 
+    const emptyDraftString = JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
+    console.log(emptyDraftString)
+
+    // const contentState = this.state.test.data.otherNotes.getCurrentContent();
+    // const newOther = JSON.stringify(convertToRaw(contentState))
+    // console.log(newOther)
+
     const isExisted = x => x ? true : false
     const arrOfcontent = answers.map(a => a.content)
     const isAnswerValidate = R.all(isExisted)(arrOfcontent)
@@ -273,37 +281,18 @@ class Form extends React.Component {
             Other Notes
           </Typography>
 
-          <button onClick={this.onToggleCode}>Code Block</button>
-          <TextField
-            multiline
-            rows="4"
-            margin="normal"
-            fullWidth
-            variant="outlined"
-            className={classes.white}
-            InputProps={{
-              endAdornment: (
-                <div 
-                  className={classes.draftContent} 
-                  onClick={this.getFocus} 
-                  onBlur={this.loseFocus}
-                >
-                  <div className={this.state.isFocus ? classes.editor : classes.editor1}>
-                    
-                    <Editor
-                      editorState={this.state.test.data.otherNotes}
-                      onChange={this.handleDraftChange}
-                      placeholder='Hello'
-                      ref={this.setDomEditorRef}
-                    />
-                  </div>
-                </div>
-              ),
-            }}
-          >
+          
+          
             
-          </TextField>
+          
+
+          <DraftEditor 
+            otherNotes={this.state.test.data.otherNotes} 
+            handleDraftChange={this.handleDraftChange}
+          />
         </div>
+
+        
         
         <CreateSnackbar 
           handleSubmit={this.handleSubmit}
