@@ -51,3 +51,7 @@
             className={classes.white}
             onChange={this.handleChange('question')}
           />
+
+          document.getElement(\"p\").innerHTML = \"Hello World!\"
+          document.getElementByName(\"p\").innerHTML = \"Hello World!\"
+          document.getElementById(\"demo\").innerHTML = \"Hello World!\"

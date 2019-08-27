@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import { getTheAlphanumericOrder } from '../../../utils/helpers';
 import indigo from '@material-ui/core/colors/indigo';
+import DraftEditor from './DraftEditor';
 
 const AnswerForm = ({ 
   answers, 
@@ -92,16 +93,13 @@ const AnswerForm = ({
               : classes.answers
             }
           >
-            <TextField
-              label="Answer"
-              multiline
-              rows="2"
-              variant="outlined"
-              value={answers[i].content}
-              required
-              className={classes.textField}
-              onChange={handleContentChange(i)}
-            /> 
+            
+
+            <DraftEditor 
+              contents={answers[i].content} 
+              handleDraftChange={handleContentChange(i)}
+            />
+
             <FormControl fullWidth className={classes.correctness}>
               <InputLabel>
                 Correctness

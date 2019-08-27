@@ -28,7 +28,7 @@ class Form extends React.Component {
           question: EditorState.createEmpty(),
           tages: [],
           answers: [{
-            content: '',
+            content: EditorState.createEmpty(),
             correctness: false,
             note: ''
           }],
@@ -55,7 +55,11 @@ class Form extends React.Component {
           data: {
             ...currentQuestion.data,
             question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
-            otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes)))
+            answers: currentQuestion.data.answers.map(answer => ({
+              ...answer,
+              content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content)))
+            })),
+            otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
           }
         },
         isFormValidate: true,
@@ -80,7 +84,7 @@ class Form extends React.Component {
     )
   }
 
-  onAnswerChange = prop => index => ({ target: { value } }) => {
+  onAnswerChange = prop => index => editorState => {
     this.setState(({ test, test: { data: { answers } } }) => ({
       test: {
         ...test,
@@ -90,7 +94,7 @@ class Form extends React.Component {
             if (i === index) {
               return {
                 ...a,
-                [prop]: value
+                [prop]: editorState
               }
             }
             return a
@@ -143,15 +147,21 @@ class Form extends React.Component {
           { handleSaveQuestion, handleCreateQuestion, isNewlyCreated } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
-    const newOther = JSON.stringify(convertToRaw(contentState))
+    const newOtherNotes = JSON.stringify(convertToRaw(contentState))
     const newQuestion = JSON.stringify(convertToRaw(test.data.question.getCurrentContent()))
+
+    const newAnswers = test.data.answers.map(answer => ({
+      ...answer,
+      content: JSON.stringify(convertToRaw(answer.content.getCurrentContent()))
+    }))
 
     const finalTest = {
       ...test,
       data: {
         ...test.data,
         question: newQuestion,
-        otherNotes: newOther
+        otherNotes: newOtherNotes,
+        answers: newAnswers
       }
     }
 
@@ -190,7 +200,7 @@ class Form extends React.Component {
     const isExisted = x => x ? true : false
     const { blocks } = convertToRaw(name.getCurrentContent())
     const arrayOfName = blocks.map(block => block.text)
-
+// console.log(JSON.stringify(convertToRaw(name.getCurrentContent())))
     return R.any(isExisted)(arrayOfName)
   }
 
