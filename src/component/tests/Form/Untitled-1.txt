@@ -55,3 +55,5 @@
           document.getElement(\"p\").innerHTML = \"Hello World!\"
           document.getElementByName(\"p\").innerHTML = \"Hello World!\"
           document.getElementById(\"demo\").innerHTML = \"Hello World!\"
+
+          const answerContent = getTheAlphanumericOrder(i) + '. ' + a.content

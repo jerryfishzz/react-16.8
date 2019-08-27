@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { 
   withStyles, 
   List, 
   ListItem, 
   ListItemText, 
-  Icon 
+  Icon,
+  Grid
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import { getTheAlphanumericOrder } from '../../../utils/helpers';
 import { connect } from 'react-redux'
 import { clickAnswer } from '../../../actions/test/testQuestions';
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 class Answers extends React.Component {
   componentDidMount() {
@@ -63,7 +65,23 @@ class Answers extends React.Component {
                   : () => clickAnswer(currentQuestion.id, i)
                 }
               >
-                <ListItemText primary={answerContent} />
+                <ListItemText 
+                  primary={
+                    <Grid container>
+                      <Grid item sm={1}>{getTheAlphanumericOrder(i) + '. '}</Grid>
+                      <Grid item sm={11}>
+                        <Editor
+                          editorState={
+                            EditorState.createWithContent(
+                              convertFromRaw(JSON.parse(a.content))
+                            )
+                          }
+                          readOnly={true}
+                        />
+                      </Grid>
+                    </Grid>
+                  } 
+                />
                 {this.renderIcon(i)}
               </ListItem>
             )
