@@ -25,7 +25,7 @@ class Form extends React.Component {
         id: uniqid(),
         data: {
           id: '',
-          question: '',
+          question: EditorState.createEmpty(),
           tages: [],
           answers: [{
             content: '',
@@ -54,6 +54,7 @@ class Form extends React.Component {
           ...currentQuestion,
           data: {
             ...currentQuestion.data,
+            question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
             otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes)))
           }
         },
@@ -143,10 +144,13 @@ class Form extends React.Component {
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOther = JSON.stringify(convertToRaw(contentState))
+    const newQuestion = JSON.stringify(convertToRaw(test.data.question.getCurrentContent()))
+
     const finalTest = {
       ...test,
       data: {
         ...test.data,
+        question: newQuestion,
         otherNotes: newOther
       }
     }
@@ -239,6 +243,7 @@ class Form extends React.Component {
     const { test: { data: { question, tags, answers } }, isFormValidate } = this.state
 
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
+    const handleQuestionChange = this.handleDraftChange('question')
 
 
     return (
@@ -250,17 +255,12 @@ class Form extends React.Component {
           <Typography> 
             <span className={classes.required}>Question</span>*
           </Typography>
-          <TextField
-            multiline
-            rows="2"
-            margin="normal"
-            fullWidth
-            variant="outlined"
-            value={question}
-            required
-            className={classes.white}
-            onChange={this.handleChange('question')}
+
+          <DraftEditor 
+            contents={question} 
+            handleDraftChange={handleQuestionChange}
           />
+
         </div>
         
         <div className={classes.background}> 
