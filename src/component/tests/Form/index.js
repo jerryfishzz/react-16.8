@@ -186,12 +186,20 @@ class Form extends React.Component {
     })
   }
 
+  validateDraft = name => {
+    const isExisted = x => x ? true : false
+    const { blocks } = convertToRaw(name.getCurrentContent())
+    const arrayOfName = blocks.map(block => block.text)
+
+    return R.any(isExisted)(arrayOfName)
+  }
+
   validateForm = () => {
     // todo: validate answer content
 
     const { test: { data: { question, answers } } } = this.state
 
-    const emptyDraftString = JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
+    // const emptyDraftString = JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
     // console.log(emptyDraftString)
 
     // const contentState = this.state.test.data.otherNotes.getCurrentContent();
@@ -200,10 +208,10 @@ class Form extends React.Component {
 
     const isExisted = x => x ? true : false
 
-    const { blocks } = convertToRaw(question.getCurrentContent());
+    // const { blocks } = convertToRaw(question.getCurrentContent());
     // console.log(questionState)
-    const arrayOfQuestion = blocks.map(block => block.text)
-    const isQuestionValidate = R.any(isExisted)(arrayOfQuestion)
+    // const arrayOfQuestion = blocks.map(block => block.text)
+    const isQuestionValidate = this.validateDraft(question)
 
 
     const arrOfcontent = answers.map(a => a.content)
