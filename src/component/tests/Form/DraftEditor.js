@@ -42,7 +42,7 @@ export default function DraftEditor(props) {
   // const [editorState, setEditorState] = useState(EditorState.createEmpty())
   
   // useEffect(() => {
-  //   setEditorState(props.otherNotes)
+  //   setEditorState(props.contents)
   // })
 
   const onChange = editorState => {
@@ -52,7 +52,7 @@ export default function DraftEditor(props) {
   }
 
   const handleKeyCommand = command => {
-    const newState = RichUtils.handleKeyCommand(props.otherNotes, command);
+    const newState = RichUtils.handleKeyCommand(props.contents, command);
 
     if (newState) {
       onChange(newState);
@@ -64,12 +64,12 @@ export default function DraftEditor(props) {
 
   const onUnderlineClick = e => {
     e.preventDefault()
-    onChange(RichUtils.toggleInlineStyle(props.otherNotes, 'UNDERLINE'));
+    onChange(RichUtils.toggleInlineStyle(props.contents, 'UNDERLINE'));
   }
 
   const onToggleCode = e => {
     e.preventDefault()
-    onChange(RichUtils.toggleCode(props.otherNotes));
+    onChange(RichUtils.toggleCode(props.contents));
   }
 
   
@@ -91,7 +91,7 @@ export default function DraftEditor(props) {
             Code Block
           </button>
           <Editor
-            editorState={props.otherNotes}
+            editorState={props.contents}
             onChange={onChange}
             handleKeyCommand={handleKeyCommand}
           />

@@ -205,20 +205,21 @@ class Form extends React.Component {
     }) 
   }
 
-  handleDraftChange = editorState => {
+  handleDraftChange = field => editorState => {
     // const contentState = editorState.getCurrentContent();
     this.setState((prevState) => ({
       test: {
         ...prevState.test,
         data: {
           ...prevState.test.data,
-          otherNotes: editorState
+          [field]: editorState
         }
         
       }
     }));
   };
 
+  
   onToggleCode = (e) => {
     e.preventDefault()
     this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
@@ -236,6 +237,9 @@ class Form extends React.Component {
   render() {
     const { classes, paddingRight, isNewlyCreated } = this.props
     const { test: { data: { question, tags, answers } }, isFormValidate } = this.state
+
+    const handleOtherNotesChange = this.handleDraftChange('otherNotes')
+
 
     return (
       <form 
@@ -287,8 +291,8 @@ class Form extends React.Component {
           
 
           <DraftEditor 
-            otherNotes={this.state.test.data.otherNotes} 
-            handleDraftChange={this.handleDraftChange}
+            contents={this.state.test.data.otherNotes} 
+            handleDraftChange={handleOtherNotesChange}
           />
         </div>
 

@@ -3,7 +3,7 @@ let tags = ["SQL", "React", "JavaScript", "PHP", "NoSQL", "Database", "Algorithm
 let questions = {
   "jvcx8cmv": {
     id: "jvcx8cmv",
-    question: "Which of commands is to create a database named runoob.",
+    question: "{\"blocks\":[{\"key\":\"1no0a\",\"text\":\"Which of commands is to create a database named runoob.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
     tags: ["SQL", "React"],
     answers: [
       {
@@ -31,7 +31,7 @@ let questions = {
   },
   "jvcxf19t": {
     id: "jvcxf19t",
-    question: "Inside which HTML element do we put the JavaScript?",
+    question: "{\"blocks\":[{\"key\":\"1no0a\",\"text\":\"Inside which HTML element do we put the JavaScript?\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
     tags: ["PHP", "NoSQL", "Database", "Algorithms And Data Structure"],
     answers: [
       {
@@ -59,7 +59,7 @@ let questions = {
   },
   "jvcxfrhh": {
     id: "jvcxfrhh",
-    question: "What is the correct JavaScript syntax to change the content of the HTML element below?<p id=\"demo\">This is a demonstration.</p>",
+    question: "{\"blocks\":[{\"key\":\"1no0a\",\"text\":\"What is the correct JavaScript syntax to change the content of the HTML element below?<p id=\"demo\">This is a demonstration.</p>\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
     tags: ["NoSQL", "Database", "Algorithms And Data Structure"],
     answers: [
       {
@@ -87,7 +87,7 @@ let questions = {
   },
   "jvcxg7ku": {
     id: "jvcxg7ku",
-    question: "Where is the correct place to insert a JavaScript?",
+    question: "{\"blocks\":[{\"key\":\"1no0a\",\"text\":\"Where is the correct place to insert a JavaScript?\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
     tags: ["SQL", "React", "JavaScript", "PHP", "NoSQL", "Database", "Algorithms And Data Structure"],
     answers: [
       {
@@ -110,7 +110,7 @@ let questions = {
   },
   "jvcxgnwa": {
     id: "jvcxgnwa",
-    question: "Which of the following expressions is problematic? Consume that count is not defined anywhere in the context.",
+    question: "{\"blocks\":[{\"key\":\"1no0a\",\"text\":\"Which of the following expressions is problematic? Consume that count is not defined anywhere in the context.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}],\"entityMap\":{}}",
     tags: ["SQL", "React", "Algorithms And Data Structure"],
     answers: [
       {
