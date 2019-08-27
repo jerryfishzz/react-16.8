@@ -70,11 +70,11 @@ export function handleSaveQuestion(id, updatedQuestion) {
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]
 
-    dispatch(saveQuestion(updatedQuestion))
-
     try {
       const questionForDB = formatForDB(updatedQuestion)
       await updateQuestion(questionForDB)
+
+      dispatch(saveQuestion(updatedQuestion))
     } catch(err) {
       dispatch(saveQuestion(currentQuestion))
       throw Error('Update error')

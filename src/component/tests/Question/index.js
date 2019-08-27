@@ -2,6 +2,7 @@ import React from "react";
 import Answers from './Answers';
 import { withStyles, Typography } from '@material-ui/core';
 import { connect } from 'react-redux'
+import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 const Question = ({ classes, currentQuestion }) => {
   return (
@@ -9,7 +10,14 @@ const Question = ({ classes, currentQuestion }) => {
       <Typography
         variant="subtitle1"
       >
-        {currentQuestion.data.question}
+        <Editor
+          editorState={
+            EditorState.createWithContent(
+              convertFromRaw(JSON.parse(currentQuestion.data.question))
+            )
+          }
+          readOnly={true}
+        />
       </Typography>
       <Answers />
     </div>
