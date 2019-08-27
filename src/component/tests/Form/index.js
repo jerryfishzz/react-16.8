@@ -192,35 +192,46 @@ class Form extends React.Component {
     const { test: { data: { question, answers } } } = this.state
 
     const emptyDraftString = JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
-    console.log(emptyDraftString)
+    // console.log(emptyDraftString)
 
     // const contentState = this.state.test.data.otherNotes.getCurrentContent();
     // const newOther = JSON.stringify(convertToRaw(contentState))
     // console.log(newOther)
 
     const isExisted = x => x ? true : false
+
+    const { blocks } = convertToRaw(question.getCurrentContent());
+    // console.log(questionState)
+    const arrayOfQuestion = blocks.map(block => block.text)
+    const isQuestionValidate = R.any(isExisted)(arrayOfQuestion)
+
+
     const arrOfcontent = answers.map(a => a.content)
     const isAnswerValidate = R.all(isExisted)(arrOfcontent)
 
     this.setState({
-      isFormValidate: (question && isAnswerValidate)
+      isFormValidate: (isQuestionValidate && isAnswerValidate)
         ? true
         : false
     }) 
   }
 
-  handleDraftChange = field => editorState => {
+  handleDraftChange = name => editorState => {
     // const contentState = editorState.getCurrentContent();
-    this.setState((prevState) => ({
-      test: {
-        ...prevState.test,
-        data: {
-          ...prevState.test.data,
-          [field]: editorState
+    this.setState(
+      (prevState) => ({
+        test: {
+          ...prevState.test,
+          data: {
+            ...prevState.test.data,
+            [name]: editorState
+          }
         }
-        
-      }
-    }));
+      }), 
+      () => {
+        if (name === 'question') this.validateForm()
+      }  
+    );
   };
 
   
