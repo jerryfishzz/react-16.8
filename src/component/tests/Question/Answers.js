@@ -52,7 +52,6 @@ class Answers extends React.Component {
       <div className={classes.root}>
         <List component="nav">
           {currentQuestion.data.answers.map((a, i) => {
-            const answerContent = getTheAlphanumericOrder(i) + '. ' + a.content
             
             return (
               <ListItem 

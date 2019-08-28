@@ -15,23 +15,34 @@ import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
+import * as R from 'ramda'
 
-import { getTheAlphanumericOrder } from '../../utils/helpers';
+import { getTheAlphanumericOrder, isExisted } from '../../utils/helpers';
+
+const validateDraft = name => {
+  const { blocks } = JSON.parse(name)
+  const arrayOfName = blocks.map(block => block.text)
+
+  return R.any(isExisted)(arrayOfName)
+}
 
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
   const { data } = currentQuestion
-console.log(typeof data.otherNotes)
-  if (data.answers) {
+// console.log(JSON.parse(data.otherNotes))
+
+  if (data.answers.length) {
     for (let i = 0; i < data.answers.length; i++) {
-      if (data.answers[i].note) {
+      // const { blocks } = JSON.parse(data.answers[i].note)
+
+      if (validateDraft(data.answers[i].note)) {
         hasNotes = true
         break
       }
     }
 
     if (!hasNotes) {
-      if (data.otherNotes) hasNotes = true
+      if (validateDraft(data.otherNotes)) hasNotes = true
     }
   } 
 
@@ -44,7 +55,7 @@ console.log(typeof data.otherNotes)
     return true;
   }
 
-  const otherNotes = data.otherNotes 
+  const otherNotes = validateDraft(data.otherNotes) 
     ? <Fragment>
         <Divider variant="inset" className={classes.divider} />
         
@@ -99,7 +110,7 @@ console.log(typeof data.otherNotes)
         ? currentQuestion.isSubmitted
           ? <List>
               {data.answers.map((a, i) => {
-                if (!a.note) return null
+                if (!validateDraft(a.note)) return null
 
                 return (
                   <ListItem 
@@ -111,7 +122,18 @@ console.log(typeof data.otherNotes)
                         {getTheAlphanumericOrder(i)}
                       </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary={a.note} />
+                    <ListItemText 
+                      primary={
+                        <Editor
+                          editorState={
+                            EditorState.createWithContent(
+                              convertFromRaw(JSON.parse(a.note))
+                            )
+                          }
+                          readOnly={true}
+                        />
+                      } 
+                    />
                   </ListItem>
                 )
               })}
