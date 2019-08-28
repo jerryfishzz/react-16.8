@@ -23,7 +23,7 @@ class Form extends React.Component {
 
     this.state = {
       test: {
-        id: uniqid(),
+        id: '',
         data: {
           id: '',
           question: EditorState.createEmpty(),
@@ -66,6 +66,19 @@ class Form extends React.Component {
         },
         isFormValidate: true,
       })
+    } else {
+      const id = uniqid()
+
+      this.setState(({ test }) => ({
+        test: {
+          ...test,
+          id,
+          data: {
+            ...test.data,
+            id
+          }
+        }
+      }))
     }
   }
 
@@ -112,7 +125,14 @@ class Form extends React.Component {
         ...test,
         data: {
           ...test.data,
-          answers: [...answers, {"correctness": false}]
+          answers: [
+            ...answers, 
+            {
+              content: EditorState.createEmpty(),
+              correctness: false,
+              note: EditorState.createEmpty()
+            }
+          ]
         }
       }
     }), this.validateForm)
@@ -126,7 +146,6 @@ class Form extends React.Component {
           ...test.data,
           answers: answers.filter((a, i) => i !== index)
         }
-        
       }
     }), this.validateForm)
   }
@@ -176,17 +195,19 @@ class Form extends React.Component {
   }
 
   resetForm = () => {
+    const id = uniqid()
+
     this.setState({
       test: {
-        id: uniqid(),
+        id,
         data: {
-          id: '',
-          question: '',
+          id,
+          question: EditorState.createEmpty(),
           tages: [],
           answers: [{
-            content: '',
+            content: EditorState.createEmpty(),
             correctness: false,
-            note: ''
+            note: EditorState.createEmpty()
           }],
           otherNotes: EditorState.createEmpty()
         },
