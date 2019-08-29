@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { convertToRaw, convertFromRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)

@@ -1,7 +1,6 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import { Editor, RichUtils } from 'draft-js';
 
 const useStyles = makeStyles({
   root: {
@@ -39,15 +38,8 @@ const useStyles = makeStyles({
 
 export default function DraftEditor(props) {
   const classes = useStyles();
-  // const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  
-  // useEffect(() => {
-  //   setEditorState(props.contents)
-  // })
 
   const onChange = editorState => {
-    // setEditorState(editorState)
-    // console.log(editorState)
     props.handleDraftChange(editorState)
   }
 
@@ -71,8 +63,6 @@ export default function DraftEditor(props) {
     e.preventDefault()
     onChange(RichUtils.toggleCode(props.contents));
   }
-
-  
 
   return (
     <Fragment>

@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import { 
-  TextField,
   Typography,
   FormControl,
   InputLabel,
@@ -94,7 +93,6 @@ const AnswerForm = ({
             }
           >
             
-
             <DraftEditor 
               contents={answers[i].content} 
               handleDraftChange={handleContentChange(i)}

@@ -1,17 +1,17 @@
 import React from "react";
 import { 
   withStyles,
-  TextField, 
   Typography
 } from '@material-ui/core';
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
 import uniqid from 'uniqid'
-import Tags from "./Tags";
 import classNames from 'classnames';
-import CreateSnackbar from '../Snackbar'
-import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
+import { EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
+
+import Tags from "./Tags";
+import CreateSnackbar from '../Snackbar'
 import { handleSaveQuestion, handleCreateQuestion } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
 import { isExisted } from "../../../utils/helpers";
@@ -19,7 +19,6 @@ import { isExisted } from "../../../utils/helpers";
 class Form extends React.Component {
   constructor(props) {
     super(props);
-    this.setDomEditorRef = ref => this.domEditor = ref
 
     this.state = {
       test: {
@@ -45,8 +44,6 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    // this.domEditor.focus()
-
     const { isNewlyCreated, currentQuestion } = this.props
 
     if (!isNewlyCreated) {
@@ -220,13 +217,10 @@ class Form extends React.Component {
     })
   }
 
-//   isExisted = x => x ? true : false
-
   validateDraft = name => {
-    // const isExisted = x => x ? true : false
     const { blocks } = convertToRaw(name.getCurrentContent())
     const arrayOfName = blocks.map(block => block.text)
-// console.log(JSON.stringify(convertToRaw(name.getCurrentContent())))
+
     return R.any(isExisted)(arrayOfName)
   }
 
@@ -234,21 +228,8 @@ class Form extends React.Component {
     // todo: validate answer content
 
     const { test: { data: { question, answers } } } = this.state
-
-    // const emptyDraftString = JSON.stringify(convertToRaw(EditorState.createEmpty().getCurrentContent()))
-    // console.log(emptyDraftString)
-
-    // const contentState = this.state.test.data.otherNotes.getCurrentContent();
-    // const newOther = JSON.stringify(convertToRaw(contentState))
-    // console.log(newOther)
-
-    // const isExisted = x => x ? true : false
-
-    // const { blocks } = convertToRaw(question.getCurrentContent());
-    // console.log(questionState)
-    // const arrayOfQuestion = blocks.map(block => block.text)
+    
     const isQuestionValidate = this.validateDraft(question)
-
 
     const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
     const isAnswerValidate = R.all(isExisted)(contentValidatingStates)
@@ -261,7 +242,6 @@ class Form extends React.Component {
   }
 
   handleDraftChange = name => editorState => {
-    // const contentState = editorState.getCurrentContent();
     this.setState(
       (prevState) => ({
         test: {
@@ -284,14 +264,14 @@ class Form extends React.Component {
     this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
   };
 
-  getFocus = e => {
-    setTimeout(this.setState({isFocus: true}), 500)
+  // getFocus = e => {
+  //   setTimeout(this.setState({isFocus: true}), 500)
     
-  }
+  // }
 
-  loseFocus = e => {
-    this.setState({isFocus: false})
-  }
+  // loseFocus = e => {
+  //   this.setState({isFocus: false})
+  // }
 
   render() {
     const { classes, paddingRight, isNewlyCreated } = this.props
@@ -299,7 +279,6 @@ class Form extends React.Component {
 
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
     const handleQuestionChange = this.handleDraftChange('question')
-
 
     return (
       <form 
@@ -315,7 +294,6 @@ class Form extends React.Component {
             contents={question} 
             handleDraftChange={handleQuestionChange}
           />
-
         </div>
         
         <div className={classes.background}> 
@@ -340,19 +318,12 @@ class Form extends React.Component {
             Other Notes
           </Typography>
 
-          
-          
-            
-          
-
           <DraftEditor 
             contents={this.state.test.data.otherNotes} 
             handleDraftChange={handleOtherNotesChange}
           />
         </div>
 
-        
-        
         <CreateSnackbar 
           handleSubmit={this.handleSubmit}
           isFormValidate={isFormValidate}
