@@ -5,6 +5,8 @@ import {
   _addTagToDB, 
   _addQuestionToDB 
 } from "./store";
+// import { resolve } from "url";
+// import { reject } from "q";
 
 export function getQuestions() {
   return _getQuestions()
@@ -31,4 +33,26 @@ export function addTagToDB(newTag) {
 
 export function addQuestionToDB(newQuestion) {
   return _addQuestionToDB(newQuestion)
+}
+
+export function getToken() {
+  return fetch('/wp-json/jwt-auth/v1/token',{
+    method: "POST",
+    headers:{
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+    },
+    body:JSON.stringify({
+        username: 'jerryfishzz',
+        password: '1234567,'
+    })
+  })
+  .then(res => {
+    // console.log(res)
+    if (res.ok) return res.json()
+    throw Error(res.statusText) 
+  })
+  .then(res => {
+    return res.token
+  })
 }

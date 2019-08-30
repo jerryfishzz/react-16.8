@@ -9,14 +9,22 @@ import ForTest from './component/ForTest';
 import { initializeApp } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
+import { getToken } from './utils/api';
 
 class App extends Component {
   componentDidMount() {
     this.props.initializeApp()
       .catch(err => alert(err))
+    
+    getToken()
+      .then(token => {
+        localStorage.setItem('token', token)
+      })
+      .catch(err => alert(err))
   }
 
   render () {
+    // console.log(localStorage.getItem('token'))
     const { testQuestions } = this.props
 
     if (!testQuestions) {
