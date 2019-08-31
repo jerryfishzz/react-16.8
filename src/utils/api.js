@@ -56,3 +56,11 @@ export function getToken() {
     return res.token
   })
 }
+
+export function getQuestionsFromWordPress() {
+  return fetch('/wp-json/wp/v2/questions')
+  .then(res => {
+    if (res.ok) return res.json()
+    throw Error(res.statusText) 
+  })
+}

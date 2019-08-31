@@ -9,7 +9,7 @@ import ForTest from './component/ForTest';
 import { initializeApp } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
-import { getToken } from './utils/api';
+import { getToken, getQuestionsFromWordPress } from './utils/api';
 
 class App extends Component {
   componentDidMount() {
@@ -21,6 +21,9 @@ class App extends Component {
         localStorage.setItem('token', token)
       })
       .catch(err => alert(err))
+    
+    getQuestionsFromWordPress()
+      .then(console.log)
   }
 
   render () {
