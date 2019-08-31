@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
-import { initializeApp } from './actions/shared';
+import { initializeApp, initializeAppFromWordPress } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
 import { getToken, getQuestionsFromWordPress } from './utils/api';
@@ -14,19 +14,23 @@ import { formatQuestionsFromWordPress } from './utils/helpers';
 
 class App extends Component {
   componentDidMount() {
-    this.props.initializeApp()
-      .catch(err => alert(err))
+    // this.props.initializeApp()
+    //   .catch(err => alert(err))
     
-    getToken()
-      .then(token => {
-        localStorage.setItem('token', token)
-      })
-      .catch(err => alert(err))
+    // getToken()
+    //   .then(token => {
+    //     localStorage.setItem('token', token)
+    //   })
+    //   .catch(err => alert(err))
     
-    getQuestionsFromWordPress()
-      .then(questions => {
-        console.log(formatQuestionsFromWordPress(questions))
-      })
+    // getQuestionsFromWordPress()
+    //   .then(questions => {
+    //     console.log(questions)
+    //     console.log(formatQuestionsFromWordPress(questions))
+    //   })
+
+    this.props.initializeAppFromWordPress()
+      .catch(err => alert(err))
   }
 
   render () {
@@ -37,9 +41,7 @@ class App extends Component {
       return <div>Loading</div>
     }
 
-    if(!testQuestions.length) { // Need to consider when no questions
-      return <div>No questions</div>
-    }
+    
 
     return (
       <Router>
@@ -70,4 +72,7 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, { initializeApp })(App)
+export default connect(
+  mapStateToProps, 
+  { initializeApp, initializeAppFromWordPress }
+)(App)
