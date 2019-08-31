@@ -37,6 +37,13 @@ export const validateDraft = name => {
   return R.any(isExisted)(arrayOfName)
 }
 
+export const validateDraftFromString = name => {
+  const { blocks } = JSON.parse(name)
+  const arrayOfName = blocks.map(block => block.text)
+
+  return R.any(isExisted)(arrayOfName)
+}
+
 export function formatQuestionsFromWordPress(questions) {
   const reducer = (acc, cur) => ({
     ...acc,
