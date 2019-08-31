@@ -72,24 +72,33 @@ export function formatQuestionsFromWordPress(questions) {
   return questions.reduce(reducer, {})
 }
 
+const getReadyToFormat = answers => name => index => {
+  return answers.map(answer => answer[name])[index]
+}
+
 export function formatForWp(newQuestion) {
+  const getAnswers = getReadyToFormat(newQuestion.data.answers)
+  const getAnswerContent = getAnswers('content')
+  const getAnswerCorrectness = getAnswers('correctness')
+  const getAnswerNote = getAnswers('note')
+
   return {
     title: newQuestion.data.question,
     fields: {
       title: newQuestion.data.question,
       tags: newQuestion.data.tags.join(),
-      answer_a: newQuestion.data.answers[0].content,
-      answer_a_correctness: newQuestion.data.answers[0].correctness,
-      answer_a_comment: newQuestion.data.answers[0].note,
-      answer_b: newQuestion.data.answers[1].content,
-      answer_b_correctness: newQuestion.data.answers[1].correctness,
-      answer_b_comment: newQuestion.data.answers[1].note,
-      answer_c: newQuestion.data.answers[2].content,
-      answer_c_correctness: newQuestion.data.answers[2].correctness,
-      answer_c_comment: newQuestion.data.answers[2].note,
-      answer_d: newQuestion.data.answers[3].content,
-      answer_d_correctness: newQuestion.data.answers[3].correctness,
-      answer_d_comment: newQuestion.data.answers[3].note,
+      answer_a: getAnswerContent(0),
+      answer_a_correctness: getAnswerCorrectness(0),
+      answer_a_comment: getAnswerNote(0),
+      answer_b: getAnswerContent(1),
+      answer_b_correctness: getAnswerCorrectness(1),
+      answer_b_comment: getAnswerNote(1),
+      answer_c: getAnswerContent(2),
+      answer_c_correctness: getAnswerCorrectness(2),
+      answer_c_comment: getAnswerNote(2),
+      answer_d: getAnswerContent(3),
+      answer_d_correctness: getAnswerCorrectness(3),
+      answer_d_comment: getAnswerNote(3),
       other_notes: newQuestion.data.otherNotes
     },
     status: "publish"
