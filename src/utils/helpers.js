@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { convertToRaw } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
@@ -72,8 +72,20 @@ export function formatQuestionsFromWordPress(questions) {
   return questions.reduce(reducer, {})
 }
 
-const getReadyToFormat = answers => name => index => {
-  return answers.map(answer => answer[name])[index]
+const getReadyToFormat = answers => name => {
+  return index => {
+    const len = answers.length
+
+    if (index >= len) {
+      if (name === 'correctness') return false
+      
+      const blankState = EditorState.createEmpty().getCurrentContent()
+      const blankStateString = JSON.stringify(convertToRaw(blankState))
+      return blankStateString
+    }
+    
+    return answers.map(answer => answer[name])[index]
+  }
 }
 
 export function formatForWp(newQuestion) {

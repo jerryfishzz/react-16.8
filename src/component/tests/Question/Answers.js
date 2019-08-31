@@ -9,10 +9,18 @@ import {
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
-import { getTheAlphanumericOrder } from '../../../utils/helpers';
+import { getTheAlphanumericOrder, validateDraft, isExisted } from '../../../utils/helpers';
 import { connect } from 'react-redux'
 import { clickAnswer } from '../../../actions/test/testQuestions';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import * as R from 'ramda'
+
+const validateDraftFromString = name => {
+  const { blocks } = JSON.parse(name)
+  const arrayOfName = blocks.map(block => block.text)
+
+  return R.any(isExisted)(arrayOfName)
+}
 
 class Answers extends React.Component {
   componentDidMount() {
@@ -52,7 +60,8 @@ class Answers extends React.Component {
       <div className={classes.root}>
         <List component="nav">
           {currentQuestion.data.answers.map((a, i) => {
-            
+            if (!validateDraftFromString(a.content)) return null
+
             return (
               <ListItem 
                 key={i}
