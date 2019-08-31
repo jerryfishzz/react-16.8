@@ -39,7 +39,8 @@ class Form extends React.Component {
         isSubmitted: false,
       },
       isFormValidate: false,
-      isFocus: false
+      isFocus: false,
+      countsOfAnswer: 0
     }
   }
 
@@ -62,6 +63,7 @@ class Form extends React.Component {
           }
         },
         isFormValidate: true,
+        countsOfAnswer: currentQuestion.data.answers.length
       })
     } else {
       const id = uniqid()
@@ -74,7 +76,8 @@ class Form extends React.Component {
             ...test.data,
             id
           }
-        }
+        },
+        countsOfAnswer: 1
       }))
     }
   }
@@ -117,7 +120,7 @@ class Form extends React.Component {
   }
   
   onNewAnswer = () => {
-    this.setState(({ test, test : { data: { answers } } }) => ({
+    this.setState(({ test, test : { data: { answers } }, countsOfAnswer }) => ({
       test: {
         ...test,
         data: {
@@ -131,19 +134,21 @@ class Form extends React.Component {
             }
           ]
         }
-      }
+      },
+      countsOfAnswer: countsOfAnswer + 1
     }), this.validateForm)
   }
 
   onDelete = index => {
-    this.setState(({ test, test : { data: { answers } } }) => ({
+    this.setState(({ test, test : { data: { answers } }, countsOfAnswer }) => ({
       test: {
         ...test,
         data: {
           ...test.data,
           answers: answers.filter((a, i) => i !== index)
         }
-      }
+      },
+      countsOfAnswer: countsOfAnswer - 1
     }), this.validateForm)
   }
 
@@ -281,7 +286,7 @@ class Form extends React.Component {
 
   render() {
     const { classes, paddingRight, isNewlyCreated } = this.props
-    const { test: { data: { question, tags, answers } }, isFormValidate } = this.state
+    const { test: { data: { question, tags, answers } }, isFormValidate, countsOfAnswer } = this.state
 
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
     const handleQuestionChange = this.handleDraftChange('question')
@@ -316,6 +321,7 @@ class Form extends React.Component {
             onAnswerChange={this.onAnswerChange}
             onDelete={this.onDelete}
             onNewAnswer={this.onNewAnswer}
+            countsOfAnswer={countsOfAnswer}
           />
         </div>
 

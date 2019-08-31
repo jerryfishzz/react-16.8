@@ -20,7 +20,8 @@ const AnswerForm = ({
   onAnswerChange,
   onDelete,
   onNewAnswer,
-  isNewlyCreated
+  isNewlyCreated,
+  countsOfAnswer
 }) => {
   const handleContentChange = onAnswerChange('content')
   const handleCorrectnessChange = onAnswerChange('correctness')
@@ -142,6 +143,7 @@ const AnswerForm = ({
           color="primary"
           variant="contained"
           size="small"
+          disabled={countsOfAnswer >= 4}
         >
           Add
         </Button>
