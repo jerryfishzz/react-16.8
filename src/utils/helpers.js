@@ -42,7 +42,7 @@ export function formatQuestionsFromWordPress(questions) {
     ...acc,
     [cur.id]: {
       id: cur.id,
-      question: cur.title.rendered,
+      question: cur.acf.title,
       tags: cur.acf.tags.split(','),
       answers: [
         {
@@ -70,4 +70,28 @@ export function formatQuestionsFromWordPress(questions) {
     }
   })
   return questions.reduce(reducer, {})
+}
+
+export function formatForWp(newQuestion) {
+  return {
+    title: newQuestion.data.question,
+    fields: {
+      title: newQuestion.data.question,
+      tags: newQuestion.data.tags.join(),
+      answer_a: newQuestion.data.answers[0].content,
+      answer_a_correctness: newQuestion.data.answers[0].correctness,
+      answer_a_comment: newQuestion.data.answers[0].note,
+      answer_b: newQuestion.data.answers[1].content,
+      answer_b_correctness: newQuestion.data.answers[1].correctness,
+      answer_b_comment: newQuestion.data.answers[1].note,
+      answer_c: newQuestion.data.answers[2].content,
+      answer_c_correctness: newQuestion.data.answers[2].correctness,
+      answer_c_comment: newQuestion.data.answers[2].note,
+      answer_d: newQuestion.data.answers[3].content,
+      answer_d_correctness: newQuestion.data.answers[3].correctness,
+      answer_d_comment: newQuestion.data.answers[3].note,
+      other_notes: newQuestion.data.otherNotes
+    },
+    status: "publish"
+  }
 }

@@ -36,7 +36,7 @@ export function initializeAppFromWordPress(cb = null) {
       
       if (questions.length) {
         questions = formatQuestionsFromWordPress(questions)
-
+// console.log(questions)
         const formattedQuestionArray = 
           Object.keys(questions).map(id => formatQuestion(questions[id]))
 

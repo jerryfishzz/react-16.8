@@ -59,10 +59,10 @@ export function getToken() {
 
 export function getQuestionsFromWordPress() {
   return fetch('/wp-json/wp/v2/questions')
-  .then(res => {
-    if (res.ok) return res.json()
-    throw Error(res.statusText) 
-  })
+    .then(res => {
+      if (res.ok) return res.json()
+      throw Error(res.statusText) 
+    })
 }
 
 export function getInitialDataFromWordPress() {
@@ -70,4 +70,20 @@ export function getInitialDataFromWordPress() {
     getQuestionsFromWordPress(),
     _getTags()
   ])
+}
+
+export function addQuestionToWp(newQuestion) {
+  return fetch('/wp-json/wp/v2/questions', {
+      method: "POST",
+      headers:{
+        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body:JSON.stringify(newQuestion)
+    }).then(function(response) {
+      // console.log(response)
+      if (response.ok) return response.json()
+      throw Error('Add question error')
+    })
 }
