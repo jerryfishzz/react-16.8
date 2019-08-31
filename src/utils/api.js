@@ -64,3 +64,10 @@ export function getQuestionsFromWordPress() {
     throw Error(res.statusText) 
   })
 }
+
+export function getInitialDataFromWordPress() {
+  return Promise.all([
+    getQuestionsFromWordPress(),
+    _getTags()
+  ])
+}

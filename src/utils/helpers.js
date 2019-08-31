@@ -36,3 +36,38 @@ export const validateDraft = name => {
 
   return R.any(isExisted)(arrayOfName)
 }
+
+export function formatQuestionsFromWordPress(questions) {
+  const reducer = (acc, cur) => ({
+    ...acc,
+    [cur.id]: {
+      id: cur.id,
+      question: cur.title.rendered,
+      tags: cur.acf.tags.split(','),
+      answers: [
+        {
+          content: cur.acf.answer_a,
+          correctness: cur.acf.answer_a_correctness,
+          note: cur.acf.answer_a_comment
+        },
+        {
+          content: cur.acf.answer_b,
+          correctness: cur.acf.answer_b_correctness,
+          note: cur.acf.answer_b_comment
+        },
+        {
+          content: cur.acf.answer_c,
+          correctness: cur.acf.answer_c_correctness,
+          note: cur.acf.answer_c_comment
+        },
+        {
+          content: cur.acf.answer_d,
+          correctness: cur.acf.answer_d_correctness,
+          note: cur.acf.answer_d_comment
+        }
+      ],
+      otherNotes: cur.acf.other_notes
+    }
+  })
+  return questions.reduce(reducer, {})
+}
