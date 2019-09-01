@@ -32,19 +32,15 @@ export function initializeAppFromWordPress(cb = null) {
   return async dispatch => {
     try {
       let [questions, tags] = await getInitialDataFromWordPress()
-      let randomizedQuestionsForTest = []
-      
-      if (questions.length) {
-        questions = formatQuestionsFromWordPress(questions)
+      questions = formatQuestionsFromWordPress(questions)
 
-        const formattedQuestionArray = 
-          Object.keys(questions).map(id => formatQuestion(questions[id]))
+      const formattedQuestionArray = 
+        Object.keys(questions).map(id => formatQuestion(questions[id]))
 
-        const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
+      const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
+      const randomizedQuestionsForTest = 
+        shuffleArrayThenTakeFirstTen(formattedQuestionArray)
 
-        randomizedQuestionsForTest = shuffleArrayThenTakeFirstTen(formattedQuestionArray)
-      }
-      
       dispatch(receiveQuestions(randomizedQuestionsForTest))
       dispatch(receiveTags(tags))
 
