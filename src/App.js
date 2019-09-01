@@ -10,7 +10,6 @@ import { initializeApp } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
 import { getToken, getQuestionsFromWordPress } from './utils/api';
-import { formatQuestionsFromWordPress } from './utils/helpers';
 
 class App extends Component {
   componentDidMount() {
@@ -24,9 +23,7 @@ class App extends Component {
       .catch(err => alert(err))
     
     getQuestionsFromWordPress()
-      .then(questions => {
-        console.log(formatQuestionsFromWordPress(questions))
-      })
+      .then(console.log)
   }
 
   render () {
