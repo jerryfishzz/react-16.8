@@ -19,7 +19,7 @@ import * as R from 'ramda'
 
 import { getTheAlphanumericOrder, isExisted } from '../../utils/helpers';
 
-const validateDraftFromString = name => {
+const validateDraft = name => {
   const { blocks } = JSON.parse(name)
   const arrayOfName = blocks.map(block => block.text)
 
@@ -35,14 +35,14 @@ const Notes = ({ currentQuestion, classes }) => {
     for (let i = 0; i < data.answers.length; i++) {
       // const { blocks } = JSON.parse(data.answers[i].note)
 
-      if (validateDraftFromString(data.answers[i].note)) {
+      if (validateDraft(data.answers[i].note)) {
         hasNotes = true
         break
       }
     }
 
     if (!hasNotes) {
-      if (validateDraftFromString(data.otherNotes)) hasNotes = true
+      if (validateDraft(data.otherNotes)) hasNotes = true
     }
   } 
 
@@ -55,7 +55,7 @@ const Notes = ({ currentQuestion, classes }) => {
     return true;
   }
 
-  const otherNotes = validateDraftFromString(data.otherNotes) 
+  const otherNotes = validateDraft(data.otherNotes) 
     ? <Fragment>
         <Divider variant="inset" className={classes.divider} />
         
@@ -110,7 +110,7 @@ const Notes = ({ currentQuestion, classes }) => {
         ? currentQuestion.isSubmitted
           ? <List>
               {data.answers.map((a, i) => {
-                if (!validateDraftFromString(a.note)) return null
+                if (!validateDraft(a.note)) return null
 
                 return (
                   <ListItem 
