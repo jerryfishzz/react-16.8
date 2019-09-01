@@ -17,14 +17,14 @@ import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
 import * as R from 'ramda'
 
-import { getTheAlphanumericOrder, isExisted, validateDraftFromString } from '../../utils/helpers';
+import { getTheAlphanumericOrder, isExisted } from '../../utils/helpers';
 
-// const validateDraftFromString = name => {
-//   const { blocks } = JSON.parse(name)
-//   const arrayOfName = blocks.map(block => block.text)
+const validateDraftFromString = name => {
+  const { blocks } = JSON.parse(name)
+  const arrayOfName = blocks.map(block => block.text)
 
-//   return R.any(isExisted)(arrayOfName)
-// }
+  return R.any(isExisted)(arrayOfName)
+}
 
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
