@@ -7,6 +7,8 @@ import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
 import { initializeApp } from './actions/shared';
+import WpTest from './component/WpTest';
+import BookPage from './component/wptest/BookPage';
 
 class App extends Component {
   componentDidMount() {
@@ -32,6 +34,8 @@ class App extends Component {
         <Switch>
           <Route path='/' exact component={Tests} />
           <Route path='/fortest' component={ForTest} />
+          <Route path='/wptest/:id' component={BookPage} />
+          <Route path='/wptest' component={WpTest} />
         </Switch>
       </Router>
     )
