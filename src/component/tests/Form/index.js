@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 
 import Tags from "./Tags";
 import CreateSnackbar from '../Snackbar'
-import { handleSaveQuestion, handleCreateQuestion, handleCreateQuestionToWp } from "../../../actions/test/testQuestions";
+import { handleSaveQuestion, handleCreateQuestion } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
 import { isExisted } from "../../../utils/helpers";
 
@@ -26,7 +26,7 @@ class Form extends React.Component {
         data: {
           id: '',
           question: EditorState.createEmpty(),
-          tags: [],
+          tages: [],
           answers: [{
             content: EditorState.createEmpty(),
             correctness: false,
@@ -162,7 +162,7 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { test } = this.state,
-          { handleSaveQuestion, handleCreateQuestion, isNewlyCreated, handleCreateQuestionToWp } = this.props
+          { handleSaveQuestion, handleCreateQuestion, isNewlyCreated } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOtherNotes = JSON.stringify(convertToRaw(contentState))
@@ -184,14 +184,8 @@ class Form extends React.Component {
       }
     }
 
-    // if (isNewlyCreated) {
-    //   return handleCreateQuestion(finalTest, this.resetForm)
-    // } else {
-    //   return handleSaveQuestion(test.id, finalTest)
-    // }
-
     if (isNewlyCreated) {
-      return handleCreateQuestionToWp(finalTest, this.resetForm)
+      return handleCreateQuestion(finalTest, this.resetForm)
     } else {
       return handleSaveQuestion(test.id, finalTest)
     }
@@ -206,7 +200,7 @@ class Form extends React.Component {
         data: {
           id,
           question: EditorState.createEmpty(),
-          tags: [],
+          tages: [],
           answers: [{
             content: EditorState.createEmpty(),
             correctness: false,
@@ -415,5 +409,5 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { handleSaveQuestion, handleCreateQuestion, handleCreateQuestionToWp }
+  { handleSaveQuestion, handleCreateQuestion }
 )(withStyles(styles)(Form));

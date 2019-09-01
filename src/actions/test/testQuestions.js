@@ -1,5 +1,5 @@
-import { updateQuestion, addQuestionToDB, addQuestionToWp } from "../../utils/api";
-import { formatForDB, formatForWp } from "../../utils/helpers";
+import { updateQuestion, addQuestionToDB } from "../../utils/api";
+import { formatForDB } from "../../utils/helpers";
 // import shuffle from 'shuffle-array'
 // import * as R from 'ramda'
 // import { formatQuestion } from "../../utils/helpers";
@@ -99,30 +99,6 @@ export function handleCreateQuestion(newQuestion, cb) {
       cb()
     } catch(err) {
       throw Error('Create question error')
-    }
-  }
-}
-
-export function handleCreateQuestionToWp(newQuestion, cb) {
-  // console.log(11111111)
-  return async dispatch => {
-    try {
-      const questionForWp = formatForWp(newQuestion)
-      // console.log(questionForWp)
-      const { id } = await addQuestionToWp(questionForWp)
-
-      const questionWithWpId = {
-        ...newQuestion,
-        id,
-        data: {
-          ...newQuestion.data,
-          id
-        }
-      }
-      dispatch(createQuestion(questionWithWpId))
-      cb()
-    } catch(err) {
-      throw err
     }
   }
 }

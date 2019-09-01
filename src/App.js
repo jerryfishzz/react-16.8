@@ -17,12 +17,11 @@ class App extends Component {
     // this.props.initializeApp()
     //   .catch(err => alert(err))
     
-    getToken()
-      .then(token => {
-        localStorage.setItem('token', token)
-        // console.log(localStorage.getItem('token'))
-      })
-      .catch(err => alert(err))
+    // getToken()
+    //   .then(token => {
+    //     localStorage.setItem('token', token)
+    //   })
+    //   .catch(err => alert(err))
     
     // getQuestionsFromWordPress()
     //   .then(questions => {
