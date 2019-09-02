@@ -40,19 +40,22 @@ export function handleSubmitQuestion(id, index) {
   }
 }
 
-export function handleRemoveQuestionFromWp(id, deletedQuestion) {
+export function handleRemoveQuestionFromWp(id) {
   return (dispatch, getState) => {
+    const { test: { currentQuestionNumber, testQuestions } } = getState()
+    const currentQuestion = 
+      testQuestions.filter(question => question.id === id)[0]
+
     dispatch(removeQuestion(id))
     dispatch(resetEdit())
-
-    const { test: { currentQuestionNumber, testQuestions } } = getState()
+    
     if (currentQuestionNumber === testQuestions.length) {
       dispatch(shrinkFromDelete())
     }
 
     return removeQuestionFromWp(id)
       .catch(err => {
-        dispatch(createQuestion(deletedQuestion))
+        dispatch(createQuestion(currentQuestion))
         throw err
       })
   }

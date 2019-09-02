@@ -30,9 +30,9 @@ class Tests extends Component {
 
   // This should be used to prevent this question being chosen again from database. 
   // Implement the simple delete first. Later will work on the above requiremnet.
-  handleDelete = (id, deletedQuestion) => {
+  handleDelete = id => {
     const { handleRemoveQuestion, handleRemoveQuestionFromWp } = this.props
-    handleRemoveQuestionFromWp(id, deletedQuestion)
+    handleRemoveQuestionFromWp(id)
       .catch(err => alert(err))
   }
 
@@ -78,7 +78,7 @@ class Tests extends Component {
                   </IconButton>
                   <IconButton 
                     color='primary' 
-                    onClick={() => this.handleDelete(currentQuestion.id, currentQuestion)}
+                    onClick={() => this.handleDelete(currentQuestion.id)}
                   >
                     <Delete />
                   </IconButton>
