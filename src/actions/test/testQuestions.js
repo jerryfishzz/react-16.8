@@ -1,4 +1,4 @@
-import { updateQuestion, addQuestionToDB, addQuestionToWp } from "../../utils/api";
+import { updateQuestion, addQuestionToDB, addQuestionToWp, removeQuestionFromWp } from "../../utils/api";
 import { formatForDB, formatForWp } from "../../utils/helpers";
 // import shuffle from 'shuffle-array'
 // import * as R from 'ramda'
@@ -82,7 +82,7 @@ export function handleSaveQuestion(id, updatedQuestion) {
   }
 }
 
-function createQuestion(newQuestion) {
+export function createQuestion(newQuestion) {
   return {
     type: CREATE_QUESTION,
     newQuestion
@@ -126,3 +126,16 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
     }
   }
 }
+
+// export function handleRemoveQuestionFromWp(id, deleteQuestion) {
+//   return async dispatch => {
+//     try {
+//       dispatch(removeQuestion(id))
+
+//       await removeQuestionFromWp(id)
+//     } catch(err) {
+//       createQuestion(deleteQuestion)
+//       throw err
+//     }
+//   }
+// }

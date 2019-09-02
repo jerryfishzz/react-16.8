@@ -17,7 +17,8 @@ import Form from './Form'
 import { toggleEdit } from '../../actions/test/editQuestion';
 import { 
   handleRemoveQuestion, 
-  handleSubmitQuestion 
+  handleSubmitQuestion, 
+  handleRemoveQuestionFromWp
 } from '../../actions/test/shared';
 
 
@@ -29,9 +30,10 @@ class Tests extends Component {
 
   // This should be used to prevent this question being chosen again from database. 
   // Implement the simple delete first. Later will work on the above requiremnet.
-  handleDelete = id => {
-    const { handleRemoveQuestion } = this.props
-    handleRemoveQuestion(id)
+  handleDelete = (id, deletedQuestion) => {
+    const { handleRemoveQuestion, handleRemoveQuestionFromWp } = this.props
+    handleRemoveQuestionFromWp(id, deletedQuestion)
+      .catch(err => alert(err))
   }
 
   render() {
@@ -76,7 +78,7 @@ class Tests extends Component {
                   </IconButton>
                   <IconButton 
                     color='primary' 
-                    onClick={() => this.handleDelete(currentQuestion.id)}
+                    onClick={() => this.handleDelete(currentQuestion.id, currentQuestion)}
                   >
                     <Delete />
                   </IconButton>
@@ -193,5 +195,10 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { toggleEdit, handleRemoveQuestion, handleSubmitQuestion }
+  { 
+    toggleEdit, 
+    handleRemoveQuestion, 
+    handleSubmitQuestion,
+    handleRemoveQuestionFromWp
+  }
 )(withStyles(styles)(Tests))

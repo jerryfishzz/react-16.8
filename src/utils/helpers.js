@@ -123,3 +123,11 @@ export function formatForWp(newQuestion) {
     status: "publish"
   }
 }
+
+export function handleErrors(response) {
+  console.log(response)
+  if (!response.ok) {
+      throw Error(response.statusText);
+  }
+  return response;
+}

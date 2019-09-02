@@ -5,6 +5,7 @@ import {
   _addTagToDB, 
   _addQuestionToDB 
 } from "./store";
+import { handleErrors } from "./helpers";
 // import { resolve } from "url";
 // import { reject } from "q";
 
@@ -81,9 +82,20 @@ export function addQuestionToWp(newQuestion) {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       },
       body:JSON.stringify(newQuestion)
-    }).then(function(response) {
-      // console.log(response)
-      if (response.ok) return response.json()
-      throw Error('Add question error')
-    })
+  })
+    .then(handleErrors)
+    .then(response => response.json())
+}
+
+export function removeQuestionFromWp(id) {
+  return fetch(`/wp-json/wp/v2/questions/${id}`, {
+    method: "DELETE",
+    headers:{
+      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+  })
+    .then(handleErrors)
+    .then(response => response.json())
 }
