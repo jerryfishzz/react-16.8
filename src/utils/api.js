@@ -99,3 +99,17 @@ export function removeQuestionFromWp(id) {
     .then(handleErrors)
     .then(response => response.json())
 }
+
+export function updateQuestionToWp(id, updatedQuestion) {
+  return fetch(`/wp-json/wp/v2/questions/${id}`, {
+    method: "POST",
+    headers:{
+      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+    body:JSON.stringify(updatedQuestion)
+  })
+    .then(handleErrors)
+    .then(response => response.json())
+}

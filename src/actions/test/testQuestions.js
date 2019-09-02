@@ -1,4 +1,4 @@
-import { updateQuestion, addQuestionToDB, addQuestionToWp, removeQuestionFromWp } from "../../utils/api";
+import { updateQuestion, addQuestionToDB, addQuestionToWp, removeQuestionFromWp, updateQuestionToWp } from "../../utils/api";
 import { formatForDB, formatForWp } from "../../utils/helpers";
 // import shuffle from 'shuffle-array'
 // import * as R from 'ramda'
@@ -78,6 +78,25 @@ export function handleSaveQuestion(id, updatedQuestion) {
     } catch(err) {
       dispatch(saveQuestion(currentQuestion))
       throw Error('Update error')
+    }
+  }
+}
+
+export function handleSaveQuestionToWp(id, updatedQuestion) {
+  return async (dispatch, getState) => {
+    const { test: { testQuestions } } = getState()
+    const currentQuestion = 
+      testQuestions.filter(question => question.id === id)[0]
+
+    try {
+      // const questionForDB = formatForDB(updatedQuestion)
+      const questionForWp = formatForWp(updatedQuestion)
+      await updateQuestionToWp(id, questionForWp)
+
+      dispatch(saveQuestion(updatedQuestion))
+    } catch(err) {
+      dispatch(saveQuestion(currentQuestion))
+      throw err
     }
   }
 }

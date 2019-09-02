@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 
 import Tags from "./Tags";
 import CreateSnackbar from '../Snackbar'
-import { handleSaveQuestion, handleCreateQuestion, handleCreateQuestionToWp } from "../../../actions/test/testQuestions";
+import { handleSaveQuestion, handleCreateQuestion, handleCreateQuestionToWp, handleSaveQuestionToWp } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
 import { isExisted } from "../../../utils/helpers";
 
@@ -167,7 +167,7 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { test } = this.state,
-          { handleSaveQuestion, handleCreateQuestion, isNewlyCreated, handleCreateQuestionToWp } = this.props
+          { handleSaveQuestion, handleCreateQuestion, isNewlyCreated, handleCreateQuestionToWp, handleSaveQuestionToWp } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOtherNotes = JSON.stringify(convertToRaw(contentState))
@@ -197,8 +197,10 @@ class Form extends React.Component {
 
     if (isNewlyCreated) {
       return handleCreateQuestionToWp(finalTest, this.resetForm)
+        // .catch(err => alert(err))
     } else {
-      return handleSaveQuestion(test.id, finalTest)
+      return handleSaveQuestionToWp(test.id, finalTest)
+        // .catch(err => alert(err))
     }
   }
 
@@ -421,5 +423,10 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { handleSaveQuestion, handleCreateQuestion, handleCreateQuestionToWp }
+  { 
+    handleSaveQuestion, 
+    handleCreateQuestion, 
+    handleCreateQuestionToWp,
+    handleSaveQuestionToWp
+  }
 )(withStyles(styles)(Form));

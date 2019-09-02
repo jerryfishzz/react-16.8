@@ -25,6 +25,9 @@ class CreateSnackbar extends React.Component {
     } catch(err) {
       alert(err)
       this.toggleSubmitting()
+      this.setState({ 
+        open: false,
+      });
     }
   };
 
