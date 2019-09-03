@@ -61,7 +61,7 @@ const styles = theme => ({
     flex: 1
   },
   fab: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   }
 })
 
