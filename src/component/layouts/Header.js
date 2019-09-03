@@ -10,7 +10,7 @@ import {
 import Shuffle from '@material-ui/icons/Shuffle';
 import CreateDialog from '../tests/Dialog'
 import { connect } from 'react-redux'
-import { initializeApp } from '../../actions/shared.js';
+import { initializeApp, initializeAppFromWordPress } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 
@@ -51,7 +51,7 @@ const mapDispatchToProps = dispatch => {
 
   return {
     shuffleQuestions: () => {
-      dispatch(initializeApp(resetNumberAndEdit))
+      dispatch(initializeAppFromWordPress(resetNumberAndEdit))
     }
   }
 }

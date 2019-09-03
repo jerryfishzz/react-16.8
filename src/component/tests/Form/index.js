@@ -66,15 +66,15 @@ class Form extends React.Component {
         countsOfAnswer: currentQuestion.data.answers.length
       })
     } else {
-      const id = uniqid()
+      // const id = uniqid()
 
       this.setState(({ test }) => ({
         test: {
           ...test,
-          id,
+          // id,
           data: {
             ...test.data,
-            id
+            // id
           }
         },
         countsOfAnswer: 1
