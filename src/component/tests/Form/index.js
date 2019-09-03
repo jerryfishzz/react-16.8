@@ -107,6 +107,13 @@ class Form extends React.Component {
           ...test.data,
           answers: answers.map((a, i) => {
             if (i === index) {
+              if (prop === 'correctness') {
+                const { target: { value } } = editorState
+                return {
+                  ...a,
+                  [prop]: value
+                }
+              }
               return {
                 ...a,
                 [prop]: editorState
