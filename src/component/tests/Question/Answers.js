@@ -9,18 +9,14 @@ import {
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
-import { getTheAlphanumericOrder, isExisted, validateDraftFromString } from '../../../utils/helpers';
 import { connect } from 'react-redux'
-import { clickAnswer } from '../../../actions/test/testQuestions';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
-import * as R from 'ramda'
 
-// const validateDraftFromString = name => {
-//   const { blocks } = JSON.parse(name)
-//   const arrayOfName = blocks.map(block => block.text)
-
-//   return R.any(isExisted)(arrayOfName)
-// }
+import { 
+  getTheAlphanumericOrder, 
+  validateDraftFromString 
+} from '../../../utils/helpers';
+import { clickAnswer } from '../../../actions/test/testQuestions';
 
 class Answers extends React.Component {
   componentDidMount() {
