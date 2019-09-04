@@ -37,7 +37,7 @@ export function addQuestionToDB(newQuestion) {
 }
 
 export function getToken() {
-  return fetch('/wp-json/jwt-auth/v1/token',{
+  return fetch('/wp-json/jwt-auth/v1/token', {
     method: "POST",
     headers:{
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export function getToken() {
     },
     body:JSON.stringify({
         username: 'jerryfishzz',
-        password: '1234567,'
+        password: 'tj22K5dTBOGQ1I7G*h'
     })
   })
   .then(res => {
