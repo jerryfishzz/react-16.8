@@ -15,8 +15,7 @@ import ProgressingBar from './ProgressingBar';
 import Notes from './Notes';
 import Form from './Form'
 import { toggleEdit } from '../../actions/test/editQuestion';
-import { 
-  handleRemoveQuestion, 
+import {
   handleSubmitQuestion, 
   handleRemoveQuestionFromWp
 } from '../../actions/test/shared';
@@ -197,7 +196,6 @@ export default connect(
   mapStateToProps,
   { 
     toggleEdit, 
-    handleRemoveQuestion, 
     handleSubmitQuestion,
     handleRemoveQuestionFromWp
   }

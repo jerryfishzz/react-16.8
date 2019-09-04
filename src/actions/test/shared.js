@@ -21,18 +21,6 @@ export function handleBack() {
   }
 }
 
-export function handleRemoveQuestion(id) {
-  return (dispatch, getState) => {
-    dispatch(removeQuestion(id))
-    dispatch(resetEdit())
-
-    const { test: { currentQuestionNumber, testQuestions } } = getState()
-    if (currentQuestionNumber === testQuestions.length) {
-      dispatch(shrinkFromDelete())
-    }
-  }
-}
-
 export function handleSubmitQuestion(id, index) {
   return dispatch => {
     dispatch(submitQuestion(id, index))
@@ -42,14 +30,19 @@ export function handleSubmitQuestion(id, index) {
 
 export function handleRemoveQuestionFromWp(id) {
   return (dispatch, getState) => {
-    const { test: { currentQuestionNumber, testQuestions } } = getState()
+    const { test: { testQuestions } } = getState()
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]
 
     dispatch(removeQuestion(id))
     dispatch(resetEdit())
+
+    const { test: { 
+      currentQuestionNumber, 
+      testQuestions: testQuestionsAfterDeleting } 
+    } = getState()
     
-    if (currentQuestionNumber === testQuestions.length) {
+    if (currentQuestionNumber === testQuestionsAfterDeleting.length) {
       dispatch(shrinkFromDelete())
     }
 

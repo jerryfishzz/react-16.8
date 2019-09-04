@@ -145,16 +145,3 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
     }
   }
 }
-
-// export function handleRemoveQuestionFromWp(id, deleteQuestion) {
-//   return async dispatch => {
-//     try {
-//       dispatch(removeQuestion(id))
-
-//       await removeQuestionFromWp(id)
-//     } catch(err) {
-//       createQuestion(deleteQuestion)
-//       throw err
-//     }
-//   }
-// }
