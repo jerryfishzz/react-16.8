@@ -10,9 +10,14 @@ import classNames from 'classnames';
 import { EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
 
-import Tags from "./Tags";
+import Tags from './Tags';
 import CreateSnackbar from '../Snackbar'
-import { handleSaveQuestion, handleCreateQuestion, handleCreateQuestionToWp, handleSaveQuestionToWp } from "../../../actions/test/testQuestions";
+import { 
+  handleSaveQuestion, 
+  handleCreateQuestion, 
+  handleCreateQuestionToWp, 
+  handleSaveQuestionToWp 
+} from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
 import { isExisted } from "../../../utils/helpers";
 
@@ -66,15 +71,11 @@ class Form extends React.Component {
         countsOfAnswer: currentQuestion.data.answers.length
       })
     } else {
-      // const id = uniqid()
-
       this.setState(({ test }) => ({
         test: {
           ...test,
-          // id,
           data: {
             ...test.data,
-            // id
           }
         },
         countsOfAnswer: 1
@@ -174,7 +175,11 @@ class Form extends React.Component {
 
   handleSubmit = () => {
     const { test } = this.state,
-          { handleSaveQuestion, handleCreateQuestion, isNewlyCreated, handleCreateQuestionToWp, handleSaveQuestionToWp } = this.props
+          { 
+            isNewlyCreated, 
+            handleCreateQuestionToWp, 
+            handleSaveQuestionToWp 
+          } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOtherNotes = JSON.stringify(convertToRaw(contentState))
@@ -196,18 +201,10 @@ class Form extends React.Component {
       }
     }
 
-    // if (isNewlyCreated) {
-    //   return handleCreateQuestion(finalTest, this.resetForm)
-    // } else {
-    //   return handleSaveQuestion(test.id, finalTest)
-    // }
-
     if (isNewlyCreated) {
       return handleCreateQuestionToWp(finalTest, this.resetForm)
-        // .catch(err => alert(err))
     } else {
       return handleSaveQuestionToWp(test.id, finalTest)
-        // .catch(err => alert(err))
     }
   }
 
@@ -278,7 +275,6 @@ class Form extends React.Component {
     );
   };
 
-  
   onToggleCode = (e) => {
     e.preventDefault()
     this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));

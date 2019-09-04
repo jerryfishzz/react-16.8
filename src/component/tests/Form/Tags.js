@@ -13,6 +13,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import CreatableSelect from 'react-select/lib/Creatable';
 import { connect } from 'react-redux'
+
 import { handleAddTagToDB } from '../../../actions/tags';
 
 // https://material-ui.com/components/autocomplete/ The source of this component
@@ -52,7 +53,6 @@ const Control = props => {
 }
 
 const Option = props => {
-  // console.log(props)
   return (
     <MenuItem
       buttonRef={props.innerRef}
