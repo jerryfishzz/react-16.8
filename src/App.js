@@ -9,40 +9,26 @@ import ForTest from './component/ForTest';
 import { initializeApp, initializeAppFromWordPress } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
-import { getToken, getQuestionsFromWordPress } from './utils/api';
-import { formatQuestionsFromWordPress } from './utils/helpers';
+import { getToken } from './utils/api';
 
 class App extends Component {
   componentDidMount() {
-    // this.props.initializeApp()
-    //   .catch(err => alert(err))
-    
     getToken()
       .then(token => {
         localStorage.setItem('token', token)
-        // console.log(localStorage.getItem('token'))
       })
       .catch(err => alert(err))
     
-    // getQuestionsFromWordPress()
-    //   .then(questions => {
-    //     console.log(questions)
-    //     console.log(formatQuestionsFromWordPress(questions))
-    //   })
-
     this.props.initializeAppFromWordPress()
       .catch(err => alert(err))
   }
 
   render () {
-    // console.log(localStorage.getItem('token'))
     const { testQuestions } = this.props
 
     if (!testQuestions) {
       return <div>Loading</div>
     }
-
-    
 
     return (
       <Router>
