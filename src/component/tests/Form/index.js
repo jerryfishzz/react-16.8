@@ -12,8 +12,7 @@ import { connect } from 'react-redux'
 
 import Tags from './Tags';
 import CreateSnackbar from '../Snackbar'
-import { 
-  handleSaveQuestion, 
+import {  
   handleCreateQuestion, 
   handleCreateQuestionToWp, 
   handleSaveQuestionToWp 
@@ -427,7 +426,6 @@ const styles = theme => ({
 export default connect(
   mapStateToProps,
   { 
-    handleSaveQuestion, 
     handleCreateQuestion, 
     handleCreateQuestionToWp,
     handleSaveQuestionToWp
