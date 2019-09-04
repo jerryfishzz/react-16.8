@@ -8,9 +8,10 @@ import {
   Tooltip 
 } from '@material-ui/core';
 import Shuffle from '@material-ui/icons/Shuffle';
-import CreateDialog from '../tests/Dialog'
 import { connect } from 'react-redux'
-import { initializeApp, initializeAppFromWordPress } from '../../actions/shared.js';
+
+import CreateDialog from '../tests/Dialog'
+import { initializeAppFromWordPress } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 
@@ -38,8 +39,6 @@ const Header = ({ classes, shuffleQuestions }) => (
     </Toolbar>
   </AppBar>
 )
-
-
 
 const mapDispatchToProps = dispatch => {
   const resetNumberAndEdit = () => {
