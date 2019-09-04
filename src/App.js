@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
-import { initializeApp, initializeAppFromWordPress } from './actions/shared';
+import { initializeAppFromWordPress } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
 import { getToken } from './utils/api';
@@ -61,5 +61,5 @@ const mapStateToProps = ({
 
 export default connect(
   mapStateToProps, 
-  { initializeApp, initializeAppFromWordPress }
+  { initializeAppFromWordPress }
 )(App)

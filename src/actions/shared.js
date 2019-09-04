@@ -3,30 +3,8 @@ import * as R from 'ramda'
 
 import { receiveQuestions } from "./test/testQuestions";
 import { receiveTags } from "./tags";
-import { getInitialData, getInitialDataFromWordPress } from "../utils/api";
+import { getInitialDataFromWordPress } from "../utils/api";
 import { formatQuestion, formatQuestionsFromWordPress } from "../utils/helpers";
-
-export function initializeApp(cb = null) {
-  return async dispatch => {
-    try {
-      const [questions, tags] = await getInitialData()
-      
-      const formattedQuestionArray = 
-        Object.keys(questions).map(id => formatQuestion(questions[id]))
-
-      const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
-      const randomizedQuestionsForTest = 
-        shuffleArrayThenTakeFirstTen(formattedQuestionArray)
-
-      dispatch(receiveQuestions(randomizedQuestionsForTest))
-      dispatch(receiveTags(tags))
-
-      if (cb) dispatch(cb())
-    } catch(err) {
-      throw Error('Initialize error')
-    }
-  }
-}
 
 export function initializeAppFromWordPress(cb = null) {
   return async dispatch => {
@@ -36,7 +14,7 @@ export function initializeAppFromWordPress(cb = null) {
       
       if (questions.length) {
         questions = formatQuestionsFromWordPress(questions)
-// console.log(questions)
+
         const formattedQuestionArray = 
           Object.keys(questions).map(id => formatQuestion(questions[id]))
 
