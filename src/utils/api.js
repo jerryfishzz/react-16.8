@@ -60,10 +60,15 @@ export function getToken() {
 
 export function getQuestionsFromWordPress() {
   return fetch('/wp-json/wp/v2/questions')
-    .then(res => {
-      if (res.ok) return res.json()
-      throw Error(res.statusText) 
-    })
+    .then(handleErrors)
+    .then(response => response.json())
+}
+
+export function getAnswersForQuestionFromWp(id) {
+  return fetch(`/wp-json/wp/v2/comments?post=${id}`)
+    .then(handleErrors)
+    .then(response => response.json())
+    // .then(res => console.log(res))
 }
 
 export function getInitialDataFromWordPress() {
@@ -85,6 +90,34 @@ export function addQuestionToWp(newQuestion) {
   })
     .then(handleErrors)
     .then(response => response.json())
+}
+
+export function createAnswerContainerToWp(container) {
+  return fetch('/wp-json/wp/v2/comments', {
+    method: "POST",
+    headers:{
+      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+    body:JSON.stringify(container)
+})
+  .then(handleErrors)
+  .then(response => response.json())
+}
+
+export function updateAnswerContentToWp(id, answer) {
+  return fetch(`/wp-json/acf/v3/comments/${id}`, {
+    method: "POST",
+    headers:{
+      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+    body:JSON.stringify(answer)
+})
+  .then(handleErrors)
+  .then(response => response.json())
 }
 
 export function removeQuestionFromWp(id) {

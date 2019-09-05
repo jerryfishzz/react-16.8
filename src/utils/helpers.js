@@ -51,32 +51,49 @@ export function formatQuestionsFromWordPress(questions) {
       id: cur.id,
       question: cur.acf.title,
       tags: cur.acf.tags.split(','),
-      answers: [
-        {
-          content: cur.acf.answer_a,
-          correctness: cur.acf.answer_a_correctness,
-          note: cur.acf.answer_a_comment
-        },
-        {
-          content: cur.acf.answer_b,
-          correctness: cur.acf.answer_b_correctness,
-          note: cur.acf.answer_b_comment
-        },
-        {
-          content: cur.acf.answer_c,
-          correctness: cur.acf.answer_c_correctness,
-          note: cur.acf.answer_c_comment
-        },
-        {
-          content: cur.acf.answer_d,
-          correctness: cur.acf.answer_d_correctness,
-          note: cur.acf.answer_d_comment
-        }
-      ],
+      // answers: [
+      //   {
+      //     content: cur.acf.answer_a,
+      //     correctness: cur.acf.answer_a_correctness,
+      //     note: cur.acf.answer_a_comment
+      //   },
+      //   {
+      //     content: cur.acf.answer_b,
+      //     correctness: cur.acf.answer_b_correctness,
+      //     note: cur.acf.answer_b_comment
+      //   },
+      //   {
+      //     content: cur.acf.answer_c,
+      //     correctness: cur.acf.answer_c_correctness,
+      //     note: cur.acf.answer_c_comment
+      //   },
+      //   {
+      //     content: cur.acf.answer_d,
+      //     correctness: cur.acf.answer_d_correctness,
+      //     note: cur.acf.answer_d_comment
+      //   }
+      // ],
       otherNotes: cur.acf.other_notes
     }
   })
   return questions.reduce(reducer, {})
+}
+
+export function addAnswersToQuestion(answers, question) {
+  const organizedAnswers = answers.map(answer => ({
+    id: answer.id,
+    content: answer.acf.content,
+    correctness: answer.acf.correctness,
+    note: answer.acf.comment
+  }))
+
+  return {
+    ...question,
+    data: {
+      ...question.data,
+      answers: organizedAnswers
+    }
+  }
 }
 
 const getReadyToFormat = answers => name => {
@@ -96,36 +113,53 @@ const getReadyToFormat = answers => name => {
 }
 
 export function formatForWp(newQuestion) {
-  const getAnswers = getReadyToFormat(newQuestion.data.answers)
-  const getAnswerContent = getAnswers('content')
-  const getAnswerCorrectness = getAnswers('correctness')
-  const getAnswerNote = getAnswers('note')
+  // const getAnswers = getReadyToFormat(newQuestion.data.answers)
+  // const getAnswerContent = getAnswers('content')
+  // const getAnswerCorrectness = getAnswers('correctness')
+  // const getAnswerNote = getAnswers('note')
 
   return {
     title: newQuestion.data.question,
     fields: {
       title: newQuestion.data.question,
       tags: newQuestion.data.tags.join(),
-      answer_a: getAnswerContent(0),
-      answer_a_correctness: getAnswerCorrectness(0),
-      answer_a_comment: getAnswerNote(0),
-      answer_b: getAnswerContent(1),
-      answer_b_correctness: getAnswerCorrectness(1),
-      answer_b_comment: getAnswerNote(1),
-      answer_c: getAnswerContent(2),
-      answer_c_correctness: getAnswerCorrectness(2),
-      answer_c_comment: getAnswerNote(2),
-      answer_d: getAnswerContent(3),
-      answer_d_correctness: getAnswerCorrectness(3),
-      answer_d_comment: getAnswerNote(3),
+      // answer_a: getAnswerContent(0),
+      // answer_a_correctness: getAnswerCorrectness(0),
+      // answer_a_comment: getAnswerNote(0),
+      // answer_b: getAnswerContent(1),
+      // answer_b_correctness: getAnswerCorrectness(1),
+      // answer_b_comment: getAnswerNote(1),
+      // answer_c: getAnswerContent(2),
+      // answer_c_correctness: getAnswerCorrectness(2),
+      // answer_c_comment: getAnswerNote(2),
+      // answer_d: getAnswerContent(3),
+      // answer_d_correctness: getAnswerCorrectness(3),
+      // answer_d_comment: getAnswerNote(3),
       other_notes: newQuestion.data.otherNotes
     },
     status: "publish"
   }
 }
 
+// export function generateAnswerCreationBody(id) {
+//   return {
+//     post: id,
+//   }
+// }
+
+export function formatAnswer(answer) {
+  return {
+    post: answer.id,
+    fields: {
+      content: answer.content,
+      correctness: answer.correctness,
+      note: answer.note
+    }
+  }
+}
+
 export function handleErrors(response) {
-  console.log(response)
+  // console.log(response)
   if (!response.ok) {
       throw Error(response.statusText);
   }

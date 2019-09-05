@@ -2,7 +2,10 @@ import {
   updateQuestion, 
   addQuestionToDB, 
   addQuestionToWp, 
-  updateQuestionToWp 
+  updateQuestionToWp, 
+  addAnswerToWp,
+  createAnswerContainerToWp,
+  updateAnswerContentToWp
 } from "../../utils/api";
 import { formatForDB, formatForWp } from "../../utils/helpers";
 
@@ -96,6 +99,31 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
       const questionForWp = formatForWp(newQuestion)
       // console.log(questionForWp)
       const { id } = await addQuestionToWp(questionForWp)
+      console.log(id)
+      await Promise.all(newQuestion.data.answers.map(
+        async answer => {
+          try {
+            console.log(answer)
+            const container = {
+              post: id,
+              content: answer.content
+            }
+            const {id: aid} = await createAnswerContainerToWp(container)
+console.log(aid)
+            const formattedAnswer = {
+              fields: {
+                content: answer.content,
+                correctness: answer.correctness,
+                note: answer.note
+              }
+            }
+            await updateAnswerContentToWp(aid, formattedAnswer)
+          } catch(err) {
+            throw Error('Add answer error')
+          }
+        })
+      )
+      
 
       const questionWithWpId = {
         ...newQuestion,
@@ -105,6 +133,7 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
           id
         }
       }
+
       dispatch(createQuestion(questionWithWpId))
       cb()
     } catch(err) {
