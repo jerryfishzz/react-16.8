@@ -3,12 +3,15 @@ import * as R from 'ramda'
 
 import { receiveQuestions } from "./test/testQuestions";
 import { receiveTags } from "./tags";
-import { getInitialDataFromWordPress, getAnswersForQuestionFromWp } from "../utils/api";
-import { formatQuestion, formatQuestionsFromWordPress, addAnswersToQuestion } from "../utils/helpers";
-
-// const getData = async questions => {
-//   return await Promise.all(questions.map(item => anAsyncFunction(item)))
-// }
+import { 
+  getInitialDataFromWordPress, 
+  getAnswersForQuestionFromWp 
+} from "../utils/api";
+import { 
+  formatQuestion, 
+  formatQuestionsFromWordPress, 
+  addAnswersToQuestion 
+} from "../utils/helpers";
 
 export function initializeAppFromWordPress(cb = null) {
   return async dispatch => {
@@ -19,13 +22,14 @@ export function initializeAppFromWordPress(cb = null) {
       if (questions.length) {
         questions = formatQuestionsFromWordPress(questions) // an object
 
+        // an array of objects
         const formattedQuestionArray = 
-          Object.keys(questions).map(id => formatQuestion(questions[id])) // an array of objects
+          Object.keys(questions).map(id => formatQuestion(questions[id])) 
 
         const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
 
-        randomizedQuestionsForTest = shuffleArrayThenTakeFirstTen(formattedQuestionArray)
-
+        randomizedQuestionsForTest = 
+          shuffleArrayThenTakeFirstTen(formattedQuestionArray)
         
         randomizedQuestionsForTest = await Promise.all(
           randomizedQuestionsForTest.map(async question => {
@@ -38,9 +42,8 @@ export function initializeAppFromWordPress(cb = null) {
             }
           })
         )
-        
       }
-      // console.log(randomizedQuestionsForTest)
+      
       dispatch(receiveQuestions(randomizedQuestionsForTest))
       dispatch(receiveTags(tags))
 
