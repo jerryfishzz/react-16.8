@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { connect } from 'react-redux'
 
 class CreateSnackbar extends React.Component {
   state = {
@@ -28,6 +29,7 @@ class CreateSnackbar extends React.Component {
       this.setState({ 
         open: false,
       });
+      this.props.initializeFromContent(this.props.currentQuestion)
     }
   };
 
@@ -92,6 +94,18 @@ class CreateSnackbar extends React.Component {
   }
 }
 
+const mapStateToProps = ({ 
+  test: { currentQuestionNumber, testQuestions } 
+}) => {
+  const currentQuestion = testQuestions.length 
+    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+    : {}
+
+  return {
+    currentQuestion,
+  }
+}
+
 CreateSnackbar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
@@ -105,4 +119,4 @@ const styles = theme => ({
   }
 });
 
-export default withStyles(styles)(CreateSnackbar);
+export default connect(mapStateToProps)(withStyles(styles)(CreateSnackbar));

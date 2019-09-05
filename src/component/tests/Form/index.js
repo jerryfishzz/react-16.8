@@ -53,23 +53,24 @@ class Form extends React.Component {
     const { isNewlyCreated, currentQuestion } = this.props
 
     if (!isNewlyCreated) {
-      this.setState({
-        test: {
-          ...currentQuestion,
-          data: {
-            ...currentQuestion.data,
-            question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
-            answers: currentQuestion.data.answers.map(answer => ({
-              ...answer,
-              content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
-              note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
-            })),
-            otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
-          }
-        },
-        isFormValidate: true,
-        countsOfAnswer: currentQuestion.data.answers.length
-      })
+      this.initializeFromContent(currentQuestion)
+      // this.setState({
+      //   test: {
+      //     ...currentQuestion,
+      //     data: {
+      //       ...currentQuestion.data,
+      //       question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
+      //       answers: currentQuestion.data.answers.map(answer => ({
+      //         ...answer,
+      //         content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
+      //         note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
+      //       })),
+      //       otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
+      //     }
+      //   },
+      //   isFormValidate: true,
+      //   countsOfAnswer: currentQuestion.data.answers.length
+      // })
     } else {
       this.setState(({ test }) => ({
         test: {
@@ -81,6 +82,26 @@ class Form extends React.Component {
         countsOfAnswer: 1
       }))
     }
+  }
+
+  initializeFromContent = currentQuestion => {
+    this.setState({
+      test: {
+        ...currentQuestion,
+        data: {
+          ...currentQuestion.data,
+          question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
+          answers: currentQuestion.data.answers.map(answer => ({
+            ...answer,
+            content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
+            note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
+          })),
+          otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
+        }
+      },
+      isFormValidate: true,
+      countsOfAnswer: currentQuestion.data.answers.length
+    })
   }
 
   handleChange = name => ({ target: { value } }) => {
@@ -351,6 +372,7 @@ class Form extends React.Component {
           handleSubmit={this.handleSubmit}
           isFormValidate={isFormValidate}
           isNewlyCreated={isNewlyCreated}
+          initializeFromContent={this.initializeFromContent}
         />
       </form>
     )
