@@ -6,8 +6,6 @@ import {
   _addQuestionToDB 
 } from "./store";
 import { handleErrors } from "./helpers";
-// import { resolve } from "url";
-// import { reject } from "q";
 
 export function getQuestions() {
   return _getQuestions()
@@ -48,14 +46,9 @@ export function getToken() {
         password: 'tj22K5dTBOGQ1I7G*h'
     })
   })
-  .then(res => {
-    // console.log(res)
-    if (res.ok) return res.json()
-    throw Error(res.statusText) 
-  })
-  .then(res => {
-    return res.token
-  })
+    .then(handleErrors)
+    .then(response => response.json())
+    .then(res => res.token)
 }
 
 export function getQuestionsFromWordPress() {
@@ -68,7 +61,6 @@ export function getAnswersForQuestionFromWp(id) {
   return fetch(`/wp-json/wp/v2/comments?post=${id}`)
     .then(handleErrors)
     .then(response => response.json())
-    // .then(res => console.log(res))
 }
 
 export function getInitialDataFromWordPress() {
