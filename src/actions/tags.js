@@ -10,18 +10,6 @@ export function receiveTags(tags) {
   }
 }
 
-// export function handleReceiveTags() {
-//   return async dispatch => {
-//     try {
-//       const tags = await getTags()
-
-//       dispatch(receiveTags(tags))
-//     } catch(err) {
-//       throw Error('Get Tags error')
-//     }
-//   }
-// }
-
 function addTag(newTag) {
   return {
     type: ADD_TAG,
