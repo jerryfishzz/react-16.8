@@ -99,17 +99,17 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
       const questionForWp = formatForWp(newQuestion)
       // console.log(questionForWp)
       const { id } = await addQuestionToWp(questionForWp)
-      console.log(id)
+      // console.log(id)
       await Promise.all(newQuestion.data.answers.map(
         async answer => {
           try {
-            console.log(answer)
+            // console.log(answer)
             const container = {
               post: id,
               content: answer.content
             }
             const {id: aid} = await createAnswerContainerToWp(container)
-console.log(aid)
+// console.log(aid)
             const formattedAnswer = {
               fields: {
                 content: answer.content,

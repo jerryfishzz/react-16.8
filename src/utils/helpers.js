@@ -84,7 +84,7 @@ export function addAnswersToQuestion(answers, question) {
     id: answer.id,
     content: answer.acf.content,
     correctness: answer.acf.correctness,
-    note: answer.acf.comment
+    note: answer.acf.note
   }))
 
   return {

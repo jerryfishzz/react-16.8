@@ -21,7 +21,7 @@ import { getTheAlphanumericOrder, validateDraftFromString } from '../../utils/he
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
   const { data } = currentQuestion
-
+// console.log(currentQuestion)
   if (data.answers.length) {
     for (let i = 0; i < data.answers.length; i++) {
       if (validateDraftFromString(data.answers[i].note)) {
