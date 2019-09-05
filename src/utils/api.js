@@ -146,3 +146,16 @@ export function updateQuestionToWp(id, updatedQuestion) {
     .then(handleErrors)
     .then(response => response.json())
 }
+
+export function removeAnswerFromWp(id) {
+  return fetch(`/wp-json/wp/v2/comments/${id}`, {
+    method: "DELETE",
+    headers:{
+      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+  })
+    .then(handleErrors)
+    .then(response => response.json())
+}

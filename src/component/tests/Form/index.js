@@ -180,7 +180,7 @@ class Form extends React.Component {
   }
 
   handleSubmit = () => {
-    const { test } = this.state,
+    const { test, removed } = this.state,
           { 
             isNewlyCreated, 
             handleCreateQuestionToWp, 
@@ -210,7 +210,7 @@ class Form extends React.Component {
     if (isNewlyCreated) {
       return handleCreateQuestionToWp(finalTest, this.resetForm)
     } else {
-      return handleSaveQuestionToWp(test.id, finalTest)
+      return handleSaveQuestionToWp(test.id, finalTest, removed)
     }
   }
 

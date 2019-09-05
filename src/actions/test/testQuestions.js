@@ -7,7 +7,8 @@ import {
   updateQuestionToWp, 
   addAnswerToWp,
   createAnswerContainerToWp,
-  updateAnswerContentToWp
+  updateAnswerContentToWp,
+  removeAnswerFromWp
 } from "../../utils/api";
 import { formatForDB, formatForWp, formatAnswer, createAnswerContainer } from "../../utils/helpers";
 
@@ -55,7 +56,7 @@ function saveQuestion(updatedQuestion) {
   }
 }
 
-export function handleSaveQuestionToWp(id, updatedQuestion) {
+export function handleSaveQuestionToWp(id, updatedQuestion, removed) {
   return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
@@ -77,15 +78,26 @@ export function handleSaveQuestionToWp(id, updatedQuestion) {
               const {id: aid} = await createAnswerContainerToWp(container)
               containerId = aid
             }
-console.log(containerId)
+// console.log(containerId)
             await updateAnswerContentToWp(containerId, answersForWp)
           } catch(err) {
             throw err
           }
         })
 
+      const removingAnswersPromise = removed.length
+        ? removed.map(async id => {
+            try {
+              await removeAnswerFromWp(id)
+            } catch(err) {
+              throw Error('Remove answer error')
+            }
+          })
+        : []
+
       const promisesCollection = [
         ...updatingAnswersPromises,
+        ...removingAnswersPromise,
         updateQuestionToWp(id, questionForWp)
       ]
       
