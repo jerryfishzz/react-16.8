@@ -1,16 +1,17 @@
-import uniqid from 'uniqid'
-
 import { 
-  updateQuestion, 
   addQuestionToDB, 
   addQuestionToWp, 
-  updateQuestionToWp, 
-  addAnswerToWp,
+  updateQuestionToWp,
   createAnswerContainerToWp,
   updateAnswerContentToWp,
   removeAnswerFromWp
 } from "../../utils/api";
-import { formatForDB, formatForWp, formatAnswer, createAnswerContainer } from "../../utils/helpers";
+import { 
+  formatForDB, 
+  formatForWp, 
+  formatAnswer, 
+  createAnswerContainer 
+} from "../../utils/helpers";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
@@ -69,8 +70,6 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed) {
         updatedQuestion.data.answers.map(async answer => {
           try {
             const answersForWp = formatAnswer(answer)
-            console.log(answersForWp, answer.id)
-
             let containerId = answer.id
 
             if (!containerId) {
@@ -78,21 +77,15 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed) {
               const {id: aid} = await createAnswerContainerToWp(container)
               containerId = aid
             }
-// console.log(containerId)
-            await updateAnswerContentToWp(containerId, answersForWp)
+
+            return updateAnswerContentToWp(containerId, answersForWp)
           } catch(err) {
             throw err
           }
         })
 
       const removingAnswersPromise = removed.length
-        ? removed.map(async id => {
-            try {
-              await removeAnswerFromWp(id)
-            } catch(err) {
-              throw Error('Remove answer error')
-            }
-          })
+        ? removed.map(removeAnswerFromWp)
         : []
 
       const promisesCollection = [
@@ -102,7 +95,6 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed) {
       ]
       
       await Promise.all(promisesCollection)
-
 
       dispatch(saveQuestion(updatedQuestion))
     } catch(err) {
@@ -139,42 +131,22 @@ async function createAnswerToWp(answer, id) {
     const {id: aid} = await createAnswerContainerToWp(container)
 
     const formattedAnswer = formatAnswer(answer)
-    await updateAnswerContentToWp(aid, formattedAnswer)
+    return updateAnswerContentToWp(aid, formattedAnswer)
   } catch(err) {
     throw Error('Add answer error')
   }
 }
 
-
 export function handleCreateQuestionToWp(newQuestion, cb) {
-  // console.log(11111111)
   return async dispatch => {
     try {
       const questionForWp = formatForWp(newQuestion)
-      // console.log(questionForWp)
+      
       const { id } = await addQuestionToWp(questionForWp)
-      // console.log(id)
+      
       await Promise.all(newQuestion.data.answers.map(answer => {
         return createAnswerToWp(answer, id)
       }))
-//         async answer => {
-//           try {
-//             // console.log(answer)
-//             const container = createAnswerContainer(id)
-//             const {id: aid} = await createAnswerContainerToWp(container)
-// // console.log(aid)
-//             const formattedAnswer = formatAnswer(answer)
-
-//             await updateAnswerContentToWp(aid, formattedAnswer)
-//           } catch(err) {
-//             throw Error('Add answer error')
-//           }
-//         })
-        // answer => {
-        //   return createAnswerToWp(id, answer)
-        // }
-      // )
-      
 
       const questionWithWpId = {
         ...newQuestion,
