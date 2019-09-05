@@ -42,6 +42,7 @@ class Form extends React.Component {
         selectedAnswer: null,
         isSubmitted: false,
       },
+      removed: [],
       isFormValidate: false,
       isFocus: false,
       countsOfAnswer: 0
@@ -146,8 +147,13 @@ class Form extends React.Component {
     }), this.validateForm)
   }
 
-  onDelete = index => {
-    this.setState(({ test, test : { data: { answers } }, countsOfAnswer }) => ({
+  onDelete = (index, id) => {
+    this.setState(({ 
+      test, 
+      test : { data: { answers } }, 
+      removed,
+      countsOfAnswer 
+    }) => ({
       test: {
         ...test,
         data: {
@@ -155,6 +161,7 @@ class Form extends React.Component {
           answers: answers.filter((a, i) => i !== index)
         }
       },
+      removed: id ? [...removed, id] : removed,
       countsOfAnswer: countsOfAnswer - 1
     }), this.validateForm)
   }

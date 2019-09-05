@@ -73,7 +73,7 @@ const AnswerForm = ({
                   }
                 >
                   <Button 
-                    onClick={() => onDelete(i)} 
+                    onClick={() => onDelete(i, a.id)} 
                     color="primary" 
                     variant="outlined" 
                     size="small"

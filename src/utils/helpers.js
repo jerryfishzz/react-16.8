@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import { EditorState, convertToRaw } from "draft-js";
+import uniqid from 'uniqid'
 
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
@@ -154,6 +155,13 @@ export function formatAnswer(answer) {
       correctness: answer.correctness,
       note: answer.note
     }
+  }
+}
+
+export function createAnswerContainer(id) {
+  return {
+    post: id,
+    content: uniqid()
   }
 }
 
