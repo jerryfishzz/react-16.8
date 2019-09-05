@@ -149,7 +149,6 @@ export function formatForWp(newQuestion) {
 
 export function formatAnswer(answer) {
   return {
-    post: answer.id,
     fields: {
       content: answer.content,
       correctness: answer.correctness,

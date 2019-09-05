@@ -1,3 +1,5 @@
+import uniqid from 'uniqid'
+
 import { 
   updateQuestion, 
   addQuestionToDB, 
@@ -7,7 +9,7 @@ import {
   createAnswerContainerToWp,
   updateAnswerContentToWp
 } from "../../utils/api";
-import { formatForDB, formatForWp } from "../../utils/helpers";
+import { formatForDB, formatForWp, formatAnswer } from "../../utils/helpers";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
@@ -61,7 +63,24 @@ export function handleSaveQuestionToWp(id, updatedQuestion) {
 
     try {
       const questionForWp = formatForWp(updatedQuestion)
-      await updateQuestionToWp(id, questionForWp)
+      
+      const updatingAnswersPromises = 
+        updatedQuestion.data.answers.map(async answer => {
+          try {
+            const answersForWp = formatAnswer(answer)
+            console.log(answersForWp, answer.id)
+            await updateAnswerContentToWp(answer.id, answersForWp)
+          } catch(err) {
+            throw err
+          }
+        })
+      const promisesCollection = [
+        ...updatingAnswersPromises,
+        updateQuestionToWp(id, questionForWp)
+      ]
+      
+      await Promise.all(promisesCollection)
+
 
       dispatch(saveQuestion(updatedQuestion))
     } catch(err) {
@@ -106,7 +125,7 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
             // console.log(answer)
             const container = {
               post: id,
-              content: answer.content
+              content: uniqid()
             }
             const {id: aid} = await createAnswerContainerToWp(container)
 // console.log(aid)

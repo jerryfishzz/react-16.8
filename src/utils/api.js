@@ -80,13 +80,13 @@ export function getInitialDataFromWordPress() {
 
 export function addQuestionToWp(newQuestion) {
   return fetch('/wp-json/wp/v2/questions', {
-      method: "POST",
-      headers:{
-        'Content-Type': 'application/json',
-        'accept': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-      },
-      body:JSON.stringify(newQuestion)
+    method: "POST",
+    headers:{
+      'Content-Type': 'application/json',
+      'accept': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    },
+    body:JSON.stringify(newQuestion)
   })
     .then(handleErrors)
     .then(response => response.json())
@@ -101,9 +101,9 @@ export function createAnswerContainerToWp(container) {
       'Authorization': 'Bearer ' + localStorage.getItem('token')
     },
     body:JSON.stringify(container)
-})
-  .then(handleErrors)
-  .then(response => response.json())
+  })
+    .then(handleErrors)
+    .then(response => response.json())
 }
 
 export function updateAnswerContentToWp(id, answer) {
@@ -115,9 +115,9 @@ export function updateAnswerContentToWp(id, answer) {
       'Authorization': 'Bearer ' + localStorage.getItem('token')
     },
     body:JSON.stringify(answer)
-})
-  .then(handleErrors)
-  .then(response => response.json())
+  })
+    .then(handleErrors)
+    .then(response => response.json())
 }
 
 export function removeQuestionFromWp(id) {

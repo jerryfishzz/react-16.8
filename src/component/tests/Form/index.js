@@ -208,13 +208,13 @@ class Form extends React.Component {
   }
 
   resetForm = () => {
-    const id = uniqid()
+    // const id = uniqid()
 
     this.setState({
       test: {
-        id,
+        // id,
         data: {
-          id,
+          // id,
           question: EditorState.createEmpty(),
           tags: [],
           answers: [{
