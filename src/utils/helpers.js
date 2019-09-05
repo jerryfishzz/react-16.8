@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { EditorState, convertToRaw } from "draft-js";
+import { convertToRaw } from "draft-js";
 import uniqid from 'uniqid'
 
 const alphanumericString = 'ABCDEFG'
@@ -52,28 +52,6 @@ export function formatQuestionsFromWordPress(questions) {
       id: cur.id,
       question: cur.acf.title,
       tags: cur.acf.tags.split(','),
-      // answers: [
-      //   {
-      //     content: cur.acf.answer_a,
-      //     correctness: cur.acf.answer_a_correctness,
-      //     note: cur.acf.answer_a_comment
-      //   },
-      //   {
-      //     content: cur.acf.answer_b,
-      //     correctness: cur.acf.answer_b_correctness,
-      //     note: cur.acf.answer_b_comment
-      //   },
-      //   {
-      //     content: cur.acf.answer_c,
-      //     correctness: cur.acf.answer_c_correctness,
-      //     note: cur.acf.answer_c_comment
-      //   },
-      //   {
-      //     content: cur.acf.answer_d,
-      //     correctness: cur.acf.answer_d_correctness,
-      //     note: cur.acf.answer_d_comment
-      //   }
-      // ],
       otherNotes: cur.acf.other_notes
     }
   })
@@ -97,56 +75,17 @@ export function addAnswersToQuestion(answers, question) {
   }
 }
 
-const getReadyToFormat = answers => name => {
-  return index => {
-    const len = answers.length
-
-    if (index >= len) {
-      if (name === 'correctness') return false
-      
-      const blankState = EditorState.createEmpty().getCurrentContent()
-      const blankStateString = JSON.stringify(convertToRaw(blankState))
-      return blankStateString
-    }
-    
-    return answers.map(answer => answer[name])[index]
-  }
-}
-
 export function formatForWp(newQuestion) {
-  // const getAnswers = getReadyToFormat(newQuestion.data.answers)
-  // const getAnswerContent = getAnswers('content')
-  // const getAnswerCorrectness = getAnswers('correctness')
-  // const getAnswerNote = getAnswers('note')
-
   return {
     title: newQuestion.data.question,
     fields: {
       title: newQuestion.data.question,
       tags: newQuestion.data.tags.join(),
-      // answer_a: getAnswerContent(0),
-      // answer_a_correctness: getAnswerCorrectness(0),
-      // answer_a_comment: getAnswerNote(0),
-      // answer_b: getAnswerContent(1),
-      // answer_b_correctness: getAnswerCorrectness(1),
-      // answer_b_comment: getAnswerNote(1),
-      // answer_c: getAnswerContent(2),
-      // answer_c_correctness: getAnswerCorrectness(2),
-      // answer_c_comment: getAnswerNote(2),
-      // answer_d: getAnswerContent(3),
-      // answer_d_correctness: getAnswerCorrectness(3),
-      // answer_d_comment: getAnswerNote(3),
       other_notes: newQuestion.data.otherNotes
     },
     status: "publish"
   }
 }
-
-// export function generateAnswerCreationBody(id) {
-//   return {
-//     post: id,
-//   }
-// }
 
 export function formatAnswer(answer) {
   return {
@@ -166,7 +105,6 @@ export function createAnswerContainer(id) {
 }
 
 export function handleErrors(response) {
-  // console.log(response)
   if (!response.ok) {
       throw Error(response.statusText);
   }
