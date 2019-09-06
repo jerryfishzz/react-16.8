@@ -57,7 +57,7 @@ class Answers extends React.Component {
         <List component="nav">
           {currentQuestion.data.answers.map((a, i) => {
             if (!validateDraftFromString(a.content)) return null
-      
+
             return (
               <ListItem 
                 key={i}

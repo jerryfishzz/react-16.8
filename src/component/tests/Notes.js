@@ -34,7 +34,7 @@ const Notes = ({ currentQuestion, classes }) => {
     }
 
     if (!hasNotes) {
-      if (validateDraft(data.otherNotes)) hasNotes = true
+      if (validateDraftFromString(data.otherNotes)) hasNotes = true
     }
   } 
 
@@ -47,7 +47,7 @@ const Notes = ({ currentQuestion, classes }) => {
     return true;
   }
 
-  const otherNotes = validateDraft(data.otherNotes) 
+  const otherNotes = validateDraftFromString(data.otherNotes) 
     ? <Fragment>
         <Divider variant="inset" className={classes.divider} />
         
@@ -102,7 +102,7 @@ const Notes = ({ currentQuestion, classes }) => {
         ? currentQuestion.isSubmitted
           ? <List>
               {data.answers.map((a, i) => {
-                if (!validateDraft(a.note)) return null
+                if (!validateDraftFromString(a.note)) return null
 
                 return (
                   <ListItem 
