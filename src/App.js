@@ -13,6 +13,7 @@ import { getToken } from './utils/api';
 
 class App extends Component {
   componentDidMount() {
+    console.log(999999)
     getToken()
       .then(token => {
         console.log(token)
