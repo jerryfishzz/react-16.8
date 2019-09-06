@@ -15,7 +15,6 @@ class App extends Component {
   componentDidMount() {
     getToken()
       .then(token => {
-        console.log(token)
         localStorage.setItem('token', token)
       })
       .catch(err => alert(err))
