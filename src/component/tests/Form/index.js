@@ -5,7 +5,6 @@ import {
 } from '@material-ui/core';
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
-import uniqid from 'uniqid'
 import classNames from 'classnames';
 import { EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
@@ -54,23 +53,6 @@ class Form extends React.Component {
 
     if (!isNewlyCreated) {
       this.initializeFromContent(currentQuestion)
-      // this.setState({
-      //   test: {
-      //     ...currentQuestion,
-      //     data: {
-      //       ...currentQuestion.data,
-      //       question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
-      //       answers: currentQuestion.data.answers.map(answer => ({
-      //         ...answer,
-      //         content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
-      //         note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
-      //       })),
-      //       otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
-      //     }
-      //   },
-      //   isFormValidate: true,
-      //   countsOfAnswer: currentQuestion.data.answers.length
-      // })
     } else {
       this.setState(({ test }) => ({
         test: {
@@ -195,7 +177,6 @@ class Form extends React.Component {
           ...prevState.test.data,
           tags: newTagArr.map(tag => tag.value)
         }
-        
       }
     }))
   }
@@ -236,13 +217,9 @@ class Form extends React.Component {
   }
 
   resetForm = () => {
-    // const id = uniqid()
-
     this.setState({
       test: {
-        // id,
         data: {
-          // id,
           question: EditorState.createEmpty(),
           tags: [],
           answers: [{
