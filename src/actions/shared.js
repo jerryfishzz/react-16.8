@@ -43,7 +43,7 @@ export function initializeAppFromWordPress(cb = null) {
           })
         )
       }
-      
+
       dispatch(receiveQuestions(randomizedQuestionsForTest))
       dispatch(receiveTags(tags))
 

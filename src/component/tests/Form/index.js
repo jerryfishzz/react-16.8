@@ -29,7 +29,7 @@ class Form extends React.Component {
         data: {
           id: '',
           question: EditorState.createEmpty(),
-          tags: [],
+          tages: [],
           answers: [{
             content: EditorState.createEmpty(),
             correctness: false,
@@ -131,7 +131,7 @@ class Form extends React.Component {
   }
   
   onNewAnswer = () => {
-    this.setState(({ test, test : { data: { answers } }, countsOfAnswer }) => ({
+    this.setState(({ test, test : { data: { answers } } }) => ({
       test: {
         ...test,
         data: {
@@ -144,9 +144,9 @@ class Form extends React.Component {
               note: EditorState.createEmpty()
             }
           ]
-        }
-      },
-      countsOfAnswer: countsOfAnswer + 1
+        },
+        countsOfAnswer: countsOfAnswer + 1
+      }
     }), this.validateForm)
   }
 
@@ -210,7 +210,7 @@ class Form extends React.Component {
     }
 
     if (isNewlyCreated) {
-      return handleCreateQuestionToWp(finalTest, this.resetForm)
+      return handleCreateQuestion(finalTest, this.resetForm)
     } else {
       return handleSaveQuestionToWp(test.id, finalTest, removed)
     }
@@ -221,7 +221,7 @@ class Form extends React.Component {
       test: {
         data: {
           question: EditorState.createEmpty(),
-          tags: [],
+          tages: [],
           answers: [{
             content: EditorState.createEmpty(),
             correctness: false,
@@ -295,7 +295,7 @@ class Form extends React.Component {
 
   render() {
     const { classes, paddingRight, isNewlyCreated } = this.props
-    const { test: { data: { question, tags, answers } }, isFormValidate, countsOfAnswer } = this.state
+    const { test: { data: { question, tags, answers } }, isFormValidate } = this.state
 
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
     const handleQuestionChange = this.handleDraftChange('question')

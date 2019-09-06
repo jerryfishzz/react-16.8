@@ -45,10 +45,6 @@ class Tests extends Component {
       handleSubmitQuestion,
     } = this.props 
 
-    if(!testQuestions.length) { // Need to consider when no questions
-      return <div>No questions</div>
-    }
-
     return (
       <Grid container className={classes.container}>
 
