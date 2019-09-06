@@ -34,7 +34,7 @@ export function addQuestionToDB(newQuestion) {
   return _addQuestionToDB(newQuestion)
 }
 
-const WP_SERVER = 'http://149.28.94.113'
+const WP_SERVER = 'https://149.28.94.113'
 
 export function getToken() {
   return fetch(`${WP_SERVER}/wp-json/jwt-auth/v1/token`, {
