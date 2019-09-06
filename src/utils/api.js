@@ -54,13 +54,13 @@ export function getToken() {
 }
 
 export function getQuestionsFromWordPress() {
-  return fetch('/wp-json/wp/v2/questions')
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions`)
     .then(handleErrors)
     .then(response => response.json())
 }
 
 export function getAnswersForQuestionFromWp(id) {
-  return fetch(`/wp-json/wp/v2/comments?post=${id}`)
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/comments?post=${id}`)
     .then(handleErrors)
     .then(response => response.json())
 }
@@ -73,7 +73,7 @@ export function getInitialDataFromWordPress() {
 }
 
 export function addQuestionToWp(newQuestion) {
-  return fetch('/wp-json/wp/v2/questions', {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions`, {
     method: "POST",
     headers:{
       'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ export function addQuestionToWp(newQuestion) {
 }
 
 export function createAnswerContainerToWp(container) {
-  return fetch('/wp-json/wp/v2/comments', {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/comments`, {
     method: "POST",
     headers:{
       'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export function createAnswerContainerToWp(container) {
 }
 
 export function updateAnswerContentToWp(id, answer) {
-  return fetch(`/wp-json/acf/v3/comments/${id}`, {
+  return fetch(`${WP_SERVER}/wp-json/acf/v3/comments/${id}`, {
     method: "POST",
     headers:{
       'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export function updateAnswerContentToWp(id, answer) {
 }
 
 export function removeQuestionFromWp(id) {
-  return fetch(`/wp-json/wp/v2/questions/${id}`, {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions/${id}`, {
     method: "DELETE",
     headers:{
       'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ export function removeQuestionFromWp(id) {
 }
 
 export function updateQuestionToWp(id, updatedQuestion) {
-  return fetch(`/wp-json/wp/v2/questions/${id}`, {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions/${id}`, {
     method: "POST",
     headers:{
       'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ export function updateQuestionToWp(id, updatedQuestion) {
 }
 
 export function removeAnswerFromWp(id) {
-  return fetch(`/wp-json/wp/v2/comments/${id}`, {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/comments/${id}`, {
     method: "DELETE",
     headers:{
       'Content-Type': 'application/json',
