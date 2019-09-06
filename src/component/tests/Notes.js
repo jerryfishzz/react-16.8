@@ -16,12 +16,15 @@ import deepPurple from '@material-ui/core/colors/deepPurple';
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
 
-import { getTheAlphanumericOrder, validateDraftFromString } from '../../utils/helpers';
+import { 
+  getTheAlphanumericOrder, 
+  validateDraftFromString 
+} from '../../utils/helpers';
 
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
   const { data } = currentQuestion
-// console.log(currentQuestion)
+  
   if (data.answers.length) {
     for (let i = 0; i < data.answers.length; i++) {
       if (validateDraftFromString(data.answers[i].note)) {
