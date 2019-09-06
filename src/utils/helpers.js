@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import { convertToRaw } from "draft-js";
+import uniqid from 'uniqid'
 
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
@@ -35,4 +36,77 @@ export const validateDraft = name => {
   const arrayOfName = blocks.map(block => block.text)
 
   return R.any(isExisted)(arrayOfName)
+}
+
+export const validateDraftFromString = name => {
+  const { blocks } = JSON.parse(name)
+  const arrayOfName = blocks.map(block => block.text)
+
+  return R.any(isExisted)(arrayOfName)
+}
+
+export function formatQuestionsFromWordPress(questions) {
+  const reducer = (acc, cur) => ({
+    ...acc,
+    [cur.id]: {
+      id: cur.id,
+      question: cur.acf.title,
+      tags: cur.acf.tags.split(','),
+      otherNotes: cur.acf.other_notes
+    }
+  })
+  return questions.reduce(reducer, {})
+}
+
+export function addAnswersToQuestion(answers, question) {
+  const organizedAnswers = answers.map(answer => ({
+    id: answer.id,
+    content: answer.acf.content,
+    correctness: answer.acf.correctness,
+    note: answer.acf.note
+  }))
+
+  return {
+    ...question,
+    data: {
+      ...question.data,
+      answers: organizedAnswers
+    }
+  }
+}
+
+export function formatForWp(newQuestion) {
+  return {
+    title: newQuestion.data.question,
+    fields: {
+      title: newQuestion.data.question,
+      tags: newQuestion.data.tags.join(),
+      other_notes: newQuestion.data.otherNotes
+    },
+    status: "publish"
+  }
+}
+
+export function formatAnswer(answer) {
+  return {
+    fields: {
+      content: answer.content,
+      correctness: answer.correctness,
+      note: answer.note
+    }
+  }
+}
+
+export function createAnswerContainer(id) {
+  return {
+    post: id,
+    content: uniqid()
+  }
+}
+
+export function handleErrors(response) {
+  if (!response.ok) {
+      throw Error(response.statusText);
+  }
+  return response;
 }

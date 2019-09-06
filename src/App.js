@@ -6,13 +6,20 @@ import { connect } from 'react-redux'
 import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
-import { initializeApp } from './actions/shared';
+import { initializeAppFromWordPress } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
+import { getToken } from './utils/api';
 
 class App extends Component {
   componentDidMount() {
-    this.props.initializeApp()
+    getToken()
+      .then(token => {
+        localStorage.setItem('token', token)
+      })
+      .catch(err => alert(err))
+    
+    this.props.initializeAppFromWordPress()
       .catch(err => alert(err))
   }
 
@@ -21,10 +28,6 @@ class App extends Component {
 
     if (!testQuestions) {
       return <div>Loading</div>
-    }
-
-    if(!testQuestions.length) { // Need to consider when no questions
-      return <div>No questions</div>
     }
 
     return (
@@ -56,4 +59,7 @@ const mapStateToProps = ({
   }
 }
 
-export default connect(mapStateToProps, { initializeApp })(App)
+export default connect(
+  mapStateToProps, 
+  { initializeAppFromWordPress }
+)(App)

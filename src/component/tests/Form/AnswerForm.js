@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { getTheAlphanumericOrder } from '../../../utils/helpers';
 import indigo from '@material-ui/core/colors/indigo';
+
 import DraftEditor from './DraftEditor';
 
 const AnswerForm = ({ 
@@ -71,7 +72,7 @@ const AnswerForm = ({
                   }
                 >
                   <Button 
-                    onClick={() => onDelete(i)} 
+                    onClick={() => onDelete(i, a.id)} 
                     color="primary" 
                     variant="outlined" 
                     size="small"

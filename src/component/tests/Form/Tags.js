@@ -13,7 +13,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
 import CreatableSelect from 'react-select/lib/Creatable';
 import { connect } from 'react-redux'
+
 import { handleAddTagToDB } from '../../../actions/tags';
+
+// https://material-ui.com/components/autocomplete/ The source of this component
 
 const NoOptionsMessage = props => {
   return (
@@ -50,7 +53,6 @@ const Control = props => {
 }
 
 const Option = props => {
-  // console.log(props)
   return (
     <MenuItem
       buttonRef={props.innerRef}
@@ -203,6 +205,7 @@ const styles = theme => ({
   input: {
     display: 'flex',
     padding: 0,
+    height: 'auto',
   },
   valueContainer: {
     display: 'flex',
@@ -212,7 +215,7 @@ const styles = theme => ({
     overflow: 'hidden',
   },
   chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+    margin: theme.spacing(0.5, 0.25),
   },
   chipFocused: {
     backgroundColor: emphasize(
@@ -221,7 +224,7 @@ const styles = theme => ({
     ),
   },
   noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`,
+    padding: theme.spacing(1, 2),
   },
   placeholder: {
     position: 'absolute',
@@ -231,7 +234,7 @@ const styles = theme => ({
   paper: {
     position: 'absolute',
     zIndex: 1,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     left: 0,
     right: 0,
   },

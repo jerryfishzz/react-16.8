@@ -1,8 +1,17 @@
-import { updateQuestion, addQuestionToDB } from "../../utils/api";
-import { formatForDB } from "../../utils/helpers";
-// import shuffle from 'shuffle-array'
-// import * as R from 'ramda'
-// import { formatQuestion } from "../../utils/helpers";
+import { 
+  addQuestionToDB, 
+  addQuestionToWp, 
+  updateQuestionToWp,
+  createAnswerContainerToWp,
+  updateAnswerContentToWp,
+  removeAnswerFromWp
+} from "../../utils/api";
+import { 
+  formatForDB, 
+  formatForWp, 
+  formatAnswer, 
+  createAnswerContainer 
+} from "../../utils/helpers";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
@@ -17,22 +26,6 @@ export function receiveQuestions(questions) {
     questions
   }
 }
-
-// export function handleReceiveQuestions() {
-//   return async dispatch => {
-//     try {
-//       const questionsObj = await getQuestions()
-//       const questionsArr = Object.keys(questionsObj).map(id => formatQuestion(questionsObj[id]))
-
-//       const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
-//       const randomizedQuestionsForTest = shuffleArrayThenTakeFirstTen(questionsArr)
-
-//       dispatch(receiveQuestions(randomizedQuestionsForTest))
-//     } catch(err) {
-//       throw Error('Get questions error')
-//     }
-//   }
-// }
 
 export function clickAnswer(id, index) {
   return {
@@ -64,25 +57,54 @@ function saveQuestion(updatedQuestion) {
   }
 }
 
-export function handleSaveQuestion(id, updatedQuestion) {
+export function handleSaveQuestionToWp(id, updatedQuestion, removed) {
   return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]
 
     try {
-      const questionForDB = formatForDB(updatedQuestion)
-      await updateQuestion(questionForDB)
+      const questionForWp = formatForWp(updatedQuestion)
+      
+      const updatingAnswersPromises = 
+        updatedQuestion.data.answers.map(async answer => {
+          try {
+            const answersForWp = formatAnswer(answer)
+            let containerId = answer.id
+
+            if (!containerId) {
+              const container = createAnswerContainer(id)
+              const {id: aid} = await createAnswerContainerToWp(container)
+              containerId = aid
+            }
+
+            return updateAnswerContentToWp(containerId, answersForWp)
+          } catch(err) {
+            throw err
+          }
+        })
+
+      const removingAnswersPromise = removed.length
+        ? removed.map(removeAnswerFromWp)
+        : []
+
+      const promisesCollection = [
+        ...updatingAnswersPromises,
+        ...removingAnswersPromise,
+        updateQuestionToWp(id, questionForWp)
+      ]
+      
+      await Promise.all(promisesCollection)
 
       dispatch(saveQuestion(updatedQuestion))
     } catch(err) {
       dispatch(saveQuestion(currentQuestion))
-      throw Error('Update error')
+      throw err
     }
   }
 }
 
-function createQuestion(newQuestion) {
+export function createQuestion(newQuestion) {
   return {
     type: CREATE_QUESTION,
     newQuestion
@@ -99,6 +121,46 @@ export function handleCreateQuestion(newQuestion, cb) {
       cb()
     } catch(err) {
       throw Error('Create question error')
+    }
+  }
+}
+
+async function createAnswerToWp(answer, id) {
+  try {
+    const container = createAnswerContainer(id)
+    const {id: aid} = await createAnswerContainerToWp(container)
+
+    const formattedAnswer = formatAnswer(answer)
+    return updateAnswerContentToWp(aid, formattedAnswer)
+  } catch(err) {
+    throw Error('Add answer error')
+  }
+}
+
+export function handleCreateQuestionToWp(newQuestion, cb) {
+  return async dispatch => {
+    try {
+      const questionForWp = formatForWp(newQuestion)
+      
+      const { id } = await addQuestionToWp(questionForWp)
+      
+      await Promise.all(newQuestion.data.answers.map(answer => {
+        return createAnswerToWp(answer, id)
+      }))
+
+      const questionWithWpId = {
+        ...newQuestion,
+        id,
+        data: {
+          ...newQuestion.data,
+          id
+        }
+      }
+
+      dispatch(createQuestion(questionWithWpId))
+      cb()
+    } catch(err) {
+      throw err
     }
   }
 }

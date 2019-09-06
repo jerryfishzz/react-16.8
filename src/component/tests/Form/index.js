@@ -5,14 +5,17 @@ import {
 } from '@material-ui/core';
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
-import uniqid from 'uniqid'
 import classNames from 'classnames';
 import { EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { connect } from 'react-redux'
 
-import Tags from "./Tags";
+import Tags from './Tags';
 import CreateSnackbar from '../Snackbar'
-import { handleSaveQuestion, handleCreateQuestion } from "../../../actions/test/testQuestions";
+import {  
+  handleCreateQuestion, 
+  handleCreateQuestionToWp, 
+  handleSaveQuestionToWp 
+} from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
 import { isExisted } from "../../../utils/helpers";
 
@@ -38,8 +41,10 @@ class Form extends React.Component {
         selectedAnswer: null,
         isSubmitted: false,
       },
+      removed: [],
       isFormValidate: false,
-      isFocus: false
+      isFocus: false,
+      countsOfAnswer: 0
     }
   }
 
@@ -47,36 +52,38 @@ class Form extends React.Component {
     const { isNewlyCreated, currentQuestion } = this.props
 
     if (!isNewlyCreated) {
-      this.setState({
-        test: {
-          ...currentQuestion,
-          data: {
-            ...currentQuestion.data,
-            question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
-            answers: currentQuestion.data.answers.map(answer => ({
-              ...answer,
-              content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
-              note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
-            })),
-            otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
-          }
-        },
-        isFormValidate: true,
-      })
+      this.initializeFromContent(currentQuestion)
     } else {
-      const id = uniqid()
-
       this.setState(({ test }) => ({
         test: {
           ...test,
-          id,
           data: {
             ...test.data,
-            id
           }
-        }
+        },
+        countsOfAnswer: 1
       }))
     }
+  }
+
+  initializeFromContent = currentQuestion => {
+    this.setState({
+      test: {
+        ...currentQuestion,
+        data: {
+          ...currentQuestion.data,
+          question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
+          answers: currentQuestion.data.answers.map(answer => ({
+            ...answer,
+            content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
+            note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
+          })),
+          otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
+        }
+      },
+      isFormValidate: true,
+      countsOfAnswer: currentQuestion.data.answers.length
+    })
   }
 
   handleChange = name => ({ target: { value } }) => {
@@ -104,6 +111,13 @@ class Form extends React.Component {
           ...test.data,
           answers: answers.map((a, i) => {
             if (i === index) {
+              if (prop === 'correctness') {
+                const { target: { value } } = editorState
+                return {
+                  ...a,
+                  [prop]: value
+                }
+              }
               return {
                 ...a,
                 [prop]: editorState
@@ -130,20 +144,28 @@ class Form extends React.Component {
               note: EditorState.createEmpty()
             }
           ]
-        }
+        },
+        countsOfAnswer: countsOfAnswer + 1
       }
     }), this.validateForm)
   }
 
-  onDelete = index => {
-    this.setState(({ test, test : { data: { answers } } }) => ({
+  onDelete = (index, id) => {
+    this.setState(({ 
+      test, 
+      test : { data: { answers } }, 
+      removed,
+      countsOfAnswer 
+    }) => ({
       test: {
         ...test,
         data: {
           ...test.data,
           answers: answers.filter((a, i) => i !== index)
         }
-      }
+      },
+      removed: id ? [...removed, id] : removed,
+      countsOfAnswer: countsOfAnswer - 1
     }), this.validateForm)
   }
 
@@ -155,14 +177,17 @@ class Form extends React.Component {
           ...prevState.test.data,
           tags: newTagArr.map(tag => tag.value)
         }
-        
       }
     }))
   }
 
   handleSubmit = () => {
-    const { test } = this.state,
-          { handleSaveQuestion, handleCreateQuestion, isNewlyCreated } = this.props
+    const { test, removed } = this.state,
+          { 
+            isNewlyCreated, 
+            handleCreateQuestionToWp, 
+            handleSaveQuestionToWp 
+          } = this.props
     
     const contentState = test.data.otherNotes.getCurrentContent();
     const newOtherNotes = JSON.stringify(convertToRaw(contentState))
@@ -187,18 +212,14 @@ class Form extends React.Component {
     if (isNewlyCreated) {
       return handleCreateQuestion(finalTest, this.resetForm)
     } else {
-      return handleSaveQuestion(test.id, finalTest)
+      return handleSaveQuestionToWp(test.id, finalTest, removed)
     }
   }
 
   resetForm = () => {
-    const id = uniqid()
-
     this.setState({
       test: {
-        id,
         data: {
-          id,
           question: EditorState.createEmpty(),
           tages: [],
           answers: [{
@@ -258,7 +279,6 @@ class Form extends React.Component {
     );
   };
 
-  
   onToggleCode = (e) => {
     e.preventDefault()
     this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
@@ -310,6 +330,7 @@ class Form extends React.Component {
             onAnswerChange={this.onAnswerChange}
             onDelete={this.onDelete}
             onNewAnswer={this.onNewAnswer}
+            countsOfAnswer={countsOfAnswer}
           />
         </div>
 
@@ -328,6 +349,7 @@ class Form extends React.Component {
           handleSubmit={this.handleSubmit}
           isFormValidate={isFormValidate}
           isNewlyCreated={isNewlyCreated}
+          initializeFromContent={this.initializeFromContent}
         />
       </form>
     )
@@ -409,5 +431,9 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { handleSaveQuestion, handleCreateQuestion }
+  { 
+    handleCreateQuestion, 
+    handleCreateQuestionToWp,
+    handleSaveQuestionToWp
+  }
 )(withStyles(styles)(Form));

@@ -15,9 +15,9 @@ import ProgressingBar from './ProgressingBar';
 import Notes from './Notes';
 import Form from './Form'
 import { toggleEdit } from '../../actions/test/editQuestion';
-import { 
-  handleRemoveQuestion, 
-  handleSubmitQuestion 
+import {
+  handleSubmitQuestion, 
+  handleRemoveQuestionFromWp
 } from '../../actions/test/shared';
 
 
@@ -30,8 +30,9 @@ class Tests extends Component {
   // This should be used to prevent this question being chosen again from database. 
   // Implement the simple delete first. Later will work on the above requiremnet.
   handleDelete = id => {
-    const { handleRemoveQuestion } = this.props
-    handleRemoveQuestion(id)
+    const { handleRemoveQuestionFromWp } = this.props
+    handleRemoveQuestionFromWp(id)
+      .catch(err => alert(err))
   }
 
   render() {
@@ -189,5 +190,9 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps,
-  { toggleEdit, handleRemoveQuestion, handleSubmitQuestion }
+  { 
+    toggleEdit, 
+    handleSubmitQuestion,
+    handleRemoveQuestionFromWp
+  }
 )(withStyles(styles)(Tests))
