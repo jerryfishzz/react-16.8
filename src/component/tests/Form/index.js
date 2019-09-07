@@ -186,7 +186,7 @@ class Form extends React.Component {
           { 
             isNewlyCreated, 
             handleCreateQuestionToWp, 
-            handleSaveQuestionToWp 
+            handleSaveQuestionToWp,
           } = this.props
     
     // const contentState = test.data.otherNotes.getCurrentContent();
@@ -221,7 +221,7 @@ class Form extends React.Component {
     if (isNewlyCreated) {
       return handleCreateQuestionToWp(finalTest, this.resetForm)
     } else {
-      return handleSaveQuestionToWp(test.id, finalTest, removed, this.resetRemoved)
+      return handleSaveQuestionToWp(test.id, finalTest, removed, this.resetRemoved, this.initializeFromContent)
     }
   }
 

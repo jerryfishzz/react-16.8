@@ -57,12 +57,14 @@ function saveQuestion(updatedQuestion) {
   }
 }
 
-export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb) {
+export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2) {
   return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]
 
+    let answersWithId = [], updatedQuestionWithAnswerIds = {}
+    
     try {
       const questionForWp = formatForWp(updatedQuestion)
       
@@ -77,6 +79,14 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb) {
               const {id: aid} = await createAnswerContainerToWp(container)
               containerId = aid
             }
+
+            answersWithId = [
+              ...answersWithId,
+              {
+                ...answer,
+                id: containerId
+              }
+            ]
 
             return updateAnswerContentToWp(containerId, answersForWp)
           } catch(err) {
@@ -95,9 +105,18 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb) {
       ]
       
       await Promise.all(promisesCollection)
+      
+      updatedQuestionWithAnswerIds = {
+        ...updatedQuestion,
+        data: {
+          ...updatedQuestion.data,
+          answers: answersWithId
+        }
+      }
+      dispatch(saveQuestion(updatedQuestionWithAnswerIds))
 
-      dispatch(saveQuestion(updatedQuestion))
-      cb()
+      cb1()
+      cb2(updatedQuestionWithAnswerIds)
     } catch(err) {
       dispatch(saveQuestion(currentQuestion))
       throw err
