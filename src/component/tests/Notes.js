@@ -18,7 +18,8 @@ import { connect } from 'react-redux'
 
 import { 
   getTheAlphanumericOrder, 
-  validateDraftFromString 
+  validateDraftFromString, 
+  getEditorStateFromContent
 } from '../../utils/helpers';
 
 const Notes = ({ currentQuestion, classes }) => {
@@ -63,11 +64,7 @@ const Notes = ({ currentQuestion, classes }) => {
           {isJson(data.otherNotes)
             ? <ListItemText>
                 <Editor
-                  editorState={
-                    EditorState.createWithContent(
-                      convertFromRaw(JSON.parse(data.otherNotes))
-                    )
-                  }
+                  editorState={getEditorStateFromContent(data.otherNotes)}
                   readOnly={true}
                 />
               </ListItemText>
@@ -117,11 +114,7 @@ const Notes = ({ currentQuestion, classes }) => {
                     <ListItemText 
                       primary={
                         <Editor
-                          editorState={
-                            EditorState.createWithContent(
-                              convertFromRaw(JSON.parse(a.note))
-                            )
-                          }
+                          editorState={getEditorStateFromContent(a.note)}
                           readOnly={true}
                         />
                       } 

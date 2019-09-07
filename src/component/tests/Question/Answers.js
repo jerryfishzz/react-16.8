@@ -14,7 +14,8 @@ import { Editor, EditorState, convertFromRaw } from "draft-js";
 
 import { 
   getTheAlphanumericOrder, 
-  validateDraftFromString 
+  validateDraftFromString,
+  getEditorStateFromContent
 } from '../../../utils/helpers';
 import { clickAnswer } from '../../../actions/test/testQuestions';
 
@@ -51,12 +52,12 @@ class Answers extends React.Component {
 
   render() {
     const { classes, clickAnswer, currentQuestion } = this.props;
-    
+    // console.log(currentQuestion)
     return (
       <div className={classes.root}>
         <List component="nav">
           {currentQuestion.data.answers.map((a, i) => {
-            if (!validateDraftFromString(a.content)) return null
+            
 
             return (
               <ListItem 
@@ -75,11 +76,7 @@ class Answers extends React.Component {
                       <Grid item sm={1}>{getTheAlphanumericOrder(i) + '. '}</Grid>
                       <Grid item sm={11}>
                         <Editor
-                          editorState={
-                            EditorState.createWithContent(
-                              convertFromRaw(JSON.parse(a.content))
-                            )
-                          }
+                          editorState={getEditorStateFromContent(a.content)}
                           readOnly={true}
                         />
                       </Grid>

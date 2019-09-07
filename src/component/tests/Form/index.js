@@ -17,7 +17,7 @@ import {
   handleSaveQuestionToWp 
 } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
-import { isExisted } from "../../../utils/helpers";
+import { isExisted, escapeAndStringify, getEditorStateFromContent } from "../../../utils/helpers";
 
 class Form extends React.Component {
   constructor(props) {
@@ -72,13 +72,13 @@ class Form extends React.Component {
         ...currentQuestion,
         data: {
           ...currentQuestion.data,
-          question: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.question))),
+          question: getEditorStateFromContent(currentQuestion.data.question),
           answers: currentQuestion.data.answers.map(answer => ({
             ...answer,
-            content: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.content))),
-            note: EditorState.createWithContent(convertFromRaw(JSON.parse(answer.note)))
+            content: getEditorStateFromContent(answer.content),
+            note: getEditorStateFromContent(answer.note)
           })),
-          otherNotes: EditorState.createWithContent(convertFromRaw(JSON.parse(currentQuestion.data.otherNotes))),
+          otherNotes: getEditorStateFromContent(currentQuestion.data.otherNotes),
         }
       },
       isFormValidate: true,
@@ -189,14 +189,23 @@ class Form extends React.Component {
             handleSaveQuestionToWp 
           } = this.props
     
-    const contentState = test.data.otherNotes.getCurrentContent();
-    const newOtherNotes = JSON.stringify(convertToRaw(contentState))
-    const newQuestion = JSON.stringify(convertToRaw(test.data.question.getCurrentContent()))
+    // const contentState = test.data.otherNotes.getCurrentContent();
+    // const newOtherNotes = JSON.stringify(convertToRaw(contentState))
+    // const newQuestion = JSON.stringify(convertToRaw(test.data.question.getCurrentContent()))
+
+    const newOtherNotes = escapeAndStringify(test.data.otherNotes)
+    const newQuestion = escapeAndStringify(test.data.question)
+
+    // const newAnswers = test.data.answers.map(answer => ({
+    //   ...answer,
+    //   content: JSON.stringify(convertToRaw(answer.content.getCurrentContent())),
+    //   note: JSON.stringify(convertToRaw(answer.note.getCurrentContent()))
+    // }))
 
     const newAnswers = test.data.answers.map(answer => ({
       ...answer,
-      content: JSON.stringify(convertToRaw(answer.content.getCurrentContent())),
-      note: JSON.stringify(convertToRaw(answer.note.getCurrentContent()))
+      content: escapeAndStringify(answer.content),
+      note: escapeAndStringify(answer.note)
     }))
 
     const finalTest = {

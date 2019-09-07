@@ -3,6 +3,7 @@ import Answers from './Answers';
 import { withStyles, Typography } from '@material-ui/core';
 import { connect } from 'react-redux'
 import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { getEditorStateFromContent } from "../../../utils/helpers";
 
 const Question = ({ classes, currentQuestion }) => {
   return (
@@ -11,11 +12,7 @@ const Question = ({ classes, currentQuestion }) => {
         variant="subtitle1"
       >
         <Editor
-          editorState={
-            EditorState.createWithContent(
-              convertFromRaw(JSON.parse(currentQuestion.data.question))
-            )
-          }
+          editorState={getEditorStateFromContent(currentQuestion.data.question)}
           readOnly={true}
         />
       </Typography>

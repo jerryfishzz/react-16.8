@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import uniqid from 'uniqid'
 
 const alphanumericString = 'ABCDEFG'
@@ -39,9 +39,11 @@ export const validateDraft = name => {
 }
 
 export const validateDraftFromString = name => {
+  // console.log(name)
   const { blocks } = JSON.parse(name)
+  // console.log(blocks)
   const arrayOfName = blocks.map(block => block.text)
-
+// console.log(arrayOfName)
   return R.any(isExisted)(arrayOfName)
 }
 
@@ -109,4 +111,36 @@ export function handleErrors(response) {
       throw Error(response.statusText);
   }
   return response;
+}
+
+export function escapeAndStringify(content) {
+  const contentState = content.getCurrentContent()
+  const contentObject = convertToRaw(contentState)
+  const escapedContentObject = {
+    ...contentObject,
+    blocks: contentObject.blocks.map(block => ({
+      ...block,
+      text: encodeURIComponent(block.text)
+    }))
+  }
+
+  return JSON.stringify(escapedContentObject)
+}
+
+function objectizeAndUnescape(string) {
+  const objectFromString = JSON.parse(string)
+  console.log(objectFromString)
+  const unescapedObject = {
+    ...objectFromString,
+    blocks: objectFromString.blocks.map(block => ({
+      ...block,
+      text: decodeURIComponent(block.text)
+    }))
+  }
+
+  return unescapedObject
+}
+
+export function getEditorStateFromContent(content) {
+  return EditorState.createWithContent(convertFromRaw(objectizeAndUnescape(content)))
 }
