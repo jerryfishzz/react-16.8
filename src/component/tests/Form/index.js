@@ -221,8 +221,14 @@ class Form extends React.Component {
     if (isNewlyCreated) {
       return handleCreateQuestionToWp(finalTest, this.resetForm)
     } else {
-      return handleSaveQuestionToWp(test.id, finalTest, removed)
+      return handleSaveQuestionToWp(test.id, finalTest, removed, this.resetRemoved)
     }
+  }
+
+  resetRemoved = () => {
+    this.setState({
+      removed: []
+    })
   }
 
   resetForm = () => {
@@ -288,10 +294,10 @@ class Form extends React.Component {
     );
   };
 
-  onToggleCode = (e) => {
-    e.preventDefault()
-    this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
-  };
+  // onToggleCode = (e) => {
+  //   e.preventDefault()
+  //   this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
+  // };
 
   // getFocus = e => {
   //   setTimeout(this.setState({isFocus: true}), 500)

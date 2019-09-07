@@ -57,7 +57,7 @@ function saveQuestion(updatedQuestion) {
   }
 }
 
-export function handleSaveQuestionToWp(id, updatedQuestion, removed) {
+export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb) {
   return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
@@ -97,6 +97,7 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed) {
       await Promise.all(promisesCollection)
 
       dispatch(saveQuestion(updatedQuestion))
+      cb()
     } catch(err) {
       dispatch(saveQuestion(currentQuestion))
       throw err

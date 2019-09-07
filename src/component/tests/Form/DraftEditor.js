@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Editor, RichUtils } from 'draft-js';
+import { RichUtils } from 'draft-js';
+import clearFormatting from 'draft-js-clear-formatting'
+import Editor from 'draft-js-plugins-editor'
 
 const useStyles = makeStyles({
   root: {
@@ -74,12 +76,14 @@ export default function DraftEditor(props) {
           >
             Underline
           </button>
+
           <button 
             onClick={onToggleCode}
             className={classes.btn}
           >
             Code Block
           </button>
+
           <Editor
             editorState={props.contents}
             onChange={onChange}
