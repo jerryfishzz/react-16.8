@@ -71,7 +71,7 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2) {
       const updatingAnswersPromises = 
         updatedQuestion.data.answers.map(async answer => {
           try {
-            const answersForWp = formatAnswer(answer)
+            const formattedAnswer = formatAnswer(answer)
             let containerId = answer.id
 
             if (!containerId) {
@@ -88,7 +88,7 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2) {
               }
             ]
 
-            return updateAnswerContentToWp(containerId, answersForWp)
+            return updateAnswerContentToWp(containerId, formattedAnswer)
           } catch(err) {
             throw err
           }
@@ -147,11 +147,16 @@ export function handleCreateQuestion(newQuestion, cb) {
 
 async function createAnswerToWp(answer, id) {
   try {
+    const formattedAnswer = formatAnswer(answer)
     const container = createAnswerContainer(id)
     const {id: aid} = await createAnswerContainerToWp(container)
 
-    const formattedAnswer = formatAnswer(answer)
-    return updateAnswerContentToWp(aid, formattedAnswer)
+    updateAnswerContentToWp(aid, formattedAnswer)
+
+    return {
+      ...answer,
+      id: aid
+    }
   } catch(err) {
     throw Error('Add answer error')
   }
@@ -161,19 +166,17 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
   return async dispatch => {
     try {
       const questionForWp = formatForWp(newQuestion)
-      
       const { id } = await addQuestionToWp(questionForWp)
       
-      await Promise.all(newQuestion.data.answers.map(answer => {
-        return createAnswerToWp(answer, id)
-      }))
+      const answersWithId = await Promise.all(newQuestion.data.answers.map(answer => createAnswerToWp(answer, id)))
 
       const questionWithWpId = {
         ...newQuestion,
         id,
         data: {
           ...newQuestion.data,
-          id
+          id,
+          answers: answersWithId
         }
       }
 

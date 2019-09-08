@@ -129,7 +129,7 @@ export function escapeAndStringify(content) {
 
 function objectizeAndUnescape(string) {
   const objectFromString = JSON.parse(string)
-  console.log(objectFromString)
+  // console.log(objectFromString)
   const unescapedObject = {
     ...objectFromString,
     blocks: objectFromString.blocks.map(block => ({
