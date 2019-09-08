@@ -181,7 +181,7 @@ const styles = theme => ({
       height: '100%'
     },
 		[theme.breakpoints.down('xs')]: {
-      height: '50%'
+      height: '80%'
     }
   },
   submitBtn: {
