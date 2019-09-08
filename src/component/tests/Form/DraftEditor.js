@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
   draftContent: {
     flex: 1,
-    marginTop: 16,
+    marginTop: 12,
     marginBottom: 8
   },
   editor: {

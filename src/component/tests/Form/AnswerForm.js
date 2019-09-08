@@ -94,11 +94,15 @@ const AnswerForm = ({
               : classes.answers
             }
           >
-            
-            <DraftEditor 
-              contents={answers[i].content} 
-              handleDraftChange={handleContentChange(i)}
-            />
+            <FormControl fullWidth>
+              <div className={classes.draftLabel}>
+                Answer
+              </div>
+              <DraftEditor 
+                contents={answers[i].content} 
+                handleDraftChange={handleContentChange(i)}
+              />
+            </FormControl>
 
             <FormControl fullWidth className={classes.correctness}>
               <InputLabel>
@@ -117,10 +121,15 @@ const AnswerForm = ({
               </Select>
             </FormControl>
             
-            <DraftEditor 
-              contents={answers[i].note} 
-              handleDraftChange={handleNoteChange(i)}
-            />
+            <FormControl fullWidth>
+              <div className={classes.draftLabel}>
+                Comment
+              </div>
+              <DraftEditor 
+                contents={answers[i].note} 
+                handleDraftChange={handleNoteChange(i)}
+              />
+            </FormControl>
 
           </Grid>
         </Grid>
@@ -194,6 +203,12 @@ const styles = theme => ({
     [theme.breakpoints.up('xl')]: {
       paddingLeft: 20
     }
+  },
+  draftLabel: {
+    fontSize: 12,
+    color: 'rgba(0, 0, 0, 0.54)',
+    lineHeight: 1,
+    letterSpacing: 0
   },
   correctness: {
     marginTop: 15,
