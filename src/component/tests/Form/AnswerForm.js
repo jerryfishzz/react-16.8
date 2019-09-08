@@ -43,8 +43,8 @@ const AnswerForm = ({
             item
             container 
             xs={12}
-            lg={isNewlyCreated ? null : 1}
-            xl={isNewlyCreated ? 1 : null}
+            lg={isNewlyCreated ? null : 2}
+            xl={isNewlyCreated ? 2 : null}
             
             className={isNewlyCreated
               ? classes.answerHeaderEdit
@@ -87,8 +87,8 @@ const AnswerForm = ({
           <Grid 
             item 
             xs={12} 
-            lg={isNewlyCreated ? null : 11}
-            xl={isNewlyCreated ? 11 : null} 
+            lg={isNewlyCreated ? null : 10}
+            xl={isNewlyCreated ? 10 : null} 
             className={isNewlyCreated
               ? classes.answersEdit
               : classes.answers
