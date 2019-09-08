@@ -169,8 +169,8 @@ const styles = theme => ({
     borderRadius: 5,
   },
   sectionContainer: {
-    height: 307.2,
-    overflowY: 'auto',
+    // height: 307.2,
+    // overflowY: 'auto',
   },
   headerContainer: {
     marginBottom: 15
