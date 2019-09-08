@@ -53,7 +53,7 @@ export function formatQuestionsFromWordPress(questions) {
     [cur.id]: {
       id: cur.id,
       question: cur.acf.title,
-      tags: cur.acf.tags.split(','),
+      tags: cur.acf.tags !== '' ? cur.acf.tags.split(',') : [],
       otherNotes: cur.acf.other_notes
     }
   })
