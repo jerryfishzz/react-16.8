@@ -43,7 +43,7 @@ const AnswerForm = ({
             item
             container 
             xs={12}
-            md={isNewlyCreated ? null : 1}
+            lg={isNewlyCreated ? null : 1}
             xl={isNewlyCreated ? 1 : null}
             
             className={isNewlyCreated
@@ -87,7 +87,7 @@ const AnswerForm = ({
           <Grid 
             item 
             xs={12} 
-            md={isNewlyCreated ? null : 11}
+            lg={isNewlyCreated ? null : 11}
             xl={isNewlyCreated ? 11 : null} 
             className={isNewlyCreated
               ? classes.answersEdit
@@ -185,7 +185,7 @@ const styles = theme => ({
     marginBottom: 15
   },
   delete: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       marginTop: 30,
     }
   },
@@ -195,7 +195,7 @@ const styles = theme => ({
     }
   },
   answers: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       paddingLeft: 20
     }
   },
@@ -215,7 +215,7 @@ const styles = theme => ({
     paddingBottom: 20
   },
   avatarContainer: {
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       width: '50%',
       flex: 1,
       justifyContent: 'flex-start'
@@ -235,12 +235,12 @@ const styles = theme => ({
     height: 16
   },
   answerHeader: {
-    [theme.breakpoints.up('md')]: {
+    [theme.breakpoints.up('lg')]: {
       flexDirection: "column", 
       alignItems: "center", 
       justifyContent: "flex-start"
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       alignItems: "center",
       marginTop: -5,
       marginBottom: 10
