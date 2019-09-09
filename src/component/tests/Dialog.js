@@ -44,7 +44,7 @@ class CreateDialog extends Component {
           open={open}
           onClose={this.handleClose}
           fullWidth
-          maxWidth='md'
+          maxWidth='lg'
         >
           <DialogTitle>
             Create a New Question

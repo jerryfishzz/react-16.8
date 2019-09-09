@@ -17,7 +17,7 @@ import { resetEdit } from '../../actions/test/editQuestion';
 
 const Header = ({ classes, shuffleQuestions }) => (
   <AppBar position="static">
-    <Toolbar>
+    <Toolbar className={classes.toolBar}>
       <Typography 
         className={classes.flex} 
         variant="h5" 
@@ -60,8 +60,12 @@ const styles = theme => ({
     flex: 1
   },
   fab: {
-    marginRight: theme.spacing(1),
-  }
+    marginRight: 5,
+  },
+  toolBar: {
+    marginLeft: 10,
+    marginRight: 10
+  },
 })
 
 export default connect(
