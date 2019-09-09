@@ -12,21 +12,32 @@ import BookPage from './component/wptest/BookPage';
 import { getToken } from './utils/api';
 
 class App extends Component {
+  state = {
+    willHaveToken: true 
+  }
+
   componentDidMount() {
     getToken()
       .then(token => {
         localStorage.setItem('token', token)
+        this.setState({
+          willHaveToken: true
+        })
       })
-      .catch(err => alert(err))
-    
-    this.props.initializeAppFromWordPress()
-      .catch(err => alert(err))
+      .then(res => this.props.initializeAppFromWordPress())
+      .catch(err => {
+        this.setState({
+          willHaveToken: false
+        })
+        alert(err)
+      })
   }
 
   render () {
     const { testQuestions, classes } = this.props
+    const { willHaveToken } = this.state
 
-    if (!testQuestions) {
+    if (!willHaveToken) {
       return (
         <div className={classes.container}>
           <p>
@@ -39,7 +50,7 @@ class App extends Component {
           </p>
           <p>
             Please go to <a href='https://149.28.94.113/wp-json/wp/v2/posts/'>
-               https://149.28.94.113/wp-json/wp/v2/posts/
+                https://149.28.94.113/wp-json/wp/v2/posts/
             </a>.
           </p>
           <p>
@@ -52,6 +63,14 @@ class App extends Component {
             Will solve this problem soon. Sorry for the trouble and thanks for 
             collaboration : )
           </p>
+        </div>
+      )
+    }
+
+    if (!testQuestions) {
+      return (
+        <div className={classes.container}>
+          <p>Loading</p>
         </div>
       )
     }
