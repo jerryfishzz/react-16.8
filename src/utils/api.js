@@ -34,7 +34,7 @@ export function addQuestionToDB(newQuestion) {
   return _addQuestionToDB(newQuestion)
 }
 
-const WP_SERVER = 'https://149.28.94.113'
+const WP_SERVER = 'https://www.jerryfishzz.com'
 
 export function getToken() {
   
