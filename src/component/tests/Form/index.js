@@ -8,6 +8,7 @@ import AnswerForm from './AnswerForm';
 import classNames from 'classnames';
 import { EditorState, convertToRaw } from "draft-js";
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
 
 import Tags from './Tags';
 import CreateSnackbar from '../Snackbar'
@@ -219,9 +220,9 @@ class Form extends React.Component {
     }
 
     if (isNewlyCreated) {
-      return handleCreateQuestionToWp(finalTest, this.resetForm)
+      return handleCreateQuestionToWp(finalTest, this.resetForm, this.props.postType)
     } else {
-      return handleSaveQuestionToWp(test.id, finalTest, removed, this.resetRemoved, this.initializeFromContent)
+      return handleSaveQuestionToWp(test.id, finalTest, removed, this.resetRemoved, this.initializeFromContent, this.props.postType)
     }
   }
 
@@ -373,17 +374,19 @@ class Form extends React.Component {
 
 const mapStateToProps = (
   { test: { currentQuestionNumber, testQuestions, editQuestion } },
-  { isNewlyCreated }
+  { isNewlyCreated, location: { pathname } }
 ) => {
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
+    const postType = pathname === '/' ? 'questions' : 'temps'
 
   return {
     currentQuestion,
     currentQuestionNumber,
     editQuestion,
-    isNewlyCreated
+    isNewlyCreated,
+    postType
   }
 }
 
@@ -444,11 +447,11 @@ const styles = theme => ({
   }
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   { 
     handleCreateQuestion, 
     handleCreateQuestionToWp,
     handleSaveQuestionToWp
   }
-)(withStyles(styles)(Form));
+)(withStyles(styles)(Form)));

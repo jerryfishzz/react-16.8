@@ -54,8 +54,8 @@ export function getToken() {
     .then(res => res.token)
 }
 
-export function getQuestionsFromWordPress() {
-  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions`)
+export function getQuestionsFromWordPress(postType) {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}`)
     .then(handleErrors)
     .then(response => response.json())
 }
@@ -66,15 +66,15 @@ export function getAnswersForQuestionFromWp(id) {
     .then(response => response.json())
 }
 
-export function getInitialDataFromWordPress() {
+export function getInitialDataFromWordPress(postType) {
   return Promise.all([
-    getQuestionsFromWordPress(),
+    getQuestionsFromWordPress(postType),
     _getTags()
   ])
 }
 
-export function addQuestionToWp(newQuestion) {
-  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions`, {
+export function addQuestionToWp(newQuestion, postType) {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}`, {
     method: "POST",
     headers:{
       'Content-Type': 'application/json',
@@ -115,8 +115,8 @@ export function updateAnswerContentToWp(id, answer) {
     .then(response => response.json())
 }
 
-export function removeQuestionFromWp(id) {
-  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions/${id}`, {
+export function removeQuestionFromWp(id, postType) {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}/${id}`, {
     method: "DELETE",
     headers:{
       'Content-Type': 'application/json',
@@ -128,8 +128,8 @@ export function removeQuestionFromWp(id) {
     .then(response => response.json())
 }
 
-export function updateQuestionToWp(id, updatedQuestion) {
-  return fetch(`${WP_SERVER}/wp-json/wp/v2/questions/${id}`, {
+export function updateQuestionToWp(id, updatedQuestion, postType) {
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}/${id}`, {
     method: "POST",
     headers:{
       'Content-Type': 'application/json',

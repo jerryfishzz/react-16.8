@@ -9,13 +9,14 @@ import {
 } from '@material-ui/core';
 import Shuffle from '@material-ui/icons/Shuffle';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
 
 import CreateDialog from '../tests/Dialog'
 import { initializeAppFromWordPress } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 
-const Header = ({ classes, shuffleQuestions }) => (
+const Header = ({ classes, shuffleQuestions, pathname }) => (
   <AppBar position="static">
     <Toolbar className={classes.toolBar}>
       <Typography 
@@ -31,6 +32,7 @@ const Header = ({ classes, shuffleQuestions }) => (
           size="small"
           className={classes.fab}
           onClick={shuffleQuestions}
+          disabled={pathname !== '/'}
         >
           <Shuffle />
         </Fab>
@@ -40,7 +42,13 @@ const Header = ({ classes, shuffleQuestions }) => (
   </AppBar>
 )
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state, { location: { pathname } }) => {
+  return { 
+    pathname
+  }
+}
+
+const mapDispatchToProps = (dispatch, { location: { pathname } }) => {
   const resetNumberAndEdit = () => {
     return dispatch => {
       dispatch(resetNumber())
@@ -48,9 +56,11 @@ const mapDispatchToProps = dispatch => {
     }
   }
 
+  const postType = pathname === '/' ? 'questions' : 'temps'
+
   return {
     shuffleQuestions: () => {
-      dispatch(initializeAppFromWordPress(resetNumberAndEdit))
+      dispatch(initializeAppFromWordPress(resetNumberAndEdit, postType))
     }
   }
 }
@@ -68,7 +78,7 @@ const styles = theme => ({
   },
 })
 
-export default connect(
-  null,
+export default withRouter(connect(
+  mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Header))
+)(withStyles(styles)(Header)))

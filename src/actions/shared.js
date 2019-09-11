@@ -14,13 +14,13 @@ import {
 } from "../utils/helpers";
 import { handleResetTest } from './test/shared';
 
-export function initializeAppFromWordPress(cb = null) {
+export function initializeAppFromWordPress(cb = null, postType) {
   return async dispatch => {
     try {
       dispatch(handleResetTest())
 
-      let [questions, tags] = await getInitialDataFromWordPress()
-      let randomizedQuestionsForTest = []
+      let [questions, tags] = await getInitialDataFromWordPress(postType)
+      let questionsForTest = []
       
       if (questions.length) {
         questions = formatQuestionsFromWordPress(questions) // an object
@@ -30,12 +30,16 @@ export function initializeAppFromWordPress(cb = null) {
           Object.keys(questions).map(id => formatQuestion(questions[id])) 
 
         const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
-
-        randomizedQuestionsForTest = 
-          shuffleArrayThenTakeFirstTen(formattedQuestionArray)
         
-        randomizedQuestionsForTest = await Promise.all(
-          randomizedQuestionsForTest.map(async question => {
+        // if (postType === 'questions') 
+          
+
+        questionsForTest = postType === 'questions'
+          ? shuffleArrayThenTakeFirstTen(formattedQuestionArray)
+          : formattedQuestionArray
+        
+        questionsForTest = await Promise.all(
+          questionsForTest.map(async question => {
             try {
               const answers = await getAnswersForQuestionFromWp(question.id)
 
@@ -47,7 +51,7 @@ export function initializeAppFromWordPress(cb = null) {
         )
       }
       
-      dispatch(receiveQuestions(randomizedQuestionsForTest))
+      dispatch(receiveQuestions(questionsForTest))
       dispatch(receiveTags(tags))
 
       if (cb) dispatch(cb())

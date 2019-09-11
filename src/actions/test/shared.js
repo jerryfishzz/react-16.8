@@ -29,7 +29,7 @@ export function handleSubmitQuestion(id, index) {
   }
 }
 
-export function handleRemoveQuestionFromWp(id) {
+export function handleRemoveQuestionFromWp(id, postType) {
   return (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
@@ -47,7 +47,7 @@ export function handleRemoveQuestionFromWp(id) {
       dispatch(shrinkFromDelete())
     }
 
-    return removeQuestionFromWp(id)
+    return removeQuestionFromWp(id, postType)
       .catch(err => {
         dispatch(createQuestion(currentQuestion))
         throw err

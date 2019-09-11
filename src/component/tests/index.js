@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 import { connect } from 'react-redux'
+import {withRouter} from 'react-router-dom';
 
 import Question from './Question'
 import ProgressingBar from './ProgressingBar';
@@ -35,8 +36,8 @@ class Tests extends Component {
   // This should be used to prevent this question being chosen again from database. 
   // Implement the simple delete first. Later will work on the above requiremnet.
   handleDelete = id => {
-    const { handleRemoveQuestionFromWp } = this.props
-    handleRemoveQuestionFromWp(id)
+    const { handleRemoveQuestionFromWp, postType } = this.props
+    handleRemoveQuestionFromWp(id, postType)
       .catch(err => {
         alert(err)
         this.setState({
@@ -46,7 +47,9 @@ class Tests extends Component {
   }
 
   componentDidMount() {
-    this.props.initializeAppFromWordPress()
+    const { postType } = this.props
+
+    this.props.initializeAppFromWordPress(null, postType)
       .catch(err => alert(err))
   }
 
@@ -174,20 +177,23 @@ class Tests extends Component {
   }
 }
 
-const mapStateToProps = ({ 
-  test: { editQuestion, currentQuestionNumber, testQuestions } 
-}) => {
+const mapStateToProps = (
+  { test: { editQuestion, currentQuestionNumber, testQuestions } },
+  { location: { pathname } }
+) => {
   const currentQuestion = testQuestions
     ? testQuestions.length 
         ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
         : {}
     : null
+  const postType = pathname === '/' ? 'questions' : 'temps'
 
   return { 
     editQuestion,
     currentQuestionNumber,
     testQuestions,
-    currentQuestion
+    currentQuestion,
+    postType
   }
 }
 
@@ -231,7 +237,7 @@ const styles = theme => ({
   },
 })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   { 
     toggleEdit, 
@@ -239,4 +245,4 @@ export default connect(
     handleRemoveQuestionFromWp,
     initializeAppFromWordPress
   }
-)(withStyles(styles)(Tests))
+)(withStyles(styles)(Tests)))

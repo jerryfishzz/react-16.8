@@ -58,7 +58,7 @@ function saveQuestion(updatedQuestion) {
   }
 }
 
-export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2) {
+export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, postType) {
   return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
@@ -102,7 +102,7 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2) {
       const promisesCollection = [
         ...updatingAnswersPromises,
         ...removingAnswersPromise,
-        updateQuestionToWp(id, questionForWp)
+        updateQuestionToWp(id, questionForWp, postType)
       ]
       
       await Promise.all(promisesCollection)
@@ -163,11 +163,11 @@ async function createAnswerToWp(answer, id) {
   }
 }
 
-export function handleCreateQuestionToWp(newQuestion, cb) {
+export function handleCreateQuestionToWp(newQuestion, cb, postType) {
   return async dispatch => {
     try {
       const questionForWp = formatForWp(newQuestion)
-      const { id } = await addQuestionToWp(questionForWp)
+      const { id } = await addQuestionToWp(questionForWp, postType)
       
       const answersWithId = await Promise.all(newQuestion.data.answers.map(answer => createAnswerToWp(answer, id)))
 
