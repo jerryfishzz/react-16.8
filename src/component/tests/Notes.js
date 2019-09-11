@@ -13,7 +13,7 @@ import {
 import NotesIcon from '@material-ui/icons/Notes';
 import indigo from '@material-ui/core/colors/indigo';
 import deepPurple from '@material-ui/core/colors/deepPurple';
-import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { Editor } from "draft-js";
 import { connect } from 'react-redux'
 
 import { 

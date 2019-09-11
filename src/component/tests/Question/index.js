@@ -2,7 +2,7 @@ import React from "react";
 import Answers from './Answers';
 import { withStyles, Typography } from '@material-ui/core';
 import { connect } from 'react-redux'
-import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { Editor } from "draft-js";
 import { getEditorStateFromContent } from "../../../utils/helpers";
 
 const Question = ({ classes, currentQuestion }) => {

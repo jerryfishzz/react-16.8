@@ -6,7 +6,7 @@ import {
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
 import classNames from 'classnames';
-import { EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import { connect } from 'react-redux'
 
 import Tags from './Tags';

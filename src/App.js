@@ -40,29 +40,7 @@ class App extends Component {
     if (!willHaveToken) {
       return (
         <div className={classes.container}>
-          <p>
-            This site is still under construction and currently using 
-            self-signed certificate that does not make the browser happy.
-          </p>
-          <p>
-            If you end up here, that means the browser security setting blocks
-            the API request.
-          </p>
-          <p>
-            Please go to <a href='https://149.28.94.113/wp-json/wp/v2/posts/'>
-                https://149.28.94.113/wp-json/wp/v2/posts/
-            </a>.
-          </p>
-          <p>
-            When the security warning comes out, choose ignore and go on visiting. You 
-            will see JSON strings output on the screen. Now your browser won't 
-            block API requests.
-          </p>
-          <p>Revisit this page again. My app comes back.</p>
-          <p>
-            Will solve this problem soon. Sorry for the trouble and thanks for 
-            collaboration : )
-          </p>
+          <p>Network error</p>
         </div>
       )
     }

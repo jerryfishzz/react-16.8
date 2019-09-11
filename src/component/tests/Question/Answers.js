@@ -10,11 +10,10 @@ import {
 import classNames from 'classnames';
 import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import { connect } from 'react-redux'
-import { Editor, EditorState, convertFromRaw } from "draft-js";
+import { Editor } from "draft-js";
 
 import { 
   getTheAlphanumericOrder, 
-  validateDraftFromString,
   getEditorStateFromContent
 } from '../../../utils/helpers';
 import { clickAnswer } from '../../../actions/test/testQuestions';
