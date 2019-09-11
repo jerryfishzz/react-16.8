@@ -12,10 +12,13 @@ import {
   formatQuestionsFromWordPress, 
   addAnswersToQuestion 
 } from "../utils/helpers";
+import { handleResetTest } from './test/shared';
 
 export function initializeAppFromWordPress(cb = null) {
   return async dispatch => {
     try {
+      dispatch(handleResetTest())
+
       let [questions, tags] = await getInitialDataFromWordPress()
       let randomizedQuestionsForTest = []
       

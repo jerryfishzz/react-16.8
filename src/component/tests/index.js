@@ -19,9 +19,14 @@ import {
   handleSubmitQuestion, 
   handleRemoveQuestionFromWp
 } from '../../actions/test/shared';
+import { initializeAppFromWordPress } from '../../actions/shared';
 
 
 class Tests extends Component {
+  state = {
+    willBeInitialized: true
+  }
+
   handleEdit = () => {
     const { toggleEdit } = this.props
     toggleEdit()
@@ -32,6 +37,16 @@ class Tests extends Component {
   handleDelete = id => {
     const { handleRemoveQuestionFromWp } = this.props
     handleRemoveQuestionFromWp(id)
+      .catch(err => {
+        alert(err)
+        this.setState({
+          willBeInitialized: false
+        })
+      })
+  }
+
+  componentDidMount() {
+    this.props.initializeAppFromWordPress()
       .catch(err => alert(err))
   }
 
@@ -44,9 +59,26 @@ class Tests extends Component {
       editQuestion,
       handleSubmitQuestion,
     } = this.props 
+    const { willBeInitialized } = this.state
+
+    if (!willBeInitialized) {
+      return (
+        <div className={classes.messageContainer}>
+          <p>Initialize error</p>
+        </div>
+      )
+    }
+    
+    if (!testQuestions) {
+      return (
+        <div className={classes.messageContainer}>
+          <p>Loading</p>
+        </div>
+      )
+    }
 
     if(!testQuestions.length) { // Need to consider when no questions
-      return <div>No questions</div>
+      return <div className={classes.messageContainer}>No questions</div>
     }
 
     return (
@@ -145,9 +177,11 @@ class Tests extends Component {
 const mapStateToProps = ({ 
   test: { editQuestion, currentQuestionNumber, testQuestions } 
 }) => {
-  const currentQuestion = testQuestions.length 
-    ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
-    : {}
+  const currentQuestion = testQuestions
+    ? testQuestions.length 
+        ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
+        : {}
+    : null
 
   return { 
     editQuestion,
@@ -189,7 +223,12 @@ const styles = theme => ({
   },
   flex: {
     flex: 1
-  }
+  },
+  messageContainer: {
+    marging: 20,
+    padding: 20,
+    textAlign: 'center'
+  },
 })
 
 export default connect(
@@ -197,6 +236,7 @@ export default connect(
   { 
     toggleEdit, 
     handleSubmitQuestion,
-    handleRemoveQuestionFromWp
+    handleRemoveQuestionFromWp,
+    initializeAppFromWordPress
   }
 )(withStyles(styles)(Tests))

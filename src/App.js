@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { CssBaseline, withStyles } from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { connect } from 'react-redux'
 
 import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
-import { initializeAppFromWordPress } from './actions/shared';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
 import { getToken } from './utils/api';
@@ -24,7 +22,6 @@ class App extends Component {
           willHaveToken: true
         })
       })
-      .then(res => this.props.initializeAppFromWordPress())
       .catch(err => {
         this.setState({
           willHaveToken: false
@@ -34,21 +31,13 @@ class App extends Component {
   }
 
   render () {
-    const { testQuestions, classes } = this.props
+    const { classes } = this.props
     const { willHaveToken } = this.state
 
     if (!willHaveToken) {
       return (
         <div className={classes.container}>
           <p>Network error</p>
-        </div>
-      )
-    }
-
-    if (!testQuestions) {
-      return (
-        <div className={classes.container}>
-          <p>Loading</p>
         </div>
       )
     }
@@ -65,20 +54,6 @@ class App extends Component {
         </Switch>
       </Router>
     )
-  }
-}
-
-const mapStateToProps = ({ 
-  test: { currentQuestionNumber, testQuestions } 
-}) => {
-  return {
-    currentQuestion: testQuestions
-      ? testQuestions.length 
-          ? testQuestions
-              .filter((q, index) => index === currentQuestionNumber)[0]
-          : {}
-      : null,
-    testQuestions
   }
 }
 
@@ -119,7 +94,4 @@ const styles = theme => ({
   }
 })
 
-export default connect(
-  mapStateToProps, 
-  { initializeAppFromWordPress }
-)(withStyles(styles)(App))
+export default withStyles(styles)(App)

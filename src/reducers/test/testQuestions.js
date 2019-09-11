@@ -4,7 +4,8 @@ import {
   SUBMIT_QUESTION, 
   REMOVE_QUESTION, 
   SAVE_QUESTION, 
-  CREATE_QUESTION
+  CREATE_QUESTION,
+  RESET_TESTQUESTIONS
 } from "../../actions/test/testQuestions";
 
 export default function testQuestions(state, action) {
@@ -47,6 +48,8 @@ export default function testQuestions(state, action) {
         ...state,
         action.newQuestion
       ]
+    case RESET_TESTQUESTIONS:
+      return null
     default:
       break;
   }

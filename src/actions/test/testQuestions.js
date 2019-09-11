@@ -19,6 +19,7 @@ export const SUBMIT_QUESTION = 'SUBMIT_QUESTION'
 export const REMOVE_QUESTION = 'REMOVE_QUESTION'
 export const SAVE_QUESTION = 'SAVE_QUESTION'
 export const CREATE_QUESTION = 'CREATE_QUESTION'
+export const RESET_TESTQUESTIONS = 'RESET_TESTQUESTIONS'
 
 export function receiveQuestions(questions) {
   return {
@@ -185,5 +186,11 @@ export function handleCreateQuestionToWp(newQuestion, cb) {
     } catch(err) {
       throw err
     }
+  }
+}
+
+export function resetTestquestions() {
+  return {
+    type: RESET_TESTQUESTIONS
   }
 }

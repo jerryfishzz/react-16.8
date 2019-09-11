@@ -1,10 +1,11 @@
 import { 
   nextQuestion, 
   previousQuestion, 
-  shrinkFromDelete 
+  shrinkFromDelete, 
+  resetNumber
 } from "./currentQuestionNumber";
 import { resetEdit } from "./editQuestion";
-import { removeQuestion, submitQuestion, createQuestion } from "./testQuestions";
+import { removeQuestion, submitQuestion, createQuestion, resetTestquestions } from "./testQuestions";
 import { removeQuestionFromWp } from "../../utils/api";
 
 export function handleNext() {
@@ -51,5 +52,13 @@ export function handleRemoveQuestionFromWp(id) {
         dispatch(createQuestion(currentQuestion))
         throw err
       })
+  }
+}
+
+export function handleResetTest() {
+  return dispatch => {
+    dispatch(resetTestquestions())
+    dispatch(resetEdit())
+    dispatch(resetNumber())
   }
 }
