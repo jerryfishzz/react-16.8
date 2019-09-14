@@ -27,13 +27,10 @@ export function initializeAppFromWordPress(cb = null, postType) {
 
         // an array of objects
         const formattedQuestionArray = 
-          Object.keys(questions).map(id => formatQuestion(questions[id])) 
+          Object.keys(questions).map(id => formatQuestion(questions[id])) // Object.key will order elements ascendingly by their keys
 
         const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
         
-        // if (postType === 'questions') 
-          
-
         questionsForTest = postType === 'questions'
           ? shuffleArrayThenTakeFirstTen(formattedQuestionArray)
           : formattedQuestionArray
