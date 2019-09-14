@@ -15,6 +15,7 @@ import CreateDialog from '../tests/Dialog'
 import { initializeAppFromWordPress } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
+import { getType } from '../../utils/helpers';
 
 const Header = ({ classes, shuffleQuestions, pathname }) => (
   <AppBar position="static">
@@ -56,7 +57,7 @@ const mapDispatchToProps = (dispatch, { location: { pathname } }) => {
     }
   }
 
-  const postType = pathname === '/' ? 'questions' : 'temps'
+  const postType = getType(pathname)
 
   return {
     shuffleQuestions: () => {

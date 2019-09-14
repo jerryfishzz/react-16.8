@@ -144,3 +144,14 @@ function objectizeAndUnescape(string) {
 export function getEditorStateFromContent(content) {
   return EditorState.createWithContent(convertFromRaw(objectizeAndUnescape(content)))
 }
+
+export const getType = url => {
+  switch (url) {
+    case '/wptest':
+      return 'temps'
+    case '/questions':
+      return 'questions'
+    default:
+      return 'examples'
+  }
+}

@@ -18,7 +18,7 @@ import {
   handleSaveQuestionToWp 
 } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
-import { isExisted, escapeAndStringify, getEditorStateFromContent } from "../../../utils/helpers";
+import { isExisted, escapeAndStringify, getEditorStateFromContent, getType } from "../../../utils/helpers";
 
 class Form extends React.Component {
   constructor(props) {
@@ -379,7 +379,7 @@ const mapStateToProps = (
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
-    const postType = pathname === '/' ? 'questions' : 'temps'
+    const postType = getType(pathname)
 
   return {
     currentQuestion,

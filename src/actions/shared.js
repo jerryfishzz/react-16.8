@@ -31,9 +31,11 @@ export function initializeAppFromWordPress(cb = null, postType) {
 
         const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
         
-        questionsForTest = postType === 'questions'
+        questionsForTest = postType !== 'temps'
           ? shuffleArrayThenTakeFirstTen(formattedQuestionArray)
           : formattedQuestionArray
+
+        // questionsForTest = shuffleArrayThenTakeFirstTen(formattedQuestionArray)
         
         questionsForTest = await Promise.all(
           questionsForTest.map(async question => {

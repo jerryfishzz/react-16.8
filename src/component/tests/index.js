@@ -21,6 +21,7 @@ import {
   handleRemoveQuestionFromWp
 } from '../../actions/test/shared';
 import { initializeAppFromWordPress } from '../../actions/shared';
+import { getType } from '../../utils/helpers';
 
 
 class Tests extends Component {
@@ -186,7 +187,7 @@ const mapStateToProps = (
         ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
         : {}
     : null
-  const postType = pathname === '/' ? 'questions' : 'temps'
+  const postType = getType(pathname)
 
   return { 
     editQuestion,
