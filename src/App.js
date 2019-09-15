@@ -8,6 +8,7 @@ import ForTest from './component/ForTest';
 import WpTest from './component/WpTest';
 import BookPage from './component/wptest/BookPage';
 import { getToken } from './utils/api';
+import CreateQuestions from './component/CreateQuestions';
 
 class App extends Component {
   state = {
@@ -51,6 +52,7 @@ class App extends Component {
           <Route path='/fortest' component={ForTest} />
           <Route path='/wptest/:id' component={BookPage} />
           <Route path='/wptest' component={WpTest} />
+          <Route path='/questions' component={CreateQuestions} />
         </Switch>
       </Router>
     )

@@ -33,7 +33,7 @@ const Header = ({ classes, shuffleQuestions, pathname }) => (
           size="small"
           className={classes.fab}
           onClick={shuffleQuestions}
-          disabled={pathname !== '/'}
+          disabled={pathname === '/wptest'}
         >
           <Shuffle />
         </Fab>
