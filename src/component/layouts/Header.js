@@ -17,7 +17,7 @@ import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 import { getType } from '../../utils/helpers';
 
-const Header = ({ classes, shuffleQuestions, pathname }) => (
+const Header = ({ classes, shuffleQuestions, type }) => (
   <AppBar position="static">
     <Toolbar className={classes.toolBar}>
       <Typography 
@@ -33,7 +33,7 @@ const Header = ({ classes, shuffleQuestions, pathname }) => (
           size="small"
           className={classes.fab}
           onClick={shuffleQuestions}
-          disabled={pathname === '/wptest'}
+          disabled={type === 'temps'}
         >
           <Shuffle />
         </Fab>
@@ -43,13 +43,16 @@ const Header = ({ classes, shuffleQuestions, pathname }) => (
   </AppBar>
 )
 
-const mapStateToProps = (state, { location: { pathname } }) => {
+const mapStateToProps = (state, { location: { search } }) => {
+  const query = new URLSearchParams(search)
+  const type = query.get('type')
+
   return { 
-    pathname
+    type
   }
 }
 
-const mapDispatchToProps = (dispatch, { location: { pathname } }) => {
+const mapDispatchToProps = (dispatch, { location }) => {
   const resetNumberAndEdit = () => {
     return dispatch => {
       dispatch(resetNumber())
@@ -57,7 +60,7 @@ const mapDispatchToProps = (dispatch, { location: { pathname } }) => {
     }
   }
 
-  const postType = getType(pathname)
+  const postType = getType(location)
 
   return {
     shuffleQuestions: () => {

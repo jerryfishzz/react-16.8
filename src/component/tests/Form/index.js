@@ -374,12 +374,12 @@ class Form extends React.Component {
 
 const mapStateToProps = (
   { test: { currentQuestionNumber, testQuestions, editQuestion } },
-  { isNewlyCreated, location: { pathname } }
+  { isNewlyCreated, location }
 ) => {
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
-    const postType = getType(pathname)
+  const postType = getType(location)
 
   return {
     currentQuestion,

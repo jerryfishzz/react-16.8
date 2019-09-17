@@ -49,7 +49,7 @@ class Tests extends Component {
 
   componentDidMount() {
     const { postType } = this.props
-
+console.log(`52 ${postType}`)
     this.props.initializeAppFromWordPress(null, postType)
       .catch(err => alert(err))
   }
@@ -180,15 +180,15 @@ class Tests extends Component {
 
 const mapStateToProps = (
   { test: { editQuestion, currentQuestionNumber, testQuestions } },
-  { location: { pathname } }
+  { location }
 ) => {
   const currentQuestion = testQuestions
     ? testQuestions.length 
         ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
         : {}
     : null
-  const postType = getType(pathname)
-
+  const postType = getType(location)
+  
   return { 
     editQuestion,
     currentQuestionNumber,

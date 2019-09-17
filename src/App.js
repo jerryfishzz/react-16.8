@@ -5,10 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
-import WpTest from './component/WpTest';
-import BookPage from './component/wptest/BookPage';
 import { getToken } from './utils/api';
-import CreateQuestions from './component/CreateQuestions';
 
 class App extends Component {
   state = {
@@ -50,9 +47,7 @@ class App extends Component {
         <Switch>
           <Route path='/' exact component={Tests} />
           <Route path='/fortest' component={ForTest} />
-          <Route path='/wptest' exact component={WpTest} />
-          <Route path='/wptest/:id' component={BookPage} />
-          <Route path='/questions' component={CreateQuestions} />
+          <Route path='/test' exact component={Tests} />
         </Switch>
       </Router>
     )

@@ -130,11 +130,3 @@ function ForTest(props) {
 }
 
 export default withRouter(ForTest) 
-
-// hash: ""
-// ​
-// pathname: "/fortest"
-// ​
-// search: "?type=questions"
-// ​
-// state: undefined

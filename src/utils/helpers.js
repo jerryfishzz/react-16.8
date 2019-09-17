@@ -145,12 +145,15 @@ export function getEditorStateFromContent(content) {
   return EditorState.createWithContent(convertFromRaw(objectizeAndUnescape(content)))
 }
 
-export const getType = url => {
-  switch (url) {
-    case '/wptest':
-      return 'temps'
-    case '/questions':
-      return 'questions'
+function getTypeFromParams(search) {
+  const query = new URLSearchParams(search)
+  return query.get('type')
+}
+
+export const getType = ({ pathname, search }) => {
+  switch (pathname) {
+    case '/test':
+      return search === '' ? 'examples' : getTypeFromParams(search)
     default:
       return 'examples'
   }
