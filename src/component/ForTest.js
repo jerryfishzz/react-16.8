@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Editor, EditorState, RichUtils } from 'draft-js';
+import {withRouter} from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -46,7 +47,7 @@ function myBlockStyleFn(contentBlock) {
   }
 }
 
-export default function ForTest() {
+function ForTest(props) {
   const classes = useStyles();
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
@@ -72,6 +73,8 @@ export default function ForTest() {
   const onToggleCode = () => {
     onChange(RichUtils.toggleCode(editorState));
   }
+
+  console.log(props.location)
 
   return (
     <Paper className={classes.root}>
@@ -125,3 +128,13 @@ export default function ForTest() {
     </Paper>
   );
 }
+
+export default withRouter(ForTest) 
+
+// hash: ""
+// ​
+// pathname: "/fortest"
+// ​
+// search: "?type=questions"
+// ​
+// state: undefined

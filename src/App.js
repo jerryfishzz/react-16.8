@@ -50,8 +50,8 @@ class App extends Component {
         <Switch>
           <Route path='/' exact component={Tests} />
           <Route path='/fortest' component={ForTest} />
+          <Route path='/wptest' exact component={WpTest} />
           <Route path='/wptest/:id' component={BookPage} />
-          <Route path='/wptest' component={WpTest} />
           <Route path='/questions' component={CreateQuestions} />
         </Switch>
       </Router>
