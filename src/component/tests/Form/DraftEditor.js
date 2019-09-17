@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RichUtils } from 'draft-js';
 import clearFormatting from 'draft-js-clear-formatting'
 import Editor from 'draft-js-plugins-editor'
+import { Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -77,12 +78,14 @@ export default function DraftEditor(props) {
             Underline
           </button>
 
-          <button 
-            onClick={onToggleCode}
-            className={classes.btn}
-          >
-            Code Block
-          </button>
+          <Tooltip title="CTRL+J">
+            <button 
+              onClick={onToggleCode}
+              className={classes.btn}
+            >
+              Code Block
+            </button>
+          </Tooltip>
 
           <Editor
             editorState={props.contents}
