@@ -5,15 +5,10 @@ import { truncateString, getType } from '../../utils/helpers'
 import {withRouter} from 'react-router-dom';
 import { getQuestionsForList } from '../../utils/api';
 
-const useStyles = makeStyles(({
-  '@global': {
-    'html, body, #root': {
-      height: '100%'
-    } 
-	},
+const useStyles = makeStyles(theme => ({
   container: {
     marginTop: 5,
-    height: 'calc(100% - 64px - 5px)'
+    height: 'calc(100% - 64px - 5px)',
   },
   paper: {
     height: '100%'
@@ -64,7 +59,6 @@ const QuestionList = (props) => {
             <Grid item className={classes.tableContainer}>
               <Typography
                 variant='h5'
-                className={classes.flex}
                 gutterBottom
               >
                 {!isLoading ? 'Question List' : 'Loading'}

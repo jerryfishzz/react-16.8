@@ -199,11 +199,6 @@ const mapStateToProps = (
 }
 
 const styles = theme => ({
-	'@global': {
-    'html, body, #root': {
-      height: '100%'
-    } 
-	},
 	container: {
     height: 'calc(100% - 64px)'
   },
