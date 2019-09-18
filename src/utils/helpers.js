@@ -53,6 +53,7 @@ export function formatQuestionsFromWordPress(questions) {
     [cur.id]: {
       id: cur.id,
       question: cur.acf.title,
+      title: cur.title.rendered,
       tags: cur.acf.tags !== '' ? cur.acf.tags.split(',') : [],
       otherNotes: cur.acf.other_notes
     }
@@ -79,7 +80,7 @@ export function addAnswersToQuestion(answers, question) {
 
 export function formatForWp(newQuestion) {
   return {
-    title: newQuestion.data.question,
+    title: newQuestion.data.title,
     fields: {
       title: newQuestion.data.question,
       tags: newQuestion.data.tags.join(),
