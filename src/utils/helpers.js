@@ -154,8 +154,17 @@ function getTypeFromParams(search) {
 export const getType = ({ pathname, search }) => {
   switch (pathname) {
     case '/test':
+    case '/questionlist':
       return search === '' ? 'examples' : getTypeFromParams(search)
     default:
       return 'examples'
   }
+}
+
+export function truncateString(content) {
+  const length = 60
+  const string = content.toString()
+  return string.length > length
+    ? string.toString().substring(0, length) + '...'
+    : string
 }

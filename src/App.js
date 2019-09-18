@@ -6,6 +6,7 @@ import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
 import { getToken } from './utils/api';
+import QuestionList from './component/tests/QuestionList';
 
 class App extends Component {
   state = {
@@ -48,6 +49,7 @@ class App extends Component {
           <Route path='/' exact component={Tests} />
           <Route path='/fortest' component={ForTest} />
           <Route path='/test' exact component={Tests} />
+          <Route path='/questionlist' exact component={QuestionList} />
         </Switch>
       </Router>
     )
