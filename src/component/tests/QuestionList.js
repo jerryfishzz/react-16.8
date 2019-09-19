@@ -21,7 +21,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { truncateString, getType } from '../../utils/helpers'
 import {withRouter} from 'react-router-dom';
-import { getQuestionsForList } from '../../utils/api';
+import { getQuestionsForList, getQuestionsForListAxios } from '../../utils/api';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -117,9 +117,10 @@ const QuestionList = (props) => {
 
     const handleGetQuestionsForList = async postType => {
       try {
-        const questions = await getQuestionsForList(postType)
-        console.log(questions)
-        setlist(questions)
+        // const questions = await getQuestionsForList(postType)
+        const { data } = await getQuestionsForListAxios(postType)
+        // console.log(questions)
+        setlist(data)
         setIsLoading(false)
       } catch(err) {
         throw Error('Get list error')
@@ -143,6 +144,8 @@ const QuestionList = (props) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   }
+
+  
 
   return (
     <Grid container alignItems="stretch" className={classes.container}>

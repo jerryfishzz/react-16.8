@@ -6,6 +6,7 @@ import {
   _addQuestionToDB 
 } from "./store";
 import { handleErrors } from "./helpers";
+import Axios from 'axios';
 
 export function getQuestions() {
   return _getQuestions()
@@ -64,6 +65,12 @@ export function getQuestionsForList(postType) {
   return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=10`) // orderby can make sure the 50 questions won't be always the same 50 questions
     .then(handleErrors)
     .then(response => response.json())
+}
+
+export function getQuestionsForListAxios(postType) {
+  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=10`) 
+    // .then(handleErrors)
+    // .then(response => console.log(response))
 }
 
 export function getAnswersForQuestionFromWp(id) {
