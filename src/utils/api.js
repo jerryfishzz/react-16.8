@@ -67,10 +67,13 @@ export function getQuestionsForList(postType) {
     .then(response => response.json())
 }
 
-export function getQuestionsForListAxios(postType) {
-  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=10`) 
+export function getQuestionsForListAxios(postType, perPage) {
+  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=${perPage}`) 
     // .then(handleErrors)
-    // .then(response => console.log(response))
+    .then(response => {
+      // console.log(response)
+      return response
+    })
 }
 
 export function getAnswersForQuestionFromWp(id) {

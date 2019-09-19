@@ -20,7 +20,7 @@ import LastPageIcon from '@material-ui/icons/LastPage';
 
 import { makeStyles, useTheme } from '@material-ui/styles'
 import { truncateString, getType } from '../../utils/helpers'
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { getQuestionsForList, getQuestionsForListAxios } from '../../utils/api';
 
 const useStyles1 = makeStyles(theme => ({
@@ -107,6 +107,9 @@ const QuestionList = (props) => {
   const classes = useStyles()
 
   const [isLoading, setIsLoading] = useState(true)
+  const [totle, setTotle] = useState(0)
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   
   const { location } = props
   const postType = getType(location)
@@ -115,24 +118,24 @@ const QuestionList = (props) => {
   useEffect(() => {
     setIsLoading(true)
 
-    const handleGetQuestionsForList = async postType => {
+    const handleGetQuestionsForList = async (postType, perPage) => {
       try {
         // const questions = await getQuestionsForList(postType)
-        const { data } = await getQuestionsForListAxios(postType)
-        // console.log(questions)
+        const { data, headers } = await getQuestionsForListAxios(postType, perPage)
+        console.log(headers)
         setlist(data)
         setIsLoading(false)
+        setTotle(Number(headers['x-wp-total']))
       } catch(err) {
         throw Error('Get list error')
       }
     }
 
-    handleGetQuestionsForList(postType)
+    handleGetQuestionsForList(postType, rowsPerPage)
       .catch(err => alert(err))
   }, [])
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
 
@@ -187,7 +190,7 @@ const QuestionList = (props) => {
                         <TablePagination
                           rowsPerPageOptions={[5, 10, 25]}
                           colSpan={3}
-                          count={list.length}
+                          count={totle}
                           rowsPerPage={rowsPerPage}
                           page={page}
                           SelectProps={{
