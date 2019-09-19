@@ -34,7 +34,7 @@ const useStyles1 = makeStyles(theme => ({
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
+  const { count, page, rowsPerPage, onChangePage, offset } = props;
 
   function handleFirstPageButtonClick(event) {
     onChangePage(event, 0);
@@ -107,31 +107,36 @@ const QuestionList = (props) => {
   const classes = useStyles()
 
   const [isLoading, setIsLoading] = useState(true)
+
   const [totle, setTotle] = useState(0)
+  const [totalPage, setTotalPage] = useState(0)
+  const [offset, setOffset] = useState(0)
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   
   const { location } = props
   const postType = getType(location)
 
+  const handleGetQuestionsForList = async (postType, offset, perPage) => {
+    setIsLoading(true)
+    try {
+      // const questions = await getQuestionsForList(postType)
+      const { data, headers } = await getQuestionsForListAxios(postType, offset, perPage)
+      console.log(headers)
+      setlist(data)
+      setTotle(Number(headers['x-wp-total']))
+      setTotalPage(Number(headers['x-wp-totalpages']))
+
+      setIsLoading(false)
+    } catch(err) {
+      throw Error('Get list error')
+    }
+  }
+
   const [list, setlist] = useState([])
   useEffect(() => {
-    setIsLoading(true)
-
-    const handleGetQuestionsForList = async (postType, perPage) => {
-      try {
-        // const questions = await getQuestionsForList(postType)
-        const { data, headers } = await getQuestionsForListAxios(postType, perPage)
-        console.log(headers)
-        setlist(data)
-        setIsLoading(false)
-        setTotle(Number(headers['x-wp-total']))
-      } catch(err) {
-        throw Error('Get list error')
-      }
-    }
-
-    handleGetQuestionsForList(postType, rowsPerPage)
+    handleGetQuestionsForList(postType, offset, rowsPerPage)
       .catch(err => alert(err))
   }, [])
 
@@ -148,7 +153,9 @@ const QuestionList = (props) => {
     setPage(0);
   }
 
-  
+  function handleChangeOffset(event) {
+    setOffset(offset + rowsPerPage)
+  }
 
   return (
     <Grid container alignItems="stretch" className={classes.container}>
@@ -192,12 +199,14 @@ const QuestionList = (props) => {
                           colSpan={3}
                           count={totle}
                           rowsPerPage={rowsPerPage}
+                          offset={offset}
                           page={page}
                           SelectProps={{
                             inputProps: { 'aria-label': 'rows per page' },
                             native: true,
                           }}
                           onChangePage={handleChangePage}
+                          onChangeOffset={handleChangeOffset}
                           onChangeRowsPerPage={handleChangeRowsPerPage}
                           ActionsComponent={TablePaginationActions}
                         />

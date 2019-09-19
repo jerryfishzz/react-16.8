@@ -67,8 +67,8 @@ export function getQuestionsForList(postType) {
     .then(response => response.json())
 }
 
-export function getQuestionsForListAxios(postType, perPage) {
-  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=${perPage}`) 
+export function getQuestionsForListAxios(postType, offset, perPage) {
+  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?offset=${offset}&per_page=${perPage}`) 
     // .then(handleErrors)
     .then(response => {
       // console.log(response)
