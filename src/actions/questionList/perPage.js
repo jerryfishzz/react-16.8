@@ -7,3 +7,9 @@ export function changePerPage(newPerPage) {
     newPerPage
   }
 }
+
+export function resetPerPage() {
+  return {
+    type: RESET_PERPAGE
+  }
+}
