@@ -19,9 +19,9 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { truncateString, getType } from '../../utils/helpers'
+import { truncateString, getType } from '../../../utils/helpers'
 import { withRouter } from 'react-router-dom';
-import { getQuestionsForList, getQuestionsForListAxios } from '../../utils/api';
+import { getQuestionsForList, getQuestionsForListAxios } from '../../../utils/api';
 
 const useStyles1 = makeStyles(theme => ({
   root: {

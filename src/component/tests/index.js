@@ -49,7 +49,7 @@ class Tests extends Component {
 
   componentDidMount() {
     const { postType } = this.props
-console.log(`52 ${postType}`)
+
     this.props.initializeAppFromWordPress(null, postType)
       .catch(err => alert(err))
   }
