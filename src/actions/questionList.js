@@ -9,32 +9,30 @@ export function getList(list) {
   }
 }
 
-export function handleGetList(postType, offset, perPage) {
+export function handleGetList(postType, offset, rowsPerPage) {
   return async (dispatch, getState) => {
-    let { questionList: { currentPage } } = getState()
-// console.log(8888888)
+    let { questionList: { page } } = getState()
+
     try {
-      const { data, headers } = await getQuestionsForListAxios(postType, offset, perPage)
-// console.log(data, headers)
+      const { data, headers } = await getQuestionsForListAxios(postType, offset, rowsPerPage)
+
       const totalQuestions = Number(headers['x-wp-total'])
 
-      const previousPages = Math.ceil(offset / perPage)
-      const leftPages = Math.ceil((totalQuestions - offset) / perPage)
+      const previousPages = Math.ceil(offset / rowsPerPage)
+      const leftPages = Math.ceil((totalQuestions - offset) / rowsPerPage)
       const totalPages = previousPages + leftPages
 
-      currentPage = currentPage 
-        ? currentPage 
-        : totalQuestions ? 1 : 0
+      page = page ? page : (totalQuestions ? 1 : 0)
 
       const list = {
-        perPage,
-        currentPage,
+        rowsPerPage,
+        page,
         offset,
         totalQuestions,
         totalPages,
         list: data
       }
-// console.log(list)
+
       dispatch(getList(list))
     } catch(err) {
       throw Error('Get list error')
