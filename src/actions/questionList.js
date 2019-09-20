@@ -14,7 +14,7 @@ function getList(list) {
 export function handleGetList(postType, offset, rowsPerPage) {
   return async (dispatch, getState) => {
     let { questionList: { page } } = getState()
-console.log(222222)
+
     try {
       const { data, headers } = await getQuestionsForListAxios(postType, offset, rowsPerPage)
 
@@ -23,8 +23,6 @@ console.log(222222)
       const previousPages = Math.ceil(offset / rowsPerPage)
       const leftPages = Math.ceil((totalQuestions - offset) / rowsPerPage)
       const totalPages = previousPages + leftPages
-
-      page = page ? page : (totalQuestions ? 1 : 0)
 
       const list = {
         rowsPerPage,
