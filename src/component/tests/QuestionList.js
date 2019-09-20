@@ -19,9 +19,11 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { truncateString, getType } from '../../../utils/helpers'
+import { truncateString, getType } from '../../utils/helpers'
 import { withRouter } from 'react-router-dom';
-import { getQuestionsForList, getQuestionsForListAxios } from '../../../utils/api';
+import { getQuestionsForList, getQuestionsForListAxios } from '../../utils/api';
+import { connect } from 'react-redux'
+import { handleGetList } from '../../actions/questionList';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -138,6 +140,11 @@ const QuestionList = (props) => {
   useEffect(() => {
     handleGetQuestionsForList(postType, offset, rowsPerPage)
       .catch(err => alert(err))
+
+    const { postType: p, questionList, handleGetList } = props
+    console.log(p, questionList)
+    handleGetList(p, questionList.offset, questionList.perPage)
+      .catch(err => alert(err))
   }, [])
 
   
@@ -206,7 +213,6 @@ const QuestionList = (props) => {
                             native: true,
                           }}
                           onChangePage={handleChangePage}
-                          onChangeOffset={handleChangeOffset}
                           onChangeRowsPerPage={handleChangeRowsPerPage}
                           ActionsComponent={TablePaginationActions}
                         />
@@ -223,4 +229,19 @@ const QuestionList = (props) => {
   )
 }
 
-export default withRouter(QuestionList)
+const mapStatesToProps = ({ questionList }, { location }) => {
+  const postType = getType(location)
+
+  // getQuestionsForListAxios(postType, offset, perPage)
+
+  return {
+    questionList,
+    postType
+  }
+}
+
+export default withRouter(connect(
+  mapStatesToProps,
+  { handleGetList }
+)(QuestionList))
+

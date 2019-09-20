@@ -6,7 +6,7 @@ import { Header } from './component/layouts';
 import Tests from './component/tests';
 import ForTest from './component/ForTest';
 import { getToken } from './utils/api';
-import QuestionList from './component/tests/QuestionList/QuestionList';
+import QuestionList from './component/tests/QuestionList';
 
 class App extends Component {
   state = {
