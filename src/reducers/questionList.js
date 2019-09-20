@@ -22,7 +22,8 @@ export default function questionList(state = initialQuestionListState, action) {
     case PREVIOUS_PAGE:
       return {
         ...state,
-        page: state.page - 1
+        page: state.page - 1,
+        offset: state.offset - action.rowsPerPage
       }
     default:
       return state

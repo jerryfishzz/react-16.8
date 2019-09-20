@@ -48,9 +48,10 @@ export function nextPage(rowsPerPage) {
   }
 }
 
-export function previousPage() {
+export function previousPage(rowsPerPage) {
   return {
     type: PREVIOUS_PAGE,
+    rowsPerPage
   }
 }
 
@@ -59,7 +60,15 @@ export function handleNextPage(postType, rowsPerPage) {
     dispatch(nextPage(rowsPerPage))
 
     const { questionList: { offset } } = getState()
-    console.log(postType, offset, rowsPerPage)
+    dispatch(handleGetList(postType, offset, rowsPerPage))
+  }
+}
+
+export function handlePreviousPage(postType, rowsPerPage) {
+  return (dispatch, getState) => {
+    dispatch(previousPage(rowsPerPage))
+
+    const { questionList: { offset } } = getState()
     dispatch(handleGetList(postType, offset, rowsPerPage))
   }
 }
