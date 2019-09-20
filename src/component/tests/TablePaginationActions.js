@@ -23,7 +23,7 @@ const useStyles1 = makeStyles(theme => ({
 const TablePaginationActions = (props) => {
   const classes = useStyles1();
   const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage, handleNextPage, postType, questionList: { offset } } = props;
+  const { onChangePage, handleNextPage, postType, questionList: { totalQuestions: count, page, rowsPerPage, offset } } = props;
 
   function handleFirstPageButtonClick(event) {
     onChangePage(event, 0);

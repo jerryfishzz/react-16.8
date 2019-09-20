@@ -156,10 +156,6 @@ const QuestionList = (props) => {
                         <TablePagination
                           rowsPerPageOptions={[5, 10, 25]}
                           colSpan={3}
-                          count={totalQuestions}
-                          rowsPerPage={rowsPerPage}
-                          offset={offset}
-                          page={page}
                           SelectProps={{
                             inputProps: { 'aria-label': 'rows per page' },
                             native: true,
