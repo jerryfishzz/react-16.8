@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { 
   Fab, 
   AppBar, 
@@ -8,6 +8,8 @@ import {
   Tooltip 
 } from '@material-ui/core';
 import Shuffle from '@material-ui/icons/Shuffle';
+import ListIcon from '@material-ui/icons/List';
+import HomeIcon from '@material-ui/icons/Home';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
@@ -17,7 +19,7 @@ import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 import { getType } from '../../utils/helpers';
 
-const Header = ({ classes, shuffleQuestions, type }) => (
+const Header = ({ classes, shuffleQuestions, type, pathname }) => (
   <AppBar position="static">
     <Toolbar className={classes.toolBar}>
       <Typography 
@@ -27,28 +29,62 @@ const Header = ({ classes, shuffleQuestions, type }) => (
       >
         CODE TEST
       </Typography>
-      <Tooltip title="Shuffle Questions">
-        <Fab 
-          color="secondary"
-          size="small"
-          className={classes.fab}
-          onClick={shuffleQuestions}
-          disabled={type === 'temps'}
-        >
-          <Shuffle />
-        </Fab>
-      </Tooltip>
-      <CreateDialog />
+      {pathname !== '/questionlist' && (
+        <Fragment>
+          <Tooltip title="Shuffle Questions">
+            <Fab 
+              color="secondary"
+              size="small"
+              className={classes.fab}
+              onClick={shuffleQuestions}
+              disabled={type === 'temps'}
+            >
+              <Shuffle />
+            </Fab>
+          </Tooltip>
+          <CreateDialog />
+        </Fragment>
+      )}
+      
+      {pathname !== '/questionlist'
+        ? <Tooltip title="Question List">
+            <Fab 
+              color="primary"
+              size="small"
+              className={classes.link}
+              onClick={shuffleQuestions}
+              href={type === 'examples' || type === null
+                ? '/questionlist'
+                : `/questionlist?type=${type}`
+              }
+            >
+              <ListIcon />
+            </Fab>
+          </Tooltip>
+        : <Fab 
+            color="primary"
+            size="small"
+            className={classes.link}
+            onClick={shuffleQuestions}
+            href={type === 'examples' || type === null
+              ? '/'
+              : `/test?type=${type}`
+            }
+          >
+            <HomeIcon />
+          </Fab>
+      }
     </Toolbar>
   </AppBar>
 )
 
-const mapStateToProps = (state, { location: { search } }) => {
+const mapStateToProps = (state, { location: { search, pathname } }) => {
   const query = new URLSearchParams(search)
   const type = query.get('type')
-
+// console.log(pathname)
   return { 
-    type
+    type,
+    pathname
   }
 }
 
@@ -74,12 +110,16 @@ const styles = theme => ({
     flex: 1
   },
   fab: {
-    marginRight: 5,
+    marginRight: 8,
   },
   toolBar: {
     marginLeft: 10,
     marginRight: 10
   },
+  link: {
+    marginLeft: 16,
+    backgroundColor: '#3e71bf'
+  }
 })
 
 export default withRouter(connect(
