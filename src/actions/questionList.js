@@ -6,6 +6,7 @@ export const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
 export const FIRST_PAGE = 'FIRST_PAGE'
 export const LAST_PAGE = 'LAST_PAGE'
 export const CHANGE_ROWSPERPAGE = 'CHANGE_ROWSPERPAGE'
+export const RESET_QUESTIONLIST = 'RESET_QUESTIONLIST'
 
 function getList(list) {
   return {
@@ -110,5 +111,17 @@ export function handleChangeRowsPerPage(postType, newRowsPerPage) {
   return dispatch => {
     dispatch(changeRowsPerPage(newRowsPerPage))
     dispatch(handleGetList(postType))
+  }
+}
+
+function resetQuestionList() {
+  return {
+    type: RESET_QUESTIONLIST
+  }
+}
+
+export function handleResetQuestionList() {
+  return dispatch => {
+    dispatch(resetQuestionList())
   }
 }

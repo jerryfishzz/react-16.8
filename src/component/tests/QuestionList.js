@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/styles'
 import { truncateString, getType } from '../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { handleGetList, handleChangeRowsPerPage } from '../../actions/questionList';
+import { handleGetList, handleChangeRowsPerPage, handleResetQuestionList } from '../../actions/questionList';
 import TablePaginationActions from './TablePaginationActions'
 
 const useStyles = makeStyles(({
@@ -82,7 +82,7 @@ const QuestionList = (props) => {
   // const [list, setlist] = useState([])
   useEffect(() => {
     setIsLoading(true)
-
+    props.handleResetQuestionList()
     // handleGetQuestionsForList(postType, offset, rowsPerPage)
     //   .catch(err => alert(err))
 
@@ -196,6 +196,6 @@ const mapStatesToProps = ({ questionList }, { location }) => {
 
 export default withRouter(connect(
   mapStatesToProps,
-  { handleGetList, handleChangeRowsPerPage }
+  { handleGetList, handleChangeRowsPerPage, handleResetQuestionList }
 )(QuestionList))
 
