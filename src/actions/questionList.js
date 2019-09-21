@@ -5,6 +5,7 @@ export const NEXT_PAGE = 'NEXT_PAGE'
 export const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
 export const FIRST_PAGE = 'FIRST_PAGE'
 export const LAST_PAGE = 'LAST_PAGE'
+export const CHANGE_ROWSPERPAGE = 'CHANGE_ROWSPERPAGE'
 
 function getList(list) {
   return {
@@ -15,17 +16,14 @@ function getList(list) {
 
 export function handleGetList(postType) {
   return async (dispatch, getState) => {
-    let { questionList: { page, offset, rowsPerPage } } = getState()
+    const { questionList: { page, offset, rowsPerPage } } = getState()
 
     try {
       const { data, headers } = await getQuestionsForListAxios(postType, offset, rowsPerPage)
 
       const totalQuestions = Number(headers['x-wp-total'])
-
-      const previousPages = Math.ceil(offset / rowsPerPage)
-      const leftPages = Math.ceil((totalQuestions - offset) / rowsPerPage)
-      const totalPages = previousPages + leftPages
-
+      const totalPages = Number(headers['x-wp-totalpages'])
+      
       const list = {
         rowsPerPage,
         page,
@@ -97,6 +95,20 @@ function lastPage() {
 export function handleLastPage(postType) {
   return dispatch => {
     dispatch(lastPage())
+    dispatch(handleGetList(postType))
+  }
+}
+
+function changeRowsPerPage(newRowsPerPage) {
+  return {
+    type: CHANGE_ROWSPERPAGE,
+    newRowsPerPage
+  }
+}
+
+export function handleChangeRowsPerPage(postType, newRowsPerPage) {
+  return dispatch => {
+    dispatch(changeRowsPerPage(newRowsPerPage))
     dispatch(handleGetList(postType))
   }
 }

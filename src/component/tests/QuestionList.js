@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/styles'
 import { truncateString, getType } from '../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { handleGetList } from '../../actions/questionList';
+import { handleGetList, handleChangeRowsPerPage } from '../../actions/questionList';
 import TablePaginationActions from './TablePaginationActions'
 
 const useStyles = makeStyles(({
@@ -47,7 +47,8 @@ const QuestionList = (props) => {
     questionList: { 
       rowsPerPage, page, offset, totalQuestions, totalPages, list 
     },
-    postType
+    postType,
+
   } = props
 
   const [isLoading, setIsLoading] = useState(true)
@@ -103,9 +104,12 @@ const QuestionList = (props) => {
     // setPage(newPage);
   }
 
-  function handleChangeRowsPerPage(event) {
+  function handleChangeRPPage(event) {
     // setRowsPerPage(parseInt(event.target.value, 10));
     // setPage(0);
+
+    const { handleChangeRowsPerPage } = props
+    handleChangeRowsPerPage(postType, parseInt(event.target.value, 10))
   }
 
 
@@ -165,7 +169,7 @@ const QuestionList = (props) => {
                             native: true,
                           }}
                           onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
+                          onChangeRowsPerPage={handleChangeRPPage}
                           ActionsComponent={TablePaginationActions}
                         />
                       </TableRow>
@@ -192,6 +196,6 @@ const mapStatesToProps = ({ questionList }, { location }) => {
 
 export default withRouter(connect(
   mapStatesToProps,
-  { handleGetList }
+  { handleGetList, handleChangeRowsPerPage }
 )(QuestionList))
 

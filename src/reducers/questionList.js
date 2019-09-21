@@ -1,4 +1,4 @@
-import { GET_LIST, NEXT_PAGE, PREVIOUS_PAGE, FIRST_PAGE, LAST_PAGE } from "../actions/questionList"
+import { GET_LIST, NEXT_PAGE, PREVIOUS_PAGE, FIRST_PAGE, LAST_PAGE, CHANGE_ROWSPERPAGE } from "../actions/questionList"
 
 export const initialQuestionListState = {
   rowsPerPage: 5,
@@ -38,6 +38,13 @@ export default function questionList(state = initialQuestionListState, action) {
         ...state,
         page: state.page + Math.floor((state.totalQuestions - state.offset) / state.rowsPerPage),
         offset: state.offset + Math.floor((state.totalQuestions - state.offset) / state.rowsPerPage) * state.rowsPerPage
+      }
+    case CHANGE_ROWSPERPAGE:
+      return {
+        ...state,
+        rowsPerPage: action.newRowsPerPage,
+        page: initialQuestionListState.page,
+        offset: initialQuestionListState.offset
       }
     default:
       return state
