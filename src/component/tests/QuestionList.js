@@ -87,7 +87,7 @@ const QuestionList = (props) => {
 
     const { handleGetList } = props
     // console.log(p, questionList)
-    handleGetList(postType, offset, rowsPerPage)
+    handleGetList(postType)
       .then(res => setIsLoading(false))
       .catch(err => alert(err))
   }, [])

@@ -3,6 +3,8 @@ import { getQuestionsForListAxios } from "../utils/api"
 export const GET_LIST = 'GET_LIST' 
 export const NEXT_PAGE = 'NEXT_PAGE'
 export const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
+export const FIRST_PAGE = 'FIRST_PAGE'
+export const LAST_PAGE = 'LAST_PAGE'
 
 function getList(list) {
   return {
@@ -11,9 +13,9 @@ function getList(list) {
   }
 }
 
-export function handleGetList(postType, offset, rowsPerPage) {
+export function handleGetList(postType) {
   return async (dispatch, getState) => {
-    let { questionList: { page } } = getState()
+    let { questionList: { page, offset, rowsPerPage } } = getState()
 
     try {
       const { data, headers } = await getQuestionsForListAxios(postType, offset, rowsPerPage)
@@ -40,35 +42,61 @@ export function handleGetList(postType, offset, rowsPerPage) {
   }
 }
 
-export function nextPage(rowsPerPage) {
+function nextPage() {
   // console.log(223333)
   return {
     type: NEXT_PAGE,
-    rowsPerPage
   }
 }
 
-export function previousPage(rowsPerPage) {
+function previousPage() {
   return {
     type: PREVIOUS_PAGE,
-    rowsPerPage
   }
 }
 
-export function handleNextPage(postType, rowsPerPage) {
-  return (dispatch, getState) => {
-    dispatch(nextPage(rowsPerPage))
+// function getCurrentList(postType) {
+//   return dispatch => {
+//     dispatch(handleGetList(postType))
+//   }
+// }
 
-    const { questionList: { offset } } = getState()
-    dispatch(handleGetList(postType, offset, rowsPerPage))
+export function handleNextPage(postType) {
+  return dispatch => {
+    dispatch(nextPage())
+    dispatch(handleGetList(postType))
   }
 }
 
-export function handlePreviousPage(postType, rowsPerPage) {
-  return (dispatch, getState) => {
-    dispatch(previousPage(rowsPerPage))
+export function handlePreviousPage(postType) {
+  return dispatch => {
+    dispatch(previousPage())
+    dispatch(handleGetList(postType))
+  }
+}
 
-    const { questionList: { offset } } = getState()
-    dispatch(handleGetList(postType, offset, rowsPerPage))
+function firstPage() {
+  return {
+    type: FIRST_PAGE
+  }
+}
+
+export function handleFirstPage(postType) {
+  return dispatch => {
+    dispatch(firstPage())
+    dispatch(handleGetList(postType))
+  }
+}
+
+function lastPage() {
+  return {
+    type: LAST_PAGE,
+  }
+}
+
+export function handleLastPage(postType) {
+  return dispatch => {
+    dispatch(lastPage())
+    dispatch(handleGetList(postType))
   }
 }

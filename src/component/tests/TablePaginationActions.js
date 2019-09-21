@@ -10,7 +10,7 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import { getType } from '../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { handleNextPage, handlePreviousPage } from '../../actions/questionList';
+import { handleNextPage, handlePreviousPage, handleFirstPage, handleLastPage } from '../../actions/questionList';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -23,10 +23,11 @@ const useStyles1 = makeStyles(theme => ({
 const TablePaginationActions = (props) => {
   const classes = useStyles1();
   const theme = useTheme();
-  const { onChangePage, handleNextPage, handlePreviousPage, postType, questionList: { totalQuestions: count, page, rowsPerPage, offset } } = props;
+  const { onChangePage, handleNextPage, handlePreviousPage, handleFirstPage, handleLastPage, postType, questionList: { totalQuestions: count, page, rowsPerPage, offset } } = props;
 
   function handleFirstPageButtonClick(event) {
-    onChangePage(event, 0);
+    // onChangePage(event, 0);
+    handleFirstPage(postType, rowsPerPage)
   }
 
   function handleBackButtonClick(event) {
@@ -39,7 +40,8 @@ const TablePaginationActions = (props) => {
   }
 
   function handleLastPageButtonClick(event) {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    // onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    handleLastPage(postType)
   }
 
   return (
@@ -83,5 +85,5 @@ const mapStatesToProps = ({ questionList }, { location }) => {
 
 export default withRouter(connect(
   mapStatesToProps, 
-  { handleNextPage, handlePreviousPage }
+  { handleNextPage, handlePreviousPage, handleFirstPage, handleLastPage }
 )(TablePaginationActions))
