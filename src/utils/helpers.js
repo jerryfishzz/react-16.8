@@ -53,6 +53,7 @@ export function formatQuestionsFromWordPress(questions) {
     [cur.id]: {
       id: cur.id,
       question: cur.acf.title,
+      title: cur.title.rendered,
       tags: cur.acf.tags !== '' ? cur.acf.tags.split(',') : [],
       otherNotes: cur.acf.other_notes
     }
@@ -79,7 +80,7 @@ export function addAnswersToQuestion(answers, question) {
 
 export function formatForWp(newQuestion) {
   return {
-    title: newQuestion.data.question,
+    title: newQuestion.data.title,
     fields: {
       title: newQuestion.data.question,
       tags: newQuestion.data.tags.join(),
@@ -145,13 +146,25 @@ export function getEditorStateFromContent(content) {
   return EditorState.createWithContent(convertFromRaw(objectizeAndUnescape(content)))
 }
 
-export const getType = url => {
-  switch (url) {
-    case '/wptest':
-      return 'temps'
-    case '/questions':
-      return 'questions'
+function getTypeFromParams(search) {
+  const query = new URLSearchParams(search)
+  return query.get('type')
+}
+
+export const getType = ({ pathname, search }) => {
+  switch (pathname) {
+    case '/test':
+    case '/questionlist':
+      return search === '' ? 'examples' : getTypeFromParams(search)
     default:
       return 'examples'
   }
+}
+
+export function truncateString(content) {
+  const length = 60
+  const string = content.toString()
+  return string.length > length
+    ? string.toString().substring(0, length) + '...'
+    : string
 }

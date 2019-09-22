@@ -180,15 +180,15 @@ class Tests extends Component {
 
 const mapStateToProps = (
   { test: { editQuestion, currentQuestionNumber, testQuestions } },
-  { location: { pathname } }
+  { location }
 ) => {
   const currentQuestion = testQuestions
     ? testQuestions.length 
         ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
         : {}
     : null
-  const postType = getType(pathname)
-
+  const postType = getType(location)
+  
   return { 
     editQuestion,
     currentQuestionNumber,
@@ -199,11 +199,6 @@ const mapStateToProps = (
 }
 
 const styles = theme => ({
-	'@global': {
-    'html, body, #root': {
-      height: '100%'
-    } 
-	},
 	container: {
     height: 'calc(100% - 64px)'
   },

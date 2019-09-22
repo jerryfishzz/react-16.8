@@ -1,7 +1,8 @@
 import React from "react";
 import { 
   withStyles,
-  Typography
+  Typography,
+  TextField
 } from '@material-ui/core';
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
@@ -30,6 +31,7 @@ class Form extends React.Component {
         data: {
           id: '',
           question: EditorState.createEmpty(),
+          title: '',
           tags: [],
           answers: [{
             content: EditorState.createEmpty(),
@@ -53,6 +55,7 @@ class Form extends React.Component {
     const { isNewlyCreated, currentQuestion } = this.props
 
     if (!isNewlyCreated) {
+      console.log(currentQuestion)
       this.initializeFromContent(currentQuestion)
     } else {
       this.setState(({ test }) => ({
@@ -311,7 +314,7 @@ class Form extends React.Component {
 
   render() {
     const { classes, paddingRight, isNewlyCreated } = this.props
-    const { test: { data: { question, tags, answers } }, isFormValidate, countsOfAnswer } = this.state
+    const { test: { data: { question, tags, answers, title } }, isFormValidate, countsOfAnswer } = this.state
 
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
     const handleQuestionChange = this.handleDraftChange('question')
@@ -332,6 +335,20 @@ class Form extends React.Component {
           />
         </div>
         
+        <div className={classes.background}>
+          <Typography> 
+            <span className={classes.required}>Display Title</span>*
+          </Typography>
+          <TextField
+            margin="normal"
+            fullWidth
+            variant="outlined"
+            className={classes.white}
+            value={title}
+            onChange={this.handleChange('title')}
+          />
+        </div>
+
         <div className={classes.background}> 
           <Tags 
             ownedTags={tags} 
@@ -374,12 +391,12 @@ class Form extends React.Component {
 
 const mapStateToProps = (
   { test: { currentQuestionNumber, testQuestions, editQuestion } },
-  { isNewlyCreated, location: { pathname } }
+  { isNewlyCreated, location }
 ) => {
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
-    const postType = getType(pathname)
+  const postType = getType(location)
 
   return {
     currentQuestion,
