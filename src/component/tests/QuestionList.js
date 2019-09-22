@@ -11,12 +11,16 @@ import {
   TableFooter,
   TablePagination,
 } from '@material-ui/core'
-
 import { makeStyles } from '@material-ui/styles'
-import { truncateString, getType } from '../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { handleGetList, handleChangeRowsPerPage, handleResetQuestionList } from '../../actions/questionList';
+
+import { truncateString, getType } from '../../utils/helpers'
+import { 
+  handleGetList, 
+  handleChangeRowsPerPage, 
+  handleResetQuestionList 
+} from '../../actions/questionList';
 import TablePaginationActions from './TablePaginationActions'
 
 const useStyles = makeStyles(({
@@ -29,7 +33,6 @@ const useStyles = makeStyles(({
   },
   tableContainer: {
     width: '70%',
-    // backgroundColor: 'yellow',
     paddingTop: 100
   },
   tablePaper: {
@@ -45,80 +48,33 @@ const QuestionList = (props) => {
 
   const { 
     questionList: { 
-      rowsPerPage, page, offset, totalQuestions, totalPages, list 
+      rowsPerPage, page, offset, totalQuestions, list 
     },
     postType,
-
   } = props
 
   const [isLoading, setIsLoading] = useState(true)
 
-  // const [totle, setTotle] = useState(0)
-  // const [totalPage, setTotalPage] = useState(0)
-  // const [offset, setOffset] = useState(0)
-
-  // const [page, setPage] = React.useState(0);
-  // const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  
-  // const { location } = props
-  // const postType = getType(location)
-
-  // const handleGetQuestionsForList = async (postType, offset, rowsPerPage) => {
-  //   setIsLoading(true)
-  //   try {
-  //     // const questions = await getQuestionsForList(postType)
-  //     const { data, headers } = await getQuestionsForListAxios(postType, offset, rowsPerPage)
-  //     console.log(headers)
-  //     // setlist(data)
-  //     // setTotle(Number(headers['x-wp-total']))
-  //     // setTotalPage(Number(headers['x-wp-totalpages']))
-
-  //     setIsLoading(false)
-  //   } catch(err) {
-  //     throw Error('Get list error')
-  //   }
-  // }
-
-  // const [list, setlist] = useState([])
   useEffect(() => {
     setIsLoading(true)
     props.handleResetQuestionList()
-    // handleGetQuestionsForList(postType, offset, rowsPerPage)
-    //   .catch(err => alert(err))
 
     const { handleGetList } = props
-    // console.log(p, questionList)
     handleGetList(postType)
       .then(res => setIsLoading(false))
       .catch(err => alert(err))
   }, [])
 
-  
-
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
-
-
-
 
   function handleChangePage(event, newPage) {
     // setPage(newPage);
   }
 
   function handleChangeRPPage(event) {
-    // setRowsPerPage(parseInt(event.target.value, 10));
-    // setPage(0);
-
     const { handleChangeRowsPerPage } = props
     handleChangeRowsPerPage(postType, parseInt(event.target.value, 10))
   }
-
-
-
-
-
-  // function handleChangeOffset(event) {
-  //   setOffset(offset + rowsPerPage)
-  // }
 
   return (
     <Grid container alignItems="stretch" className={classes.container}>

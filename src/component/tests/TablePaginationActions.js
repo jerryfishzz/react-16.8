@@ -1,16 +1,20 @@
 import React from 'react'
 import { IconButton } from '@material-ui/core'
-
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-
 import { makeStyles, useTheme } from '@material-ui/styles'
-import { getType } from '../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { handleNextPage, handlePreviousPage, handleFirstPage, handleLastPage } from '../../actions/questionList';
+
+import { getType } from '../../utils/helpers'
+import { 
+  handleNextPage, 
+  handlePreviousPage, 
+  handleFirstPage, 
+  handleLastPage 
+} from '../../actions/questionList';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -23,15 +27,22 @@ const useStyles1 = makeStyles(theme => ({
 const TablePaginationActions = (props) => {
   const classes = useStyles1();
   const theme = useTheme();
-  const { onChangePage, handleNextPage, handlePreviousPage, handleFirstPage, handleLastPage, postType, questionList: { totalQuestions: count, page, rowsPerPage, offset } } = props;
+  const { 
+    handleNextPage, 
+    handlePreviousPage, 
+    handleFirstPage, 
+    handleLastPage, 
+    postType, 
+    questionList: { 
+      totalQuestions: count, page, rowsPerPage, 
+    } 
+  } = props;
 
   function handleFirstPageButtonClick(event) {
-    // onChangePage(event, 0);
     handleFirstPage(postType, rowsPerPage)
   }
 
   function handleBackButtonClick(event) {
-    // onChangePage(event, page - 1);
     handlePreviousPage(postType, rowsPerPage)
   }
 
@@ -40,7 +51,6 @@ const TablePaginationActions = (props) => {
   }
 
   function handleLastPageButtonClick(event) {
-    // onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     handleLastPage(postType)
   }
 

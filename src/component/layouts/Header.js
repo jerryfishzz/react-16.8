@@ -81,7 +81,7 @@ const Header = ({ classes, shuffleQuestions, type, pathname }) => (
 const mapStateToProps = (state, { location: { search, pathname } }) => {
   const query = new URLSearchParams(search)
   const type = query.get('type')
-// console.log(pathname)
+
   return { 
     type,
     pathname
