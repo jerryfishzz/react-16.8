@@ -42,7 +42,6 @@ export function handleGetList(postType) {
 }
 
 function nextPage() {
-  // console.log(223333)
   return {
     type: NEXT_PAGE,
   }
@@ -53,12 +52,6 @@ function previousPage() {
     type: PREVIOUS_PAGE,
   }
 }
-
-// function getCurrentList(postType) {
-//   return dispatch => {
-//     dispatch(handleGetList(postType))
-//   }
-// }
 
 export function handleNextPage(postType) {
   return dispatch => {
