@@ -46,7 +46,7 @@ const useStyles = makeStyles(({
 const QuestionList = (props) => {
   const classes = useStyles()
   
-  const [selected, setSelected] = React.useState([]);
+  const [selected, setSelected] = React.useState(null);
 
   const { 
     questionList: { 
@@ -79,26 +79,10 @@ const QuestionList = (props) => {
   }
 
   function handleClickRow(event, id) {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
+    selected === id ? setSelected(null) : setSelected(id);
   }
 
-  const isSelected = id => selected.indexOf(id) !== -1;
+  const isSelected = id => selected === id;
 
   return (
     <Grid container alignItems="stretch" className={classes.container}>
