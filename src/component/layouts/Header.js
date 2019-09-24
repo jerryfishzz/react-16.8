@@ -62,6 +62,7 @@ const Header = ({ classes, shuffleQuestions, type, pathname }) => {
               <AddIcon />
             </Fab>
             <CreateDialog 
+              comeFrom="header"
               open={dialogOpen}
               onClose={onClose}
             />
