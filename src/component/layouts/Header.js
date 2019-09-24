@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect} from 'react'
 import { 
   Fab, 
   AppBar, 
@@ -10,6 +10,7 @@ import {
 import Shuffle from '@material-ui/icons/Shuffle';
 import ListIcon from '@material-ui/icons/List';
 import HomeIcon from '@material-ui/icons/Home';
+import AddIcon from '@material-ui/icons/Add';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
@@ -19,64 +20,86 @@ import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 import { getType } from '../../utils/helpers';
 
-const Header = ({ classes, shuffleQuestions, type, pathname }) => (
-  <AppBar position="static">
-    <Toolbar className={classes.toolBar}>
-      <Typography 
-        className={classes.flex} 
-        variant="h5" 
-        color="inherit"
-      >
-        CODE TEST
-      </Typography>
-      {pathname !== '/questionlist' && (
-        <Fragment>
-          <Tooltip title="Shuffle Questions">
+const Header = ({ classes, shuffleQuestions, type, pathname }) => {
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const handleClickOpen = () => {
+    setDialogOpen(true)
+  };
+
+  const onClose = () => {
+    setDialogOpen(false)
+  };
+
+  return (
+    <AppBar position="static">
+      <Toolbar className={classes.toolBar}>
+        <Typography 
+          className={classes.flex} 
+          variant="h5" 
+          color="inherit"
+        >
+          CODE TEST
+        </Typography>
+        {pathname !== '/questionlist' && (
+          <Fragment>
+            <Tooltip title="Shuffle Questions">
+              <Fab 
+                color="secondary"
+                size="small"
+                className={classes.fab}
+                onClick={shuffleQuestions}
+                disabled={type === 'temps'}
+              >
+                <Shuffle />
+              </Fab>
+            </Tooltip>
             <Fab 
-              color="secondary"
+              onClick={handleClickOpen} 
               size="small"
-              className={classes.fab}
-              onClick={shuffleQuestions}
-              disabled={type === 'temps'}
+              color="secondary"
             >
-              <Shuffle />
+              <AddIcon />
             </Fab>
-          </Tooltip>
-          <CreateDialog />
-        </Fragment>
-      )}
-      
-      {pathname !== '/questionlist'
-        ? <Tooltip title="Question List">
-            <Fab 
+            <CreateDialog 
+              open={dialogOpen}
+              onClose={onClose}
+            />
+          </Fragment>
+        )}
+        
+        {pathname !== '/questionlist'
+          ? <Tooltip title="Question List">
+              <Fab 
+                color="primary"
+                size="small"
+                className={classes.link}
+                onClick={shuffleQuestions}
+                href={type === 'examples' || type === null
+                  ? '/questionlist'
+                  : `/questionlist?type=${type}`
+                }
+              >
+                <ListIcon />
+              </Fab>
+            </Tooltip>
+          : <Fab 
               color="primary"
               size="small"
               className={classes.link}
               onClick={shuffleQuestions}
               href={type === 'examples' || type === null
-                ? '/questionlist'
-                : `/questionlist?type=${type}`
+                ? '/'
+                : `/test?type=${type}`
               }
             >
-              <ListIcon />
+              <HomeIcon />
             </Fab>
-          </Tooltip>
-        : <Fab 
-            color="primary"
-            size="small"
-            className={classes.link}
-            onClick={shuffleQuestions}
-            href={type === 'examples' || type === null
-              ? '/'
-              : `/test?type=${type}`
-            }
-          >
-            <HomeIcon />
-          </Fab>
-      }
-    </Toolbar>
-  </AppBar>
-)
+        }
+      </Toolbar>
+    </AppBar>
+  )
+}
 
 const mapStateToProps = (state, { location: { search, pathname } }) => {
   const query = new URLSearchParams(search)
