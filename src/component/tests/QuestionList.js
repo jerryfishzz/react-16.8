@@ -45,6 +45,8 @@ const useStyles = makeStyles(({
 
 const QuestionList = (props) => {
   const classes = useStyles()
+  
+  const [selected, setSelected] = React.useState([]);
 
   const { 
     questionList: { 
@@ -76,6 +78,28 @@ const QuestionList = (props) => {
     handleChangeRowsPerPage(postType, parseInt(event.target.value, 10))
   }
 
+  function handleClickRow(event, id) {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    setSelected(newSelected);
+  }
+
+  const isSelected = id => selected.indexOf(id) !== -1;
+
   return (
     <Grid container alignItems="stretch" className={classes.container}>
       <Grid item xs>
@@ -100,16 +124,25 @@ const QuestionList = (props) => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {list.map(row => (
-                        <TableRow key={row.id}>
-                          <TableCell component="th" scope="row">
-                            {row.id}
-                          </TableCell>
-                          <TableCell align="right" dangerouslySetInnerHTML={{ __html: truncateString(row.title.rendered)}}></TableCell>
-                          <TableCell align="right">{row.date}</TableCell>
-                          <TableCell align="right">{row.date_gmt}</TableCell>
-                        </TableRow>
-                      ))}
+                      {list.map(row => {
+                        const isItemSelected = isSelected(row.id);
+
+                        return (
+                          <TableRow 
+                            key={row.id} 
+                            hover={true} 
+                            onClick={(event) => handleClickRow(event, row.id)} 
+                            selected={isItemSelected}
+                          >
+                            <TableCell component="th" scope="row">
+                              {row.id}
+                            </TableCell>
+                            <TableCell align="right" dangerouslySetInnerHTML={{ __html: truncateString(row.title.rendered)}}></TableCell>
+                            <TableCell align="right">{row.date}</TableCell>
+                            <TableCell align="right">{row.date_gmt}</TableCell>
+                          </TableRow>
+                        )
+                      })}
                     </TableBody>
                     <TableFooter>
                       <TableRow>
