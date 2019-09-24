@@ -26,7 +26,7 @@ import TablePaginationActions from './TablePaginationActions'
 const useStyles = makeStyles(({
   container: {
     marginTop: 5,
-    height: 'calc(100% - 64px - 5px)',
+    minHeight: 'calc(100% - 64px - 5px)',
   },
   paper: {
     height: '100%'
