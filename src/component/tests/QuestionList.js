@@ -33,7 +33,8 @@ const useStyles = makeStyles(({
   },
   tableContainer: {
     width: '70%',
-    paddingTop: 100
+    paddingTop: 60,
+    paddingBottom: 60
   },
   tablePaper: {
     overflowX: 'auto',
