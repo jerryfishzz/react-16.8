@@ -8,13 +8,13 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { getType } from '../../utils/helpers'
+import { getType } from '../../../utils/helpers'
 import { 
   handleNextPage, 
   handlePreviousPage, 
   handleFirstPage, 
   handleLastPage 
-} from '../../actions/questionList';
+} from '../../../actions/questionList';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -63,7 +63,11 @@ const TablePaginationActions = (props) => {
       >
         {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+      <IconButton 
+        onClick={handleBackButtonClick} 
+        disabled={page === 0} 
+        aria-label="previous page"
+      >
         {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
       <IconButton

@@ -15,14 +15,14 @@ import { makeStyles } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { truncateString, getType } from '../../utils/helpers'
+import { truncateString, getType } from '../../../utils/helpers'
 import { 
   handleGetList, 
   handleChangeRowsPerPage, 
   handleResetQuestionList, 
-} from '../../actions/questionList';
+} from '../../../actions/questionList';
 import TablePaginationActions from './TablePaginationActions'
-import CreateDialog from './Dialog'
+import CreateDialog from '../Dialog'
 
 const useStyles = makeStyles(({
   container: {
@@ -94,12 +94,6 @@ const QuestionList = (props) => {
 
   const isSelected = id => selected === id;
 
-  
-
-  // const handleClickOpen = () => {
-  //   setDialogOpen(true)
-  // };
-
   const onClose = () => {
     setDialogOpen(false)
     setSelected(null)
@@ -143,7 +137,13 @@ const QuestionList = (props) => {
                             <TableCell component="th" scope="row">
                               {row.id}
                             </TableCell>
-                            <TableCell align="right" dangerouslySetInnerHTML={{ __html: truncateString(row.title.rendered)}}></TableCell>
+                            <TableCell 
+                              align="right" 
+                              dangerouslySetInnerHTML={{ 
+                                __html: truncateString(row.title.rendered)
+                              }}
+                            >
+                            </TableCell>
                             <TableCell align="right">{row.modified}</TableCell>
                             <TableCell align="right">{row.date}</TableCell>
                           </TableRow>

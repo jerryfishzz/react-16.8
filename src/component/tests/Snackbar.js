@@ -100,7 +100,6 @@ const mapStateToProps = (
   { location, editedQuestion }
 ) => {
   if (location.pathname === '/questionlist') {
-    
     return {
       currentQuestion: editedQuestion
     }

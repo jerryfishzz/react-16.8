@@ -19,7 +19,13 @@ import {
   handleSaveQuestionToWp 
 } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
-import { isExisted, escapeAndStringify, getEditorStateFromContent, getType, getQuestionFromWPForEditting } from "../../../utils/helpers";
+import { 
+  isExisted, 
+  escapeAndStringify, 
+  getEditorStateFromContent, 
+  getType, 
+  getQuestionFromWPForEditting 
+} from "../../../utils/helpers";
 
 class Form extends React.Component {
   constructor(props) {
@@ -55,14 +61,13 @@ class Form extends React.Component {
 
   componentDidMount() {
     const { isNewlyCreated, currentQuestion, qid, postType } = this.props
-// console.log(qid)
+
     if (!isNewlyCreated) {
       if (qid !== undefined) {
         this.setState({isLoading: true})
 
         getQuestionFromWPForEditting(postType, qid)
           .then(res => {
-            // console.log(res)
             this.initializeFromContent(res)
             this.setState({
               isLoading: false,
@@ -71,7 +76,6 @@ class Form extends React.Component {
           })
           .catch(err => alert(err))
       } else {
-        // console.log(currentQuestion)
         this.initializeFromContent(currentQuestion)
       }
     } else {
@@ -210,18 +214,8 @@ class Form extends React.Component {
             handleSaveQuestionToWp,
           } = this.props
     
-    // const contentState = test.data.otherNotes.getCurrentContent();
-    // const newOtherNotes = JSON.stringify(convertToRaw(contentState))
-    // const newQuestion = JSON.stringify(convertToRaw(test.data.question.getCurrentContent()))
-
     const newOtherNotes = escapeAndStringify(test.data.otherNotes)
     const newQuestion = escapeAndStringify(test.data.question)
-
-    // const newAnswers = test.data.answers.map(answer => ({
-    //   ...answer,
-    //   content: JSON.stringify(convertToRaw(answer.content.getCurrentContent())),
-    //   note: JSON.stringify(convertToRaw(answer.note.getCurrentContent()))
-    // }))
 
     const newAnswers = test.data.answers.map(answer => ({
       ...answer,
