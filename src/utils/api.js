@@ -170,3 +170,10 @@ export function removeAnswerFromWp(id) {
     .then(handleErrors)
     .then(response => response.json())
 }
+
+export function getQuestionFromWp(postType, id) {
+  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}/${id}`) 
+    .then(response => {
+      return response
+    })
+}

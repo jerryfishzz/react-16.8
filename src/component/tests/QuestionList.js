@@ -19,9 +19,10 @@ import { truncateString, getType } from '../../utils/helpers'
 import { 
   handleGetList, 
   handleChangeRowsPerPage, 
-  handleResetQuestionList 
+  handleResetQuestionList, 
 } from '../../actions/questionList';
 import TablePaginationActions from './TablePaginationActions'
+import CreateDialog from './Dialog'
 
 const useStyles = makeStyles(({
   container: {
@@ -46,7 +47,8 @@ const useStyles = makeStyles(({
 
 const QuestionList = (props) => {
   const classes = useStyles()
-  
+
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [selected, setSelected] = React.useState(null);
 
   const { 
@@ -80,10 +82,23 @@ const QuestionList = (props) => {
   }
 
   function handleClickRow(event, id) {
-    selected === id ? setSelected(null) : setSelected(id);
+    selected === id ? setSelected(null) : setSelected(id)
+
+    setDialogOpen(true)
   }
 
   const isSelected = id => selected === id;
+
+  
+
+  // const handleClickOpen = () => {
+  //   setDialogOpen(true)
+  // };
+
+  const onClose = () => {
+    setDialogOpen(false)
+    setSelected(null)
+  };
 
   return (
     <Grid container alignItems="stretch" className={classes.container}>
@@ -149,6 +164,12 @@ const QuestionList = (props) => {
                       </TableRow>
                     </TableFooter>
                   </Table>
+                  <CreateDialog 
+                    comeFrom="questionList"
+                    open={dialogOpen}
+                    onClose={onClose}
+                    qid={selected}
+                  />
                 </Paper>
               )}
             </Grid>

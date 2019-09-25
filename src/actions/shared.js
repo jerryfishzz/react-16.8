@@ -5,7 +5,7 @@ import { receiveQuestions } from "./test/testQuestions";
 import { receiveTags } from "./tags";
 import { 
   getInitialDataFromWordPress, 
-  getAnswersForQuestionFromWp 
+  getAnswersForQuestionFromWp  
 } from "../utils/api";
 import { 
   formatQuestion, 
@@ -19,7 +19,7 @@ export function initializeAppFromWordPress(cb = null, postType) {
     try {
       dispatch(handleResetTest())
 
-      let [questions, tags] = await getInitialDataFromWordPress(postType)
+      let [questions, tags] = await getInitialDataFromWordPress(postType) // Get at most 50 random-ordered questions
       let questionsForTest = []
       
       if (questions.length) {

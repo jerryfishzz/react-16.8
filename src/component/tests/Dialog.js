@@ -19,7 +19,7 @@ class CreateDialog extends Component {
   }
 
   render() {
-    const { suggestions, onAddSuggestion, open, comeFrom } = this.props
+    const { suggestions, onAddSuggestion, open, comeFrom, ...other } = this.props
 
     return (
       <Dialog
@@ -40,6 +40,7 @@ class CreateDialog extends Component {
             isNewlyCreated={comeFrom === "header"} 
             onSubmit={this.handleSubmit}
             onAddSuggestion={onAddSuggestion}
+            {...other}
           />
         </DialogContent>
       </Dialog>

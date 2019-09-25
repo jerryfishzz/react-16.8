@@ -6,6 +6,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
 
 class CreateSnackbar extends React.Component {
   state = {
@@ -94,9 +95,17 @@ class CreateSnackbar extends React.Component {
   }
 }
 
-const mapStateToProps = ({ 
-  test: { currentQuestionNumber, testQuestions } 
-}) => {
+const mapStateToProps = (
+  { test: { currentQuestionNumber, testQuestions } },
+  { location, editedQuestion }
+) => {
+  if (location.pathname === '/questionlist') {
+    
+    return {
+      currentQuestion: editedQuestion
+    }
+  }
+
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
@@ -119,4 +128,4 @@ const styles = theme => ({
   }
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(CreateSnackbar));
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(CreateSnackbar)));

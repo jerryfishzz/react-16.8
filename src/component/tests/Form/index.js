@@ -19,7 +19,7 @@ import {
   handleSaveQuestionToWp 
 } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
-import { isExisted, escapeAndStringify, getEditorStateFromContent, getType } from "../../../utils/helpers";
+import { isExisted, escapeAndStringify, getEditorStateFromContent, getType, getQuestionFromWPForEditting } from "../../../utils/helpers";
 
 class Form extends React.Component {
   constructor(props) {
@@ -47,16 +47,33 @@ class Form extends React.Component {
       removed: [],
       isFormValidate: false,
       isFocus: false,
-      countsOfAnswer: 0
+      countsOfAnswer: 0,
+      isLoading: false,
+      editedQuestion: null
     }
   }
 
   componentDidMount() {
-    const { isNewlyCreated, currentQuestion } = this.props
-
+    const { isNewlyCreated, currentQuestion, qid, postType } = this.props
+// console.log(qid)
     if (!isNewlyCreated) {
-      console.log(currentQuestion)
-      this.initializeFromContent(currentQuestion)
+      if (qid !== undefined) {
+        this.setState({isLoading: true})
+
+        getQuestionFromWPForEditting(postType, qid)
+          .then(res => {
+            // console.log(res)
+            this.initializeFromContent(res)
+            this.setState({
+              isLoading: false,
+              editedQuestion: res
+            })
+          })
+          .catch(err => alert(err))
+      } else {
+        // console.log(currentQuestion)
+        this.initializeFromContent(currentQuestion)
+      }
     } else {
       this.setState(({ test }) => ({
         test: {
@@ -240,6 +257,7 @@ class Form extends React.Component {
       test: {
         data: {
           question: EditorState.createEmpty(),
+          title: '',
           tags: [],
           answers: [{
             content: EditorState.createEmpty(),
@@ -314,10 +332,20 @@ class Form extends React.Component {
 
   render() {
     const { classes, paddingRight, isNewlyCreated } = this.props
-    const { test: { data: { question, tags, answers, title } }, isFormValidate, countsOfAnswer } = this.state
+    const { 
+      test: { data: { question, tags, answers, title } }, 
+      isFormValidate, 
+      countsOfAnswer, 
+      isLoading,
+      editedQuestion 
+    } = this.state
 
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
     const handleQuestionChange = this.handleDraftChange('question')
+
+    if (isLoading) {
+      return <div>Loading...</div>
+    }
 
     return (
       <form 
@@ -383,6 +411,7 @@ class Form extends React.Component {
           isFormValidate={isFormValidate}
           isNewlyCreated={isNewlyCreated}
           initializeFromContent={this.initializeFromContent}
+          editedQuestion={editedQuestion}
         />
       </form>
     )
@@ -391,19 +420,29 @@ class Form extends React.Component {
 
 const mapStateToProps = (
   { test: { currentQuestionNumber, testQuestions, editQuestion } },
-  { isNewlyCreated, location }
+  { isNewlyCreated, location, qid }
 ) => {
+  const postType = getType(location)
+  
+  if (location.pathname === '/questionlist') {
+    return {
+      isNewlyCreated,
+      qid,
+      postType
+    }
+  }
+
   const currentQuestion = testQuestions.length 
     ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
     : {}
-  const postType = getType(location)
-
+  
   return {
     currentQuestion,
     currentQuestionNumber,
     editQuestion,
     isNewlyCreated,
-    postType
+    postType,
+    location
   }
 }
 

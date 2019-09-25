@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import uniqid from 'uniqid'
+import { getQuestionFromWp, getAnswersForQuestionFromWp } from './api';
 
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
@@ -167,4 +168,26 @@ export function truncateString(content) {
   return string.length > length
     ? string.toString().substring(0, length) + '...'
     : string
+}
+
+export async function getQuestionFromWPForEditting(postType, id) {
+  try {
+    let { data: question} = await getQuestionFromWp(postType, id) 
+    
+    question = {
+      id: question.id,
+      question: question.acf.title,
+      title: question.title.rendered,
+      tags: question.acf.tags !== '' ? question.acf.tags.split(',') : [],
+      otherNotes: question.acf.other_notes
+    }
+
+    const formattedQuestion = formatQuestion(question)
+    const answers = await getAnswersForQuestionFromWp(formattedQuestion.id)
+    const formattedQuestionWithAnswers = addAnswersToQuestion(answers, formattedQuestion)
+
+    return formattedQuestionWithAnswers
+  } catch(err) {
+    throw Error('Get question error')
+  }
 }
