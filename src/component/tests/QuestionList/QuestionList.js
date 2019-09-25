@@ -75,7 +75,7 @@ const QuestionList = (props) => {
       .catch(err => alert(err))
   }, [])
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, list.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalQuestions - page * rowsPerPage);
 
   function handleChangePage(event, newPage) {
     // setPage(newPage);
@@ -149,6 +149,12 @@ const QuestionList = (props) => {
                           </TableRow>
                         )
                       })}
+
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 48 * emptyRows }}>
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
                     </TableBody>
                     <TableFooter>
                       <TableRow>
