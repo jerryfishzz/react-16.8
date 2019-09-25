@@ -1,4 +1,4 @@
-import { GET_LIST, NEXT_PAGE, PREVIOUS_PAGE, FIRST_PAGE, LAST_PAGE, CHANGE_ROWSPERPAGE, RESET_QUESTIONLIST } from "../actions/questionList"
+import { GET_LIST, NEXT_PAGE, PREVIOUS_PAGE, FIRST_PAGE, LAST_PAGE, CHANGE_ROWSPERPAGE, RESET_QUESTIONLIST, UPDATE_RECORD } from "../actions/questionList"
 
 export const initialQuestionListState = {
   rowsPerPage: 5,
@@ -48,6 +48,21 @@ export default function questionList(state = initialQuestionListState, action) {
       }
     case RESET_QUESTIONLIST:
       return initialQuestionListState
+    case UPDATE_RECORD:
+      return {
+        ...state,
+        list: state.list.map(row => {
+          if (row.id === action.updatedRecord.id) {
+            return {
+              ...row,
+              title: action.updatedRecord.title,
+              modified: action.updatedRecord.modified
+            }
+          }
+
+          return row
+        })
+      }
     default:
       return state
   }

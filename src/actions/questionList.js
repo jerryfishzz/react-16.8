@@ -7,6 +7,7 @@ export const FIRST_PAGE = 'FIRST_PAGE'
 export const LAST_PAGE = 'LAST_PAGE'
 export const CHANGE_ROWSPERPAGE = 'CHANGE_ROWSPERPAGE'
 export const RESET_QUESTIONLIST = 'RESET_QUESTIONLIST'
+export const UPDATE_RECORD = 'UPDATE_RECORD'
 
 function getList(list) {
   return {
@@ -116,5 +117,12 @@ function resetQuestionList() {
 export function handleResetQuestionList() {
   return dispatch => {
     dispatch(resetQuestionList())
+  }
+}
+
+export function updateRecord(updatedRecord) {
+  return {
+    type: UPDATE_RECORD,
+    updatedRecord
   }
 }

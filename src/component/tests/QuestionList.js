@@ -43,6 +43,11 @@ const useStyles = makeStyles(({
   table: {
     minWidth: 650,
   },
+  row: {
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  }
 }))
 
 const QuestionList = (props) => {
@@ -133,13 +138,14 @@ const QuestionList = (props) => {
                             hover={true} 
                             onClick={(event) => handleClickRow(event, row.id)} 
                             selected={isItemSelected}
+                            className={classes.row}
                           >
                             <TableCell component="th" scope="row">
                               {row.id}
                             </TableCell>
                             <TableCell align="right" dangerouslySetInnerHTML={{ __html: truncateString(row.title.rendered)}}></TableCell>
+                            <TableCell align="right">{row.modified}</TableCell>
                             <TableCell align="right">{row.date}</TableCell>
-                            <TableCell align="right">{row.date_gmt}</TableCell>
                           </TableRow>
                         )
                       })}

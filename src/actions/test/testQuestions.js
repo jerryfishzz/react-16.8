@@ -12,6 +12,7 @@ import {
   formatAnswer, 
   createAnswerContainer 
 } from "../../utils/helpers";
+import { updateRecord } from "../questionList";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
@@ -106,7 +107,7 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, p
         updateQuestionToWp(id, questionForWp, postType)
       ]
       
-      await Promise.all(promisesCollection)
+      const promises = await Promise.all(promisesCollection)
       
       updatedQuestionWithAnswerIds = {
         ...updatedQuestion,
@@ -120,6 +121,8 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, p
 
       cb1()
       cb2(updatedQuestionWithAnswerIds)
+
+      if (currentQuestion === null) dispatch(updateRecord(promises[promises.length - 1]))
     } catch(err) {
       if (currentQuestion !== null) dispatch(saveQuestion(currentQuestion))
       throw err

@@ -29,11 +29,17 @@ class CreateDialog extends Component {
         maxWidth='md'
       >
         <DialogTitle>
-          Create a New Question
+          {comeFrom === 'header' 
+            ? 'Create a New Question'
+            : 'Edit Question'
+          }
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please fill out the form below. Items with * are required.
+            {comeFrom === 'header' 
+              ? 'Please fill out the form below. Items with * are required.'
+              : 'Items with * are required.'
+            }
           </DialogContentText>
           <Form 
             suggestions={suggestions}
