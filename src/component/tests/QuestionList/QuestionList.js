@@ -77,10 +77,6 @@ const QuestionList = (props) => {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalQuestions - page * rowsPerPage);
 
-  function handleChangePage(event, newPage) {
-    // setPage(newPage);
-  }
-
   function handleChangeRPPage(event) {
     const { handleChangeRowsPerPage } = props
     handleChangeRowsPerPage(postType, parseInt(event.target.value, 10))
@@ -163,13 +159,12 @@ const QuestionList = (props) => {
                           colSpan={3}
                           count={totalQuestions}
                           rowsPerPage={rowsPerPage}
-                          offset={offset}
                           page={page}
                           SelectProps={{
                             inputProps: { 'aria-label': 'rows per page' },
                             native: true,
                           }}
-                          onChangePage={handleChangePage}
+                          onChangePage={() => null}
                           onChangeRowsPerPage={handleChangeRPPage}
                           ActionsComponent={TablePaginationActions}
                         />
