@@ -58,7 +58,7 @@ const QuestionList = (props) => {
 
   const { 
     questionList: { 
-      rowsPerPage, page, offset, totalQuestions, list 
+      rowsPerPage, page, totalQuestions, list 
     },
     postType,
   } = props
@@ -156,7 +156,7 @@ const QuestionList = (props) => {
                       <TableRow>
                         <TablePagination
                           rowsPerPageOptions={[5, 10, 25]}
-                          colSpan={3}
+                          colSpan={4}
                           count={totalQuestions}
                           rowsPerPage={rowsPerPage}
                           page={page}
