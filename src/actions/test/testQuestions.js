@@ -61,8 +61,9 @@ function saveQuestion(updatedQuestion) {
 export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, postType) {
   return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
-    const currentQuestion = 
-      testQuestions.filter(question => question.id === id)[0]
+    const currentQuestion = testQuestions
+      ? testQuestions.filter(question => question.id === id)[0]
+      : null
 
     let answersWithId = [], updatedQuestionWithAnswerIds = {}
     
@@ -114,12 +115,13 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, p
           answers: answersWithId
         }
       }
-      dispatch(saveQuestion(updatedQuestionWithAnswerIds))
+      
+      if (currentQuestion !== null) dispatch(saveQuestion(updatedQuestionWithAnswerIds))
 
       cb1()
       cb2(updatedQuestionWithAnswerIds)
     } catch(err) {
-      dispatch(saveQuestion(currentQuestion))
+      if (currentQuestion !== null) dispatch(saveQuestion(currentQuestion))
       throw err
     }
   }
