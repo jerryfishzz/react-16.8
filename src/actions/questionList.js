@@ -1,4 +1,4 @@
-import { getQuestionsForListAxios } from "../utils/api"
+import { getQuestionsForListAxios, searchRecords } from "../utils/api"
 
 export const GET_LIST = 'GET_LIST' 
 export const NEXT_PAGE = 'NEXT_PAGE'
@@ -124,5 +124,31 @@ export function updateRecord(updatedRecord) {
   return {
     type: UPDATE_RECORD,
     updatedRecord
+  }
+}
+
+export function handleSearchRecords(postType, search) {
+  return async (dispatch, getState) => {
+    const { questionList: { page, offset, rowsPerPage } } = getState()
+
+    try {
+      const { data, headers } = await searchRecords(postType, offset, rowsPerPage, search)
+
+      const totalQuestions = Number(headers['x-wp-total'])
+      const totalPages = Number(headers['x-wp-totalpages'])
+      
+      const list = {
+        rowsPerPage,
+        page,
+        offset,
+        totalQuestions,
+        totalPages,
+        list: data
+      }
+
+      dispatch(getList(list))
+    } catch(err) {
+      throw Error('Search records error')
+    }
   }
 }

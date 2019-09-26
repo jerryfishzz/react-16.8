@@ -177,3 +177,10 @@ export function getQuestionFromWp(postType, id) {
       return response
     })
 }
+
+export function searchRecords(postType, offset, perPage, search) {
+  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?search=${search}&offset=${offset}&per_page=${perPage}`) 
+    .then(response => {
+      return response
+    })
+}

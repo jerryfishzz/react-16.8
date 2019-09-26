@@ -172,7 +172,7 @@ export function truncateString(content) {
 
 export async function getQuestionFromWPForEditting(postType, id) {
   try {
-    let { data: question} = await getQuestionFromWp(postType, id) 
+    let { data: question } = await getQuestionFromWp(postType, id) 
     
     question = {
       id: question.id,

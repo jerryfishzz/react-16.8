@@ -7,6 +7,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
+import { handleSearchRecords } from '../../../actions/questionList';
+import { getType } from '../../../utils/helpers'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,13 +32,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Search() {
+function Search(props) {
   const classes = useStyles();
 
   const [search, setSearch] = useState('')
   
   const handleChange = event => {
     setSearch(event.target.value)
+    props.handleSearchRecords(props.postType, event.target.value)
   }
 
   return (
@@ -59,3 +64,13 @@ export default function Search() {
     </Paper>
   );
 }
+
+const mapStatesToProps = (state, { location }) => {
+  const postType = getType(location)
+
+  return {
+    postType
+  }
+}
+
+export default withRouter(connect(mapStatesToProps, { handleSearchRecords })(Search))
