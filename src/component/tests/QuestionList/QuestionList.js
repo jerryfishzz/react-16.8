@@ -23,6 +23,7 @@ import {
 } from '../../../actions/questionList';
 import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
+import Search from './Search';
 
 const useStyles = makeStyles(({
   container: {
@@ -107,6 +108,7 @@ const QuestionList = (props) => {
               >
                 {!isLoading ? 'Question List' : 'Loading'}
               </Typography>
+              <Search />
               {!isLoading && (
                 <Paper className={classes.tablePaper}>
                   <Table className={classes.table}>
