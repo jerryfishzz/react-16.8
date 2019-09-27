@@ -67,8 +67,8 @@ export function getQuestionsForList(postType) {
     .then(response => response.json())
 }
 
-export function getQuestionsForListAxios(postType, offset, perPage) {
-  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?offset=${offset}&per_page=${perPage}`) 
+export function getQuestionsForListAxios(postType, offset, perPage, search) {
+  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?search=${search}&offset=${offset}&per_page=${perPage}`) 
     // .then(handleErrors)
     .then(response => {
       // console.log(response)
@@ -173,13 +173,6 @@ export function removeAnswerFromWp(id) {
 
 export function getQuestionFromWp(postType, id) {
   return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}/${id}`) 
-    .then(response => {
-      return response
-    })
-}
-
-export function searchRecords(postType, offset, perPage, search) {
-  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?search=${search}&offset=${offset}&per_page=${perPage}`) 
     .then(response => {
       return response
     })

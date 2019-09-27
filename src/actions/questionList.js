@@ -1,4 +1,4 @@
-import { getQuestionsForListAxios, searchRecords } from "../utils/api"
+import { getQuestionsForListAxios } from "../utils/api"
 
 export const GET_LIST = 'GET_LIST' 
 export const NEXT_PAGE = 'NEXT_PAGE'
@@ -8,6 +8,7 @@ export const LAST_PAGE = 'LAST_PAGE'
 export const CHANGE_ROWSPERPAGE = 'CHANGE_ROWSPERPAGE'
 export const RESET_QUESTIONLIST = 'RESET_QUESTIONLIST'
 export const UPDATE_RECORD = 'UPDATE_RECORD'
+export const SEARCH_RECORDS = 'SEARCH_RECORDS'
 
 function getList(list) {
   return {
@@ -18,10 +19,10 @@ function getList(list) {
 
 export function handleGetList(postType) {
   return async (dispatch, getState) => {
-    const { questionList: { page, offset, rowsPerPage } } = getState()
+    const { questionList: { page, offset, rowsPerPage, search } } = getState()
 
     try {
-      const { data, headers } = await getQuestionsForListAxios(postType, offset, rowsPerPage)
+      const { data, headers } = await getQuestionsForListAxios(postType, offset, rowsPerPage, search)
 
       const totalQuestions = Number(headers['x-wp-total'])
       const totalPages = Number(headers['x-wp-totalpages'])
@@ -32,6 +33,7 @@ export function handleGetList(postType) {
         offset,
         totalQuestions,
         totalPages,
+        search,
         list: data
       }
 
@@ -127,28 +129,9 @@ export function updateRecord(updatedRecord) {
   }
 }
 
-export function handleSearchRecords(postType, search) {
-  return async (dispatch, getState) => {
-    const { questionList: { page, offset, rowsPerPage } } = getState()
-
-    try {
-      const { data, headers } = await searchRecords(postType, offset, rowsPerPage, search)
-
-      const totalQuestions = Number(headers['x-wp-total'])
-      const totalPages = Number(headers['x-wp-totalpages'])
-      
-      const list = {
-        rowsPerPage,
-        page,
-        offset,
-        totalQuestions,
-        totalPages,
-        list: data
-      }
-
-      dispatch(getList(list))
-    } catch(err) {
-      throw Error('Search records error')
-    }
+export function searchRecords(search) {
+  return {
+    type: SEARCH_RECORDS,
+    search
   }
 }

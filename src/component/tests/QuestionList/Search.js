@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-import { handleSearchRecords } from '../../../actions/questionList';
+import { searchRecords, handleGetList } from '../../../actions/questionList';
 import { getType } from '../../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: '2px 8px',
+    padding: '2px 2px 2px 12px',
     display: 'flex',
     alignItems: 'center',
     width: 320,
@@ -34,14 +30,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Search(props) {
+function Search({ postType, search, searchRecords, handleGetList }) {
   const classes = useStyles();
 
-  const [search, setSearch] = useState('')
-  
   const handleChange = event => {
-    setSearch(event.target.value)
-    props.handleSearchRecords(props.postType, event.target.value)
+    searchRecords(event.target.value)
+    handleGetList(postType)
+      .catch(err => alert(err))
   }
 
   return (
@@ -60,12 +55,16 @@ function Search(props) {
   );
 }
 
-const mapStatesToProps = (state, { location }) => {
+const mapStatesToProps = ({ questionList: { search } }, { location }) => {
   const postType = getType(location)
 
   return {
-    postType
+    postType,
+    search
   }
 }
 
-export default withRouter(connect(mapStatesToProps, { handleSearchRecords })(Search))
+export default withRouter(connect(
+  mapStatesToProps, 
+  { handleGetList, searchRecords }
+)(Search))

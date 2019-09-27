@@ -1,4 +1,14 @@
-import { GET_LIST, NEXT_PAGE, PREVIOUS_PAGE, FIRST_PAGE, LAST_PAGE, CHANGE_ROWSPERPAGE, RESET_QUESTIONLIST, UPDATE_RECORD } from "../actions/questionList"
+import { 
+  GET_LIST, 
+  NEXT_PAGE, 
+  PREVIOUS_PAGE, 
+  FIRST_PAGE, 
+  LAST_PAGE, 
+  CHANGE_ROWSPERPAGE, 
+  RESET_QUESTIONLIST, 
+  UPDATE_RECORD, 
+  SEARCH_RECORDS 
+} from "../actions/questionList"
 
 export const initialQuestionListState = {
   rowsPerPage: 5,
@@ -6,6 +16,7 @@ export const initialQuestionListState = {
   offset: 0,
   totalQuestions: null,
   totalPages: 0,
+  search: '',
   list: []
 }
 
@@ -62,6 +73,11 @@ export default function questionList(state = initialQuestionListState, action) {
 
           return row
         })
+      }
+    case SEARCH_RECORDS:
+      return {
+        ...state,
+        search: action.search
       }
     default:
       return state
