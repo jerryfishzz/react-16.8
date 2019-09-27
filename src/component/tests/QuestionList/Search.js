@@ -14,10 +14,12 @@ import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: '2px 4px',
+    padding: '2px 8px',
     display: 'flex',
     alignItems: 'center',
-    width: 400,
+    width: 320,
+    border: '1px solid rgba(224, 224, 224, 0.5)',
+    borderRadius: 24
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -43,25 +45,18 @@ function Search(props) {
   }
 
   return (
-    <Paper className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-        <MenuIcon />
-      </IconButton>
+    <div className={classes.root}>
       <InputBase
         className={classes.input}
-        placeholder="Search Google Maps"
-        inputProps={{ 'aria-label': 'search google maps' }}
+        placeholder="Search"
+        inputProps={{ 'aria-label': 'search' }}
         value={search}
         onChange={handleChange}
       />
       <IconButton className={classes.iconButton} aria-label="search">
         <SearchIcon />
       </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-        <DirectionsIcon />
-      </IconButton>
-    </Paper>
+    </div>
   );
 }
 

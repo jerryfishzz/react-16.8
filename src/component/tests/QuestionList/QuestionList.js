@@ -33,6 +33,9 @@ const useStyles = makeStyles(({
   paper: {
     height: '100%'
   },
+  titleContainer: {
+    paddingBottom: 8
+  },
   tableContainer: {
     width: '70%',
     paddingTop: 60,
@@ -102,13 +105,18 @@ const QuestionList = (props) => {
         <Paper className={classes.paper}>
           <Grid container justify="center">
             <Grid item className={classes.tableContainer}>
-              <Typography
-                variant='h5'
-                gutterBottom
-              >
-                {!isLoading ? 'Question List' : 'Loading'}
-              </Typography>
-              <Search />
+              <Grid container alignItems="center" className={classes.titleContainer}>
+                <Grid item xs>
+                  <Typography
+                    variant='h5'
+                  >
+                    {!isLoading ? 'Question List' : 'Loading'}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Search />
+                </Grid>
+              </Grid>
               {!isLoading && (
                 <Paper className={classes.tablePaper}>
                   <Table className={classes.table}>
