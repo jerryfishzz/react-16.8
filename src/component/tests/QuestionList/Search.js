@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Search({ postType, search, searchRecords, handleGetList }) {
+function Search({ postType, searchRecords, handleGetList }) {
   const classes = useStyles();
 
   const handleChange = event => {
@@ -45,7 +45,6 @@ function Search({ postType, search, searchRecords, handleGetList }) {
         className={classes.input}
         placeholder="Search"
         inputProps={{ 'aria-label': 'search' }}
-        value={search}
         onChange={handleChange}
       />
       <IconButton className={classes.iconButton} aria-label="search">
@@ -55,12 +54,11 @@ function Search({ postType, search, searchRecords, handleGetList }) {
   );
 }
 
-const mapStatesToProps = ({ questionList: { search } }, { location }) => {
+const mapStatesToProps = (state, { location }) => {
   const postType = getType(location)
 
   return {
     postType,
-    search
   }
 }
 
