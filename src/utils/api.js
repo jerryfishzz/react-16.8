@@ -62,7 +62,7 @@ export function getQuestionsFromWordPress(postType) {
 }
 
 export function getQuestionsForList(postType) {
-  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=10`) // orderby can make sure the 50 questions won't be always the same 50 questions
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=10`)
     .then(handleErrors)
     .then(response => response.json())
 }
