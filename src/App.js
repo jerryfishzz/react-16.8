@@ -61,7 +61,7 @@ class App extends Component {
         <Switch>
           <Route path='/' exact component={Tests} />
           <Route path='/fortest' component={ForTest} />
-          <Route path='/test' exact component={Tests} />
+          <Route path='/tests' exact component={Tests} />
           <Route path='/questionlist' exact component={QuestionList} />
         </Switch>
       </Router>

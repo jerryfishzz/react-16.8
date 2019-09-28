@@ -154,7 +154,7 @@ function getTypeFromParams(search) {
 
 export const getType = ({ pathname, search }) => {
   switch (pathname) {
-    case '/test':
+    case '/tests':
     case '/questionlist':
       return search === '' ? 'examples' : getTypeFromParams(search)
     default:

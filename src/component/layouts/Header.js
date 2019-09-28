@@ -91,7 +91,7 @@ const Header = ({ classes, shuffleQuestions, type, pathname }) => {
               onClick={shuffleQuestions}
               href={type === 'examples' || type === null
                 ? '/'
-                : `/test?type=${type}`
+                : `/tests?type=${type}`
               }
             >
               <HomeIcon />
