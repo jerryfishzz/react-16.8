@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { truncateString, getType } from '../../../utils/helpers'
+import { getType } from '../../../utils/helpers'
 import { 
   handleGetList, 
   handleChangeRowsPerPage, 
@@ -45,6 +45,7 @@ const useStyles = makeStyles(({
     overflowX: 'auto',
   },
   table: {
+    width: '100%',
     minWidth: 650,
   },
   row: {
@@ -105,11 +106,13 @@ const QuestionList = (props) => {
         <Paper className={classes.paper}>
           <Grid container justify="center">
             <Grid item className={classes.tableContainer}>
-              <Grid container alignItems="center" className={classes.titleContainer}>
+              <Grid 
+                container 
+                alignItems="center" 
+                className={classes.titleContainer}
+              >
                 <Grid item xs>
-                  <Typography
-                    variant='h5'
-                  >
+                  <Typography variant='h5'>
                     {!isLoading ? 'Question List' : 'Loading'}
                   </Typography>
                 </Grid>
@@ -146,7 +149,7 @@ const QuestionList = (props) => {
                             <TableCell 
                               align="right" 
                               dangerouslySetInnerHTML={{ 
-                                __html: truncateString(row.title.rendered)
+                                __html: row.title.rendered
                               }}
                             >
                             </TableCell>
