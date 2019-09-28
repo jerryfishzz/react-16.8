@@ -8,6 +8,19 @@ import ForTest from './component/ForTest';
 import { getToken } from './utils/api';
 import QuestionList from './component/tests/QuestionList/QuestionList';
 
+const styles = ({
+	'@global': {
+    'html, body, #root': {
+      height: '100%'
+    } 
+	},
+	container: {
+    marging: 20,
+    padding: 20,
+    textAlign: 'center'
+  },
+})
+
 class App extends Component {
   state = {
     willHaveToken: true 
@@ -55,42 +68,5 @@ class App extends Component {
     )
   }
 }
-
-const styles = theme => ({
-	'@global': {
-    'html, body, #root': {
-      height: '100%'
-    } 
-	},
-	container: {
-    marging: 20,
-    padding: 20,
-    textAlign: 'center'
-  },
-	paper: {
-    [theme.breakpoints.up('sm')]: {
-      padding: 40,
-    },
-		[theme.breakpoints.down('xs')]: {
-      padding: 20,
-    },
-		height: 'calc(100% - 5px)',
-    marginTop: 5,
-  },
-	item: {
-    [theme.breakpoints.up('sm')]: {
-      height: '100%'
-    },
-		[theme.breakpoints.down('xs')]: {
-      height: '80%'
-    }
-  },
-  submitBtn: {
-    margin: '10px 0'
-  },
-  flex: {
-    flex: 1
-  }
-})
 
 export default withStyles(styles)(App)
