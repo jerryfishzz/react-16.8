@@ -1,4 +1,5 @@
 import Header from './Header'
 import Main from './Main'
+import Loading from './Loading'
 
-export { Header, Main }
+export { Header, Main, Loading }

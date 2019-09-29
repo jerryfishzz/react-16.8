@@ -26,9 +26,6 @@ const theme = createMuiTheme({
       main: blue[50],
     }
   },
-  spacing: {
-    unit: 8
-  },
 })
 
 ReactDOM.render(
