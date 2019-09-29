@@ -55,7 +55,7 @@ const useStyles = makeStyles(({
   }
 }))
 
-const QuestionList = (props) => {
+const CreateQuestionList = (props) => {
   const classes = useStyles()
 
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -101,100 +101,94 @@ const QuestionList = (props) => {
   };
 
   return (
-    <Grid container className={classes.container}>
-      <Grid item xs>
-        <Paper className={classes.paper}>
-          <Grid container justify="center">
-            <Grid item className={classes.tableContainer}>
-              <Grid 
-                container 
-                alignItems="center" 
-                className={classes.titleContainer}
-              >
-                <Grid item xs>
-                  <Typography variant='h5'>
-                    {!isLoading ? 'Question List' : 'Loading'}
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Search />
-                </Grid>
-              </Grid>
-              {!isLoading && (
-                <Paper className={classes.tablePaper}>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell align="right">Title</TableCell>
-                        <TableCell align="right">Last Update</TableCell>
-                        <TableCell align="right">Time Created</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {list.map(row => {
-                        const isItemSelected = isSelected(row.id);
-
-                        return (
-                          <TableRow 
-                            key={row.id} 
-                            hover={true} 
-                            onClick={(event) => handleClickRow(event, row.id)} 
-                            selected={isItemSelected}
-                            className={classes.row}
-                          >
-                            <TableCell component="th" scope="row">
-                              {row.id}
-                            </TableCell>
-                            <TableCell 
-                              align="right" 
-                              dangerouslySetInnerHTML={{ 
-                                __html: row.title.rendered
-                              }}
-                            >
-                            </TableCell>
-                            <TableCell align="right">{row.modified}</TableCell>
-                            <TableCell align="right">{row.date}</TableCell>
-                          </TableRow>
-                        )
-                      })}
-
-                      {emptyRows > 0 && (
-                        <TableRow style={{ height: 48 * emptyRows }}>
-                          <TableCell colSpan={6} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                    <TableFooter>
-                      <TableRow>
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 25]}
-                          colSpan={4}
-                          count={totalQuestions}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          SelectProps={{
-                            inputProps: { 'aria-label': 'rows per page' },
-                            native: true,
-                          }}
-                          onChangePage={() => null}
-                          onChangeRowsPerPage={handleChangeRPPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      </TableRow>
-                    </TableFooter>
-                  </Table>
-                  <CreateDialog 
-                    comeFrom="questionList"
-                    open={dialogOpen}
-                    onClose={onClose}
-                    qid={selected}
-                  />
-                </Paper>
-              )}
-            </Grid>
+    <Grid container justify="center">
+      <Grid item className={classes.tableContainer}>
+        <Grid 
+          container 
+          alignItems="center" 
+          className={classes.titleContainer}
+        >
+          <Grid item xs>
+            <Typography variant='h5'>
+              {!isLoading ? 'Question List' : 'Loading'}
+            </Typography>
           </Grid>
-        </Paper>
+          <Grid item>
+            <Search />
+          </Grid>
+        </Grid>
+        {!isLoading && (
+          <Paper className={classes.tablePaper}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell align="right">Title</TableCell>
+                  <TableCell align="right">Last Update</TableCell>
+                  <TableCell align="right">Time Created</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {list.map(row => {
+                  const isItemSelected = isSelected(row.id);
+
+                  return (
+                    <TableRow 
+                      key={row.id} 
+                      hover={true} 
+                      onClick={(event) => handleClickRow(event, row.id)} 
+                      selected={isItemSelected}
+                      className={classes.row}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row.id}
+                      </TableCell>
+                      <TableCell 
+                        align="right" 
+                        dangerouslySetInnerHTML={{ 
+                          __html: row.title.rendered
+                        }}
+                      >
+                      </TableCell>
+                      <TableCell align="right">{row.modified}</TableCell>
+                      <TableCell align="right">{row.date}</TableCell>
+                    </TableRow>
+                  )
+                })}
+
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 48 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    colSpan={4}
+                    count={totalQuestions}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    SelectProps={{
+                      inputProps: { 'aria-label': 'rows per page' },
+                      native: true,
+                    }}
+                    onChangePage={() => null}
+                    onChangeRowsPerPage={handleChangeRPPage}
+                    ActionsComponent={TablePaginationActions}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+            <CreateDialog 
+              comeFrom="questionList"
+              open={dialogOpen}
+              onClose={onClose}
+              qid={selected}
+            />
+          </Paper>
+        )}
       </Grid>
     </Grid>
   )
@@ -212,5 +206,4 @@ const mapStatesToProps = ({ questionList }, { location }) => {
 export default withRouter(connect(
   mapStatesToProps,
   { handleGetList, handleChangeRowsPerPage, handleResetQuestionList }
-)(QuestionList))
-
+)(CreateQuestionList))
