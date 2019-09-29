@@ -24,6 +24,7 @@ import {
 import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
+import LoadingPage from '../../../pages/LoadingPage';
 
 const useStyles = makeStyles(({
   container: {
@@ -99,6 +100,8 @@ const CreateQuestionList = (props) => {
     setDialogOpen(false)
     setSelected(null)
   };
+
+  if (isLoading) return <LoadingPage />
 
   return (
     <Grid container justify="center">
