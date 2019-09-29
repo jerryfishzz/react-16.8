@@ -22,7 +22,7 @@ import {
 } from '../../actions/test/shared';
 import { initializeAppFromWordPress } from '../../actions/shared';
 import { getType } from '../../utils/helpers';
-import LoadingPage from '../../pages/LoadingPage';
+import { Main, Loading } from '../layouts';
 
 class Tests extends Component {
   state = {
@@ -74,7 +74,9 @@ class Tests extends Component {
     }
     
     if (!testQuestions) {
-      return <LoadingPage />
+      return (
+        <Main Component={Loading} />
+      )
     } 
 
     if(!testQuestions.length) { // Need to consider when no questions

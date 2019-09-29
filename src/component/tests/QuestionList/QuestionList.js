@@ -25,15 +25,9 @@ import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
 import LoadingPage from '../../../pages/LoadingPage';
+import { Loading } from '../../layouts';
 
 const useStyles = makeStyles(({
-  container: {
-    marginTop: 5,
-    minHeight: 'calc(100% - 64px - 5px)',
-  },
-  paper: {
-    height: '100%'
-  },
   titleContainer: {
     paddingBottom: 8
   },
@@ -101,7 +95,7 @@ const CreateQuestionList = (props) => {
     setSelected(null)
   };
 
-  if (isLoading) return <LoadingPage />
+  if (isLoading) return <Loading />
 
   return (
     <Grid container justify="center">
