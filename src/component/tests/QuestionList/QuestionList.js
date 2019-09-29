@@ -101,7 +101,7 @@ const QuestionList = (props) => {
   };
 
   return (
-    <Grid container alignItems="stretch" className={classes.container}>
+    <Grid container className={classes.container}>
       <Grid item xs>
         <Paper className={classes.paper}>
           <Grid container justify="center">
