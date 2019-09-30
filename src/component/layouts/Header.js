@@ -20,6 +20,20 @@ import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 import { getType } from '../../utils/helpers';
 
+
+const styles = ({
+  flex: {
+    flex: 1
+  },
+  fab: {
+    marginRight: 8,
+  },
+  link: {
+    marginLeft: 16,
+    backgroundColor: '#3e71bf'
+  }
+})
+
 const Header = ({ classes, shuffleQuestions, type, pathname }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -33,7 +47,7 @@ const Header = ({ classes, shuffleQuestions, type, pathname }) => {
 
   return (
     <AppBar position="static">
-      <Toolbar className={classes.toolBar}>
+      <Toolbar>
         <Typography 
           className={classes.flex} 
           variant="h5" 
@@ -128,23 +142,6 @@ const mapDispatchToProps = (dispatch, { location }) => {
     }
   }
 }
-
-const styles = theme => ({
-  flex: {
-    flex: 1
-  },
-  fab: {
-    marginRight: 8,
-  },
-  toolBar: {
-    marginLeft: 10,
-    marginRight: 10
-  },
-  link: {
-    marginLeft: 16,
-    backgroundColor: '#3e71bf'
-  }
-})
 
 export default withRouter(connect(
   mapStateToProps,
