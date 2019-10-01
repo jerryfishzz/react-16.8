@@ -55,7 +55,7 @@ export function initializeAppFromWordPress(cb = null, postType) {
 
       if (cb) dispatch(cb())
     } catch(err) {
-      throw Error('Initialize error')
+      throw err
     }
   }
 }

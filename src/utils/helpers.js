@@ -110,7 +110,7 @@ export function createAnswerContainer(id) {
 
 export function handleErrors(response) {
   if (!response.ok) {
-      throw Error(response.statusText);
+      throw response.status
   }
   return response;
 }

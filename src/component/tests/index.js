@@ -23,10 +23,12 @@ import {
 import { initializeAppFromWordPress } from '../../actions/shared';
 import { getType } from '../../utils/helpers';
 import { Main, Loading } from '../layouts';
+import WrongParams from '../../pages/WrongParams';
 
 class Tests extends Component {
   state = {
-    willBeInitialized: true
+    willBeInitialized: true,
+    wrongParams: false
   }
 
   handleEdit = () => {
@@ -51,7 +53,9 @@ class Tests extends Component {
     const { postType } = this.props
 
     this.props.initializeAppFromWordPress(null, postType)
-      .catch(err => alert(err))
+      .catch(err => {
+        if (err === 404) this.setState({wrongParams: true})
+      })
   }
 
   render() {
@@ -63,7 +67,7 @@ class Tests extends Component {
       editQuestion,
       handleSubmitQuestion,
     } = this.props 
-    const { willBeInitialized } = this.state
+    const { willBeInitialized, wrongParams } = this.state
 
     if (!willBeInitialized) {
       return (
@@ -71,6 +75,10 @@ class Tests extends Component {
           <p>Initialize error</p>
         </div>
       )
+    }
+
+    if (wrongParams) {
+      return <WrongParams />
     }
     
     if (!testQuestions) {
