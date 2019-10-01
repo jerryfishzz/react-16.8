@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     },
   },
   img: {
-    width: '50%',
+    width: '40%',
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     },
