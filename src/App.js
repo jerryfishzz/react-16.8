@@ -31,9 +31,6 @@ class App extends Component {
     getToken()
       .then(token => {
         localStorage.setItem('token', token)
-        // this.setState({
-        //   willHaveToken: true
-        // })
       })
       .catch(err => {
         this.setState({
