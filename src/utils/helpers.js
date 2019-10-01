@@ -12,6 +12,8 @@ const questionStatusForTest = {
   isSubmitted: false,
 }
 
+export const BLANK_POSTTYPE = 'BLANK_POSTTYPE'
+
 export function formatQuestion(question) {
   return {
     id: question.id,
@@ -189,5 +191,14 @@ export async function getQuestionFromWPForEditting(postType, id) {
     return formattedQuestionWithAnswers
   } catch(err) {
     throw Error('Get question error')
+  }
+}
+
+export function errorGenerator(err = null) {
+  switch (err) {
+    case 404:
+      return 'Parameter error in the URL'
+    default:
+      return '404 Page Not Found'
   }
 }

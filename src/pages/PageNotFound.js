@@ -1,8 +1,9 @@
 import React from 'react'
 import { Main, ErrorFound } from '../component/layouts'
+import { errorGenerator } from '../utils/helpers'
 
 const PageNotFound = () => {
-  const error = '404 Page Not Found'
+  const error = errorGenerator()
 
   return (
     <Main Component={ErrorFound} error={error} />

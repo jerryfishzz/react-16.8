@@ -39,7 +39,7 @@ export function handleGetList(postType) {
 
       dispatch(getList(list))
     } catch(err) {
-      throw Error('Get list error')
+      throw err
     }
   }
 }

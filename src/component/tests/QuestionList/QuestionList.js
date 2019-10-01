@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { getType } from '../../../utils/helpers'
+import { getType, errorGenerator, BLANK_POSTTYPE } from '../../../utils/helpers'
 import { 
   handleGetList, 
   handleChangeRowsPerPage, 
@@ -24,8 +24,7 @@ import {
 import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
-import LoadingPage from '../../../pages/LoadingPage';
-import { Loading } from '../../layouts';
+import { Loading, ErrorFound } from '../../layouts';
 
 const useStyles = makeStyles(({
   titleContainer: {
@@ -55,6 +54,7 @@ const CreateQuestionList = (props) => {
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [selected, setSelected] = React.useState(null);
+  const [wrongParams, setWrongParams] = useState('')
 
   const { 
     questionList: { 
@@ -72,7 +72,10 @@ const CreateQuestionList = (props) => {
     const { handleGetList } = props
     handleGetList(postType)
       .then(res => setIsLoading(false))
-      .catch(err => alert(err))
+      .catch(err => {
+        if (err === 404) setWrongParams(errorGenerator(err))
+        setIsLoading(false)
+      })
   }, [])
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, totalQuestions - page * rowsPerPage);
@@ -96,6 +99,7 @@ const CreateQuestionList = (props) => {
   };
 
   if (isLoading) return <Loading />
+  if (wrongParams) return <ErrorFound error={wrongParams} />
 
   return (
     <Grid container justify="center">
@@ -192,7 +196,7 @@ const CreateQuestionList = (props) => {
 }
 
 const mapStatesToProps = ({ questionList }, { location }) => {
-  const postType = getType(location)
+  const postType = getType(location) ? getType(location) : BLANK_POSTTYPE
 
   return {
     questionList,

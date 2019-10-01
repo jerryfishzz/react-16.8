@@ -74,6 +74,12 @@ export function getQuestionsForListAxios(postType, offset, perPage, search) {
       // console.log(response)
       return response
     })
+    .catch(function (error) {
+      if (error.response) {
+        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+        throw error.response.status
+      } 
+    });
 }
 
 export function getAnswersForQuestionFromWp(id) {

@@ -21,14 +21,14 @@ import {
   handleRemoveQuestionFromWp
 } from '../../actions/test/shared';
 import { initializeAppFromWordPress } from '../../actions/shared';
-import { getType } from '../../utils/helpers';
+import { getType, errorGenerator, BLANK_POSTTYPE } from '../../utils/helpers';
 import { Main, Loading } from '../layouts';
 import WrongParams from '../../pages/WrongParams';
 
 class Tests extends Component {
   state = {
     willBeInitialized: true,
-    wrongParams: false
+    wrongParams: ''
   }
 
   handleEdit = () => {
@@ -54,7 +54,11 @@ class Tests extends Component {
 
     this.props.initializeAppFromWordPress(null, postType)
       .catch(err => {
-        if (err === 404) this.setState({wrongParams: true})
+        if (err === 404) {
+          this.setState({
+            wrongParams: errorGenerator(err)
+          })
+        }
       })
   }
 
@@ -78,7 +82,7 @@ class Tests extends Component {
     }
 
     if (wrongParams) {
-      return <WrongParams />
+      return <WrongParams error={wrongParams} />
     }
     
     if (!testQuestions) {
@@ -193,7 +197,7 @@ const mapStateToProps = (
         ? testQuestions.filter((q, index) => index === currentQuestionNumber)[0]
         : {}
     : null
-  const postType = getType(location)
+  const postType = getType(location) ? getType(location) : BLANK_POSTTYPE
   
   return { 
     editQuestion,
