@@ -7,6 +7,7 @@ import Tests from './component/tests';
 import ForTest from './component/ForTest';
 import { getToken } from './utils/api';
 import QuestionList from './component/tests/QuestionList';
+import PageNotFound from './pages/PageNotFound';
 
 const styles = ({
 	'@global': {
@@ -63,6 +64,7 @@ class App extends Component {
           <Route path='/fortest' component={ForTest} />
           <Route path='/tests' exact component={Tests} />
           <Route path='/questionlist' exact component={QuestionList} />
+          <Route component={PageNotFound} />
         </Switch>
       </Router>
     )

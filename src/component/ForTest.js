@@ -77,7 +77,7 @@ function ForTest(props) {
 
   console.log(props.location)
 
-  return <PageNotFound />
+  // return <PageNotFound />
 
   return (
     <Paper className={classes.root}>
