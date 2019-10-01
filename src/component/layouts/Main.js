@@ -15,14 +15,14 @@ const useStyles = makeStyles(({
   },
 }))
 
-export default function Main({ Component }) {
+export default function Main({ Component, ...other }) {
   const classes = useStyles()
 
   return (
     <Grid container className={classes.container}>
       <Grid item xs>
         <Paper className={classes.paper}>
-          <Component />
+          <Component {...other} />
         </Paper>
       </Grid>
     </Grid>
