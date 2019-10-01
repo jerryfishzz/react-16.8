@@ -8,10 +8,16 @@ const useStyles = makeStyles(theme => ({
   },
   item: {
     paddingTop: theme.spacing(5),
-    width: '50%'
+    width: '50%',
+    [theme.breakpoints.down('xs')]: {
+      width: '80%',
+    },
   },
   img: {
-    width: '50%'
+    width: '50%',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   }
 }))
 
