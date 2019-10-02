@@ -66,8 +66,8 @@ const CreateQuestionList = (props) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    setIsLoading(true)
-    props.handleResetQuestionList()
+    // setIsLoading(true)
+    // props.handleResetQuestionList()
 
     const { handleGetList } = props
     handleGetList(postType)
