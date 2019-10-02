@@ -25,6 +25,7 @@ import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
 import { Loading, ErrorFound } from '../../layouts';
+import { stopLoading } from '../../../actions/appStatus';
 
 const useStyles = makeStyles(({
   titleContainer: {
@@ -61,20 +62,16 @@ const CreateQuestionList = (props) => {
       rowsPerPage, page, totalQuestions, list 
     },
     postType,
+    isLoading
   } = props
 
-  const [isLoading, setIsLoading] = useState(true)
-
   useEffect(() => {
-    // setIsLoading(true)
-    // props.handleResetQuestionList()
-
-    const { handleGetList } = props
+    const { handleGetList, stopLoading } = props
     handleGetList(postType)
-      .then(res => setIsLoading(false))
+      .then(res => stopLoading())
       .catch(err => {
         if (err === 404) setWrongParams(errorGenerator(err))
-        setIsLoading(false)
+        stopLoading()
       })
   }, [])
 
@@ -195,16 +192,22 @@ const CreateQuestionList = (props) => {
   )
 }
 
-const mapStatesToProps = ({ questionList }, { location }) => {
+const mapStatesToProps = ({ questionList, appStatus }, { location }) => {
   const postType = getType(location) ? getType(location) : BLANK_POSTTYPE
 
   return {
     questionList,
-    postType
+    postType,
+    isLoading: appStatus.isLoading
   }
 }
 
 export default withRouter(connect(
   mapStatesToProps,
-  { handleGetList, handleChangeRowsPerPage, handleResetQuestionList }
+  { 
+    handleGetList, 
+    handleChangeRowsPerPage, 
+    handleResetQuestionList,
+    stopLoading
+  }
 )(CreateQuestionList))
