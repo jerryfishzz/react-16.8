@@ -59,14 +59,14 @@ function previousPage() {
 export function handleNextPage(postType) {
   return dispatch => {
     dispatch(nextPage())
-    dispatch(handleGetList(postType))
+    return dispatch(handleGetList(postType))
   }
 }
 
 export function handlePreviousPage(postType) {
   return dispatch => {
     dispatch(previousPage())
-    dispatch(handleGetList(postType))
+    return dispatch(handleGetList(postType))
   }
 }
 
@@ -79,7 +79,7 @@ function firstPage() {
 export function handleFirstPage(postType) {
   return dispatch => {
     dispatch(firstPage())
-    dispatch(handleGetList(postType))
+    return dispatch(handleGetList(postType))
   }
 }
 
@@ -92,7 +92,7 @@ function lastPage() {
 export function handleLastPage(postType) {
   return dispatch => {
     dispatch(lastPage())
-    dispatch(handleGetList(postType))
+    return dispatch(handleGetList(postType))
   }
 }
 
@@ -106,7 +106,7 @@ function changeRowsPerPage(newRowsPerPage) {
 export function handleChangeRowsPerPage(postType, newRowsPerPage) {
   return dispatch => {
     dispatch(changeRowsPerPage(newRowsPerPage))
-    dispatch(handleGetList(postType))
+    return dispatch(handleGetList(postType))
   }
 }
 

@@ -73,6 +73,8 @@ export function getQuestionsForListAxios(postType, offset, perPage, search) {
     .then(response => {
       // console.log(response)
       return response
+    }, function(err) {
+      return handleNetworkError(err)
     })
     .catch(function (error) {
       console.log(error)
@@ -80,6 +82,8 @@ export function getQuestionsForListAxios(postType, offset, perPage, search) {
         // 请求已发出，但服务器响应的状态码不在 2xx 范围内
         throw error.response.status
       } 
+
+      if(error === 999) throw error
     });
 }
 
@@ -182,5 +186,15 @@ export function getQuestionFromWp(postType, id) {
   return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}/${id}`) 
     .then(response => {
       return response
+    }, function(err) {
+      return handleNetworkError(err)
     })
+    .catch(function (error) {
+      console.log(error)
+      if (error.response) {
+        throw error.response.status
+      } 
+
+      if(error === 999) throw error
+    });
 }

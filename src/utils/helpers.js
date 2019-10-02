@@ -197,7 +197,7 @@ export async function getQuestionFromWPForEditting(postType, id) {
 
     return formattedQuestionWithAnswers
   } catch(err) {
-    throw Error('Get question error')
+    throw err
   }
 }
 

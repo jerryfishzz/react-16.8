@@ -81,6 +81,10 @@ const CreateQuestionList = (props) => {
   function handleChangeRPPage(event) {
     const { handleChangeRowsPerPage } = props
     handleChangeRowsPerPage(postType, parseInt(event.target.value, 10))
+      .catch(err => {
+        // alert(err)
+        props.getError(err)
+      })
   }
 
   function handleClickRow(event, id) {

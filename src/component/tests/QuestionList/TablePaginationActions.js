@@ -15,6 +15,7 @@ import {
   handleFirstPage, 
   handleLastPage 
 } from '../../../actions/questionList';
+import { getError } from '../../../actions/appStatus';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -35,23 +36,40 @@ const TablePaginationActions = (props) => {
     postType, 
     questionList: { 
       totalQuestions: count, page, rowsPerPage, 
-    } 
+    },
+    getError
   } = props;
 
   function handleFirstPageButtonClick(event) {
     handleFirstPage(postType, rowsPerPage)
+      .catch(err => {
+        // alert(err)
+        getError(err)
+      })
   }
 
   function handleBackButtonClick(event) {
     handlePreviousPage(postType, rowsPerPage)
+      .catch(err => {
+        // alert(err)
+        getError(err)
+      })
   }
 
   function handleNextButtonClick(event) {
     handleNextPage(postType, rowsPerPage)
+      .catch(err => {
+        // alert(err)
+        getError(err)
+      })
   }
 
   function handleLastPageButtonClick(event) {
     handleLastPage(postType)
+      .catch(err => {
+        // alert(err)
+        getError(err)
+      })
   }
 
   return (
@@ -99,5 +117,5 @@ const mapStatesToProps = ({ questionList }, { location }) => {
 
 export default withRouter(connect(
   mapStatesToProps, 
-  { handleNextPage, handlePreviousPage, handleFirstPage, handleLastPage }
+  { handleNextPage, handlePreviousPage, handleFirstPage, handleLastPage, getError }
 )(TablePaginationActions))

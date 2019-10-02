@@ -7,6 +7,7 @@ import { searchRecords, handleGetList } from '../../../actions/questionList';
 import { getType } from '../../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { getError } from '../../../actions/appStatus';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,13 +27,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Search({ postType, searchRecords, handleGetList }) {
+function Search({ postType, searchRecords, handleGetList, getError }) {
   const classes = useStyles();
 
   const handleChange = event => {
     searchRecords(event.target.value)
     handleGetList(postType)
-      .catch(err => alert(err))
+      .catch(err => {
+        alert(err)
+        getError(err)
+      })
   }
 
   return (
@@ -60,5 +64,5 @@ const mapStatesToProps = (state, { location }) => {
 
 export default withRouter(connect(
   mapStatesToProps, 
-  { handleGetList, searchRecords }
+  { handleGetList, searchRecords, getError }
 )(Search))
