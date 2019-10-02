@@ -24,7 +24,7 @@ import { initializeAppFromWordPress } from '../../actions/shared';
 import { getType, errorGenerator, BLANK_POSTTYPE } from '../../utils/helpers';
 import { Main, Loading } from '../layouts';
 import WrongParams from '../../pages/WrongParams';
-import { stopLoading } from '../../actions/appStatus';
+import { stopLoading, getError } from '../../actions/appStatus';
 import LoadingPage from '../../pages/LoadingPage';
 
 class Tests extends Component {
@@ -45,25 +45,17 @@ class Tests extends Component {
     handleRemoveQuestionFromWp(id, postType)
       .catch(err => {
         alert(err)
-        // console.log(typeof err)
-        // this.setState({
-        //   willBeInitialized: false
-        // })
+        // getError(errorGenerator(err))
       })
   }
 
   componentDidMount() {
-    const { postType, stopLoading } = this.props
+    const { postType, stopLoading, getError } = this.props
 
     this.props.initializeAppFromWordPress(null, postType)
       .then(res => stopLoading())
       .catch(err => {
-        if (err === 404) {
-          this.setState({
-            wrongParams: errorGenerator(err)
-          })
-        }
-        
+        getError(errorGenerator(err))
         stopLoading()
       })
   }
@@ -76,10 +68,11 @@ class Tests extends Component {
       currentQuestion,
       editQuestion,
       handleSubmitQuestion,
-      isLoading
+      isLoading,
+      errorFromAPI
     } = this.props 
 
-    const { willBeInitialized, wrongParams } = this.state
+    const { willBeInitialized } = this.state
 
     if (!willBeInitialized) {
       return (
@@ -89,8 +82,9 @@ class Tests extends Component {
       )
     }
 
-    if (wrongParams) {
-      return <WrongParams error={wrongParams} />
+    // Wrong parameter for post type
+    if (errorFromAPI !== '') {
+      return <WrongParams error={errorFromAPI} />
     }
     
     if (isLoading) return <LoadingPage />
@@ -195,7 +189,7 @@ class Tests extends Component {
 const mapStateToProps = (
   { 
     test: { editQuestion, currentQuestionNumber, testQuestions },
-    appStatus: { isLoading } 
+    appStatus: { isLoading, errorFromAPI } 
   },
   { location }
 ) => {
@@ -212,7 +206,8 @@ const mapStateToProps = (
     testQuestions,
     currentQuestion,
     postType,
-    isLoading
+    isLoading,
+    errorFromAPI
   }
 }
 
@@ -258,6 +253,7 @@ export default withRouter(connect(
     handleSubmitQuestion,
     handleRemoveQuestionFromWp,
     initializeAppFromWordPress,
-    stopLoading
+    stopLoading,
+    getError
   }
 )(withStyles(styles)(Tests)))

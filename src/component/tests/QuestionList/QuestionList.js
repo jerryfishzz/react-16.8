@@ -25,7 +25,7 @@ import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
 import { Loading, ErrorFound } from '../../layouts';
-import { stopLoading } from '../../../actions/appStatus';
+import { stopLoading, getError } from '../../../actions/appStatus';
 
 const useStyles = makeStyles(({
   titleContainer: {
@@ -55,22 +55,22 @@ const CreateQuestionList = (props) => {
 
   const [dialogOpen, setDialogOpen] = useState(false)
   const [selected, setSelected] = React.useState(null);
-  const [wrongParams, setWrongParams] = useState('')
 
   const { 
     questionList: { 
       rowsPerPage, page, totalQuestions, list 
     },
     postType,
-    isLoading
+    isLoading,
+    errorFromAPI
   } = props
 
   useEffect(() => {
-    const { handleGetList, stopLoading } = props
+    const { handleGetList, stopLoading, getError } = props
     handleGetList(postType)
       .then(res => stopLoading())
       .catch(err => {
-        if (err === 404) setWrongParams(errorGenerator(err))
+        getError(errorGenerator(err))
         stopLoading()
       })
   }, [])
@@ -84,7 +84,6 @@ const CreateQuestionList = (props) => {
 
   function handleClickRow(event, id) {
     selected === id ? setSelected(null) : setSelected(id)
-
     setDialogOpen(true)
   }
 
@@ -95,8 +94,8 @@ const CreateQuestionList = (props) => {
     setSelected(null)
   };
 
+  if (errorFromAPI !== '') return <ErrorFound error={errorFromAPI} />
   if (isLoading) return <Loading />
-  if (wrongParams) return <ErrorFound error={wrongParams} />
 
   return (
     <Grid container justify="center">
@@ -198,7 +197,8 @@ const mapStatesToProps = ({ questionList, appStatus }, { location }) => {
   return {
     questionList,
     postType,
-    isLoading: appStatus.isLoading
+    isLoading: appStatus.isLoading,
+    errorFromAPI: appStatus.errorFromAPI
   }
 }
 
@@ -208,6 +208,7 @@ export default withRouter(connect(
     handleGetList, 
     handleChangeRowsPerPage, 
     handleResetQuestionList,
-    stopLoading
+    stopLoading,
+    getError
   }
 )(CreateQuestionList))

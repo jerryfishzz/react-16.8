@@ -206,7 +206,7 @@ export async function getQuestionFromWPForEditting(postType, id) {
 export function errorGenerator(err = null) {
   switch (err) {
     case 404:
-      return 'Parameter error in the URL'
+      return 'Parameter Error In The URL'
     default:
       return '404 Page Not Found'
   }
