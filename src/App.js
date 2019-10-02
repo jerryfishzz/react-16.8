@@ -23,22 +23,28 @@ const styles = ({
 })
 
 class App extends Component {
+  state = {
+    isLoading: true
+  }
+
   componentDidMount() {
     const { getError, stopLoading } = this.props
 
     getToken()
       .then(token => {
         localStorage.setItem('token', token)
-        stopLoading()
+        this.setState({isLoading: false})
       })
       .catch(err => {
         getError(Number(err.message))
         stopLoading()
+        this.setState({isLoading: false})
       })
   }
 
   render () {
-    const { appStatus: { isLoading, errorFromAPI } } = this.props
+    const { appStatus: { errorFromAPI } } = this.props
+    const { isLoading } = this.state
 
     return (
       <Router>

@@ -134,7 +134,7 @@ const mapStateToProps = (
   { location: { pathname }, location }
 ) => {
   const type = getType(location) ? getType(location) : BLANK_POSTTYPE
-  const is404 = test.testQuestions === null && questionList.totalQuestions === null
+  const is404 = test.testQuestions === null && questionList.totalQuestions === -1
   const isWrongParams = appStatus.errorFromAPI === 404
   const isNetworkError = appStatus.errorFromAPI === 999
 

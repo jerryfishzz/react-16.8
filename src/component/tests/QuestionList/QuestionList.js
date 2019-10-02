@@ -95,9 +95,8 @@ const CreateQuestionList = (props) => {
     setSelected(null)
   };
 
-  if (errorFromAPI === 404 || errorFromAPI === 999) return <ErrorFound error={errorGenerator(errorFromAPI)} />
-
   if (isLoading) return <Loading />
+  if (errorFromAPI === 404 || errorFromAPI === 999) return <ErrorFound error={errorGenerator(errorFromAPI)} />
 
   return (
     <Grid container justify="center">

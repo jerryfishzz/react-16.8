@@ -14,7 +14,7 @@ const initialQuestionListState = {
   rowsPerPage: 5,
   page : 0,
   offset: 0,
-  totalQuestions: null,
+  totalQuestions: -1,
   totalPages: 0,
   search: '',
   list: []
