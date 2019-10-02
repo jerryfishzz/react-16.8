@@ -18,7 +18,7 @@ import CreateDialog from '../tests/Dialog'
 import { initializeAppFromWordPress } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
-import { getType } from '../../utils/helpers';
+import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
 
 
 const styles = ({
@@ -34,7 +34,13 @@ const styles = ({
   }
 })
 
-const Header = ({ classes, shuffleQuestions, type, pathname }) => {
+const Header = ({ 
+  classes, 
+  shuffleQuestions, 
+  type, 
+  pathname,
+  isLoading
+}) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleClickOpen = () => {
@@ -55,7 +61,7 @@ const Header = ({ classes, shuffleQuestions, type, pathname }) => {
         >
           CODE TEST
         </Typography>
-        {pathname !== '/questionlist' && (
+        {pathname !== '/questionlist' && !isLoading && (
           <Fragment>
             <Tooltip title="Shuffle Questions">
               <Fab 
@@ -116,13 +122,16 @@ const Header = ({ classes, shuffleQuestions, type, pathname }) => {
   )
 }
 
-const mapStateToProps = (state, { location: { search, pathname } }) => {
-  const query = new URLSearchParams(search)
-  const type = query.get('type')
+const mapStateToProps = (
+  { appStatus: { isLoading } }, 
+  { location: { pathname }, location }
+) => {
+  const type = getType(location) ? getType(location) : BLANK_POSTTYPE
 
   return { 
     type,
-    pathname
+    pathname,
+    isLoading
   }
 }
 

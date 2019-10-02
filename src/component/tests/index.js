@@ -24,6 +24,8 @@ import { initializeAppFromWordPress } from '../../actions/shared';
 import { getType, errorGenerator, BLANK_POSTTYPE } from '../../utils/helpers';
 import { Main, Loading } from '../layouts';
 import WrongParams from '../../pages/WrongParams';
+import { stopLoading } from '../../actions/appStatus';
+import LoadingPage from '../../pages/LoadingPage';
 
 class Tests extends Component {
   state = {
@@ -51,15 +53,18 @@ class Tests extends Component {
   }
 
   componentDidMount() {
-    const { postType } = this.props
+    const { postType, stopLoading } = this.props
 
     this.props.initializeAppFromWordPress(null, postType)
+      .then(res => stopLoading())
       .catch(err => {
         if (err === 404) {
           this.setState({
             wrongParams: errorGenerator(err)
           })
         }
+        
+        stopLoading()
       })
   }
 
@@ -71,7 +76,9 @@ class Tests extends Component {
       currentQuestion,
       editQuestion,
       handleSubmitQuestion,
+      isLoading
     } = this.props 
+
     const { willBeInitialized, wrongParams } = this.state
 
     if (!willBeInitialized) {
@@ -86,11 +93,7 @@ class Tests extends Component {
       return <WrongParams error={wrongParams} />
     }
     
-    if (!testQuestions) {
-      return (
-        <Main Component={Loading} />
-      )
-    } 
+    if (isLoading) return <LoadingPage />
 
     if(!testQuestions.length) { // Need to consider when no questions
       return <div className={classes.messageContainer}>No questions</div>
@@ -190,7 +193,10 @@ class Tests extends Component {
 }
 
 const mapStateToProps = (
-  { test: { editQuestion, currentQuestionNumber, testQuestions } },
+  { 
+    test: { editQuestion, currentQuestionNumber, testQuestions },
+    appStatus: { isLoading } 
+  },
   { location }
 ) => {
   const currentQuestion = testQuestions
@@ -205,7 +211,8 @@ const mapStateToProps = (
     currentQuestionNumber,
     testQuestions,
     currentQuestion,
-    postType
+    postType,
+    isLoading
   }
 }
 
@@ -250,6 +257,7 @@ export default withRouter(connect(
     toggleEdit, 
     handleSubmitQuestion,
     handleRemoveQuestionFromWp,
-    initializeAppFromWordPress
+    initializeAppFromWordPress,
+    stopLoading
   }
 )(withStyles(styles)(Tests)))

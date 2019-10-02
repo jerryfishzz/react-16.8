@@ -10,7 +10,7 @@ import {
   SEARCH_RECORDS 
 } from "../actions/questionList"
 
-export const initialQuestionListState = {
+const initialQuestionListState = {
   rowsPerPage: 5,
   page : 0,
   offset: 0,
