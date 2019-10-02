@@ -7,6 +7,7 @@ import {
 import { resetEdit } from "./editQuestion";
 import { removeQuestion, submitQuestion, createQuestion, resetTestquestions } from "./testQuestions";
 import { removeQuestionFromWp } from "../../utils/api";
+import { resetAppStatus } from "../appStatus";
 
 export function handleNext() {
   return dispatch => {
@@ -60,5 +61,6 @@ export function handleResetTest() {
     dispatch(resetTestquestions())
     dispatch(resetEdit())
     dispatch(resetNumber())
+    dispatch(resetAppStatus())
   }
 }

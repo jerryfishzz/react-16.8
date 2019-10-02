@@ -19,6 +19,7 @@ import { initializeAppFromWordPress } from '../../actions/shared.js';
 import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
 import { resetEdit } from '../../actions/test/editQuestion';
 import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
+import { stopLoading, getError } from '../../actions/appStatus';
 
 
 const styles = ({
@@ -149,18 +150,24 @@ const mapStateToProps = (
 }
 
 const mapDispatchToProps = (dispatch, { location }) => {
-  const resetNumberAndEdit = () => {
-    return dispatch => {
-      dispatch(resetNumber())
-      dispatch(resetEdit())
-    }
-  }
+  // const resetNumberAndEdit = () => {
+  //   return dispatch => {
+  //     dispatch(resetNumber())
+  //     dispatch(resetEdit())
+  //   }
+  // }
 
   const postType = getType(location)
 
   return {
-    shuffleQuestions: () => {
-      dispatch(initializeAppFromWordPress(resetNumberAndEdit, postType))
+    shuffleQuestions: async () => {
+      try {
+        await dispatch(initializeAppFromWordPress(null, postType))
+        dispatch(stopLoading())
+      } catch(err) {
+        // alert(err)
+        dispatch(getError(err))
+      }
     }
   }
 }

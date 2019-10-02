@@ -1,4 +1,4 @@
-import { STOP_LOADING, GET_ERROR } from "../actions/appStatus"
+import { STOP_LOADING, GET_ERROR, RESET_APPSTATUS } from "../actions/appStatus"
 
 const initialAppStatus = {
   isLoading: true,
@@ -18,6 +18,8 @@ export default function appStatus(state = initialAppStatus, action) {
         ...state,
         errorFromAPI: action.err
       }
+    case RESET_APPSTATUS:
+      return initialAppStatus
     default:
       return state
   }
