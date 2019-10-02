@@ -26,6 +26,7 @@ import {
   getType, 
   getQuestionFromWPForEditting 
 } from "../../../utils/helpers";
+import { getError } from "../../../actions/appStatus";
 
 class Form extends React.Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    const { isNewlyCreated, currentQuestion, qid, postType } = this.props
+    const { isNewlyCreated, currentQuestion, qid, postType, getError } = this.props
 
     if (!isNewlyCreated) {
       if (qid !== undefined) {
@@ -74,7 +75,10 @@ class Form extends React.Component {
               editedQuestion: res
             })
           })
-          .catch(err => alert(err))
+          .catch(err => {
+            // alert(err)
+            getError(err)
+          })
       } else {
         this.initializeFromContent(currentQuestion)
       }
@@ -502,6 +506,7 @@ export default withRouter(connect(
   { 
     handleCreateQuestion, 
     handleCreateQuestionToWp,
-    handleSaveQuestionToWp
+    handleSaveQuestionToWp,
+    getError
   }
 )(withStyles(styles)(Form)));

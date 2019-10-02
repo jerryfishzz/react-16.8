@@ -15,6 +15,7 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import { connect } from 'react-redux'
 
 import { handleAddTagToDB } from '../../../actions/tags';
+import { getError } from '../../../actions/appStatus';
 
 // https://material-ui.com/components/autocomplete/ The source of this component
 
@@ -131,7 +132,7 @@ class Tags extends React.Component {
 
   handleCreate = inputValue => {
     const newOption = this.createOption(inputValue)
-    const { ownedTags } = this.props
+    const { ownedTags, getError } = this.props
     const newTagArr = [...this.setTags(ownedTags), newOption]
 
     this.handleChange(newTagArr)
@@ -139,7 +140,8 @@ class Tags extends React.Component {
     this.props.handleAddTagToDB(inputValue)
       .catch(err => {
         this.handleChange(this.setTags(ownedTags))
-        alert(err)
+        // alert(err)
+        getError(err)
       })
   };
   
@@ -250,5 +252,5 @@ const styles = theme => ({
 
 export default connect(
   mapStateToProps, 
-  { handleAddTagToDB }
+  { handleAddTagToDB, getError }
 )(withStyles(styles, { withTheme: true })(Tags));

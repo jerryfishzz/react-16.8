@@ -42,7 +42,7 @@ class Tests extends Component {
   // This should be used to prevent this question being chosen again from database. 
   // Implement the simple delete first. Later will work on the above requiremnet.
   handleDelete = id => {
-    const { handleRemoveQuestionFromWp, postType } = this.props
+    const { handleRemoveQuestionFromWp, postType, getError } = this.props
     handleRemoveQuestionFromWp(id, postType)
       .catch(err => {
         getError(err)

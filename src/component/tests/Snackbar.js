@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
+import { getError } from '../../actions/appStatus';
 
 class CreateSnackbar extends React.Component {
   state = {
@@ -25,7 +26,8 @@ class CreateSnackbar extends React.Component {
         isSubmitting: false
       });
     } catch(err) {
-      alert(err)
+      // alert(err)
+      this.props.getError(err)
       this.toggleSubmitting()
       this.setState({ 
         open: false,
@@ -127,4 +129,7 @@ const styles = theme => ({
   }
 });
 
-export default withRouter(connect(mapStateToProps)(withStyles(styles)(CreateSnackbar)));
+export default withRouter(connect(
+  mapStateToProps,
+  { getError }
+)(withStyles(styles)(CreateSnackbar)));

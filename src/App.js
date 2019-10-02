@@ -36,7 +36,7 @@ class App extends Component {
         this.setState({isLoading: false})
       })
       .catch(err => {
-        getError(Number(err.message))
+        getError(err)
         stopLoading()
         this.setState({isLoading: false})
       })

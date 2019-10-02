@@ -120,8 +120,8 @@ export function handleErrors(response) {
 export const NETWORK_ERROR = 999
 
 export function handleNetworkError(err) {
-  console.log(typeof err)
-  throw Error(NETWORK_ERROR)
+  console.log(err)
+  throw NETWORK_ERROR
 }
 
 export function escapeAndStringify(content) {

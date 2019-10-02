@@ -57,13 +57,13 @@ export function getToken() {
 
 export function getQuestionsFromWordPress(postType) {
   return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=50&orderby=rand`) // orderby can make sure the 50 questions won't be always the same 50 questions
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
 export function getQuestionsForList(postType) {
   return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=10`)
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
@@ -85,7 +85,7 @@ export function getQuestionsForListAxios(postType, offset, perPage, search) {
 
 export function getAnswersForQuestionFromWp(id) {
   return fetch(`${WP_SERVER}/wp-json/wp/v2/comments?post=${id}`)
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
@@ -106,7 +106,7 @@ export function addQuestionToWp(newQuestion, postType) {
     },
     body:JSON.stringify(newQuestion)
   })
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
@@ -120,7 +120,7 @@ export function createAnswerContainerToWp(container) {
     },
     body:JSON.stringify(container)
   })
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
@@ -134,7 +134,7 @@ export function updateAnswerContentToWp(id, answer) {
     },
     body:JSON.stringify(answer)
   })
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
@@ -147,7 +147,7 @@ export function removeQuestionFromWp(id, postType) {
       'Authorization': 'Bearer ' + localStorage.getItem('token')
     },
   })
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
@@ -161,7 +161,7 @@ export function updateQuestionToWp(id, updatedQuestion, postType) {
     },
     body:JSON.stringify(updatedQuestion)
   })
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
@@ -174,7 +174,7 @@ export function removeAnswerFromWp(id) {
       'Authorization': 'Bearer ' + localStorage.getItem('token')
     },
   })
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
 
