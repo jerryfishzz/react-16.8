@@ -26,6 +26,7 @@ import { Main, Loading } from '../layouts';
 import WrongParams from '../../pages/WrongParams';
 import { stopLoading, getError } from '../../actions/appStatus';
 import LoadingPage from '../../pages/LoadingPage';
+import NetworkErrorPage from '../../pages/NetworkErrorPage';
 
 class Tests extends Component {
   state = {
@@ -44,8 +45,8 @@ class Tests extends Component {
     const { handleRemoveQuestionFromWp, postType } = this.props
     handleRemoveQuestionFromWp(id, postType)
       .catch(err => {
-        alert(err)
-        // getError(errorGenerator(err))
+        getError(err)
+        // alert(err)
       })
   }
 
@@ -85,6 +86,10 @@ class Tests extends Component {
     // Wrong parameter for post type
     if (errorFromAPI === 404) {
       return <WrongParams error={errorGenerator(errorFromAPI)} />
+    }
+
+    if (errorFromAPI === 999) {
+      return <NetworkErrorPage error={errorGenerator(errorFromAPI)} />
     }
     
     if (isLoading) return <LoadingPage />

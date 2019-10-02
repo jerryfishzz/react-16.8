@@ -2,7 +2,7 @@ import { STOP_LOADING, GET_ERROR } from "../actions/appStatus"
 
 const initialAppStatus = {
   isLoading: true,
-  errorFromAPI: '',
+  errorFromAPI: 0,
   networkError: false,
 }
 

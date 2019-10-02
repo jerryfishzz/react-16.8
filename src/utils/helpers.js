@@ -111,18 +111,16 @@ export function createAnswerContainer(id) {
 }
 
 export function handleErrors(response) {
-  // console.log(1111111111)
-  // console.log(response)
   if (!response.ok) {
-      throw response.status
+    throw response.status
   }
   return response;
 }
 
-export const NETWORK_ERROR = 'Network error'
+export const NETWORK_ERROR = 999
 
 export function handleNetworkError(err) {
-  console.log(err)
+  console.log(typeof err)
   throw Error(NETWORK_ERROR)
 }
 
@@ -207,6 +205,8 @@ export function errorGenerator(err = null) {
   switch (err) {
     case 404:
       return 'Parameter Error In The URL'
+    case 999:
+      return 'Network Error'
     default:
       return '404 Page Not Found'
   }

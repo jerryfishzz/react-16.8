@@ -41,7 +41,8 @@ const Header = ({
   pathname,
   isLoading,
   is404,
-  isWrongParams
+  isWrongParams,
+  isNetworkError
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -92,7 +93,7 @@ const Header = ({
           </Fragment>
         )}
         
-        {(pathname === '/tests' || pathname === '/') && !isWrongParams && !isLoading && 
+        {(pathname === '/tests' || pathname === '/') && !isWrongParams && !isNetworkError && !isLoading && 
           <Tooltip title="Question List">
             <Fab 
               color="primary"
@@ -115,7 +116,7 @@ const Header = ({
             size="small"
             className={classes.link}
             onClick={shuffleQuestions}
-            href={type === 'examples' || is404 || isWrongParams
+            href={type === 'examples' || is404 || isNetworkError || isWrongParams
               ? '/'
               : `/tests?type=${type}`
             }
@@ -134,14 +135,16 @@ const mapStateToProps = (
 ) => {
   const type = getType(location) ? getType(location) : BLANK_POSTTYPE
   const is404 = test.testQuestions === null && questionList.totalQuestions === null
-  const isWrongParams = appStatus.errorFromAPI !== ''
+  const isWrongParams = appStatus.errorFromAPI === 404
+  const isNetworkError = appStatus.errorFromAPI === 999
 
   return { 
     type,
     pathname,
     isLoading: appStatus.isLoading,
     is404,
-    isWrongParams
+    isWrongParams,
+    isNetworkError
   }
 }
 

@@ -26,6 +26,7 @@ import CreateDialog from '../Dialog'
 import Search from './Search';
 import { Loading, ErrorFound } from '../../layouts';
 import { stopLoading, getError } from '../../../actions/appStatus';
+import NetworkErrorPage from '../../../pages/NetworkErrorPage';
 
 const useStyles = makeStyles(({
   titleContainer: {
@@ -94,7 +95,8 @@ const CreateQuestionList = (props) => {
     setSelected(null)
   };
 
-  if (errorFromAPI === 404) return <ErrorFound error={errorGenerator(errorFromAPI)} />
+  if (errorFromAPI === 404 || errorFromAPI === 999) return <ErrorFound error={errorGenerator(errorFromAPI)} />
+
   if (isLoading) return <Loading />
 
   return (

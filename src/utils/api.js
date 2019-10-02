@@ -53,9 +53,6 @@ export function getToken() {
     .then(handleErrors, handleNetworkError)
     .then(response => response.json())
     .then(res => res.token)
-    .catch(err => {
-      throw err
-    })
 }
 
 export function getQuestionsFromWordPress(postType) {
