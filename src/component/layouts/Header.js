@@ -39,7 +39,8 @@ const Header = ({
   shuffleQuestions, 
   type, 
   pathname,
-  isLoading
+  isLoading,
+  is404
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -61,7 +62,8 @@ const Header = ({
         >
           CODE TEST
         </Typography>
-        {pathname !== '/questionlist' && !isLoading && (
+
+        {pathname !== '/questionlist' && !is404 && !isLoading && (
           <Fragment>
             <Tooltip title="Shuffle Questions">
               <Fab 
@@ -89,33 +91,36 @@ const Header = ({
           </Fragment>
         )}
         
-        {pathname !== '/questionlist'
-          ? <Tooltip title="Question List">
-              <Fab 
-                color="primary"
-                size="small"
-                className={classes.link}
-                onClick={shuffleQuestions}
-                href={type === 'examples' || type === null
-                  ? '/questionlist'
-                  : `/questionlist?type=${type}`
-                }
-              >
-                <ListIcon />
-              </Fab>
-            </Tooltip>
-          : <Fab 
+        {(pathname === '/tests' || pathname === '/') && !isLoading && 
+          <Tooltip title="Question List">
+            <Fab 
               color="primary"
               size="small"
               className={classes.link}
               onClick={shuffleQuestions}
-              href={type === 'examples' || type === null
-                ? '/'
-                : `/tests?type=${type}`
+              href={type === 'examples'
+                ? '/questionlist'
+                : `/questionlist?type=${type}`
               }
             >
-              <HomeIcon />
+              <ListIcon />
             </Fab>
+          </Tooltip>
+        }
+        
+        {(pathname === '/questionlist' || is404) && !isLoading &&
+          <Fab 
+            color="primary"
+            size="small"
+            className={classes.link}
+            onClick={shuffleQuestions}
+            href={type === 'examples' || is404
+              ? '/'
+              : `/tests?type=${type}`
+            }
+          >
+            <HomeIcon />
+          </Fab>
         }
       </Toolbar>
     </AppBar>
@@ -123,15 +128,17 @@ const Header = ({
 }
 
 const mapStateToProps = (
-  { appStatus: { isLoading } }, 
+  { appStatus: { isLoading }, test, questionList }, 
   { location: { pathname }, location }
 ) => {
   const type = getType(location) ? getType(location) : BLANK_POSTTYPE
+  const is404 = test.testQuestions === null && questionList.totalQuestions === null
 
   return { 
     type,
     pathname,
-    isLoading
+    isLoading,
+    is404
   }
 }
 

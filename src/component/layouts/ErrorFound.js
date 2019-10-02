@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Grid, makeStyles, Typography } from '@material-ui/core'
+import { connect } from 'react-redux'
+
 import sad from '../../images/sad.png'
+import { stopLoading } from '../../actions/appStatus'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -21,8 +24,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ErrorFound = ({ error }) => {
+const ErrorFound = ({ error, stopLoading }) => {
   const classes = useStyles()
+
+  useEffect(() => {
+    stopLoading()
+  })
 
   return (
     <Grid container justify="center" className={classes.container}>
@@ -45,4 +52,4 @@ const ErrorFound = ({ error }) => {
   )
 }
 
-export default ErrorFound
+export default connect(null, { stopLoading })(ErrorFound)
