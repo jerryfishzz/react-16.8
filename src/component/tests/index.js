@@ -55,7 +55,7 @@ class Tests extends Component {
     this.props.initializeAppFromWordPress(null, postType)
       .then(res => stopLoading())
       .catch(err => {
-        getError(errorGenerator(err))
+        getError(err)
         stopLoading()
       })
   }
@@ -83,8 +83,8 @@ class Tests extends Component {
     }
 
     // Wrong parameter for post type
-    if (errorFromAPI !== '') {
-      return <WrongParams error={errorFromAPI} />
+    if (errorFromAPI === 404) {
+      return <WrongParams error={errorGenerator(errorFromAPI)} />
     }
     
     if (isLoading) return <LoadingPage />

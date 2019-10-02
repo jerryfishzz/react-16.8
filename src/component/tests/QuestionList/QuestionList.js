@@ -70,7 +70,7 @@ const CreateQuestionList = (props) => {
     handleGetList(postType)
       .then(res => stopLoading())
       .catch(err => {
-        getError(errorGenerator(err))
+        getError(err)
         stopLoading()
       })
   }, [])
@@ -94,7 +94,7 @@ const CreateQuestionList = (props) => {
     setSelected(null)
   };
 
-  if (errorFromAPI !== '') return <ErrorFound error={errorFromAPI} />
+  if (errorFromAPI === 404) return <ErrorFound error={errorGenerator(errorFromAPI)} />
   if (isLoading) return <Loading />
 
   return (
