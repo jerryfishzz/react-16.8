@@ -111,10 +111,19 @@ export function createAnswerContainer(id) {
 }
 
 export function handleErrors(response) {
+  // console.log(1111111111)
+  // console.log(response)
   if (!response.ok) {
       throw response.status
   }
   return response;
+}
+
+export const NETWORK_ERROR = 'Network error'
+
+export function handleNetworkError(err) {
+  console.log(err)
+  throw Error(NETWORK_ERROR)
 }
 
 export function escapeAndStringify(content) {

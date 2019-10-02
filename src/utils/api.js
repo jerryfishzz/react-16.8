@@ -5,7 +5,7 @@ import {
   _addTagToDB, 
   _addQuestionToDB 
 } from "./store";
-import { handleErrors } from "./helpers";
+import { handleErrors, handleNetworkError } from "./helpers";
 import Axios from 'axios';
 
 export function getQuestions() {
@@ -50,9 +50,12 @@ export function getToken() {
         password: 'tj22K5dTBOGQ1I7G*h'
     })
   })
-    .then(handleErrors)
+    .then(handleErrors, handleNetworkError)
     .then(response => response.json())
     .then(res => res.token)
+    .catch(err => {
+      throw err
+    })
 }
 
 export function getQuestionsFromWordPress(postType) {

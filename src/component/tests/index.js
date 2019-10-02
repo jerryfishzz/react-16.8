@@ -43,9 +43,10 @@ class Tests extends Component {
     handleRemoveQuestionFromWp(id, postType)
       .catch(err => {
         alert(err)
-        this.setState({
-          willBeInitialized: false
-        })
+        // console.log(typeof err)
+        // this.setState({
+        //   willBeInitialized: false
+        // })
       })
   }
 
