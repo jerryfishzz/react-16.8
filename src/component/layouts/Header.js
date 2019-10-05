@@ -16,10 +16,8 @@ import { withRouter } from 'react-router-dom';
 
 import CreateDialog from '../tests/Dialog'
 import { initializeAppFromWordPress } from '../../actions/shared.js';
-import { resetNumber } from '../../actions/test/currentQuestionNumber.js';
-import { resetEdit } from '../../actions/test/editQuestion';
 import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
-import { stopLoading, getError } from '../../actions/appStatus';
+import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 
 
 const styles = ({
@@ -43,7 +41,8 @@ const Header = ({
   isLoading,
   is404,
   isWrongParams,
-  isNetworkError
+  isNetworkError,
+  resetApp
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -61,7 +60,6 @@ const Header = ({
         <Typography 
           className={classes.flex} 
           variant="h5" 
-          color="inherit"
         >
           CODE TEST
         </Typography>
@@ -100,7 +98,6 @@ const Header = ({
               color="primary"
               size="small"
               className={classes.link}
-              onClick={shuffleQuestions}
               href={type === 'examples'
                 ? '/questionlist'
                 : `/questionlist?type=${type}`
@@ -116,7 +113,6 @@ const Header = ({
             color="primary"
             size="small"
             className={classes.link}
-            onClick={shuffleQuestions}
             href={type === 'examples' || is404 || isNetworkError || isWrongParams
               ? '/'
               : `/tests?type=${type}`
@@ -150,17 +146,12 @@ const mapStateToProps = (
 }
 
 const mapDispatchToProps = (dispatch, { location }) => {
-  // const resetNumberAndEdit = () => {
-  //   return dispatch => {
-  //     dispatch(resetNumber())
-  //     dispatch(resetEdit())
-  //   }
-  // }
-
   const postType = getType(location)
 
   return {
     shuffleQuestions: async () => {
+      dispatch(resetAppStatus())
+
       try {
         await dispatch(initializeAppFromWordPress(null, postType))
         dispatch(stopLoading())
@@ -168,7 +159,7 @@ const mapDispatchToProps = (dispatch, { location }) => {
         // alert(err)
         dispatch(getError(err))
       }
-    }
+    },
   }
 }
 

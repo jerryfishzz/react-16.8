@@ -25,7 +25,7 @@ import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
 import { Loading, ErrorFound } from '../../layouts';
-import { stopLoading, getError } from '../../../actions/appStatus';
+import { stopLoading, getError, resetAppStatus } from '../../../actions/appStatus';
 import NetworkErrorPage from '../../../pages/NetworkErrorPage';
 
 const useStyles = makeStyles(({
@@ -67,7 +67,9 @@ const CreateQuestionList = (props) => {
   } = props
 
   useEffect(() => {
-    const { handleGetList, stopLoading, getError } = props
+    const { handleGetList, stopLoading, getError, resetAppStatus } = props
+
+    resetAppStatus()
     handleGetList(postType)
       .then(res => stopLoading())
       .catch(err => {
@@ -214,6 +216,7 @@ export default withRouter(connect(
     handleChangeRowsPerPage, 
     handleResetQuestionList,
     stopLoading,
-    getError
+    getError,
+    resetAppStatus
   }
 )(CreateQuestionList))

@@ -24,7 +24,7 @@ import { initializeAppFromWordPress } from '../../actions/shared';
 import { getType, errorGenerator, BLANK_POSTTYPE } from '../../utils/helpers';
 import { Main, Loading } from '../layouts';
 import WrongParams from '../../pages/WrongParams';
-import { stopLoading, getError } from '../../actions/appStatus';
+import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 import LoadingPage from '../../pages/LoadingPage';
 import NetworkErrorPage from '../../pages/NetworkErrorPage';
 
@@ -51,9 +51,16 @@ class Tests extends Component {
   }
 
   componentDidMount() {
-    const { postType, stopLoading, getError } = this.props
+    const { 
+      postType, 
+      stopLoading, 
+      getError,
+      initializeAppFromWordPress,
+      resetAppStatus
+    } = this.props
 
-    this.props.initializeAppFromWordPress(null, postType)
+    resetAppStatus()
+    initializeAppFromWordPress(null, postType)
       .then(res => stopLoading())
       .catch(err => {
         getError(err)
@@ -259,6 +266,7 @@ export default withRouter(connect(
     handleRemoveQuestionFromWp,
     initializeAppFromWordPress,
     stopLoading,
-    getError
+    getError,
+    resetAppStatus
   }
 )(withStyles(styles)(Tests)))
