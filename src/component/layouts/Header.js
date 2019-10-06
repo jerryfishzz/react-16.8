@@ -1,16 +1,14 @@
 import React, { Fragment, useState } from 'react'
 import { 
-  Fab, 
+  IconButton, 
   AppBar, 
   Toolbar, 
   Typography, 
   withStyles, 
-  Tooltip 
+  Tooltip
 } from '@material-ui/core';
-import Shuffle from '@material-ui/icons/Shuffle';
-import ListIcon from '@material-ui/icons/List';
-import HomeIcon from '@material-ui/icons/Home';
-import AddIcon from '@material-ui/icons/Add';
+import {Shuffle, List, Home, Add} from '@material-ui/icons';
+
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
@@ -21,16 +19,9 @@ import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 
 
 const styles = ({
-  flex: {
-    flex: 1
+  title: {
+    flexGrow: 1
   },
-  fab: {
-    marginRight: 8,
-  },
-  link: {
-    marginLeft: 16,
-    backgroundColor: '#3e71bf'
-  }
 })
 
 const Header = ({ 
@@ -42,7 +33,6 @@ const Header = ({
   is404,
   isWrongParams,
   isNetworkError,
-  resetApp
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -58,7 +48,7 @@ const Header = ({
     <AppBar position="static">
       <Toolbar>
         <Typography 
-          className={classes.flex} 
+          className={classes.title} 
           variant="h5" 
         >
           CODE TEST
@@ -66,24 +56,22 @@ const Header = ({
 
         {pathname !== '/questionlist' && !is404 && !isLoading && (
           <Fragment>
-            <Tooltip title="Shuffle Questions">
-              <Fab 
-                color="secondary"
-                size="small"
-                className={classes.fab}
-                onClick={shuffleQuestions}
-                disabled={type === 'temps'}
-              >
-                <Shuffle />
-              </Fab>
-            </Tooltip>
-            <Fab 
+            {type !== 'temps' && (
+              <Tooltip title="Shuffle Questions">
+                <IconButton 
+                  color="inherit"
+                  onClick={shuffleQuestions}
+                >
+                  <Shuffle />
+                </IconButton>
+              </Tooltip>
+            )}
+            <IconButton 
               onClick={handleClickOpen} 
-              size="small"
-              color="secondary"
+              color="inherit"
             >
-              <AddIcon />
-            </Fab>
+              <Add />
+            </IconButton>
             <CreateDialog 
               comeFrom="header"
               open={dialogOpen}
@@ -94,32 +82,30 @@ const Header = ({
         
         {(pathname === '/tests' || pathname === '/') && !isWrongParams && !isNetworkError && !isLoading && 
           <Tooltip title="Question List">
-            <Fab 
-              color="primary"
-              size="small"
+            <IconButton 
+              color="inherit"
               className={classes.link}
               href={type === 'examples'
                 ? '/questionlist'
                 : `/questionlist?type=${type}`
               }
             >
-              <ListIcon />
-            </Fab>
+              <List />
+            </IconButton>
           </Tooltip>
         }
         
         {(pathname === '/questionlist' || is404) && !isLoading &&
-          <Fab 
-            color="primary"
-            size="small"
+          <IconButton 
+            color="inherit"
             className={classes.link}
             href={type === 'examples' || is404 || isNetworkError || isWrongParams
               ? '/'
               : `/tests?type=${type}`
             }
           >
-            <HomeIcon />
-          </Fab>
+            <Home />
+          </IconButton>
         }
       </Toolbar>
     </AppBar>
