@@ -28,11 +28,6 @@ import LoadingPage from '../../pages/LoadingPage';
 import NetworkErrorPage from '../../pages/NetworkErrorPage';
 
 class Tests extends Component {
-  state = {
-    willBeInitialized: true,
-    wrongParams: ''
-  }
-
   handleEdit = () => {
     const { toggleEdit } = this.props
     toggleEdit()
@@ -78,16 +73,6 @@ class Tests extends Component {
       isLoading,
       errorFromAPI
     } = this.props 
-
-    const { willBeInitialized } = this.state
-
-    if (!willBeInitialized) {
-      return (
-        <div className={classes.messageContainer}>
-          <p>Initialize error</p>
-        </div>
-      )
-    }
 
     // Wrong parameter for post type
     if (errorFromAPI === 404) {
