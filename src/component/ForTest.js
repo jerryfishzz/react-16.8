@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Editor, EditorState, RichUtils } from 'draft-js';
 import {withRouter} from 'react-router-dom';
-import PageNotFound from '../pages/PageNotFound'
 
 const useStyles = makeStyles({
   root: {

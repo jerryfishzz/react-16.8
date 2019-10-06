@@ -22,7 +22,6 @@ import {
 } from '../../actions/test/shared';
 import { initializeAppFromWordPress } from '../../actions/shared';
 import { getType, errorGenerator, BLANK_POSTTYPE } from '../../utils/helpers';
-import { Main, Loading } from '../layouts';
 import WrongParams from '../../pages/WrongParams';
 import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 import LoadingPage from '../../pages/LoadingPage';

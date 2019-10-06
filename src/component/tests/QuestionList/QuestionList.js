@@ -26,7 +26,6 @@ import CreateDialog from '../Dialog'
 import Search from './Search';
 import { Loading, ErrorFound } from '../../layouts';
 import { stopLoading, getError, resetAppStatus } from '../../../actions/appStatus';
-import NetworkErrorPage from '../../../pages/NetworkErrorPage';
 
 const useStyles = makeStyles(({
   titleContainer: {
