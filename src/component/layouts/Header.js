@@ -31,8 +31,6 @@ const Header = ({
   pathname,
   isLoading,
   is404,
-  isWrongParams,
-  isNetworkError,
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -79,32 +77,6 @@ const Header = ({
             />
           </Fragment>
         )}
-        
-        {(pathname === '/tests' || pathname === '/') && !isWrongParams && !isNetworkError && !isLoading && 
-          <Tooltip title="Question List">
-            <IconButton 
-              color="inherit"
-              href={type === 'examples'
-                ? '/questionlist'
-                : `/questionlist?type=${type}`
-              }
-            >
-              <List />
-            </IconButton>
-          </Tooltip>
-        }
-        
-        {(pathname === '/questionlist' || is404) && !isLoading &&
-          <IconButton 
-            color="inherit"
-            href={type === 'examples' || is404 || isNetworkError || isWrongParams
-              ? '/'
-              : `/tests?type=${type}`
-            }
-          >
-            <Home />
-          </IconButton>
-        }
       </Toolbar>
     </AppBar>
   )
@@ -116,16 +88,12 @@ const mapStateToProps = (
 ) => {
   const type = getType(location) ? getType(location) : BLANK_POSTTYPE
   const is404 = test.testQuestions === null && questionList.totalQuestions === -1
-  const isWrongParams = appStatus.errorFromAPI === 404
-  const isNetworkError = appStatus.errorFromAPI === 999
 
   return { 
     type,
     pathname,
     isLoading: appStatus.isLoading,
     is404,
-    isWrongParams,
-    isNetworkError
   }
 }
 
