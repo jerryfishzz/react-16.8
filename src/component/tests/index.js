@@ -5,11 +5,13 @@ import {
   Paper, 
   withStyles, 
   Button,
-  IconButton
+  IconButton,
+  Fab,
 } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 import { connect } from 'react-redux'
 import {withRouter} from 'react-router-dom';
+import {Shuffle, List, Home, Add} from '@material-ui/icons';
 
 import Question from './Question'
 import ProgressingBar from './ProgressingBar';
@@ -177,6 +179,10 @@ class Tests extends Component {
             }
           </Paper>
         </Grid>
+      
+        <Fab className={classes.fab}>
+          <Home />
+        </Fab>
       </Grid>
     )
   }
@@ -209,7 +215,8 @@ const mapStateToProps = (
 
 const styles = theme => ({
 	container: {
-    height: 'calc(100% - 64px)'
+    height: 'calc(100% - 64px)',
+    position: 'relative'
   },
 	paper: {
     [theme.breakpoints.up('sm')]: {
@@ -240,6 +247,11 @@ const styles = theme => ({
     padding: 20,
     textAlign: 'center'
   },
+  fab: {
+    position: 'absolute',
+    right: theme.spacing(3),
+    bottom: theme.spacing(3)
+  }
 })
 
 export default withRouter(connect(
