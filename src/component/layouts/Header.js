@@ -84,7 +84,6 @@ const Header = ({
           <Tooltip title="Question List">
             <IconButton 
               color="inherit"
-              className={classes.link}
               href={type === 'examples'
                 ? '/questionlist'
                 : `/questionlist?type=${type}`
@@ -98,7 +97,6 @@ const Header = ({
         {(pathname === '/questionlist' || is404) && !isLoading &&
           <IconButton 
             color="inherit"
-            className={classes.link}
             href={type === 'examples' || is404 || isNetworkError || isWrongParams
               ? '/'
               : `/tests?type=${type}`

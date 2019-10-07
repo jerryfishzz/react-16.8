@@ -28,6 +28,43 @@ import WrongParams from '../../pages/WrongParams';
 import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 import LoadingPage from '../../pages/LoadingPage';
 import NetworkErrorPage from '../../pages/NetworkErrorPage';
+import FabIcon from '../layouts/FabIcon';
+
+const styles = theme => ({
+	container: {
+    height: 'calc(100% - 64px)',
+    position: 'relative'
+  },
+	paper: {
+    [theme.breakpoints.up('sm')]: {
+      padding: 40,
+    },
+		[theme.breakpoints.down('xs')]: {
+      padding: 20,
+    },
+		height: 'calc(100% - 5px)',
+    marginTop: 5,
+  },
+	item: {
+    [theme.breakpoints.up('sm')]: {
+      height: '100%'
+    },
+		[theme.breakpoints.down('xs')]: {
+      height: '90%'
+    }
+  },
+  submitBtn: {
+    margin: '10px 0'
+  },
+  flex: {
+    flex: 1
+  },
+  messageContainer: {
+    marging: 20,
+    padding: 20,
+    textAlign: 'center'
+  },
+})
 
 class Tests extends Component {
   handleEdit = () => {
@@ -180,9 +217,7 @@ class Tests extends Component {
           </Paper>
         </Grid>
       
-        <Fab className={classes.fab}>
-          <Home />
-        </Fab>
+        <FabIcon />
       </Grid>
     )
   }
@@ -212,47 +247,6 @@ const mapStateToProps = (
     errorFromAPI
   }
 }
-
-const styles = theme => ({
-	container: {
-    height: 'calc(100% - 64px)',
-    position: 'relative'
-  },
-	paper: {
-    [theme.breakpoints.up('sm')]: {
-      padding: 40,
-    },
-		[theme.breakpoints.down('xs')]: {
-      padding: 20,
-    },
-		height: 'calc(100% - 5px)',
-    marginTop: 5,
-  },
-	item: {
-    [theme.breakpoints.up('sm')]: {
-      height: '100%'
-    },
-		[theme.breakpoints.down('xs')]: {
-      height: '90%'
-    }
-  },
-  submitBtn: {
-    margin: '10px 0'
-  },
-  flex: {
-    flex: 1
-  },
-  messageContainer: {
-    marging: 20,
-    padding: 20,
-    textAlign: 'center'
-  },
-  fab: {
-    position: 'absolute',
-    right: theme.spacing(3),
-    bottom: theme.spacing(3)
-  }
-})
 
 export default withRouter(connect(
   mapStateToProps,
