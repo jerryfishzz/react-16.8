@@ -8,9 +8,14 @@ import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
 
 const useStyles = makeStyles(theme => ({
   fab: {
-    position: 'absolute',
+    position: props => 
+      props.header ? 'static' : 'absolute',
     right: theme.spacing(3),
-    bottom: theme.spacing(3)
+    bottom: theme.spacing(3),
+    marginLeft: props => 
+      props.header 
+        ? theme.spacing(1)
+        : 0,
   }
 }))
 
@@ -24,7 +29,7 @@ function FabIcon(props) {
     is404 
   } = props
 
-  const classes = useStyles()
+  const classes = useStyles(props)
 
   return (
     <Fragment>
@@ -37,6 +42,7 @@ function FabIcon(props) {
               ? '/questionlist'
               : `/questionlist?type=${type}`
             }
+            size={props.header ? 'small' : 'large'}
           >
             <List />
           </Fab>
@@ -50,6 +56,7 @@ function FabIcon(props) {
             ? '/'
             : `/tests?type=${type}`
           }
+          size={props.header ? 'small' : 'large'}
         >
           <Home />
         </Fab>

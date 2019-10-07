@@ -64,6 +64,11 @@ const styles = theme => ({
     padding: 20,
     textAlign: 'center'
   },
+  fabIcon: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
+  }
 })
 
 class Tests extends Component {
@@ -217,7 +222,10 @@ class Tests extends Component {
           </Paper>
         </Grid>
       
-        <FabIcon />
+        <Grid item className={classes.fabIcon}>
+          <FabIcon />
+        </Grid>
+        
       </Grid>
     )
   }

@@ -7,7 +7,7 @@ import {
   withStyles, 
   Tooltip
 } from '@material-ui/core';
-import {Shuffle, List, Home, Add} from '@material-ui/icons';
+import {Shuffle, Add} from '@material-ui/icons';
 
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
@@ -16,12 +16,18 @@ import CreateDialog from '../tests/Dialog'
 import { initializeAppFromWordPress } from '../../actions/shared.js';
 import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
 import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
+import FabIcon from './FabIcon';
 
 
-const styles = ({
+const styles = theme => ({
   title: {
     flexGrow: 1
   },
+  fabIcon: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none'
+    }
+  }
 })
 
 const Header = ({ 
@@ -77,6 +83,10 @@ const Header = ({
             />
           </Fragment>
         )}
+
+        <div className={classes.fabIcon}>
+          <FabIcon header={true} />
+        </div>
       </Toolbar>
     </AppBar>
   )
