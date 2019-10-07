@@ -6,12 +6,10 @@ import {
   withStyles, 
   Button,
   IconButton,
-  Fab,
 } from '@material-ui/core';
 import { Edit, Delete } from '@material-ui/icons';
 import { connect } from 'react-redux'
 import {withRouter} from 'react-router-dom';
-import {Shuffle, List, Home, Add} from '@material-ui/icons';
 
 import Question from './Question'
 import ProgressingBar from './ProgressingBar';
@@ -225,7 +223,6 @@ class Tests extends Component {
         <Grid item className={classes.fabIcon}>
           <FabIcon />
         </Grid>
-        
       </Grid>
     )
   }

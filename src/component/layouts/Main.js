@@ -6,7 +6,7 @@ import {
 import { makeStyles } from '@material-ui/styles'
 import FabIcon from './FabIcon'
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles(theme => ({
   container: {
     marginTop: 5,
     minHeight: 'calc(100% - 64px - 5px)',
@@ -15,6 +15,11 @@ const useStyles = makeStyles(({
   paper: {
     height: '100%'
   },
+  fabIcon: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'none'
+    }
+  }
 }))
 
 export default function Main({ Component, ...other }) {
@@ -27,7 +32,9 @@ export default function Main({ Component, ...other }) {
           <Component {...other} />
         </Paper>
       </Grid>
-      <FabIcon />
+      <Grid item className={classes.fabIcon}>
+        <FabIcon />
+      </Grid>
     </Grid>
   )
 }
