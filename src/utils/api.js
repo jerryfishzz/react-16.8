@@ -68,23 +68,13 @@ export function getQuestionsForList(postType) {
 }
 
 export function getQuestionsForListAxios(postType, offset, perPage, search) {
-  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?search=${search}&offset=${offset}&per_page=${perPage}`) 
-    // .then(handleErrors)
+  return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?search=${search}&offset=${offset}&per_page=${perPage}`)
     .then(response => {
-      // console.log(response)
       return response
     }, function(err) {
+      if (err.response) throw err.response.status
       return handleNetworkError(err)
     })
-    .catch(function (error) {
-      console.log(error)
-      if (error.response) {
-        // 请求已发出，但服务器响应的状态码不在 2xx 范围内
-        throw error.response.status
-      } 
-
-      if(error === 999) throw error
-    });
 }
 
 export function getAnswersForQuestionFromWp(id) {
@@ -94,6 +84,7 @@ export function getAnswersForQuestionFromWp(id) {
 }
 
 export function getInitialDataFromWordPress(postType) {
+  console.log(postType)
   return Promise.all([
     getQuestionsFromWordPress(postType),
     _getTags()
