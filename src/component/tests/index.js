@@ -177,8 +177,7 @@ class Tests extends Component {
                   color='primary'
                   onClick={
                     () => handleSubmitQuestion(
-                      currentQuestion.id, 
-                      currentQuestion.selectedAnswers
+                      currentQuestion.id
                     )
                   }
                   disabled={

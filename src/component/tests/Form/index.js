@@ -47,7 +47,6 @@ class Form extends React.Component {
           }],
           otherNotes: EditorState.createEmpty()
         },
-        submittedAnswer: null,
         selectedAnswers: [],
         isSubmitted: false,
       },
@@ -264,7 +263,6 @@ class Form extends React.Component {
           }],
           otherNotes: EditorState.createEmpty()
         },
-        submittedAnswer: null,
         selectedAnswers: [],
         isSubmitted: false,
       },

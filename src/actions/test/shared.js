@@ -22,9 +22,9 @@ export function handleBack() {
   }
 }
 
-export function handleSubmitQuestion(id, index) {
+export function handleSubmitQuestion(id) {
   return dispatch => {
-    dispatch(submitQuestion(id, index))
+    dispatch(submitQuestion(id))
     dispatch(resetEdit())
   }
 }

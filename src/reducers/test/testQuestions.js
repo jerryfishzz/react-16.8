@@ -30,7 +30,6 @@ export default function testQuestions(state, action) {
         if (question.id === action.id) {
           return {
             ...question,
-            // submittedAnswer: action.index,
             isSubmitted: true
           }
         }

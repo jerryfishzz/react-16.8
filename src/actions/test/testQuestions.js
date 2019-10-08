@@ -37,11 +37,10 @@ export function clickAnswer(id, index) {
   }
 }
 
-export function submitQuestion(id, index) {
+export function submitQuestion(id) {
   return {
     type: SUBMIT_QUESTION,
     id,
-    // index
   }
 }
 
