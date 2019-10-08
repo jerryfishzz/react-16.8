@@ -31,12 +31,11 @@ class Answers extends React.Component {
   renderIcon = (i) => {
     const { classes, currentQuestion } = this.props
 
-    if (currentQuestion.selectedAnswer === null) return null
-    if (currentQuestion.submittedAnswer === null) return null
+    if (!currentQuestion.isSubmitted) return null
 
     let icon
 
-    if (i === currentQuestion.selectedAnswer) {
+    if (currentQuestion.selectedAnswer.indexOf(i) !== -1) {
       icon = currentQuestion.data.answers[i].correctness
         ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
         : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
@@ -51,18 +50,16 @@ class Answers extends React.Component {
 
   render() {
     const { classes, clickAnswer, currentQuestion } = this.props;
-    // console.log(currentQuestion)
+    
     return (
       <div className={classes.root}>
         <List component="nav">
           {currentQuestion.data.answers.map((a, i) => {
-            
-
             return (
               <ListItem 
                 key={i}
                 button={!currentQuestion.isSubmitted} 
-                selected={currentQuestion.selectedAnswer === i}
+                selected={currentQuestion.selectedAnswer.indexOf(i) !== -1}
                 onClick={
                   currentQuestion.isSubmitted 
                   ? null 

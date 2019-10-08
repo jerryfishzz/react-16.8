@@ -41,7 +41,7 @@ export function submitQuestion(id, index) {
   return {
     type: SUBMIT_QUESTION,
     id,
-    index
+    // index
   }
 }
 

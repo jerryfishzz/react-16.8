@@ -183,7 +183,7 @@ class Tests extends Component {
                   }
                   disabled={
                     currentQuestion.isSubmitted || 
-                    currentQuestion.selectedAnswer === null
+                    !currentQuestion.selectedAnswer.length
                   }
                 >
                   Submit

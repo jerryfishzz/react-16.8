@@ -18,7 +18,9 @@ export default function testQuestions(state, action) {
           // Need to use immutable way
           return {
             ...question,
-            selectedAnswer: action.index
+            selectedAnswer: question.selectedAnswer.indexOf(action.index) !== -1
+              ? question.selectedAnswer.filter(sa => sa !== action.index)
+              : [...question.selectedAnswer, action.index]
           }
         }
         return question
@@ -28,7 +30,7 @@ export default function testQuestions(state, action) {
         if (question.id === action.id) {
           return {
             ...question,
-            submittedAnswer: action.index,
+            // submittedAnswer: action.index,
             isSubmitted: true
           }
         }
