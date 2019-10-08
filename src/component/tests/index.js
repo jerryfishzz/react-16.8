@@ -178,12 +178,12 @@ class Tests extends Component {
                   onClick={
                     () => handleSubmitQuestion(
                       currentQuestion.id, 
-                      currentQuestion.selectedAnswer
+                      currentQuestion.selectedAnswers
                     )
                   }
                   disabled={
                     currentQuestion.isSubmitted || 
-                    !currentQuestion.selectedAnswer.length
+                    !currentQuestion.selectedAnswers.length
                   }
                 >
                   Submit

@@ -18,9 +18,9 @@ export default function testQuestions(state, action) {
           // Need to use immutable way
           return {
             ...question,
-            selectedAnswer: question.selectedAnswer.indexOf(action.index) !== -1
-              ? question.selectedAnswer.filter(sa => sa !== action.index)
-              : [...question.selectedAnswer, action.index]
+            selectedAnswers: question.selectedAnswers.indexOf(action.index) !== -1
+              ? question.selectedAnswers.filter(selectedAnswer => selectedAnswer !== action.index)
+              : [...question.selectedAnswers, action.index]
           }
         }
         return question

@@ -35,7 +35,7 @@ class Answers extends React.Component {
 
     let icon
 
-    if (currentQuestion.selectedAnswer.indexOf(i) !== -1) {
+    if (currentQuestion.selectedAnswers.indexOf(i) !== -1) {
       icon = currentQuestion.data.answers[i].correctness
         ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
         : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
@@ -59,7 +59,7 @@ class Answers extends React.Component {
               <ListItem 
                 key={i}
                 button={!currentQuestion.isSubmitted} 
-                selected={currentQuestion.selectedAnswer.indexOf(i) !== -1}
+                selected={currentQuestion.selectedAnswers.indexOf(i) !== -1}
                 onClick={
                   currentQuestion.isSubmitted 
                   ? null 

@@ -8,7 +8,7 @@ export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 
 const questionStatusForTest = {
   submittedAnswer: null,
-  selectedAnswer: [],
+  selectedAnswers: [],
   isSubmitted: false,
 }
 
