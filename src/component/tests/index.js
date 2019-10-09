@@ -27,6 +27,7 @@ import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 import LoadingPage from '../../pages/LoadingPage';
 import NetworkErrorPage from '../../pages/NetworkErrorPage';
 import FabIcon from '../layouts/FabIcon';
+import InfoPage from '../../pages/InfoPage';
 
 const styles = theme => ({
 	container: {
@@ -127,8 +128,9 @@ class Tests extends Component {
     
     if (isLoading) return <LoadingPage />
 
-    if(!testQuestions.length) { // Need to consider when no questions
-      return <div className={classes.messageContainer}>No questions</div>
+    if(!testQuestions.length) { 
+      const info = 'No questions in this test'
+      return <InfoPage info={info} />
     }
 
     return (

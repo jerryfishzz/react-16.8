@@ -7,8 +7,7 @@ import {
   withStyles, 
   Tooltip
 } from '@material-ui/core';
-import {Shuffle, Add} from '@material-ui/icons';
-
+import { Shuffle, Add } from '@material-ui/icons';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
