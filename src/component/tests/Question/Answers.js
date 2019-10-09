@@ -33,19 +33,22 @@ class Answers extends React.Component {
 
     if (!currentQuestion.isSubmitted) return null
 
-    let icon
+    let icon = currentQuestion.data.answers[i].correctness
+      ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
+      : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
 
-    if (currentQuestion.selectedAnswers.indexOf(i) !== -1) {
-      icon = currentQuestion.data.answers[i].correctness
-        ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
-        : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
-    } else {
-      icon = currentQuestion.data.answers[i].correctness
-        ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
-        : null
-    }
+    // This can be for single-choice
+    // if (currentQuestion.selectedAnswers.indexOf(i) !== -1) {
+    //   icon = currentQuestion.data.answers[i].correctness
+    //     ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
+    //     : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
+    // } else {
+    //   icon = currentQuestion.data.answers[i].correctness
+    //     ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
+    //     : null
+    // }
 
-    return icon
+    return icon 
   }
 
   render() {
