@@ -40,12 +40,12 @@ const Question = ({ classes, currentQuestion }) => {
 
 const styles = theme => ({
 	question: {
-    [theme.breakpoints.up('sm')]: {
-      height: '60%',
-    },
-		[theme.breakpoints.down('xs')]: {
-      height: '45%',
-    },
+    // [theme.breakpoints.up('sm')]: {
+    //   height: '100%',
+    // },
+		// [theme.breakpoints.down('xs')]: {
+    //   height: '45%',
+    // },
     
     overflowY: 'auto',
 	}

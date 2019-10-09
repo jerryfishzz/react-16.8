@@ -34,29 +34,38 @@ const styles = theme => ({
     height: 'calc(100% - 64px)',
     position: 'relative'
   },
+  item: {
+    // [theme.breakpoints.up('sm')]: {
+    //   height: '100%'
+    // },
+		// [theme.breakpoints.down('xs')]: {
+    //   height: '90%'
+    // }
+  },
 	paper: {
     [theme.breakpoints.up('sm')]: {
-      padding: 40,
+      padding: theme.spacing(5),
     },
 		[theme.breakpoints.down('xs')]: {
-      padding: 20,
+      padding: theme.spacing(2),
     },
 		height: 'calc(100% - 5px)',
     marginTop: 5,
   },
-	item: {
-    [theme.breakpoints.up('sm')]: {
-      height: '100%'
-    },
-		[theme.breakpoints.down('xs')]: {
-      height: '90%'
-    }
+  columnContainer: {
+    height: '100%'
+  },
+  title: {
+    flexGrow: 1
+  },
+  itemQuestion: {
+    flexGrow: 1
+  },
+  bottom: {
+    width: '80%'
   },
   submitBtn: {
-    margin: '10px 0'
-  },
-  flex: {
-    flex: 1
+    // margin: '10px 0'
   },
   messageContainer: {
     marging: 20,
@@ -139,57 +148,61 @@ class Tests extends Component {
         {/* Left */}
         <Grid item xs={12} sm={6} className={classes.item}>
           <Paper className={classes.paper}>
-            <Grid container alignItems="center">
-              <Typography
-                variant='h5'
-                className={classes.flex}
-                display="inline"
-                gutterBottom
-              >
-                {`Question ${currentQuestionNumber + 1} / ${testQuestions.length}`}
-              </Typography>
-              {testQuestions.length !== 0 && 
-                <Fragment>
-                  <IconButton 
-                    color={!editQuestion ? 'primary' : 'secondary'} 
-                    onClick={this.handleEdit}
-                  >
-                    <Edit />
-                  </IconButton>
-                  <IconButton 
-                    color='primary' 
-                    onClick={() => this.handleDelete(currentQuestion.id)}
-                  >
-                    <Delete />
-                  </IconButton>
-                </Fragment>
-              }
-            </Grid>	
-
-            {testQuestions.length !== 0 &&
-              <Fragment>
-                <Question />
-                
-                <Button 
-                  className={classes.submitBtn}
-                  variant="contained"
-                  color='primary'
-                  onClick={
-                    () => handleSubmitQuestion(
-                      currentQuestion.id
-                    )
-                  }
-                  disabled={
-                    currentQuestion.isSubmitted || 
-                    !currentQuestion.selectedAnswers.length
-                  }
+            <Grid container direction="column" spacing={2} className={classes.columnContainer}>
+              <Grid item container alignItems="center">
+                <Typography
+                  variant='h5'
+                  className={classes.title}
                 >
-                  Submit
-                </Button>
+                  {`Question ${currentQuestionNumber + 1} / ${testQuestions.length}`}
+                </Typography>
+                
+                <IconButton 
+                  color={!editQuestion ? 'primary' : 'secondary'} 
+                  onClick={this.handleEdit}
+                >
+                  <Edit />
+                </IconButton>
 
-                <ProgressingBar key={currentQuestionNumber} />
-              </Fragment>
-            }
+                <IconButton 
+                  color='primary' 
+                  onClick={() => this.handleDelete(currentQuestion.id)}
+                >
+                  <Delete />
+                </IconButton>
+              </Grid>	
+
+              <Grid item xs>
+                <Question />
+              </Grid>  
+              
+              <Grid item>
+                <Grid container direction="column" spacing={3}>
+                  <Grid item container direction="column">
+                    <Button 
+                      className={classes.submitBtn}
+                      variant="contained"
+                      color='primary'
+                      onClick={
+                        () => handleSubmitQuestion(
+                          currentQuestion.id
+                        )
+                      }
+                      disabled={
+                        currentQuestion.isSubmitted || 
+                        !currentQuestion.selectedAnswers.length
+                      }
+                    >
+                      Submit
+                    </Button>
+                  </Grid>
+                  <Grid item>
+                    <ProgressingBar key={currentQuestionNumber} />
+                  </Grid>
+                  
+                </Grid>
+              </Grid>
+            </Grid>
           </Paper>
         </Grid>
         
