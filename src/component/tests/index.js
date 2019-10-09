@@ -146,10 +146,7 @@ class Tests extends Component {
                 display="inline"
                 gutterBottom
               >
-                {testQuestions.length 
-                  ? `Question ${currentQuestionNumber + 1} / ${testQuestions.length}`
-                  : 'No questions to diplay'
-                }
+                {`Question ${currentQuestionNumber + 1} / ${testQuestions.length}`}
               </Typography>
               {testQuestions.length !== 0 && 
                 <Fragment>

@@ -24,7 +24,7 @@ import {
 import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
-import { Loading, ErrorFound } from '../../layouts';
+import { Loading, ErrorFound, Info } from '../../layouts';
 import { stopLoading, getError, resetAppStatus } from '../../../actions/appStatus';
 
 const useStyles = makeStyles(({
@@ -101,8 +101,14 @@ const CreateQuestionList = (props) => {
   };
 
   if (isLoading) return <Loading />
+
   if (errorFromAPI === 404 || errorFromAPI === 999) {
     return <ErrorFound error={errorGenerator(errorFromAPI)} />
+  }
+
+  if (!totalQuestions) {
+    const info = 'No questions in this test'
+    return <Info info={info} />
   }
 
   return (
