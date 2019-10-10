@@ -111,7 +111,11 @@ function LeftSide(props) {
         </IconButton>
       </Grid>	
 
-      <Grid item xs className={`${classes.itemQuestion} ${classes.contentWidth}`}>
+      <Grid 
+        item 
+        xs 
+        className={`${classes.itemQuestion} ${classes.contentWidth}`}
+      >
         <Question />
       </Grid>  
       

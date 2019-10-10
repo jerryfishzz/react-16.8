@@ -55,7 +55,7 @@ class Answers extends React.Component {
     const { classes, clickAnswer, currentQuestion } = this.props;
     
     return (
-      <div className={classes.root}>
+      
         <List component="nav">
           {currentQuestion.data.answers.map((a, i) => {
             return (
@@ -63,8 +63,7 @@ class Answers extends React.Component {
                 key={i}
                 button={!currentQuestion.isSubmitted} 
                 selected={currentQuestion.selectedAnswers.indexOf(i) !== -1}
-                onClick={
-                  currentQuestion.isSubmitted 
+                onClick={currentQuestion.isSubmitted 
                   ? null 
                   : () => clickAnswer(currentQuestion.id, i)
                 }
@@ -86,25 +85,10 @@ class Answers extends React.Component {
               </ListItem>
             )
           })}
+          
         </List>
-        <style type="text/css">
-        {`
-          pre {
-            border: 1px solid #ccc;
-            background: #f0f0f0;
-            border-radius: .2em;
-            padding: .5em;
-            margin: 0;
-          }
-
-          pre > pre {
-            background: none;
-            border: none;
-            padding: 0;
-          }
-          `}
-        </style>
-      </div>  
+        
+      
     );
   }
 }
