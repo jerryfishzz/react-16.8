@@ -19,9 +19,6 @@ import FabIcon from './FabIcon';
 
 
 const styles = theme => ({
-  appBar: {
-    borderRadius: theme.spacing(0.5)
-  },
   title: {
     flexGrow: 1
   },
@@ -51,7 +48,7 @@ const Header = ({
   };
 
   return (
-    <AppBar position="static" className={classes.appBar}>
+    <AppBar position="static">
       <Toolbar>
         <Typography 
           className={classes.title} 

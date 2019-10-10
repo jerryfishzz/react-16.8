@@ -29,6 +29,8 @@ import LoadingPage from '../../pages/LoadingPage';
 import NetworkErrorPage from '../../pages/NetworkErrorPage';
 import FabIcon from '../layouts/FabIcon';
 import InfoPage from '../../pages/InfoPage';
+import LeftSide from './LeftSide';
+import RightSide from './RightSide';
 
 const styles = theme => ({
 	container: {
@@ -53,26 +55,7 @@ const styles = theme => ({
 		height: 'calc(100% - 5px)',
     marginTop: 5,
   },
-  columnContainer: {
-    height: '100%'
-  },
-  title: {
-    flexGrow: 1
-  },
-  itemQuestion: {
-    overflowY: 'auto'
-  },
-  bottomContainer: {
-    marginTop: theme.spacing(3)
-  },
-  navBtn: {
-    '&:hover': {
-      backgroundColor: 'transparent'
-    }
-  },
-  submitBtn: {
-    width: '95%'
-  },
+  
   messageContainer: {
     marging: 20,
     padding: 20,
@@ -156,100 +139,14 @@ class Tests extends Component {
         {/* Left */}
         <Grid item xs={12} sm={6} className={classes.item}>
           <Paper className={classes.paper}>
-            <Grid container direction="column" spacing={3} className={classes.columnContainer}>
-              <Grid item container alignItems="center">
-                <Typography
-                  variant='h5'
-                  className={classes.title}
-                >
-                  {`Question ${currentQuestionNumber + 1} / ${testQuestions.length}`}
-                </Typography>
-                <IconButton 
-                  color={!editQuestion ? 'primary' : 'default'} 
-                  onClick={this.handleEdit}
-                >
-                  <Edit />
-                </IconButton>
-                <IconButton 
-                  color='primary' 
-                  onClick={() => this.handleDelete(currentQuestion.id)}
-                >
-                  <Delete />
-                </IconButton>
-              </Grid>	
-
-              <Grid item xs className={classes.itemQuestion}>
-                <Question />
-              </Grid>  
-              
-              <Grid item container className={classes.bottomContainer}>
-                <Grid item>
-                  <Button
-                    onClick={handleBack} 
-                    disabled={currentQuestionNumber === 0}
-                    className={classes.navBtn}
-                    disableRipple
-                  >
-                    <KeyboardArrowLeft />
-                    Back
-                  </Button>
-                </Grid>
-                <Grid item container xs justify="center">
-                  <Button 
-                    className={classes.submitBtn}
-                    variant="contained"
-                    color='primary'
-                    onClick={
-                      () => handleSubmitQuestion(
-                        currentQuestion.id
-                      )
-                    }
-                    disabled={
-                      currentQuestion.isSubmitted || 
-                      !currentQuestion.selectedAnswers.length
-                    }
-                  >
-                    Submit
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button
-                    onClick={handleNext} 
-                    disabled={currentQuestionNumber === testQuestions.length - 1}
-                    className={classes.navBtn}
-                    disableRipple
-                  >
-                    Next
-                    <KeyboardArrowRight />
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
+            <LeftSide />
           </Paper>
         </Grid>
         
         {/* Right */}
         <Grid item xs={12} sm={6} className={classes.item}>
           <Paper className={classes.paper}>
-            <Grid container alignItems="center">
-              <Typography variant='h5' gutterBottom>
-                {editQuestion
-                  ? "Edit Question"
-                  : "Notes"
-                }
-              </Typography>
-            </Grid>
-            {editQuestion
-              ? <Fragment>
-                  <Typography
-                    variant="subtitle1"
-                  >
-                    Items with * are required.
-                  </Typography>
-                  <Form paddingRight={10} />
-                </Fragment>
-              : <Notes />
-            }
+            <RightSide />
           </Paper>
         </Grid>
       
