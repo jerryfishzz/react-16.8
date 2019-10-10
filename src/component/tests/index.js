@@ -5,9 +5,10 @@ import {
   Paper, 
   withStyles, 
   Button,
+  ButtonGroup,
   IconButton,
 } from '@material-ui/core';
-import { Edit, Delete } from '@material-ui/icons';
+import { Edit, Delete, KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import { connect } from 'react-redux'
 import {withRouter} from 'react-router-dom';
 
@@ -18,7 +19,9 @@ import Form from './Form'
 import { toggleEdit } from '../../actions/test/editQuestion';
 import {
   handleSubmitQuestion, 
-  handleRemoveQuestionFromWp
+  handleRemoveQuestionFromWp,
+  handleNext,
+  handleBack
 } from '../../actions/test/shared';
 import { initializeAppFromWordPress } from '../../actions/shared';
 import { getType, errorGenerator, BLANK_POSTTYPE } from '../../utils/helpers';
@@ -64,8 +67,13 @@ const styles = theme => ({
   bottom: {
     width: '80%'
   },
+  navBtn: {
+    '&:hover': {
+      backgroundColor: 'transparent'
+    }
+  },
   submitBtn: {
-    // margin: '10px 0'
+    width: '80%'
   },
   messageContainer: {
     marging: 20,
@@ -123,7 +131,9 @@ class Tests extends Component {
       editQuestion,
       handleSubmitQuestion,
       isLoading,
-      errorFromAPI
+      errorFromAPI,
+      handleNext,
+      handleBack
     } = this.props 
 
     // Wrong parameter for post type
@@ -156,14 +166,12 @@ class Tests extends Component {
                 >
                   {`Question ${currentQuestionNumber + 1} / ${testQuestions.length}`}
                 </Typography>
-                
                 <IconButton 
-                  color={!editQuestion ? 'primary' : 'secondary'} 
+                  color={!editQuestion ? 'primary' : 'default'} 
                   onClick={this.handleEdit}
                 >
                   <Edit />
                 </IconButton>
-
                 <IconButton 
                   color='primary' 
                   onClick={() => this.handleDelete(currentQuestion.id)}
@@ -176,30 +184,46 @@ class Tests extends Component {
                 <Question />
               </Grid>  
               
-              <Grid item>
-                <Grid container direction="column" spacing={3}>
-                  <Grid item container direction="column">
-                    <Button 
-                      className={classes.submitBtn}
-                      variant="contained"
-                      color='primary'
-                      onClick={
-                        () => handleSubmitQuestion(
-                          currentQuestion.id
-                        )
-                      }
-                      disabled={
-                        currentQuestion.isSubmitted || 
-                        !currentQuestion.selectedAnswers.length
-                      }
-                    >
-                      Submit
-                    </Button>
-                  </Grid>
-                  <Grid item>
-                    <ProgressingBar key={currentQuestionNumber} />
-                  </Grid>
-                  
+              <Grid item container>
+                <Grid item>
+                  <Button
+                    onClick={handleBack} 
+                    disabled={currentQuestionNumber === 0}
+                    className={classes.navBtn}
+                    disableRipple
+                  >
+                    <KeyboardArrowLeft />
+                    Back
+                  </Button>
+                </Grid>
+                <Grid item container xs justify="center">
+                  <Button 
+                    className={classes.submitBtn}
+                    variant="contained"
+                    color='primary'
+                    onClick={
+                      () => handleSubmitQuestion(
+                        currentQuestion.id
+                      )
+                    }
+                    disabled={
+                      currentQuestion.isSubmitted || 
+                      !currentQuestion.selectedAnswers.length
+                    }
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    onClick={handleNext} 
+                    disabled={currentQuestionNumber === testQuestions.length - 1}
+                    className={classes.navBtn}
+                    disableRipple
+                  >
+                    Next
+                    <KeyboardArrowRight />
+                  </Button>
                 </Grid>
               </Grid>
             </Grid>
@@ -273,6 +297,8 @@ export default withRouter(connect(
     initializeAppFromWordPress,
     stopLoading,
     getError,
-    resetAppStatus
+    resetAppStatus,
+    handleNext, 
+    handleBack
   }
 )(withStyles(styles)(Tests)))
