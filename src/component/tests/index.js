@@ -5,7 +5,6 @@ import {
   Paper, 
   withStyles, 
   Button,
-  ButtonGroup,
   IconButton,
 } from '@material-ui/core';
 import { Edit, Delete, KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
@@ -13,7 +12,6 @@ import { connect } from 'react-redux'
 import {withRouter} from 'react-router-dom';
 
 import Question from './Question'
-import ProgressingBar from './ProgressingBar';
 import Notes from './Notes';
 import Form from './Form'
 import { toggleEdit } from '../../actions/test/editQuestion';
@@ -62,10 +60,10 @@ const styles = theme => ({
     flexGrow: 1
   },
   itemQuestion: {
-    flexGrow: 1
+    overflowY: 'auto'
   },
-  bottom: {
-    width: '80%'
+  bottomContainer: {
+    marginTop: theme.spacing(3)
   },
   navBtn: {
     '&:hover': {
@@ -73,7 +71,7 @@ const styles = theme => ({
     }
   },
   submitBtn: {
-    width: '80%'
+    width: '95%'
   },
   messageContainer: {
     marging: 20,
@@ -158,7 +156,7 @@ class Tests extends Component {
         {/* Left */}
         <Grid item xs={12} sm={6} className={classes.item}>
           <Paper className={classes.paper}>
-            <Grid container direction="column" spacing={2} className={classes.columnContainer}>
+            <Grid container direction="column" spacing={3} className={classes.columnContainer}>
               <Grid item container alignItems="center">
                 <Typography
                   variant='h5'
@@ -180,11 +178,11 @@ class Tests extends Component {
                 </IconButton>
               </Grid>	
 
-              <Grid item xs>
+              <Grid item xs className={classes.itemQuestion}>
                 <Question />
               </Grid>  
               
-              <Grid item container>
+              <Grid item container className={classes.bottomContainer}>
                 <Grid item>
                   <Button
                     onClick={handleBack} 
