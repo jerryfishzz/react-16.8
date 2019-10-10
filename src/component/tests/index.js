@@ -24,12 +24,7 @@ const styles = theme => ({
     position: 'relative'
   },
   item: {
-    // [theme.breakpoints.up('sm')]: {
-    //   height: '100%'
-    // },
-		// [theme.breakpoints.down('xs')]: {
-    //   height: '90%'
-    // }
+    height: '100%'
   },
 	paper: {
     [theme.breakpoints.up('sm')]: {
@@ -41,7 +36,6 @@ const styles = theme => ({
 		height: 'calc(100% - 5px)',
     marginTop: 5,
   },
-  
   messageContainer: {
     marging: 20,
     padding: 20,

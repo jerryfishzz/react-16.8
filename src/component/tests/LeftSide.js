@@ -30,11 +30,17 @@ const useStyles = makeStyles(theme => ({
   columnContainer: {
     height: '100%'
   },
+  contentWidth: {
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '75%'
+    }
+  },
   title: {
     flexGrow: 1
   },
   itemQuestion: {
-    overflowY: 'auto'
+    overflowY: 'auto',
   },
   bottomContainer: {
     marginTop: theme.spacing(3)
@@ -44,8 +50,10 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: 'transparent'
     }
   },
-  submitBtn: {
-    width: '95%'
+  subContainer: {
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3),
+    maxWidth: '75%'
   },
 }))
 
@@ -76,8 +84,13 @@ function LeftSide(props) {
   }
 
   return (
-    <Grid container direction="column" spacing={3} className={classes.columnContainer}>
-      <Grid item container alignItems="center">
+    <Grid container direction="column" alignItems="center" spacing={3} className={classes.columnContainer}>
+      <Grid 
+        item 
+        container 
+        alignItems="center" 
+        className={classes.contentWidth}
+      >
         <Typography
           variant='h5'
           className={classes.title}
@@ -98,11 +111,16 @@ function LeftSide(props) {
         </IconButton>
       </Grid>	
 
-      <Grid item xs className={classes.itemQuestion}>
+      <Grid item xs className={`${classes.itemQuestion} ${classes.contentWidth}`}>
         <Question />
       </Grid>  
       
-      <Grid item container className={classes.bottomContainer}>
+      <Grid 
+        item 
+        container 
+        justify="space-between" 
+        className={classes.bottomContainer}
+      >
         <Grid item>
           <Button
             onClick={handleBack} 
@@ -114,9 +132,9 @@ function LeftSide(props) {
             Back
           </Button>
         </Grid>
-        <Grid item container xs justify="center">
+        <Grid item xs className={classes.subContainer}>
           <Button 
-            className={classes.submitBtn}
+            fullWidth
             variant="contained"
             color='primary'
             onClick={() => handleSubmitQuestion(currentQuestion.id)}

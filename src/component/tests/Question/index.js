@@ -47,7 +47,7 @@ const styles = theme => ({
     //   height: '45%',
     // },
     
-    overflowY: 'auto',
+    // overflowY: 'auto',
 	}
 })
 
