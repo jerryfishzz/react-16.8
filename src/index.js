@@ -23,32 +23,25 @@ const theme = createMuiTheme({
   },
   overrides: {
     MuiListItem: {
-      button: {
+      root: {
         marginTop: 4,
         marginBottom: 4,
         border: '1px solid transparent',
         borderRadius: 4,
         '&$selected': {
           border: '1px solid #3f51b5',
-          borderRadius: 4,
-          backgroundColor: 'transparent',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.08)',
-          }
-        }
-      },
-      root: {
-        marginTop: 4,
-        marginBottom: 4,
-        border: '1px solid transparent',
-        '&$selected': {
-          border: '1px solid #3f51b5',
-          borderRadius: 4,
           backgroundColor: 'transparent',
           '&:hover': {
             backgroundColor: 'transparent'
           }
         },
+      },
+      button: {
+        '&$selected': {
+          '&:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.08)',
+          }
+        }
       },
     },
   },
