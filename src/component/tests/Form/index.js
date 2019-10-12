@@ -8,7 +8,6 @@ import {
 } from '@material-ui/core';
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
-import classNames from 'classnames';
 import { EditorState, convertToRaw } from "draft-js";
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
@@ -30,6 +29,26 @@ import {
   getQuestionFromWPForEditting 
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
+
+const styles = theme => ({
+  item: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
+  },
+  paper: {
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.default
+  },
+  required: {
+    marginRight: theme.spacing(0.5)
+  },
+  astra: {
+    color: red[500]
+  },
+  field: {
+    backgroundColor: theme.palette.background.paper
+  },
+});
 
 class Form extends React.Component {
   constructor(props) {
@@ -330,7 +349,7 @@ class Form extends React.Component {
   // }
 
   render() {
-    const { classes, paddingRight, isNewlyCreated } = this.props
+    const { classes, isNewlyCreated } = this.props
     const { 
       test: { data: { question, tags, answers, title } }, 
       isFormValidate, 
@@ -449,80 +468,6 @@ const mapStateToProps = (
     location
   }
 }
-
-const styles = theme => ({
-  item: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  },
-  paper: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.background.default
-  },
-  required: {
-    marginRight: theme.spacing(0.5)
-  },
-  astra: {
-    color: red[500]
-  },
-  field: {
-    backgroundColor: theme.palette.background.paper
-  },
-
-
-
-
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    // height: 'calc(100% - 39.6px - 28px)',
-  },
-
-  textField: {
-    width: '50%',
-  },
-  dense: {
-    marginTop: 19,
-  },
-  menu: {
-    width: 200,
-  },
-  background: {
-    backgroundColor: '#eeeeee',
-    width: '100%',
-    padding: 15,
-    borderRadius: 5,
-    margin: '10px 0'
-  },
-  lower: {
-    zIndex: 0
-  },
-  
-  form: {
-    height: 500,
-    overflowY: 'auto',
-  },
-  createBtn: {
-    marginTop: 10
-  },
-  
-  draftContent: {
-    width: '100%',
-    margin: '0 auto'
-  },
-  editor: {
-    border: '2px solid red',
-    padding: 6,
-    
-  },
-  editor1: {
-    border: '1px solid green',
-    padding: 6,
-    '&:hover': {
-      border: '1px solid black',
-    }
-  }
-});
 
 export default withRouter(connect(
   mapStateToProps,
