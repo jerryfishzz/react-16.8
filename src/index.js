@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { blue } from '@material-ui/core/colors' 
 import { createStore, compose } from 'redux'
 import reducer from './reducers'
 import { Provider } from 'react-redux'
