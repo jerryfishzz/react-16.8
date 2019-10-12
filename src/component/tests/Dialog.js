@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
-import { withContext } from '../../context.js'
 import { 
   Dialog,
   DialogContent, 
   DialogContentText, 
   DialogTitle, 
+  withStyles,
 } from '@material-ui/core';
 
 import Form from './Form'
+
+const styles = theme => ({
+  form: {
+    marginBottom: theme.spacing(2),
+  }
+});
 
 class CreateDialog extends Component {
   handleClose = () => {
@@ -19,7 +25,7 @@ class CreateDialog extends Component {
   }
 
   render() {
-    const { suggestions, onAddSuggestion, open, comeFrom, ...other } = this.props
+    const { suggestions, onAddSuggestion, open, comeFrom, classes, ...other } = this.props
 
     return (
       <Dialog
@@ -41,17 +47,19 @@ class CreateDialog extends Component {
               : 'Items with * are required.'
             }
           </DialogContentText>
-          <Form 
-            suggestions={suggestions}
-            isNewlyCreated={comeFrom === "header"} 
-            onSubmit={this.handleSubmit}
-            onAddSuggestion={onAddSuggestion}
-            {...other}
-          />
+          <div className={classes.form}>
+            <Form 
+              suggestions={suggestions}
+              isNewlyCreated={comeFrom === "header"} 
+              onSubmit={this.handleSubmit}
+              onAddSuggestion={onAddSuggestion}
+              {...other}
+            />
+          </div>
         </DialogContent>
       </Dialog>
     )
   }
 }
 
-export default withContext(CreateDialog)
+export default withStyles(styles)(CreateDialog)

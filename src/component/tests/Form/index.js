@@ -429,13 +429,15 @@ class Form extends React.Component {
           </Paper>
         </Grid>
 
-        <CreateSnackbar 
-          handleSubmit={this.handleSubmit}
-          isFormValidate={isFormValidate}
-          isNewlyCreated={isNewlyCreated}
-          initializeFromContent={this.initializeFromContent}
-          editedQuestion={editedQuestion}
-        />
+        <Grid item className={classes.item}>
+          <CreateSnackbar 
+            handleSubmit={this.handleSubmit}
+            isFormValidate={isFormValidate}
+            isNewlyCreated={isNewlyCreated}
+            initializeFromContent={this.initializeFromContent}
+            editedQuestion={editedQuestion}
+          />
+        </Grid>
       </Grid>
     )
   }
