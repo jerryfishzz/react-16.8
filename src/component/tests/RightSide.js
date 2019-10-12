@@ -9,6 +9,12 @@ const useStyles = makeStyles(theme => ({
   columnContainer: {
     height: '100%'
   },
+  contentWidth: {
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '75%'
+    }
+  },
   titleContainer: {
     minHeight: 72
   },
@@ -33,14 +39,25 @@ function RightSide(props) {
   const { test: { editQuestion } } = props
 
   return (
-    <Grid container direction="column" spacing={3} className={classes.columnContainer}>
-      <Grid item container alignItems="center" className={classes.titleContainer}>
+    <Grid 
+      container 
+      direction="column"
+      alignItems="center"
+      spacing={3} 
+      className={classes.columnContainer}
+    >
+      <Grid 
+        item 
+        container 
+        alignItems="center" 
+        className={`${classes.titleContainer} ${classes.contentWidth}`}
+      >
         <Typography variant='h5'>
           {editQuestion ? "Edit Question" : "Notes"}
         </Typography>
       </Grid>	
 
-      <Grid item xs className={classes.itemQuestion}>
+      <Grid item xs className={`${classes.itemQuestion} ${classes.contentWidth}`}>
         {editQuestion
           ? <Fragment>
               <Typography variant="subtitle1">
