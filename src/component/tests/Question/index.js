@@ -1,13 +1,13 @@
 import React from "react";
 import Answers from './Answers';
-import { withStyles, Typography } from '@material-ui/core';
+import { withStyles, Typography, Grid } from '@material-ui/core';
 import { connect } from 'react-redux'
 import { Editor } from "draft-js";
 import { getEditorStateFromContent } from "../../../utils/helpers";
 
 const Question = ({ classes, currentQuestion }) => {
   return (
-    <div className={classes.question}>
+    <Grid container direction="column">
       <Typography
         variant="subtitle1"
       >
@@ -34,20 +34,20 @@ const Question = ({ classes, currentQuestion }) => {
         }
         `}
       </style>
-    </div>
+    </Grid>
   )
 }
 
 const styles = theme => ({
 	question: {
-    [theme.breakpoints.up('sm')]: {
-      height: '60%',
-    },
-		[theme.breakpoints.down('xs')]: {
-      height: '45%',
-    },
+    // [theme.breakpoints.up('sm')]: {
+    //   height: '100%',
+    // },
+		// [theme.breakpoints.down('xs')]: {
+    //   height: '45%',
+    // },
     
-    overflowY: 'auto',
+    // overflowY: 'auto',
 	}
 })
 

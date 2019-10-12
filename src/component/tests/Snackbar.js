@@ -9,6 +9,12 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 import { getError } from '../../actions/appStatus';
 
+const styles = theme => ({
+  close: {
+    padding: theme.spacing(0.5),
+  },
+});
+
 class CreateSnackbar extends React.Component {
   state = {
     open: false,
@@ -57,11 +63,11 @@ class CreateSnackbar extends React.Component {
     return (
       <div>
         <Button 
+          fullWidth
           color="primary" 
           variant="contained" 
           onClick={this.handleClick}
           disabled={!isFormValidate || isSubmitting}
-          className={classes.button}
         >
           {!isNewlyCreated
             ? "Edit"
@@ -119,15 +125,6 @@ const mapStateToProps = (
 CreateSnackbar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
-const styles = theme => ({
-  close: {
-    padding: theme.spacing(0.5),
-  },
-  button: {
-    marginTop: 10
-  }
-});
 
 export default withRouter(connect(
   mapStateToProps,

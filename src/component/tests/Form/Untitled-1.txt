@@ -27,33 +27,34 @@
             }}
             </TextField>
 
-{
-  "blocks":[
-    {"key":"1no0a","text":"sssssss","type":"code-block","depth":0,"inlineStyleRanges":[{"offset":0,"length":7,"style":"CODE"}],"entityRanges":[],"data":{}},
-    {"key":"bhsrl","text":"fgh","type":"code-block","depth":0,"inlineStyleRanges":[{"offset":0,"length":3,"style":"CODE"}
-  ],
-  "entityRanges":[],
-  "data":{}}],
-  "entityMap":{}
-}
+<Grid container direction="column" spacing={3}>
+                  <Grid item container direction="column">
+                    <Button 
+                      className={classes.submitBtn}
+                      variant="contained"
+                      color='primary'
+                      onClick={
+                        () => handleSubmitQuestion(
+                          currentQuestion.id
+                        )
+                      }
+                      disabled={
+                        currentQuestion.isSubmitted || 
+                        !currentQuestion.selectedAnswers.length
+                      }
+                    >
+                      Submit
+                    </Button>
+                  </Grid>
 
-{"blocks":[{"key":"a8dqk","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}
-
-
-<TextField
-            multiline
-            rows="2"
-            margin="normal"
-            fullWidth
-            variant="outlined"
-            value={question}
-            required
-            className={classes.white}
-            onChange={this.handleChange('question')}
-          />
-
-          document.getElement(\"p\").innerHTML = \"Hello World!\"
-          document.getElementByName(\"p\").innerHTML = \"Hello World!\"
-          document.getElementById(\"demo\").innerHTML = \"Hello World!\"
-
-          const answerContent = getTheAlphanumericOrder(i) + '. ' + a.content
+                  <Grid item>
+                    <ProgressingBar key={currentQuestionNumber} />
+                  </Grid>
+                </Grid>
+          
+<Grid container direction="column">
+  <Typography variant="subtitle1">
+    Items with * are required.
+  </Typography>
+  <Form />
+</Grid>

@@ -3,14 +3,14 @@ import {
   withStyles, 
   List, 
   ListItem, 
-  ListItemText, 
-  Icon,
-  Grid
+  ListItemText,
+  Grid,
+  ListItemIcon
 } from '@material-ui/core';
-import classNames from 'classnames';
-import { loadCSS } from 'fg-loadcss/src/loadCSS';
 import { connect } from 'react-redux'
 import { Editor } from "draft-js";
+import { CheckCircle, Cancel } from '@material-ui/icons';
+import { green, red } from '@material-ui/core/colors';
 
 import { 
   getTheAlphanumericOrder, 
@@ -18,93 +18,68 @@ import {
 } from '../../../utils/helpers';
 import { clickAnswer } from '../../../actions/test/testQuestions';
 
-class Answers extends React.Component {
-  componentDidMount() {
-    // For Font Awesome
-    loadCSS(
-      'https://use.fontawesome.com/releases/v5.1.0/css/all.css',
-      document.querySelector('#insertion-point-jss'),
-    );
+const styles = {
+  check: {
+    color: green[500]
+  },
+  cancel: {
+    color: red[500]
+  },
+  listItemIcon: {
+    justifyContent: 'center'
   }
+};
 
-  // Render the check and cross icon
+class Answers extends React.Component {
+  // Render the check or cross icon
   renderIcon = (i) => {
     const { classes, currentQuestion } = this.props
 
     if (!currentQuestion.isSubmitted) return null
 
     let icon = currentQuestion.data.answers[i].correctness
-      ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
-      : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
+      ? <CheckCircle className={classes.check} />
+      : <Cancel className={classes.cancel} />
 
-    // This can be for single-choice
-    // if (currentQuestion.selectedAnswers.indexOf(i) !== -1) {
-    //   icon = currentQuestion.data.answers[i].correctness
-    //     ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
-    //     : <Icon className={classNames(classes.icon, 'far fa-times-circle')} />
-    // } else {
-    //   icon = currentQuestion.data.answers[i].correctness
-    //     ? <Icon className={classNames(classes.icon, 'far fa-check-square')} />
-    //     : null
-    // }
-
-    return icon 
+    return (
+      <ListItemIcon className={classes.listItemIcon}>{icon}</ListItemIcon>
+    )
   }
 
   render() {
-    const { classes, clickAnswer, currentQuestion } = this.props;
+    const { clickAnswer, currentQuestion } = this.props;
     
     return (
-      <div className={classes.root}>
-        <List component="nav">
-          {currentQuestion.data.answers.map((a, i) => {
-            return (
-              <ListItem 
-                key={i}
-                button={!currentQuestion.isSubmitted} 
-                selected={currentQuestion.selectedAnswers.indexOf(i) !== -1}
-                onClick={
-                  currentQuestion.isSubmitted 
-                  ? null 
-                  : () => clickAnswer(currentQuestion.id, i)
-                }
-              >
-                <ListItemText 
-                  primary={
-                    <Grid container>
-                      <Grid item sm={1}>{getTheAlphanumericOrder(i) + '. '}</Grid>
-                      <Grid item sm={11}>
-                        <Editor
-                          editorState={getEditorStateFromContent(a.content)}
-                          readOnly={true}
-                        />
-                      </Grid>
+      <List component="nav">
+        {currentQuestion.data.answers.map((a, i) => {
+          return (
+            <ListItem 
+              key={i}
+              button={!currentQuestion.isSubmitted} 
+              selected={currentQuestion.selectedAnswers.indexOf(i) !== -1}
+              onClick={currentQuestion.isSubmitted 
+                ? null 
+                : () => clickAnswer(currentQuestion.id, i)
+              }
+            >
+              <ListItemText 
+                primary={
+                  <Grid container>
+                    <Grid item sm={1}>{getTheAlphanumericOrder(i) + '. '}</Grid>
+                    <Grid item sm={11}>
+                      <Editor
+                        editorState={getEditorStateFromContent(a.content)}
+                        readOnly={true}
+                      />
                     </Grid>
-                  } 
-                />
-                {this.renderIcon(i)}
-              </ListItem>
-            )
-          })}
-        </List>
-        <style type="text/css">
-        {`
-          pre {
-            border: 1px solid #ccc;
-            background: #f0f0f0;
-            border-radius: .2em;
-            padding: .5em;
-            margin: 0;
-          }
-
-          pre > pre {
-            background: none;
-            border: none;
-            padding: 0;
-          }
-          `}
-        </style>
-      </div>  
+                  </Grid>
+                } 
+              />
+              {this.renderIcon(i)}
+            </ListItem>
+          )
+        })}
+      </List>
     );
   }
 }
@@ -119,14 +94,7 @@ const mapStateToProps = ({ test: { currentQuestionNumber, testQuestions } }) => 
   }
 }
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
-});
-
 export default connect(
   mapStateToProps,
-  {clickAnswer}
+  { clickAnswer }
 )(withStyles(styles)(Answers))
