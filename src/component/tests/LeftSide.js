@@ -104,7 +104,7 @@ function LeftSide(props) {
           <Edit />
         </IconButton>
         <IconButton 
-          color='primary' 
+          color='secondary' 
           onClick={() => handleDelete(currentQuestion.id)}
         >
           <Delete />

@@ -110,8 +110,7 @@ const AnswerForm = ({
                 {answers.length > 1
                   ? <Button 
                       onClick={() => onDelete(i, a.id)} 
-                      color="primary" 
-                      variant="outlined" 
+                      color="secondary"
                       size="small"
                       className={isNewlyCreated
                         ? classes.deleteEdit
