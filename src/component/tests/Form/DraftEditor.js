@@ -14,8 +14,8 @@ const useStyles = makeStyles({
   },
   draftContent: {
     flex: 1,
-    marginTop: 12,
-    marginBottom: 8
+    // marginTop: 12,
+    // marginBottom: 8
   },
   editor: {
     border: '1px solid',
