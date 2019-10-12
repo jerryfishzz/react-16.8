@@ -51,3 +51,10 @@
                     <ProgressingBar key={currentQuestionNumber} />
                   </Grid>
                 </Grid>
+          
+<Grid container direction="column">
+  <Typography variant="subtitle1">
+    Items with * are required.
+  </Typography>
+  <Form />
+</Grid>

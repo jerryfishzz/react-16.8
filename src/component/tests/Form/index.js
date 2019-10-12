@@ -2,7 +2,9 @@ import React from "react";
 import { 
   withStyles,
   Typography,
-  TextField
+  TextField,
+  Grid,
+  Paper
 } from '@material-ui/core';
 import * as R from 'ramda'
 import AnswerForm from './AnswerForm';
@@ -10,6 +12,7 @@ import classNames from 'classnames';
 import { EditorState, convertToRaw } from "draft-js";
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
+import { red } from '@material-ui/core/colors';
 
 import Tags from './Tags';
 import CreateSnackbar from '../Snackbar'
@@ -344,63 +347,68 @@ class Form extends React.Component {
     }
 
     return (
-      <form 
-        className={classes.container}
-        style={paddingRight ? {paddingRight: paddingRight} : null}
-      >
-        <div className={classes.background}>
-          <Typography> 
-            <span className={classes.required}>Question</span>*
-          </Typography>
+      <Grid container direction="column">
+        <Grid item className={classes.item}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1"> 
+              <span className={classes.required}>Question</span><span className={classes.astra}>*</span>
+            </Typography>
+            <DraftEditor 
+              contents={question} 
+              handleDraftChange={handleQuestionChange}
+            />
+          </Paper>
+        </Grid>
 
-          <DraftEditor 
-            contents={question} 
-            handleDraftChange={handleQuestionChange}
-          />
-        </div>
-        
-        <div className={classes.background}>
-          <Typography> 
-            <span className={classes.required}>Display Title</span>*
-          </Typography>
-          <TextField
-            margin="normal"
-            fullWidth
-            variant="outlined"
-            className={classes.white}
-            value={title}
-            onChange={this.handleChange('title')}
-          />
-        </div>
+        <Grid item className={classes.item}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1"> 
+              <span className={classes.required}>Title</span>
+            </Typography>
+            <TextField
+              margin="normal"
+              fullWidth
+              variant="outlined"
+              className={classes.field}
+              value={title}
+              onChange={this.handleChange('title')}
+            />
+          </Paper>
+        </Grid>
 
-        <div className={classes.background}> 
-          <Tags 
-            ownedTags={tags} 
-            onTagChange={this.onTagChange}
-          />
-        </div>
+        <Grid item className={classes.item}>
+          <Paper className={classes.paper}>
+            <Tags 
+              ownedTags={tags} 
+              onTagChange={this.onTagChange}
+            />
+          </Paper>
+        </Grid>
 
-        <div className={classNames(classes.background, classes.lower)}>
-          <AnswerForm 
-            answers={answers}
-            isNewlyCreated={isNewlyCreated}
-            onAnswerChange={this.onAnswerChange}
-            onDelete={this.onDelete}
-            onNewAnswer={this.onNewAnswer}
-            countsOfAnswer={countsOfAnswer}
-          />
-        </div>
+        <Grid item className={classes.item}>
+          <Paper className={classes.paper}>
+            <AnswerForm 
+              answers={answers}
+              isNewlyCreated={isNewlyCreated}
+              onAnswerChange={this.onAnswerChange}
+              onDelete={this.onDelete}
+              onNewAnswer={this.onNewAnswer}
+              countsOfAnswer={countsOfAnswer}
+            />
+          </Paper>
+        </Grid>
 
-        <div className={classes.background}>
-          <Typography> 
-            Other Notes
-          </Typography>
-
-          <DraftEditor 
-            contents={this.state.test.data.otherNotes} 
-            handleDraftChange={handleOtherNotesChange}
-          />
-        </div>
+        <Grid item className={classes.item}>
+          <Paper className={classes.paper}>
+            <Typography variant="subtitle1"> 
+              Other Notes
+            </Typography>
+            <DraftEditor 
+              contents={this.state.test.data.otherNotes} 
+              handleDraftChange={handleOtherNotesChange}
+            />
+          </Paper>
+        </Grid>
 
         <CreateSnackbar 
           handleSubmit={this.handleSubmit}
@@ -409,7 +417,7 @@ class Form extends React.Component {
           initializeFromContent={this.initializeFromContent}
           editedQuestion={editedQuestion}
         />
-      </form>
+      </Grid>
     )
   }
 }
@@ -443,12 +451,33 @@ const mapStateToProps = (
 }
 
 const styles = theme => ({
+  item: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1)
+  },
+  paper: {
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.default
+  },
+  required: {
+    marginRight: theme.spacing(0.5)
+  },
+  astra: {
+    color: red[500]
+  },
+  field: {
+    backgroundColor: theme.palette.background.paper
+  },
+
+
+
+
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    height: 'calc(100% - 39.6px - 28px)',
-    overflowY: 'auto',
+    // height: 'calc(100% - 39.6px - 28px)',
   },
+
   textField: {
     width: '50%',
   },
@@ -468,9 +497,7 @@ const styles = theme => ({
   lower: {
     zIndex: 0
   },
-  required: {
-    marginRight: 3
-  },
+  
   form: {
     height: 500,
     overflowY: 'auto',
@@ -478,9 +505,7 @@ const styles = theme => ({
   createBtn: {
     marginTop: 10
   },
-  white: {
-    backgroundColor: 'white'
-  },
+  
   draftContent: {
     width: '100%',
     margin: '0 auto'

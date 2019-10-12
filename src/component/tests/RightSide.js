@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Grid, makeStyles, Typography } from '@material-ui/core'
 import { connect } from 'react-redux'
+import { red } from '@material-ui/core/colors';
 
 import Form from './Form'
 import Notes from './Notes'
@@ -12,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   contentWidth: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '75%'
+      width: '85%'
     }
   },
   titleContainer: {
@@ -21,17 +22,9 @@ const useStyles = makeStyles(theme => ({
   itemQuestion: {
     overflowY: 'auto'
   },
-  bottomContainer: {
-    marginTop: theme.spacing(3)
-  },
-  navBtn: {
-    '&:hover': {
-      backgroundColor: 'transparent'
-    }
-  },
-  submitBtn: {
-    width: '95%'
-  },
+  astra: {
+    color: red[500]
+  }
 }))
 
 function RightSide(props) {
@@ -60,8 +53,8 @@ function RightSide(props) {
       <Grid item xs className={`${classes.itemQuestion} ${classes.contentWidth}`}>
         {editQuestion
           ? <Fragment>
-              <Typography variant="subtitle1">
-                Items with * are required.
+              <Typography variant="subtitle1" gutterBottom>
+                Items with <span className={classes.astra}>*</span> are required.
               </Typography>
               <Form />
             </Fragment>
