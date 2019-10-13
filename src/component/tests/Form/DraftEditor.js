@@ -1,27 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { RichUtils } from 'draft-js';
 import clearFormatting from 'draft-js-clear-formatting'
 import Editor from 'draft-js-plugins-editor'
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, Grid } from '@material-ui/core';
 
-const useStyles = makeStyles({
-  root: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400,
-  },
-  draftContent: {
-    flex: 1,
-    // marginTop: 12,
-    // marginBottom: 8
-  },
+const useStyles = makeStyles(theme => ({
   editor: {
     border: '1px solid',
     padding: 10,
     borderRadius: 4,
-    backgroundColor: 'white'
+    backgroundColor: theme.palette.background.paper
   },
   btn: {
     background: '#999',
@@ -36,8 +25,7 @@ const useStyles = makeStyles({
       background: '#888',
     }
   },
-  
-});
+}));
 
 export default function DraftEditor(props) {
   const classes = useStyles();
@@ -68,32 +56,33 @@ export default function DraftEditor(props) {
   }
 
   return (
-    <Fragment>
-      <div className={classes.draftContent}>
-        <div className={classes.editor}>
+    
+    <Grid container direction="column" className={classes.editor}>
+      <Grid item>
+        <button 
+          onClick={onUnderlineClick}
+          className={classes.btn}
+        >
+          Underline
+        </button>
+
+        <Tooltip title="CTRL+J">
           <button 
-            onClick={onUnderlineClick}
+            onClick={onToggleCode}
             className={classes.btn}
           >
-            Underline
+            Code Block
           </button>
+        </Tooltip>
+      </Grid>
 
-          <Tooltip title="CTRL+J">
-            <button 
-              onClick={onToggleCode}
-              className={classes.btn}
-            >
-              Code Block
-            </button>
-          </Tooltip>
-
-          <Editor
-            editorState={props.contents}
-            onChange={onChange}
-            handleKeyCommand={handleKeyCommand}
-          />
-        </div>
-      </div>
+      <Grid item>
+        <Editor
+          editorState={props.contents}
+          onChange={onChange}
+          handleKeyCommand={handleKeyCommand}
+        />
+      </Grid>
       <style type="text/css">
         {`
         pre {
@@ -111,6 +100,8 @@ export default function DraftEditor(props) {
         }
         `}
       </style>
-    </Fragment>
+    </Grid>
+      
+    
   );
 }

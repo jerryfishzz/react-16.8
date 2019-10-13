@@ -24,7 +24,7 @@ import {
 import TablePaginationActions from './TablePaginationActions'
 import CreateDialog from '../Dialog'
 import Search from './Search';
-import { Loading, ErrorFound, Info } from '../../layouts';
+import { Loading, ErrorFound } from '../../layouts';
 import { stopLoading, getError, resetAppStatus } from '../../../actions/appStatus';
 
 const useStyles = makeStyles(({
