@@ -106,11 +106,6 @@ const CreateQuestionList = (props) => {
     return <ErrorFound error={errorGenerator(errorFromAPI)} />
   }
 
-  if (!totalQuestions) {
-    const info = 'No questions in this test'
-    return <Info info={info} />
-  }
-
   return (
     <Grid container justify="center">
       <Grid item className={classes.tableContainer}>
