@@ -46,7 +46,7 @@ const styles = theme => ({
     color: red[500]
   },
   field: {
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
 });
 
@@ -367,31 +367,33 @@ class Form extends React.Component {
 
     return (
       <Grid container direction="column">
-        <Grid item className={classes.item}>
+        <Grid item className={classes.item} style={{width: '100%'}}>
           <Paper className={classes.paper}>
-            <Typography variant="subtitle1"> 
-              <span className={classes.required}>Question</span><span className={classes.astra}>*</span>
-            </Typography>
-            <DraftEditor 
-              contents={question} 
-              handleDraftChange={handleQuestionChange}
-            />
+            <Grid container direction="column">
+              <Typography variant="subtitle1"> 
+                <span className={classes.required}>Question</span><span className={classes.astra}>*</span>
+              </Typography>
+              <DraftEditor 
+                contents={question} 
+                handleDraftChange={handleQuestionChange}
+              />
+            </Grid>
           </Paper>
         </Grid>
 
-        <Grid item className={classes.item}>
+        <Grid item className={classes.item} style={{width: '100%'}}>
           <Paper className={classes.paper}>
-            <Typography variant="subtitle1"> 
-              <span className={classes.required}>Title</span>
-            </Typography>
-            <TextField
-              margin="normal"
-              fullWidth
-              variant="outlined"
-              className={classes.field}
-              value={title}
-              onChange={this.handleChange('title')}
-            />
+            <Grid container direction="column">
+              <Typography variant="subtitle1"> 
+                <span className={classes.required}>Title</span>
+              </Typography>
+              <TextField
+                variant="outlined"
+                className={classes.field}
+                value={title}
+                onChange={this.handleChange('title')}
+              />
+            </Grid>
           </Paper>
         </Grid>
 
@@ -419,13 +421,15 @@ class Form extends React.Component {
 
         <Grid item className={classes.item}>
           <Paper className={classes.paper}>
-            <Typography variant="subtitle1"> 
-              Other Notes
-            </Typography>
-            <DraftEditor 
-              contents={this.state.test.data.otherNotes} 
-              handleDraftChange={handleOtherNotesChange}
-            />
+            <Grid container direction="column">
+              <Typography variant="subtitle1"> 
+                Other Notes
+              </Typography>
+              <DraftEditor 
+                contents={this.state.test.data.otherNotes} 
+                handleDraftChange={handleOtherNotesChange}
+              />
+            </Grid>
           </Paper>
         </Grid>
 
