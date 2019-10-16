@@ -33,10 +33,6 @@ const styles = theme => ({
   }
 });
 
-function createRedAstra() {
-  return <span style={{color: 'red'}}>*</span>
-}
-
 class CreateDialog extends Component {
   handleClose = () => {
     this.props.onClose()
