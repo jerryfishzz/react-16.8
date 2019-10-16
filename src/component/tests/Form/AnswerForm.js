@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { 
   Typography,
   FormControl,
@@ -11,11 +11,6 @@ import {
   Avatar,
   Paper,
   useMediaQuery,
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogContentText, 
-  DialogActions,
 } from '@material-ui/core';
 import { getTheAlphanumericOrder } from '../../../utils/helpers';
 import { indigo, red } from '@material-ui/core/colors';
@@ -88,26 +83,6 @@ const AnswerForm = ({
   const matchXl = useMediaQuery(theme.breakpoints.up('xl'));
   const matchLg = useMediaQuery(theme.breakpoints.up('lg'));
 
-  const [currentAnswer, setCurrentAnswer] = useState({})
-  const [currentIndex, setCurrentIndex] = useState(-1)
-
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = (index, answer) => {
-    setCurrentIndex(index)
-    setCurrentAnswer(answer)
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleDelete = () => {
-    onDelete(currentIndex, currentAnswer.id)
-    handleClose()
-  }
-
   const answerContent = answers.map((a, i) => {
     const orderCode = getTheAlphanumericOrder(i)
 
@@ -134,7 +109,7 @@ const AnswerForm = ({
                 </Avatar>
                 {answers.length > 1
                   ? <Button 
-                      onClick={() => handleClickOpen(i, a)} 
+                      onClick={() => onDelete(i, a.id)} 
                       color="secondary"
                       size="small"
                       className={isNewlyCreated
@@ -224,28 +199,6 @@ const AnswerForm = ({
       <Grid item container direction="column">
         {answerContent}
       </Grid>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle>Delete Question</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure to delete this question?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            No
-          </Button>
-          <Button 
-            onClick={handleDelete} 
-            color="secondary" 
-          >
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Grid>
   )
 }
