@@ -11,6 +11,7 @@ import {
   Grid
 } from '@material-ui/core';
 import { ExitToApp } from '@material-ui/icons';
+import { red } from '@material-ui/core/colors';
 
 import Form from './Form'
 
@@ -26,8 +27,15 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     }
+  },
+  astra: {
+    color: red[500]
   }
 });
+
+function createRedAstra() {
+  return <span style={{color: 'red'}}>*</span>
+}
 
 class CreateDialog extends Component {
   handleClose = () => {
@@ -75,12 +83,14 @@ class CreateDialog extends Component {
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {comeFrom === 'header' 
-              ? 'Please fill out the form below. Items with * are required.'
-              : 'Items with * are required.'
-            }
-          </DialogContentText>
+          {comeFrom === 'header' 
+            ? <DialogContentText>
+                Please fill out the form below. Items with <span className={classes.astra}>*</span> are required.
+              </DialogContentText>
+            : <DialogContentText>
+                Items with <span className={classes.astra}>*</span> are required.
+              </DialogContentText>
+          }
           <div className={classes.form}>
             <Form 
               suggestions={suggestions}
