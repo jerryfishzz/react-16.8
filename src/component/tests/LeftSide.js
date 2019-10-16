@@ -5,6 +5,11 @@ import {
   IconButton,
   Button,
   makeStyles,
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogContentText, 
+  DialogActions,
 } from '@material-ui/core'
 import { 
   Edit, 
@@ -73,10 +78,21 @@ function LeftSide(props) {
     getError
   } = props
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   // This should be used to prevent this question being chosen again from database. 
   // Implement the simple delete first. Later will work on the above requiremnet.
   const handleDelete = id => {
     handleRemoveQuestionFromWp(id, postType)
+      .then(handleClose)
       .catch(err => {
         getError(err)
         // alert(err)
@@ -84,7 +100,13 @@ function LeftSide(props) {
   }
 
   return (
-    <Grid container direction="column" alignItems="center" spacing={3} className={classes.columnContainer}>
+    <Grid 
+      container 
+      direction="column" 
+      alignItems="center" 
+      spacing={3} 
+      className={classes.columnContainer}
+    >
       <Grid 
         item 
         container 
@@ -105,10 +127,32 @@ function LeftSide(props) {
         </IconButton>
         <IconButton 
           color='secondary' 
-          onClick={() => handleDelete(currentQuestion.id)}
+          onClick={handleClickOpen}
         >
           <Delete />
         </IconButton>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+        >
+          <DialogTitle>Delete Question</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Are you sure to delete this question?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              No
+            </Button>
+            <Button 
+              onClick={() => handleDelete(currentQuestion.id)} 
+              color="secondary" 
+            >
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Grid>	
 
       <Grid 
