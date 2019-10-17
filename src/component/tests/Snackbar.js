@@ -15,6 +15,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 import { getError } from '../../actions/appStatus';
+import { openBar, closeBar } from '../../actions/snackBar';
+import SnackBar from '../layouts/SnackBar';
 
 const styles = theme => ({
   close: {
@@ -36,24 +38,35 @@ class CreateSnackbar extends React.Component {
   }
 
   handleConfirm = async () => {
+    const { 
+      openBar, 
+      handleSubmit, 
+      getError, 
+      initializeFromContent, 
+      currentQuestion,
+      isNewlyCreated
+    } = this.props
+
     this.toggleSubmitting()
 
     try {
-      await this.props.handleSubmit()
+      await handleSubmit()
 
       this.setState({ 
-        open: true,
         isSubmitting: false,
         dialogOpen: false
       });
+
+      const message= !isNewlyCreated
+        ? "Question has been editted."
+        : "Question has been submitted."
+
+      openBar(message)
     } catch(err) {
-      // alert(err)
-      this.props.getError(err)
+      openBar(err)
+      getError(err)
       this.toggleSubmitting()
-      this.setState({ 
-        open: false,
-      });
-      this.props.initializeFromContent(this.props.currentQuestion)
+      initializeFromContent(currentQuestion)
     }
   };
 
@@ -117,30 +130,7 @@ class CreateSnackbar extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          open={this.state.open}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
-          message={
-            !isNewlyCreated
-              ? "Question has been editted."
-              : "Question has been submitted."
-          }
-          action={[
-            <IconButton
-              key="close"
-              color="inherit"
-              className={classes.close}
-              onClick={this.handleClose}
-            >
-              <CloseIcon />
-            </IconButton>,
-          ]}
-        />
+        <SnackBar />
       </div>
     );
   }
@@ -171,5 +161,5 @@ CreateSnackbar.propTypes = {
 
 export default withRouter(connect(
   mapStateToProps,
-  { getError }
+  { getError, openBar, closeBar }
 )(withStyles(styles)(CreateSnackbar)));
