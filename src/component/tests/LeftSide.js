@@ -30,6 +30,8 @@ import Question from './Question'
 import { toggleEdit } from '../../actions/test/editQuestion'
 import { getType, BLANK_POSTTYPE } from '../../utils/helpers'
 import { getError } from '../../actions/appStatus'
+import { openBar } from '../../actions/snackBar'
+import SnackBar from '../layouts/SnackBar'
 
 const useStyles = makeStyles(theme => ({
   columnContainer: {
@@ -75,7 +77,8 @@ function LeftSide(props) {
     toggleEdit,
     postType,
     handleRemoveQuestionFromWp,
-    getError
+    getError,
+    openBar
   } = props
 
   const [open, setOpen] = React.useState(false);
@@ -92,7 +95,12 @@ function LeftSide(props) {
   // Implement the simple delete first. Later will work on the above requiremnet.
   const handleDelete = id => {
     handleRemoveQuestionFromWp(id, postType)
-      .then(handleClose)
+      .then(res => {
+        handleClose()
+
+        const message = 'The question has been deleted.'
+        openBar(message)
+      })
       .catch(err => {
         getError(err)
         // alert(err)
@@ -153,6 +161,7 @@ function LeftSide(props) {
             </Button>
           </DialogActions>
         </Dialog>
+        <SnackBar />
       </Grid>	
 
       <Grid 
@@ -239,6 +248,7 @@ export default withRouter(connect(
     handleSubmitQuestion, 
     toggleEdit,
     handleRemoveQuestionFromWp,
-    getError
+    getError,
+    openBar
   }
 )(LeftSide))
