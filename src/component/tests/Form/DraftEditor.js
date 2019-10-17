@@ -10,7 +10,8 @@ const useStyles = makeStyles(theme => ({
     border: '1px solid',
     padding: 10,
     borderRadius: 4,
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    overflowX: 'auto'
   },
   btn: {
     background: '#999',
