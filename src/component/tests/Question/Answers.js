@@ -27,7 +27,28 @@ const styles = {
   },
   listItemIcon: {
     justifyContent: 'center'
-  }
+  },
+  root: {
+    marginTop: 4,
+    marginBottom: 4,
+    border: '1px solid transparent',
+    borderRadius: 4,
+    '&$selected': {
+      border: '1px solid #3f51b5',
+      backgroundColor: 'transparent',
+      '&:hover': {
+        backgroundColor: 'transparent'
+      }
+    },
+  },
+  button: {
+    '&$selected': {
+      '&:hover': {
+        backgroundColor: 'rgba(0, 0, 0, 0.08)',
+      }
+    }
+  },
+  selected: {}
 };
 
 class Answers extends React.Component {
@@ -47,7 +68,7 @@ class Answers extends React.Component {
   }
 
   render() {
-    const { clickAnswer, currentQuestion } = this.props;
+    const { clickAnswer, currentQuestion, classes } = this.props;
     
     return (
       <List component="nav">
@@ -61,6 +82,11 @@ class Answers extends React.Component {
                 ? null 
                 : () => clickAnswer(currentQuestion.id, i)
               }
+              classes={{
+                root: classes.root,
+                selected: classes.selected,
+                button: classes.button
+              }}
             >
               <ListItemText 
                 primary={
