@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   Button,
   Dialog, 
@@ -75,12 +75,12 @@ class ActionButton extends React.Component {
     const { isSubmitting, dialogOpen } = this.state
     
     return (
-      <div>
+      <Fragment>
         <Button 
           fullWidth
           color="primary" 
           variant="contained" 
-          onClick={this.handleClickOpen}
+          onClick={!isNewlyCreated ? this.handleClickOpen : this.handleConfirm}
           disabled={!isFormValidate || isSubmitting}
         >
           {!isNewlyCreated ? "Edit" : "Create" }
@@ -89,13 +89,10 @@ class ActionButton extends React.Component {
           open={dialogOpen}
           onClose={this.handleDialogClose}
         >
-          <DialogTitle>{!isNewlyCreated ? "Edit " : "Create "}Question</DialogTitle>
+          <DialogTitle>Edit Question</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {!isNewlyCreated 
-                ? "This will update all the modifications to the server. Are you sure to proceed?" 
-                : "The question will be added to the server. Are you sure to proceed?"
-              }
+              This action will update all the modifications to the server. Are you sure to proceed?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -111,7 +108,7 @@ class ActionButton extends React.Component {
           </DialogActions>
         </Dialog>
         <SnackBar />
-      </div>
+      </Fragment>
     );
   }
 }
