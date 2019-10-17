@@ -1,32 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import {
   Button,
-  Snackbar,
-  IconButton,
   Dialog, 
   DialogTitle, 
   DialogContent, 
   DialogContentText, 
   DialogActions,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 import { getError } from '../../actions/appStatus';
 import { openBar, closeBar } from '../../actions/snackBar';
 import SnackBar from '../layouts/SnackBar';
 
-const styles = theme => ({
-  close: {
-    padding: theme.spacing(0.5),
-  },
-});
-
-class CreateSnackbar extends React.Component {
+class ActionButton extends React.Component {
   state = {
-    open: false,
     isSubmitting: false,
     dialogOpen: false
   };
@@ -70,14 +58,6 @@ class CreateSnackbar extends React.Component {
     }
   };
 
-  handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    this.setState({ open: false });
-  };
-
   toggleSubmitting = () => {
     this.setState(({ isSubmitting }) => ({
       isSubmitting: !isSubmitting
@@ -91,7 +71,7 @@ class CreateSnackbar extends React.Component {
   }
 
   render() {
-    const { classes, isFormValidate, isNewlyCreated } = this.props;
+    const { isFormValidate, isNewlyCreated } = this.props;
     const { isSubmitting, dialogOpen } = this.state
     
     return (
@@ -155,11 +135,7 @@ const mapStateToProps = (
   }
 }
 
-CreateSnackbar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
 export default withRouter(connect(
   mapStateToProps,
   { getError, openBar, closeBar }
-)(withStyles(styles)(CreateSnackbar)));
+)(ActionButton));

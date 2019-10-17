@@ -14,7 +14,7 @@ import { withRouter } from 'react-router-dom';
 import { red } from '@material-ui/core/colors';
 
 import Tags from './Tags';
-import CreateSnackbar from '../Snackbar'
+import ActionButton from '../ActionButton'
 import {  
   handleCreateQuestion, 
   handleCreateQuestionToWp, 
@@ -434,7 +434,7 @@ class Form extends React.Component {
         </Grid>
 
         <Grid item className={classes.item}>
-          <CreateSnackbar 
+          <ActionButton 
             handleSubmit={this.handleSubmit}
             isFormValidate={isFormValidate}
             isNewlyCreated={isNewlyCreated}
