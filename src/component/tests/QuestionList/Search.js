@@ -1,29 +1,42 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { searchRecords, handleGetList } from '../../../actions/questionList';
 import { getType } from '../../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { getError } from '../../../actions/appStatus';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    padding: '2px 2px 2px 12px',
-    display: 'flex',
-    alignItems: 'center',
-    width: 320,
+  search: {
     border: '1px solid rgba(224, 224, 224, 0.5)',
-    borderRadius: 24
+    position: 'relative',
+    borderRadius: 24,
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.black, 0.08),
+    },
   },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
+  inputRoot: {
+    color: 'inherit',
   },
-  iconButton: {
-    padding: 4,
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 5),
+    transition: theme.transitions.create('width'),
+    [theme.breakpoints.up('sm')]: {
+      width: 120,
+      '&:focus': {
+        width: 200,
+      },
+    },
+  },
+  searchIcon: {
+    width: theme.spacing(5),
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    pointerEvents: 'none',
   },
 }));
 
@@ -40,17 +53,28 @@ function Search({ postType, searchRecords, handleGetList, getError }) {
   }
 
   return (
-    <div className={classes.root}>
-      <InputBase
-        className={classes.input}
-        placeholder="Search"
-        inputProps={{ 'aria-label': 'search' }}
-        onChange={handleChange}
-      />
-      <IconButton className={classes.iconButton} aria-label="search">
+    <Grid container className={classes.search}>
+      <Grid item xs>
+        <InputBase
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput
+          }}
+          placeholder="Search"
+          onChange={handleChange}
+          fullWidth
+        />
+      </Grid>
+      <Grid 
+        item 
+        container 
+        alignItems="center" 
+        justify="center" 
+        className={classes.searchIcon}
+      >
         <SearchIcon />
-      </IconButton>
-    </div>
+      </Grid>
+    </Grid>
   );
 }
 

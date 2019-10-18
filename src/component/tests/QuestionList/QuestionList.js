@@ -116,7 +116,7 @@ const CreateQuestionList = (props) => {
         >
           <Grid item xs>
             <Typography variant='h5'>
-              {!isLoading ? 'Question List' : 'Loading'}
+              Question List
             </Typography>
           </Grid>
           <Grid item>
