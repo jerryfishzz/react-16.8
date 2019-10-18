@@ -54,7 +54,7 @@ function Search({ postType, searchRecords, handleGetList, getError }) {
 
   return (
     <Grid container className={classes.search}>
-      <Grid item xs>
+      <Grid item>
         <InputBase
           classes={{
             root: classes.inputRoot,

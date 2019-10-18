@@ -10,10 +10,12 @@ import {
   TableBody, 
   TableFooter,
   TablePagination,
+  useMediaQuery
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { useTheme } from '@material-ui/core/styles';
 
 import { getType, errorGenerator, BLANK_POSTTYPE } from '../../../utils/helpers'
 import { 
@@ -100,6 +102,9 @@ const CreateQuestionList = (props) => {
     setSelected(null)
   };
 
+  const theme = useTheme();
+  const matchSm = useMediaQuery(theme.breakpoints.up('sm'));
+
   if (isLoading) return <Loading />
 
   if (errorFromAPI === 404 || errorFromAPI === 999) {
@@ -111,11 +116,12 @@ const CreateQuestionList = (props) => {
       <Grid item className={classes.tableContainer}>
         <Grid 
           container 
-          alignItems="center" 
+          alignItems={matchSm ? 'center' : 'stretch'}
           className={classes.titleContainer}
+          direction={matchSm ? 'row' : 'column'}
         >
           <Grid item xs>
-            <Typography variant='h5'>
+            <Typography variant='h5' gutterBottom={!matchSm}>
               Question List
             </Typography>
           </Grid>
