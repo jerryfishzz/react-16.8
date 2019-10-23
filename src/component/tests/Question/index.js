@@ -5,51 +5,30 @@ import { connect } from 'react-redux'
 import { Editor } from "draft-js";
 import { getEditorStateFromContent } from "../../../utils/helpers";
 
+
+const styles = {
+	question: {
+    overflowX: 'auto',
+	}
+}
+
 const Question = ({ classes, currentQuestion }) => {
   return (
     <Grid container direction="column">
-      <Typography
-        variant="subtitle1"
-      >
-        <Editor
-          editorState={getEditorStateFromContent(currentQuestion.data.question)}
-          readOnly={true}
-        />
-      </Typography>
-      <Answers />
-      <style type="text/css">
-        {`
-        pre {
-          border: 1px solid #ccc;
-          background: #f0f0f0;
-          border-radius: .2em;
-          padding: .5em;
-          margin: 0;
-        }
-
-        pre > pre {
-          background: none;
-          border: none;
-          padding: 0;
-        }
-        `}
-      </style>
+      <Grid item className={classes.question}>
+        <Typography variant="subtitle1">
+          <Editor
+            editorState={getEditorStateFromContent(currentQuestion.data.question)}
+            readOnly={true}
+          />
+        </Typography>
+      </Grid>
+      <Grid item>
+        <Answers />
+      </Grid>
     </Grid>
   )
 }
-
-const styles = theme => ({
-	question: {
-    // [theme.breakpoints.up('sm')]: {
-    //   height: '100%',
-    // },
-		// [theme.breakpoints.down('xs')]: {
-    //   height: '45%',
-    // },
-    
-    // overflowY: 'auto',
-	}
-})
 
 const mapStateToProps = ({ 
   test: { currentQuestionNumber, testQuestions } 

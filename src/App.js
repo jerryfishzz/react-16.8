@@ -13,6 +13,7 @@ import { getError, stopLoading } from './actions/appStatus';
 import LoadingPage from './pages/LoadingPage';
 import NetworkErrorPage from './pages/NetworkErrorPage';
 import { errorGenerator } from './utils/helpers';
+import './App.css'
 
 const styles = ({
 	'@global': {

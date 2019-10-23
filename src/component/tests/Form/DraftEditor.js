@@ -84,23 +84,7 @@ export default function DraftEditor(props) {
           handleKeyCommand={handleKeyCommand}
         />
       </Grid>
-      <style type="text/css">
-        {`
-        pre {
-          border: 1px solid #ccc;
-          background: #f0f0f0;
-          border-radius: .2em;
-          padding: .5em;
-          margin: 0;
-        }
-
-        pre > pre {
-          background: none;
-          border: none;
-          padding: 0;
-        }
-        `}
-      </style>
+      
     </Grid>
       
     
