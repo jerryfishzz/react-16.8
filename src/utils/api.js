@@ -69,9 +69,7 @@ export function getQuestionsForList(postType) {
 
 export function getQuestionsForListAxios(postType, offset, perPage, search) {
   return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?search=${search}&offset=${offset}&per_page=${perPage}`)
-    .then(response => {
-      return response
-    }, function(err) {
+    .catch(err => {
       if (err.response) throw err.response.status
       return handleNetworkError(err)
     })
@@ -175,17 +173,8 @@ export function removeAnswerFromWp(id) {
 
 export function getQuestionFromWp(postType, id) {
   return Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}/${id}`) 
-    .then(response => {
-      return response
-    }, function(err) {
+    .catch(err => {
+      if (err.response) throw err.response.status
       return handleNetworkError(err)
     })
-    .catch(function (error) {
-      console.log(error)
-      if (error.response) {
-        throw error.response.status
-      } 
-
-      if(error === 999) throw error
-    });
 }
