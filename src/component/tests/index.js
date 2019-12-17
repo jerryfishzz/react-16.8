@@ -76,7 +76,8 @@ class Tests extends Component {
     } = this.props 
 
     // Wrong parameter for post type
-    if (errorFromAPI === 404 || 400) {
+    if (errorFromAPI === 404 || errorFromAPI === 400) {
+      console.log(890)
       return <WrongParams error={errorGenerator(errorFromAPI)} />
     }
 

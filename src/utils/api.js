@@ -56,7 +56,7 @@ export function getToken() {
 }
 
 export function getQuestionsFromWordPress(postType) {
-  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=50&orderby=rand`) // orderby can make sure the 50 questions won't be always the same 50 questions
+  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=50&orderby=id`) // orderby can make sure the 50 questions won't be always the same 50 questions
     .then(handleErrors, handleNetworkError)
     .then(response => response.json())
 }
