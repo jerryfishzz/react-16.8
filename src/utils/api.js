@@ -1,3 +1,5 @@
+import * as R from 'ramda'
+
 import { 
   _getQuestions, 
   _getTags, 
@@ -55,10 +57,42 @@ export function getToken() {
     .then(res => res.token)
 }
 
-export function getQuestionsFromWordPress(postType) {
-  return fetch(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=50&orderby=id`) // orderby can make sure the 50 questions won't be always the same 50 questions
-    .then(handleErrors, handleNetworkError)
-    .then(response => response.json())
+// Get all the posts of postType from the server
+export async function getQuestionsFromWordPress(postType) {
+  try {
+    const perPage = 100
+    const { data, headers } = await Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?per_page=${perPage}`)
+
+    const firstPageData = data
+    const totalPages = Number(headers['x-wp-totalpages'])
+
+    let restPages = []
+    for (var i = 1; i < totalPages; i++) {
+      restPages.push(i)
+    }
+
+    const fromPagesToOffsets = p => p * perPage
+    const getPageOffsets = R.map(fromPagesToOffsets)
+
+    const requestDataWithOffset = offset => 
+      Axios.get(`${WP_SERVER}/wp-json/wp/v2/${postType}?offset=${offset}&per_page=${perPage}`)
+    const generatePromisesForRestPagesData = R.map(requestDataWithOffset)
+
+    const getRestPagesPromises = R.pipe(getPageOffsets, generatePromisesForRestPagesData)
+    const restPagesPromises = getRestPagesPromises(restPages)
+    const restPagesResponses = await Promise.all(restPagesPromises)
+
+    const selectRestPagesData = R.map(R.prop('data'))
+    const concatTwoPagesData = (a, b) => R.concat(a)(b)
+    const concatFirstPageDataWithOtherPages = R.reduce(concatTwoPagesData, firstPageData)
+    const getAllPagesData = R.pipe(selectRestPagesData, concatFirstPageDataWithOtherPages)
+    const allPagesData = getAllPagesData(restPagesResponses)
+
+    return allPagesData
+  } catch (err) {
+    if (err.response) throw err.response.status
+    return handleNetworkError(err)
+  }
 }
 
 export function getQuestionsForList(postType) {

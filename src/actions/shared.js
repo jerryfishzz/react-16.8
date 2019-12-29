@@ -19,7 +19,9 @@ export function initializeAppFromWordPress(cb = null, postType) {
     try {
       dispatch(handleResetTest())
 
-      let [questions, tags] = await getInitialDataFromWordPress(postType) // Get at most 50 random-ordered questions
+      // Get tags and all the records of the postType
+      let [questions, tags] = await getInitialDataFromWordPress(postType) 
+
       let questionsForTest = []
       
       if (questions.length) {
@@ -27,7 +29,8 @@ export function initializeAppFromWordPress(cb = null, postType) {
 
         // an array of objects
         const formattedQuestionArray = 
-          Object.keys(questions).map(id => formatQuestion(questions[id])) // Object.key will order elements ascendingly by their keys
+          Object.keys(questions).map(id => formatQuestion(questions[id])) 
+          // Object.key will order elements ascendingly by their keys
 
         const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
         
