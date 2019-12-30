@@ -57,7 +57,8 @@ export function formatQuestionsFromWordPress(questions) {
       question: cur.acf.title,
       title: cur.title.rendered,
       tags: cur.acf.tags !== '' ? cur.acf.tags.split(',') : [],
-      otherNotes: cur.acf.other_notes
+      otherNotes: cur.acf.other_notes,
+      modified_gmt: cur.modified_gmt
     }
   })
   return questions.reduce(reducer, {})

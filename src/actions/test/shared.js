@@ -6,7 +6,7 @@ import {
 } from "./currentQuestionNumber";
 import { resetEdit } from "./editQuestion";
 import { removeQuestion, submitQuestion, createQuestion, resetTestquestions } from "./testQuestions";
-import { removeQuestionFromWp } from "../../utils/api";
+import { removeQuestionFromWp, getQuestionFromWp } from "../../utils/api";
 
 export function handleNext() {
   return dispatch => {
@@ -30,7 +30,7 @@ export function handleSubmitQuestion(id) {
 }
 
 export function handleRemoveQuestionFromWp(id, postType) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]
@@ -47,11 +47,20 @@ export function handleRemoveQuestionFromWp(id, postType) {
       dispatch(shrinkFromDelete())
     }
 
-    return removeQuestionFromWp(id, postType)
-      .catch(err => {
-        dispatch(createQuestion(currentQuestion))
-        throw err
-      })
+    try {
+      const { data } = await getQuestionFromWp(postType, id)
+
+      if (currentQuestion.data.modified_gmt === data.modified_gmt) {
+        return removeQuestionFromWp(id, postType)
+          .catch(err => {
+            dispatch(createQuestion(currentQuestion))
+            throw err
+          })
+      }
+    } catch (err) {
+      if (err !== 401) dispatch(createQuestion(currentQuestion))
+      throw err
+    }
   }
 }
 
