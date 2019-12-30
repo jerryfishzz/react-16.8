@@ -7,6 +7,7 @@ import {
 import { resetEdit } from "./editQuestion";
 import { removeQuestion, submitQuestion, createQuestion, resetTestquestions } from "./testQuestions";
 import { removeQuestionFromWp, getQuestionFromWp } from "../../utils/api";
+import { startDeleting } from "../appStatus";
 
 export function handleNext() {
   return dispatch => {
@@ -31,6 +32,8 @@ export function handleSubmitQuestion(id) {
 
 export function handleRemoveQuestionFromWp(id, postType) {
   return async (dispatch, getState) => {
+    dispatch(startDeleting())
+
     const { test: { testQuestions } } = getState()
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]

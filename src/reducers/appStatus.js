@@ -1,9 +1,21 @@
-import { STOP_LOADING, GET_ERROR, RESET_APPSTATUS } from "../actions/appStatus"
+import { 
+  STOP_LOADING, 
+  GET_ERROR, 
+  RESET_APPSTATUS, 
+  START_EDITING, 
+  START_DELETING, 
+  RESET_USER_BEHAVIOR
+} from "../actions/appStatus"
+
+const BROWSING = 'Browsing'
+const DELETING = 'Deleting'
+const EDITING = 'Editing'
 
 const initialAppStatus = {
   isLoading: true,
   errorFromAPI: 0,
   networkError: false,
+  userBehavior: BROWSING
 }
 
 export default function appStatus(state = initialAppStatus, action) {
@@ -20,6 +32,21 @@ export default function appStatus(state = initialAppStatus, action) {
       }
     case RESET_APPSTATUS:
       return initialAppStatus
+    case START_EDITING:
+      return {
+        ...state,
+        userBehavior: EDITING
+      }
+    case START_DELETING:
+      return {
+        ...state,
+        userBehavior: DELETING
+      }
+    case RESET_USER_BEHAVIOR:
+      return {
+        ...state,
+        userBehavior: BROWSING
+      }
     default:
       return state
   }
