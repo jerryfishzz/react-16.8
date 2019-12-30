@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import dateTime from 'date-time'
 
 import { 
   _getQuestions, 
@@ -87,6 +88,20 @@ export async function getQuestionsFromWordPress(postType) {
     const concatFirstPageDataWithOtherPages = R.reduce(concatTwoPagesData, firstPageData)
     const getAllPagesData = R.pipe(selectRestPagesData, concatFirstPageDataWithOtherPages)
     const allPagesData = getAllPagesData(restPagesResponses)
+
+
+
+
+console.log(allPagesData)
+    console.log(allPagesData[0].date)
+    console.log(allPagesData[0].date_gmt)
+    console.log(allPagesData[0].modified)
+    console.log(typeof allPagesData[0].modified_gmt)
+
+    console.log(allPagesData[0].modified > allPagesData[0].date ? true : false)
+    console.log(new Date())
+    console.log(new Date().getTime())
+    console.log(dateTime({local: false}).replace(' ', 'T'))
 
     return allPagesData
   } catch (err) {
