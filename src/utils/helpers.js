@@ -21,6 +21,21 @@ export function formatQuestion(question) {
   }
 }
 
+export function formatQuestionsFromWordPress(questions) {
+  const reducer = (acc, cur) => ({
+    ...acc,
+    [cur.id]: {
+      id: cur.id,
+      question: cur.acf.title,
+      title: cur.title.rendered,
+      tags: cur.acf.tags !== '' ? cur.acf.tags.split(',') : [],
+      otherNotes: cur.acf.other_notes,
+      modified_gmt: cur.modified_gmt
+    }
+  })
+  return questions.reduce(reducer, {})
+}
+
 export function formatForDB(storeQuestion) {
   return {
     id: storeQuestion.id,
@@ -47,21 +62,6 @@ export const validateDraftFromString = name => {
   const arrayOfName = blocks.map(block => block.text)
 // console.log(arrayOfName)
   return R.any(isExisted)(arrayOfName)
-}
-
-export function formatQuestionsFromWordPress(questions) {
-  const reducer = (acc, cur) => ({
-    ...acc,
-    [cur.id]: {
-      id: cur.id,
-      question: cur.acf.title,
-      title: cur.title.rendered,
-      tags: cur.acf.tags !== '' ? cur.acf.tags.split(',') : [],
-      otherNotes: cur.acf.other_notes,
-      modified_gmt: cur.modified_gmt
-    }
-  })
-  return questions.reduce(reducer, {})
 }
 
 export function addAnswersToQuestion(answers, question) {
