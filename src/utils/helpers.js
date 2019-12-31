@@ -36,6 +36,19 @@ export function formatQuestionsFromWordPress(questions) {
   return questions.reduce(reducer, {})
 }
 
+export function handleFormatQuestionFromWordPress(question) {
+  const expectedForm = {
+    id: question.id,
+    question: question.acf.title,
+    title: question.title.rendered,
+    tags: question.acf.tags !== '' ? question.acf.tags.split(',') : [],
+    otherNotes: question.acf.other_notes,
+    modified_gmt: question.modified_gmt
+  }
+
+  return formatQuestion(expectedForm)
+}
+
 export function formatForDB(storeQuestion) {
   return {
     id: storeQuestion.id,

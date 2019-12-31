@@ -5,9 +5,16 @@ import {
   resetNumber
 } from "./currentQuestionNumber";
 import { resetEdit } from "./editQuestion";
-import { removeQuestion, submitQuestion, createQuestion, resetTestquestions } from "./testQuestions";
+import { 
+  removeQuestion, 
+  submitQuestion, 
+  createQuestion, 
+  resetTestquestions, 
+  saveQuestion 
+} from "./testQuestions";
 import { removeQuestionFromWp, getQuestionFromWp } from "../../utils/api";
 import { startDeleting } from "../appStatus";
+import { handleFormatQuestionFromWordPress } from "../../utils/helpers";
 
 export function handleNext() {
   return dispatch => {
@@ -54,12 +61,15 @@ export function handleRemoveQuestionFromWp(id, postType) {
       const { data } = await getQuestionFromWp(postType, id)
 console.log(data)
       if (currentQuestion.data.modified_gmt === data.modified_gmt) {
-        // return removeQuestionFromWp(id, postType)
-        //   .catch(err => {
-        //     dispatch(createQuestion(currentQuestion))
-        //     throw err
-        //   })
+        return removeQuestionFromWp(id, postType)
+          .catch(err => {
+            dispatch(createQuestion(currentQuestion))
+            throw err
+          })
       } else {
+        const formattedQuestion = handleFormatQuestionFromWordPress(data)
+        dispatch(saveQuestion(formattedQuestion))
+
         const RECORD_NOT_MATCHED_ERROR = 998
         throw RECORD_NOT_MATCHED_ERROR
       }
