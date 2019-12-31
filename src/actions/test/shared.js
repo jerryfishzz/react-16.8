@@ -9,8 +9,7 @@ import {
   removeQuestion, 
   submitQuestion, 
   createQuestion, 
-  resetTestquestions, 
-  saveQuestion 
+  resetTestquestions,
 } from "./testQuestions";
 import { removeQuestionFromWp, getQuestionFromWp } from "../../utils/api";
 import { startDeleting } from "../appStatus";
@@ -59,7 +58,7 @@ export function handleRemoveQuestionFromWp(id, postType) {
 
     try {
       const { data } = await getQuestionFromWp(postType, id)
-console.log(data)
+
       if (currentQuestion.data.modified_gmt === data.modified_gmt) {
         return removeQuestionFromWp(id, postType)
           .catch(err => {
@@ -68,7 +67,7 @@ console.log(data)
           })
       } else {
         const formattedQuestion = handleFormatQuestionFromWordPress(data)
-        dispatch(saveQuestion(formattedQuestion))
+        dispatch(createQuestion(formattedQuestion))
 
         const RECORD_NOT_MATCHED_ERROR = 998
         throw RECORD_NOT_MATCHED_ERROR

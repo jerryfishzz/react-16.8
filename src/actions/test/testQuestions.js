@@ -51,7 +51,7 @@ export function removeQuestion(id) {
   }
 }
 
-export function saveQuestion(updatedQuestion) {
+function saveQuestion(updatedQuestion) {
   return {
     type: SAVE_QUESTION,
     updatedQuestion
