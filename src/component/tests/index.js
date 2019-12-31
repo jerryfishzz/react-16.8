@@ -18,6 +18,7 @@ import InfoPage from '../../pages/InfoPage';
 import LeftSide from './LeftSide';
 import RightSide from './RightSide';
 import ErrorAlert from '../layouts/ErrorAlert';
+import { openAlert } from '../../actions/errorAlert';
 
 const styles = theme => ({
 	container: {
@@ -74,16 +75,24 @@ class Tests extends Component {
       testQuestions,
       isLoading,
       errorFromAPI,
+      openAlert
     } = this.props 
 
-    // Wrong parameter for post type
-    if (errorFromAPI === 404 || errorFromAPI === 400) {
-      console.log(890)
-      return <WrongParams error={errorGenerator(errorFromAPI)} />
-    }
-
-    if (errorFromAPI === 999) {
-      return <NetworkErrorPage error={errorGenerator(errorFromAPI)} />
+    switch (errorFromAPI) {
+      // Wrong parameter for post type
+      case 400:
+      case 404:
+        return <WrongParams error={errorGenerator(errorFromAPI)} />
+      // Record mismatched with the server
+      case 401:
+      case 998:
+        openAlert()
+        break
+      // Network error
+      case 999:
+        return <NetworkErrorPage error={errorGenerator(errorFromAPI)} />
+      default:
+        break
     }
     
     if (isLoading) return <LoadingPage />
@@ -143,5 +152,6 @@ export default withRouter(connect(
     stopLoading,
     getError,
     resetAppStatus,
+    openAlert
   }
 )(withStyles(styles)(Tests)))

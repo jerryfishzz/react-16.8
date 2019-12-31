@@ -104,6 +104,7 @@ function LeftSide(props) {
         openBar(message)
       })
       .catch(err => {
+        handleClose()
         resetUserBehavior()
         getError(err)
         // alert(err)
