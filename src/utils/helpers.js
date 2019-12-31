@@ -205,6 +205,8 @@ export function errorGenerator(err = null) {
   switch (err) {
     case 400:
       return '400 Parameter Error In The URL'
+    case 401:
+      return 'The record has been removed from the server'
     case 999:
       return 'Network Error'
     default:

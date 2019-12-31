@@ -145,6 +145,8 @@ function LeftSide(props) {
         <Dialog
           open={open}
           onClose={handleClose}
+          fullWidth
+          maxWidth='sm'
         >
           <DialogTitle>Delete Question</DialogTitle>
           <DialogContent>

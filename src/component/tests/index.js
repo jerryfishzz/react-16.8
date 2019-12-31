@@ -17,6 +17,7 @@ import FabIcon from '../layouts/FabIcon';
 import InfoPage from '../../pages/InfoPage';
 import LeftSide from './LeftSide';
 import RightSide from './RightSide';
+import ErrorAlert from '../layouts/ErrorAlert';
 
 const styles = theme => ({
 	container: {
@@ -111,6 +112,8 @@ class Tests extends Component {
         <Grid item className={classes.fabIcon}>
           <FabIcon />
         </Grid>
+
+        <ErrorAlert error={errorGenerator(errorFromAPI)} />
       </Grid>
     )
   }
