@@ -207,6 +207,8 @@ export function errorGenerator(err = null) {
       return '400 Parameter Error In The URL'
     case 401:
       return 'The record has been removed from the server'
+    case 998:
+      return 'The currently operating record is not matched with the correspondent one on the server. Syncing from the database now.'
     case 999:
       return 'Network Error'
     default:

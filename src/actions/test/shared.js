@@ -52,13 +52,16 @@ export function handleRemoveQuestionFromWp(id, postType) {
 
     try {
       const { data } = await getQuestionFromWp(postType, id)
-
+console.log(data)
       if (currentQuestion.data.modified_gmt === data.modified_gmt) {
-        return removeQuestionFromWp(id, postType)
-          .catch(err => {
-            dispatch(createQuestion(currentQuestion))
-            throw err
-          })
+        // return removeQuestionFromWp(id, postType)
+        //   .catch(err => {
+        //     dispatch(createQuestion(currentQuestion))
+        //     throw err
+        //   })
+      } else {
+        const RECORD_NOT_MATCHED_ERROR = 998
+        throw RECORD_NOT_MATCHED_ERROR
       }
     } catch (err) {
       if (err !== 401) dispatch(createQuestion(currentQuestion))
