@@ -69,10 +69,16 @@ export function handleRemoveQuestionFromWp(id, postType) {
         const formattedQuestion = handleFormatQuestionFromWordPress(data)
         dispatch(createQuestion(formattedQuestion))
 
-        const RECORD_NOT_MATCHED_ERROR = 998
-        throw RECORD_NOT_MATCHED_ERROR
+        // Here need to return a throwing error function 
+        // but not throw directly;
+        // Otherwise, the error will go to the next catch,
+        // making the logic messy
+        return () => {
+          const RECORD_NOT_MATCHED_ERROR = 998
+          throw RECORD_NOT_MATCHED_ERROR
+        }
       }
-    } catch (err) {
+    } catch (err) { // This catch only deals with errors from the await above
       if (err !== 401) dispatch(createQuestion(currentQuestion))
       throw err
     }

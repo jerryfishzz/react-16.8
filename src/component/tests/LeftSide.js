@@ -98,6 +98,10 @@ function LeftSide(props) {
       .then(res => {
         handleClose()
 
+        // This will throw an error then skip the next two lines
+        // and jump to the catch block directly
+        if (typeof res === 'function') res()
+
         const message = 'The question has been deleted.'
         openBar(message)
       })
