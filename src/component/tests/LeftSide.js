@@ -29,7 +29,7 @@ import {
 import Question from './Question'
 import { toggleEdit } from '../../actions/test/editQuestion'
 import { getType, BLANK_POSTTYPE } from '../../utils/helpers'
-import { getError, resetUserBehavior } from '../../actions/appStatus'
+import { getError } from '../../actions/appStatus'
 import { openBar } from '../../actions/snackBar'
 import SnackBar from '../layouts/SnackBar'
 
@@ -79,7 +79,6 @@ function LeftSide(props) {
     handleRemoveQuestionFromWp,
     getError,
     openBar,
-    resetUserBehavior
   } = props
 
   const [open, setOpen] = React.useState(false);
@@ -98,16 +97,13 @@ function LeftSide(props) {
     handleRemoveQuestionFromWp(id, postType)
       .then(res => {
         handleClose()
-        resetUserBehavior()
 
         const message = 'The question has been deleted.'
         openBar(message)
       })
       .catch(err => {
         handleClose()
-        resetUserBehavior()
         getError(err)
-        // alert(err)
       })
   }
 
@@ -256,6 +252,5 @@ export default withRouter(connect(
     handleRemoveQuestionFromWp,
     getError,
     openBar,
-    resetUserBehavior
   }
 )(LeftSide))

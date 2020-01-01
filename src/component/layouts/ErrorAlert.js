@@ -36,7 +36,7 @@ const ErrorAlert = props => {
     error,
     errorAlert: { isOpen }, 
     closeAlert,
-    appStatus: { userBehavior }
+    appStatus: { lastAction }
   } = props
 
   const handleClose = () => {
@@ -50,7 +50,9 @@ const ErrorAlert = props => {
       fullWidth
       maxWidth='sm'
     >
-      <DialogTitle>{`${userBehavior} Error`}</DialogTitle>
+      <DialogTitle>
+        {`${lastAction} Error`}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
           {error}

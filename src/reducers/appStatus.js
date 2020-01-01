@@ -4,18 +4,13 @@ import {
   RESET_APPSTATUS, 
   START_EDITING, 
   START_DELETING, 
-  RESET_USER_BEHAVIOR
 } from "../actions/appStatus"
-
-const BROWSING = 'Browsing'
-const DELETING = 'Deleting'
-const EDITING = 'Editing'
 
 const initialAppStatus = {
   isLoading: true,
   errorFromAPI: 0,
   networkError: false,
-  userBehavior: BROWSING
+  lastAction: ''
 }
 
 export default function appStatus(state = initialAppStatus, action) {
@@ -35,17 +30,12 @@ export default function appStatus(state = initialAppStatus, action) {
     case START_EDITING:
       return {
         ...state,
-        userBehavior: EDITING
+        lastAction: 'Editing'
       }
     case START_DELETING:
       return {
         ...state,
-        userBehavior: DELETING
-      }
-    case RESET_USER_BEHAVIOR:
-      return {
-        ...state,
-        userBehavior: BROWSING
+        lastAction: 'Deleting'
       }
     default:
       return state

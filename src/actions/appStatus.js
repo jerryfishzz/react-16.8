@@ -3,7 +3,6 @@ export const GET_ERROR = 'GET_ERROR'
 export const RESET_APPSTATUS = 'RESET_APPSTATUS'
 export const START_DELETING = 'START_DELETING'
 export const START_EDITING = 'START_EDITING'
-export const RESET_USER_BEHAVIOR = 'RESET_USER_BEHAVIOR'
 
 export function stopLoading() {
   return {
@@ -33,11 +32,5 @@ export function startDeleting() {
 export function startEditing() {
   return {
     type: START_EDITING
-  }
-}
-
-export function resetUserBehavior() {
-  return {
-    type: RESET_USER_BEHAVIOR
   }
 }
