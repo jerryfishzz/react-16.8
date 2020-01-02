@@ -11,9 +11,9 @@ import {
   createQuestion, 
   resetTestquestions,
 } from "./testQuestions";
-import { removeQuestionFromWp, getQuestionFromWp } from "../../utils/api";
+import { removeQuestionFromWp, getQuestionFromWp, getAnswersForQuestionFromWp } from "../../utils/api";
 import { startDeleting } from "../appStatus";
-import { handleFormatQuestionFromWordPress } from "../../utils/helpers";
+import { handleFormatQuestionFromWordPress, addAnswersToQuestion } from "../../utils/helpers";
 
 export function handleNext() {
   return dispatch => {
@@ -66,8 +66,11 @@ export function handleRemoveQuestionFromWp(id, postType) {
             throw err
           })
       } else {
-        const formattedQuestion = handleFormatQuestionFromWordPress(data)
-        dispatch(createQuestion(formattedQuestion))
+        const answers = await getAnswersForQuestionFromWp(id)
+        const questionWithouAnswers = handleFormatQuestionFromWordPress(data)
+        const question = addAnswersToQuestion(answers, questionWithouAnswers)
+
+        dispatch(createQuestion(question))
 
         // Here need to return a throwing error function 
         // but not throw directly;

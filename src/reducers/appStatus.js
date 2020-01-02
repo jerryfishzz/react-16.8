@@ -3,7 +3,8 @@ import {
   GET_ERROR, 
   RESET_APPSTATUS, 
   START_EDITING, 
-  START_DELETING, 
+  START_DELETING,
+  RESET_ERROR_FROM_API, 
 } from "../actions/appStatus"
 
 const initialAppStatus = {
@@ -36,6 +37,11 @@ export default function appStatus(state = initialAppStatus, action) {
       return {
         ...state,
         lastAction: 'Deleting'
+      }
+    case RESET_ERROR_FROM_API:
+      return {
+        ...state,
+        errorFromAPI: 0
       }
     default:
       return state

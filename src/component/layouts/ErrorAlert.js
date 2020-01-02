@@ -9,7 +9,8 @@ import {
 } from '@material-ui/core'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import { connect } from 'react-redux'
-import { closeAlert } from '../../actions/errorAlert'
+// import { closeAlert } from '../../actions/errorAlert'
+import { handleCloseAlert } from '../../actions/shared'
 
 const style = theme => ({
   dialogTitle: {
@@ -34,13 +35,13 @@ const DialogTitle = withStyles(style)(props => {
 const ErrorAlert = props => {
   const { 
     error,
-    errorAlert: { isOpen }, 
-    closeAlert,
-    appStatus: { lastAction }
+    errorAlert: { isOpen },
+    appStatus: { lastAction },
+    handleCloseAlert
   } = props
 
   const handleClose = () => {
-    closeAlert()
+    handleCloseAlert()
   }
 
   return (
@@ -74,4 +75,4 @@ const mapStateToProps = ({ errorAlert, appStatus }) => {
   }
 }
 
-export default connect(mapStateToProps, { closeAlert })(ErrorAlert)
+export default connect(mapStateToProps, { handleCloseAlert })(ErrorAlert)

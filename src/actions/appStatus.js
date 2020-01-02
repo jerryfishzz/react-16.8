@@ -3,6 +3,7 @@ export const GET_ERROR = 'GET_ERROR'
 export const RESET_APPSTATUS = 'RESET_APPSTATUS'
 export const START_DELETING = 'START_DELETING'
 export const START_EDITING = 'START_EDITING'
+export const RESET_ERROR_FROM_API = 'RESET_ERROR_FROM_API'
 
 export function stopLoading() {
   return {
@@ -32,5 +33,11 @@ export function startDeleting() {
 export function startEditing() {
   return {
     type: START_EDITING
+  }
+}
+
+export function resetErrorFromAPI() {
+  return {
+    type: RESET_ERROR_FROM_API
   }
 }

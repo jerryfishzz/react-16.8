@@ -13,6 +13,8 @@ import {
   addAnswersToQuestion 
 } from "../utils/helpers";
 import { handleResetTest } from './test/shared';
+import { closeAlert } from './errorAlert';
+import { resetErrorFromAPI } from './appStatus';
 
 export function initializeAppFromWordPress(cb = null, postType) {
   return async dispatch => {
@@ -60,5 +62,12 @@ export function initializeAppFromWordPress(cb = null, postType) {
     } catch(err) {
       throw err
     }
+  }
+}
+
+export function handleCloseAlert() {
+  return dispatch => {
+    dispatch(closeAlert())
+    dispatch(resetErrorFromAPI())
   }
 }
