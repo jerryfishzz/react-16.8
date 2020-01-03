@@ -2,7 +2,8 @@ import {
   NEXT_QUESTION, 
   PREVIOUS_QUESTION, 
   SHRINK_FROM_DELETE, 
-  RESET_NUMBER 
+  RESET_NUMBER, 
+  EXPAND_FROM_RESTORE
 } from "../../actions/test/currentQuestionNumber";
 import currentQuestionNumber from "./currentQuestionNumber";
 import { TOGGLE_EDIT, RESET_EDIT } from "../../actions/test/editQuestion";
@@ -14,7 +15,8 @@ import {
   REMOVE_QUESTION, 
   SAVE_QUESTION, 
   CREATE_QUESTION,
-  RESET_TESTQUESTIONS
+  RESET_TESTQUESTIONS,
+  RESTORE_QUESTION
 } from "../../actions/test/testQuestions";
 import testQuestions from "./testQuestions";
 
@@ -29,6 +31,7 @@ export default function test(state = initialState, action) {
     case NEXT_QUESTION:
     case PREVIOUS_QUESTION:
     case SHRINK_FROM_DELETE:
+    case EXPAND_FROM_RESTORE:
     case RESET_NUMBER:
       return {
         ...state,
@@ -48,6 +51,7 @@ export default function test(state = initialState, action) {
     case SAVE_QUESTION:
     case CREATE_QUESTION:
     case RESET_TESTQUESTIONS:
+    case RESTORE_QUESTION:
       return {
         ...state,
         testQuestions: testQuestions(state.testQuestions, action)

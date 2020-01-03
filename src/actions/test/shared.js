@@ -2,7 +2,8 @@ import {
   nextQuestion, 
   previousQuestion, 
   shrinkFromDelete, 
-  resetNumber
+  resetNumber,
+  expandFromRestore,
 } from "./currentQuestionNumber";
 import { resetEdit } from "./editQuestion";
 import { 
@@ -10,6 +11,7 @@ import {
   submitQuestion, 
   createQuestion, 
   resetTestquestions,
+  restoreQuestion,
 } from "./testQuestions";
 import { removeQuestionFromWp, getQuestionFromWp, getAnswersForQuestionFromWp } from "../../utils/api";
 import { startDeleting } from "../appStatus";
@@ -49,12 +51,17 @@ export function handleRemoveQuestionFromWp(id, postType) {
 
     const { test: { 
       currentQuestionNumber, 
-      testQuestions: testQuestionsAfterDeleting } 
-    } = getState()
-    
+      testQuestions: testQuestionsAfterDeleting 
+    } } = getState()
+
+    // Offset the currentQuestionNumber by -1 if the deleted question is the last
     if (currentQuestionNumber === testQuestionsAfterDeleting.length) {
       dispatch(shrinkFromDelete())
     }
+
+    const { test: { 
+      currentQuestionNumber: currentQuestionNumberMaybeAfterShrinking
+    } } = getState()
 
     try {
       const { data } = await getQuestionFromWp(postType, id)
@@ -62,7 +69,10 @@ export function handleRemoveQuestionFromWp(id, postType) {
       if (currentQuestion.data.modified_gmt === data.modified_gmt) {
         return removeQuestionFromWp(id, postType)
           .catch(err => {
-            dispatch(createQuestion(currentQuestion))
+            dispatch(restoreQuestion(currentQuestionNumber, currentQuestion))
+            if (currentQuestionNumber !== currentQuestionNumberMaybeAfterShrinking) {
+              dispatch(expandFromRestore())
+            }
             throw err
           })
       } else {
@@ -70,7 +80,11 @@ export function handleRemoveQuestionFromWp(id, postType) {
         const questionWithouAnswers = handleFormatQuestionFromWordPress(data)
         const question = addAnswersToQuestion(answers, questionWithouAnswers)
 
-        dispatch(createQuestion(question))
+        dispatch(restoreQuestion(currentQuestionNumber, question))
+
+        if (currentQuestionNumber !== currentQuestionNumberMaybeAfterShrinking) {
+          dispatch(expandFromRestore())
+        }
 
         // Here need to return a throwing error function 
         // but not throw directly;
@@ -82,7 +96,12 @@ export function handleRemoveQuestionFromWp(id, postType) {
         }
       }
     } catch (err) { // This catch only deals with errors from the await above
-      if (err !== 401) dispatch(createQuestion(currentQuestion))
+      if (err !== 401) {
+        dispatch(restoreQuestion(currentQuestionNumber, currentQuestion))
+        if (currentQuestionNumber !== currentQuestionNumberMaybeAfterShrinking) {
+          dispatch(expandFromRestore())
+        }
+      }
       throw err
     }
   }

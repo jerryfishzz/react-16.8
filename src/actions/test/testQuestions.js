@@ -21,6 +21,7 @@ export const REMOVE_QUESTION = 'REMOVE_QUESTION'
 export const SAVE_QUESTION = 'SAVE_QUESTION'
 export const CREATE_QUESTION = 'CREATE_QUESTION'
 export const RESET_TESTQUESTIONS = 'RESET_TESTQUESTIONS'
+export const RESTORE_QUESTION = 'RESTORE_QUESTION'
 
 export function receiveQuestions(questions) {
   return {
@@ -196,5 +197,13 @@ export function handleCreateQuestionToWp(newQuestion, cb, postType) {
 export function resetTestquestions() {
   return {
     type: RESET_TESTQUESTIONS
+  }
+}
+
+export function restoreQuestion(index, question) {
+  return {
+    type: RESTORE_QUESTION,
+    index,
+    question
   }
 }

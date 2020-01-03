@@ -5,7 +5,8 @@ import {
   REMOVE_QUESTION, 
   SAVE_QUESTION, 
   CREATE_QUESTION,
-  RESET_TESTQUESTIONS
+  RESET_TESTQUESTIONS,
+  RESTORE_QUESTION
 } from "../../actions/test/testQuestions";
 
 export default function testQuestions(state, action) {
@@ -49,6 +50,22 @@ export default function testQuestions(state, action) {
         ...state,
         action.newQuestion
       ]
+    case RESTORE_QUESTION:
+      return state.reduce((acc, cur, index) => {
+        if (index === action.index) {
+          acc.push(action.question)
+          acc.push(cur)
+          return acc
+        }
+        // Handle the case when the deleting one is the last
+        if (index + 1 === action.index && index + 1 === state.length) {
+          acc.push(cur)
+          acc.push(action.question)
+          return acc
+        }
+        acc.push(cur)
+        return acc
+      }, [])
     case RESET_TESTQUESTIONS:
       return null
     default:

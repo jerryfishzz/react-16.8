@@ -10,7 +10,8 @@ import {
 import { 
   formatQuestion, 
   formatQuestionsFromWordPress, 
-  addAnswersToQuestion 
+  addAnswersToQuestion, 
+  QUESTION_COUNTS
 } from "../utils/helpers";
 import { handleResetTest } from './test/shared';
 import { closeAlert } from './errorAlert';
@@ -34,7 +35,7 @@ export function initializeAppFromWordPress(cb = null, postType) {
           Object.keys(questions).map(id => formatQuestion(questions[id])) 
           // Object.key will order elements ascendingly by their keys
 
-        const shuffleArrayThenTakeFirstTen = R.compose(R.take(10), shuffle)
+        const shuffleArrayThenTakeFirstTen = R.compose(R.take(QUESTION_COUNTS), shuffle)
         
         questionsForTest = postType !== 'temps'
           ? shuffleArrayThenTakeFirstTen(formattedQuestionArray)
