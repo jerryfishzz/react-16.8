@@ -14,6 +14,8 @@ import { ExitToApp } from '@material-ui/icons';
 import { red } from '@material-ui/core/colors';
 
 import Form from './Form'
+import { connect } from 'react-redux';
+import { closeBar } from '../../actions/snackBar';
 
 const styles = theme => ({
   form: {
@@ -36,6 +38,7 @@ const styles = theme => ({
 class CreateDialog extends Component {
   handleClose = () => {
     this.props.onClose()
+    this.props.closeBar()
   };
 
   handleSubmit = test => {
@@ -49,7 +52,7 @@ class CreateDialog extends Component {
       open, 
       comeFrom, 
       classes, 
-      width, 
+      width,
       ...other 
     } = this.props
 
@@ -102,4 +105,4 @@ class CreateDialog extends Component {
   }
 }
 
-export default withWidth()(withStyles(styles)(CreateDialog))
+export default connect(null, { closeBar })(withWidth()(withStyles(styles)(CreateDialog)))
