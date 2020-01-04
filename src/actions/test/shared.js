@@ -16,6 +16,7 @@ import {
 import { removeQuestionFromWp, getQuestionFromWp, getAnswersForQuestionFromWp } from "../../utils/api";
 import { startDeleting } from "../appStatus";
 import { handleFormatQuestionFromWordPress, addAnswersToQuestion } from "../../utils/helpers";
+import { plusOffset } from "./offset";
 
 export function handleNext() {
   return dispatch => {
@@ -47,10 +48,10 @@ export function handleRemoveQuestionFromWp(id, postType) {
       testQuestions.filter(question => question.id === id)[0]
 
     dispatch(removeQuestion(id))
+    dispatch(plusOffset())
     dispatch(resetEdit())
 
     const { test: { 
-      currentQuestionNumber, 
       testQuestions: testQuestionsAfterDeleting 
     } } = getState()
 

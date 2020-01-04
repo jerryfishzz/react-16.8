@@ -19,6 +19,8 @@ import {
   RESTORE_QUESTION
 } from "../../actions/test/testQuestions";
 import testQuestions from "./testQuestions";
+import { PLUS_OFFSET, MINUS_OFFSET } from "../../actions/test/offset";
+import offset from "./offset";
 
 const initialState = { 
   currentQuestionNumber: 0, 
@@ -56,6 +58,12 @@ export default function test(state = initialState, action) {
       return {
         ...state,
         testQuestions: testQuestions(state.testQuestions, action)
+      }
+    case PLUS_OFFSET:
+    case MINUS_OFFSET:
+      return {
+        ...state,
+        offset: offset(state.offset, action)
       }
     default:
       return state
