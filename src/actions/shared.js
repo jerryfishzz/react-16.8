@@ -11,7 +11,8 @@ import {
   formatQuestion, 
   formatQuestionsFromWordPress, 
   addAnswersToQuestion, 
-  QUESTION_COUNTS
+  QUESTION_COUNTS,
+  EXTRA_PREPARED
 } from "../utils/helpers";
 import { handleResetTest } from './test/shared';
 import { closeAlert } from './errorAlert';
@@ -40,9 +41,9 @@ export function initializeAppFromWordPress(cb = null, postType) {
           : formattedQuestions
 
         const preparedQuestionCounts = 
-          randomizedQuestions.length >= QUESTION_COUNTS + 5
-            ? QUESTION_COUNTS + 5
-            : randomizedQuestions.length > 10
+          randomizedQuestions.length >= QUESTION_COUNTS + EXTRA_PREPARED
+            ? QUESTION_COUNTS + EXTRA_PREPARED
+            : randomizedQuestions.length > QUESTION_COUNTS
               ? randomizedQuestions.length
               : QUESTION_COUNTS
 

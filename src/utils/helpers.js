@@ -6,6 +6,7 @@ import { getQuestionFromWp, getAnswersForQuestionFromWp } from './api';
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 export const QUESTION_COUNTS = 10
+export const EXTRA_PREPARED = 5
 
 const questionStatusForTest = {
   selectedAnswers: [],
