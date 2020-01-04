@@ -129,7 +129,9 @@ function LeftSide(props) {
           variant='h5'
           className={classes.title}
         >
-          {`Question ${currentQuestionNumber + 1} / ${testQuestions.length}`}
+          {`Question ${currentQuestionNumber + 1} / 
+            ${testQuestions.length >= QUESTION_COUNTS
+              ? QUESTION_COUNTS : testQuestions.length}`}
         </Typography>
         <IconButton 
           color={!editQuestion ? 'primary' : 'default'} 
