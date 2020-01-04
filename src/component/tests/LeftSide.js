@@ -214,7 +214,9 @@ function LeftSide(props) {
         <Grid item>
           <Button
             onClick={handleNext} 
-            disabled={currentQuestionNumber === QUESTION_COUNTS - 1}
+            disabled={testQuestions.length >= QUESTION_COUNTS
+              ? currentQuestionNumber === QUESTION_COUNTS - 1
+              : currentQuestionNumber === testQuestions.length - 1}
             className={classes.navBtn}
             disableRipple
           >
