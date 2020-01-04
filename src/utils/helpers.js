@@ -10,6 +10,7 @@ export const QUESTION_COUNTS = 10
 const questionStatusForTest = {
   selectedAnswers: [],
   isSubmitted: false,
+  hasAnswers: false
 }
 
 export const BLANK_POSTTYPE = 'BLANK_POSTTYPE'
@@ -88,6 +89,7 @@ export function addAnswersToQuestion(answers, question) {
 
   return {
     ...question,
+    hasAnswers: true,
     data: {
       ...question.data,
       answers: organizedAnswers

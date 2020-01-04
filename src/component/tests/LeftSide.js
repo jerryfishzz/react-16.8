@@ -28,7 +28,7 @@ import {
 } from '../../actions/test/shared'
 import Question from './Question'
 import { toggleEdit } from '../../actions/test/editQuestion'
-import { getType, BLANK_POSTTYPE } from '../../utils/helpers'
+import { getType, BLANK_POSTTYPE, QUESTION_COUNTS } from '../../utils/helpers'
 import { getError } from '../../actions/appStatus'
 import { openBar } from '../../actions/snackBar'
 import SnackBar from '../layouts/SnackBar'
@@ -212,7 +212,7 @@ function LeftSide(props) {
         <Grid item>
           <Button
             onClick={handleNext} 
-            disabled={currentQuestionNumber === testQuestions.length - 1}
+            disabled={currentQuestionNumber === QUESTION_COUNTS - 1}
             className={classes.navBtn}
             disableRipple
           >

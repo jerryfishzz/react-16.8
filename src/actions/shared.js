@@ -25,38 +25,37 @@ export function initializeAppFromWordPress(cb = null, postType) {
       // Get tags and all the records of the postType
       let [questions, tags] = await getInitialDataFromWordPress(postType) 
 
-      let questionsForTest = []
+      let testQuestions = []
       
       if (questions.length) {
         questions = formatQuestionsFromWordPress(questions) // an object
 
         // an array of objects
-        const formattedQuestionArray = 
+        const formattedQuestions = 
           Object.keys(questions).map(id => formatQuestion(questions[id])) 
           // Object.key will order elements ascendingly by their keys
-
-        const shuffleArrayThenTakeFirstTen = R.compose(R.take(QUESTION_COUNTS), shuffle)
         
-        questionsForTest = postType !== 'temps'
-          ? shuffleArrayThenTakeFirstTen(formattedQuestionArray)
-          : formattedQuestionArray
+        const randomizedQuestions = postType !== 'temps'
+          ? shuffle(formattedQuestions, { 'copy': true })
+          : formattedQuestions
 
-        // questionsForTest = shuffleArrayThenTakeFirstTen(formattedQuestionArray)
-        
-        questionsForTest = await Promise.all(
-          questionsForTest.map(async question => {
-            try {
-              const answers = await getAnswersForQuestionFromWp(question.id)
+        testQuestions = await Promise.all(
+          randomizedQuestions.map(async (question, index) => {
+            if (index < QUESTION_COUNTS) {
+              try {
+                const answers = await getAnswersForQuestionFromWp(question.id)
 
-              return addAnswersToQuestion(answers, question)
-            } catch(err) {
-              throw err
+                return addAnswersToQuestion(answers, question)
+              } catch(err) {
+                throw err
+              }
             }
+            return question
           })
         )
       }
       
-      dispatch(receiveQuestions(questionsForTest))
+      dispatch(receiveQuestions(testQuestions))
       dispatch(receiveTags(tags))
 
       if (cb) dispatch(cb())
