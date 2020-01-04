@@ -39,9 +39,16 @@ export function initializeAppFromWordPress(cb = null, postType) {
           ? shuffle(formattedQuestions, { 'copy': true })
           : formattedQuestions
 
+        const preparedQuestionCounts = 
+          randomizedQuestions.length >= QUESTION_COUNTS + 5
+            ? QUESTION_COUNTS + 5
+            : randomizedQuestions.length > 10
+              ? randomizedQuestions.length
+              : QUESTION_COUNTS
+
         testQuestions = await Promise.all(
           randomizedQuestions.map(async (question, index) => {
-            if (index < QUESTION_COUNTS) {
+            if (index < preparedQuestionCounts) {
               try {
                 const answers = await getAnswersForQuestionFromWp(question.id)
 
