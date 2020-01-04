@@ -1,5 +1,4 @@
 import shuffle from 'shuffle-array'
-import * as R from 'ramda'
 
 import { receiveQuestions } from "./test/testQuestions";
 import { receiveTags } from "./tags";
@@ -12,7 +11,6 @@ import {
   formatQuestionsFromWordPress, 
   addAnswersToQuestion, 
   QUESTION_COUNTS,
-  EXTRA_PREPARED
 } from "../utils/helpers";
 import { handleResetTest } from './test/shared';
 import { closeAlert } from './errorAlert';
@@ -40,16 +38,9 @@ export function initializeAppFromWordPress(cb = null, postType) {
           ? shuffle(formattedQuestions, { 'copy': true })
           : formattedQuestions
 
-        const preparedQuestionCounts = 
-          randomizedQuestions.length >= QUESTION_COUNTS + EXTRA_PREPARED
-            ? QUESTION_COUNTS + EXTRA_PREPARED
-            : randomizedQuestions.length > QUESTION_COUNTS
-              ? randomizedQuestions.length
-              : QUESTION_COUNTS
-
         testQuestions = await Promise.all(
           randomizedQuestions.map(async (question, index) => {
-            if (index < preparedQuestionCounts) {
+            if (index < QUESTION_COUNTS) {
               try {
                 const answers = await getAnswersForQuestionFromWp(question.id)
 

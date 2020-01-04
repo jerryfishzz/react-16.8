@@ -70,6 +70,7 @@ function LeftSide(props) {
     currentQuestionNumber,
     testQuestions,
     editQuestion,
+    offset,
     currentQuestion,
     handleNext, 
     handleBack, 
@@ -130,8 +131,8 @@ function LeftSide(props) {
           className={classes.title}
         >
           {`Question ${currentQuestionNumber + 1} / 
-            ${testQuestions.length >= QUESTION_COUNTS
-              ? QUESTION_COUNTS : testQuestions.length}`}
+            ${testQuestions.length >= QUESTION_COUNTS - offset
+              ? QUESTION_COUNTS - offset : testQuestions.length}`}
         </Typography>
         <IconButton 
           color={!editQuestion ? 'primary' : 'default'} 
@@ -214,8 +215,8 @@ function LeftSide(props) {
         <Grid item>
           <Button
             onClick={handleNext} 
-            disabled={testQuestions.length >= QUESTION_COUNTS
-              ? currentQuestionNumber === QUESTION_COUNTS - 1
+            disabled={testQuestions.length >= QUESTION_COUNTS - offset
+              ? currentQuestionNumber === QUESTION_COUNTS - offset - 1
               : currentQuestionNumber === testQuestions.length - 1}
             className={classes.navBtn}
             disableRipple
@@ -230,7 +231,7 @@ function LeftSide(props) {
 }
 
 const mapStateToProps = (
-  { test: { editQuestion, currentQuestionNumber, testQuestions } },
+  { test: { editQuestion, currentQuestionNumber, testQuestions, offset } },
   { location }
 ) => {
   const currentQuestion = testQuestions
@@ -246,6 +247,7 @@ const mapStateToProps = (
     currentQuestionNumber,
     testQuestions,
     currentQuestion,
+    offset,
     postType
   }
 }

@@ -23,7 +23,8 @@ import testQuestions from "./testQuestions";
 const initialState = { 
   currentQuestionNumber: 0, 
   editQuestion: false,
-  testQuestions: null
+  testQuestions: null,
+  offset: 0
 }
 
 export default function test(state = initialState, action) {
