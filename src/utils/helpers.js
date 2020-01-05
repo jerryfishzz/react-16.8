@@ -221,11 +221,11 @@ export function errorGenerator(err = null) {
   switch (err) {
     case 400:
       return '400 Parameter Error In The URL'
-    case 401:
+    case 401: // Record has been removed
       return '401 The record has been removed from the server'
-    case 404:
+    case 404: // The record path is not existed
       return '404 Page Not Found'
-    case 998:
+    case 998: // Record has been edited
       return 'The currently operating record is not matched with the correspondent one on the server. Syncing from the database now.'
     case 999:
       return 'Network Error'

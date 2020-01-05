@@ -12,11 +12,9 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
 import CreateDialog from '../tests/Dialog'
-import { initializeAppFromWordPress } from '../../actions/shared.js';
+import { shuffleQuestions } from '../../actions/shared.js';
 import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
-import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 import FabIcon from './FabIcon';
-
 
 const styles = theme => ({
   title: {
@@ -32,10 +30,11 @@ const styles = theme => ({
 const Header = ({ 
   classes, 
   shuffleQuestions, 
-  type, 
+  postType, 
   pathname,
   isLoading,
   is404,
+  test: { testQuestions }
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -46,6 +45,10 @@ const Header = ({
   const onClose = () => {
     setDialogOpen(false)
   };
+
+  const handleShuffleQuestions = () => {
+    shuffleQuestions(postType, testQuestions)
+  }
 
   return (
     <AppBar position="static">
@@ -59,11 +62,11 @@ const Header = ({
 
         {pathname !== '/questionlist' && !is404 && !isLoading && (
           <Fragment>
-            {type !== 'temps' && (
+            {postType !== 'temps' && (
               <Tooltip title="Shuffle Questions">
                 <IconButton 
                   color="inherit"
-                  onClick={shuffleQuestions}
+                  onClick={handleShuffleQuestions}
                 >
                   <Shuffle />
                 </IconButton>
@@ -95,36 +98,19 @@ const mapStateToProps = (
   { appStatus, test, questionList }, 
   { location: { pathname }, location }
 ) => {
-  const type = getType(location) ? getType(location) : BLANK_POSTTYPE
+  const postType = getType(location) ? getType(location) : BLANK_POSTTYPE
   const is404 = test.testQuestions === null && questionList.totalQuestions === -1
 
   return { 
-    type,
+    postType,
     pathname,
     isLoading: appStatus.isLoading,
     is404,
-  }
-}
-
-const mapDispatchToProps = (dispatch, { location }) => {
-  const postType = getType(location)
-
-  return {
-    shuffleQuestions: async () => {
-      dispatch(resetAppStatus())
-
-      try {
-        await dispatch(initializeAppFromWordPress(null, postType))
-        dispatch(stopLoading())
-      } catch(err) {
-        // alert(err)
-        dispatch(getError(err))
-      }
-    },
+    test
   }
 }
 
 export default withRouter(connect(
   mapStateToProps,
-  mapDispatchToProps
+  { shuffleQuestions }
 )(withStyles(styles)(Header)))

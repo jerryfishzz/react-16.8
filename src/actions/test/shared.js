@@ -9,7 +9,6 @@ import { resetEdit } from "./editQuestion";
 import { 
   removeQuestion, 
   submitQuestion, 
-  createQuestion, 
   resetTestquestions,
   restoreQuestion,
 } from "./testQuestions";
@@ -77,8 +76,8 @@ export function handleRemoveQuestionFromWp(id, postType) {
           })
       } else {
         const answers = await getAnswersForQuestionFromWp(id)
-        const questionWithouAnswers = handleFormatQuestionFromWordPress(data)
-        const question = addAnswersToQuestion(answers, questionWithouAnswers)
+        const questionWithoutAnswers = handleFormatQuestionFromWordPress(data)
+        const question = addAnswersToQuestion(answers, questionWithoutAnswers)
 
         dispatch(restoreQuestion(currentQuestionNumber, question))
         dispatch(minusOffset())
