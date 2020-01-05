@@ -15,8 +15,8 @@ import {
 } from "./testQuestions";
 import { removeQuestionFromWp, getQuestionFromWp, getAnswersForQuestionFromWp } from "../../utils/api";
 import { startDeleting } from "../appStatus";
-import { handleFormatQuestionFromWordPress, addAnswersToQuestion } from "../../utils/helpers";
-import { plusOffset } from "./offset";
+import { handleFormatQuestionFromWordPress, addAnswersToQuestion, QUESTION_COUNTS } from "../../utils/helpers";
+import { plusOffset, minusOffset } from "./offset";
 
 export function handleNext() {
   return dispatch => {
@@ -43,22 +43,20 @@ export function handleRemoveQuestionFromWp(id, postType) {
   return async (dispatch, getState) => {
     dispatch(startDeleting())
 
-    const { test: { testQuestions } } = getState()
+    const { test: { testQuestions, currentQuestionNumber } } = getState()
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]
+    const currentTestLength = testQuestions.length >= QUESTION_COUNTS
+      ? QUESTION_COUNTS : testQuestions.length
+
+    // Offset the currentQuestionNumber by -1 if the deleted question is the last
+    if (currentQuestionNumber === currentTestLength - 1) {
+      dispatch(shrinkFromDelete())
+    }
 
     dispatch(removeQuestion(id))
     dispatch(plusOffset())
     dispatch(resetEdit())
-
-    const { test: { 
-      testQuestions: testQuestionsAfterDeleting 
-    } } = getState()
-
-    // Offset the currentQuestionNumber by -1 if the deleted question is the last
-    if (currentQuestionNumber === testQuestionsAfterDeleting.length) {
-      dispatch(shrinkFromDelete())
-    }
 
     const { test: { 
       currentQuestionNumber: currentQuestionNumberMaybeAfterShrinking
@@ -71,6 +69,7 @@ export function handleRemoveQuestionFromWp(id, postType) {
         return removeQuestionFromWp(id, postType)
           .catch(err => {
             dispatch(restoreQuestion(currentQuestionNumber, currentQuestion))
+            dispatch(minusOffset())
             if (currentQuestionNumber !== currentQuestionNumberMaybeAfterShrinking) {
               dispatch(expandFromRestore())
             }
@@ -82,6 +81,7 @@ export function handleRemoveQuestionFromWp(id, postType) {
         const question = addAnswersToQuestion(answers, questionWithouAnswers)
 
         dispatch(restoreQuestion(currentQuestionNumber, question))
+        dispatch(minusOffset())
 
         if (currentQuestionNumber !== currentQuestionNumberMaybeAfterShrinking) {
           dispatch(expandFromRestore())
@@ -99,6 +99,7 @@ export function handleRemoveQuestionFromWp(id, postType) {
     } catch (err) { // This catch only deals with errors from the await above
       if (err !== 401) {
         dispatch(restoreQuestion(currentQuestionNumber, currentQuestion))
+        dispatch(minusOffset())
         if (currentQuestionNumber !== currentQuestionNumberMaybeAfterShrinking) {
           dispatch(expandFromRestore())
         }
