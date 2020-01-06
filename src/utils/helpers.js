@@ -6,6 +6,7 @@ import { getQuestionFromWp, getAnswersForQuestionFromWp } from './api';
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 export const QUESTION_COUNTS = 10
+export const PROMISE_ALL_ERROR = 997
 
 const questionStatusForTest = {
   selectedAnswers: [],
@@ -225,6 +226,8 @@ export function errorGenerator(err = null) {
       return '401 The record has been removed from the server'
     case 404: // The record path is not existed
       return '404 Page Not Found'
+    case 997: // The error from promise all
+      return 'Something wrong occurs'
     case 998: // Record has been edited
       return 'The currently operating record is not matched with the correspondent one on the server. Syncing from the database now.'
     case 999:

@@ -12,7 +12,8 @@ import {
   formatQuestionsFromWordPress, 
   addAnswersToQuestion, 
   QUESTION_COUNTS,
-  handleFormatQuestionFromWordPress
+  handleFormatQuestionFromWordPress,
+  PROMISE_ALL_ERROR
 } from "../utils/helpers";
 import { handleResetTest } from './test/shared';
 import { closeAlert } from './errorAlert';
@@ -66,13 +67,13 @@ export function initializeAppFromWordPress(cb = null, postType) {
   }
 }
 
-export function shuffleQuestions(postType, questionsNeededShuffling) {
+export function shuffleQuestions(postType, questionsNeededToShuffle) {
   return async dispatch => {
     try {
       dispatch(handleResetTest())
       dispatch(resetAppStatus())
 
-      const shuffledQuestions = shuffle(questionsNeededShuffling)
+      const shuffledQuestions = shuffle(questionsNeededToShuffle)
 
       const testQuestions = await Promise.all(
         shuffledQuestions.map(async (question, index) => {
@@ -96,7 +97,9 @@ export function shuffleQuestions(postType, questionsNeededShuffling) {
       dispatch(receiveQuestions(testQuestions))
       dispatch(stopLoading())
     } catch(err) {
-      dispatch(getError(err))
+      console.log(err)
+
+      dispatch(getError(PROMISE_ALL_ERROR))
       dispatch(stopLoading())
     }
   }

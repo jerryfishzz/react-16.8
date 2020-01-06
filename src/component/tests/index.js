@@ -82,6 +82,7 @@ class Tests extends Component {
       // Wrong parameter for post type
       case 400:
       case 404:
+      case 997:
         return <WrongParams error={errorGenerator(errorFromAPI)} />
       // Record mismatched with the server
       case 401:
