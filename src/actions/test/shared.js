@@ -15,7 +15,7 @@ import {
 import { removeQuestionFromWp, getQuestionFromWp, getAnswersForQuestionFromWp } from "../../utils/api";
 import { startDeleting } from "../appStatus";
 import { handleFormatQuestionFromWordPress, addAnswersToQuestion, QUESTION_COUNTS } from "../../utils/helpers";
-import { plusOffset, minusOffset } from "./offset";
+import { plusOffset, minusOffset, resetTestOffset } from "./offset";
 
 export function handleNext() {
   return dispatch => {
@@ -113,5 +113,6 @@ export function handleResetTest() {
     dispatch(resetTestquestions())
     dispatch(resetEdit())
     dispatch(resetNumber())
+    dispatch(resetTestOffset())
   }
 }

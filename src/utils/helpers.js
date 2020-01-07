@@ -227,7 +227,7 @@ export function errorGenerator(err = null) {
     case 404: // The record path is not existed
       return '404 Page Not Found'
     case 997: // The error from promise all
-      return 'Something wrong occurs'
+      return 'Something wrong occurs. Please refresh.'
     case 998: // Record has been edited
       return 'The currently operating record is not matched with the correspondent one on the server. Syncing from the database now.'
     case 999:
