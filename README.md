@@ -32,6 +32,26 @@ This app will be still temporarily based on the current working mode: multichoic
 
 - Mobile supportive. Then it can be called **handy**. It probably looks like my another complete project: [mobile flashcard].
 
+## Memo for fixes
+
+- The [solution] for Microsoft Edge
+
+  *./node_modules/react-dev-utils/webpackHotDevClient.js:60* add `slashes: true`
+
+```javascript
+// Connect to WebpackDevServer via a socket.
+var connection = new WebSocket(
+  url.format({
+    protocol: window.location.protocol === 'https:' ? 'wss' : 'ws',
+    hostname: window.location.hostname,
+    port: window.location.port,
+    // Hardcoded in WebpackDevServer
+    pathname: '/sockjs-node',
+    slashes: true,
+  })
+);
+```
+
 [Material UI]: https://material-ui.com/
 
 [React Select]: https://react-select.com/home
@@ -41,3 +61,5 @@ This app will be still temporarily based on the current working mode: multichoic
 [Draft.js]: https://draftjs.org/
 
 [Wordpress]: https://developer.wordpress.org/rest-api/
+
+[solution]: https://github.com/facebook/create-react-app/issues/8084#issuecomment-562981098
