@@ -38,6 +38,20 @@ export function handleSubmitQuestion(id) {
   }
 }
 
+export function removeQuestionFromStore(dispatch, testQuestions, currentQuestionNumber, id) {
+  const currentTestLength = testQuestions.length >= QUESTION_COUNTS
+    ? QUESTION_COUNTS : testQuestions.length
+
+  // Offset the currentQuestionNumber by -1 if the deleted question is the last
+  if (currentQuestionNumber === currentTestLength - 1) {
+    dispatch(shrinkFromDelete())
+  }
+
+  dispatch(removeQuestion(id))
+  dispatch(plusOffset())
+  dispatch(resetEdit())
+}
+
 export function handleRemoveQuestionFromWp(id, postType) {
   return async (dispatch, getState) => {
     dispatch(startDeleting())
@@ -45,17 +59,8 @@ export function handleRemoveQuestionFromWp(id, postType) {
     const { test: { testQuestions, currentQuestionNumber } } = getState()
     const currentQuestion = 
       testQuestions.filter(question => question.id === id)[0]
-    const currentTestLength = testQuestions.length >= QUESTION_COUNTS
-      ? QUESTION_COUNTS : testQuestions.length
-
-    // Offset the currentQuestionNumber by -1 if the deleted question is the last
-    if (currentQuestionNumber === currentTestLength - 1) {
-      dispatch(shrinkFromDelete())
-    }
-
-    dispatch(removeQuestion(id))
-    dispatch(plusOffset())
-    dispatch(resetEdit())
+    
+    removeQuestionFromStore(dispatch, testQuestions, currentQuestionNumber, id)
 
     const { test: { 
       currentQuestionNumber: currentQuestionNumberMaybeAfterShrinking
@@ -86,9 +91,9 @@ export function handleRemoveQuestionFromWp(id, postType) {
           dispatch(expandFromRestore())
         }
 
-        // Here need to return a throwing error function 
+        // Here need to return an error-throwing function 
         // but not throw directly;
-        // Otherwise, the error will go to the next catch,
+        // Otherwise, the error will go to the below catch block,
         // making the logic messy
         return () => {
           const RECORD_NOT_MATCHED_ERROR = 998

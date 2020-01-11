@@ -51,10 +51,13 @@ class ActionButton extends React.Component {
 
       openBar(message)
     } catch(err) {
-      openBar(err)
-      getError(err)
       this.toggleSubmitting()
+
+      // This should handle errors of 5xx. 
+      // Won't have any effect on the app.
       initializeFromContent(currentQuestion)
+
+      getError(err)
     }
   };
 

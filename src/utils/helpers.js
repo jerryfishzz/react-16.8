@@ -220,15 +220,15 @@ export async function getQuestionFromWPForEditting(postType, id) {
 
 export function errorGenerator(err = null) {
   switch (err) {
-    case 400:
+    case 400: // URL error
       return '400 Parameter Error In The URL'
-    case 401: // Record has been removed
+    case 401: // Record has been removed. API request error.
       return '401 The record has been removed from the server'
-    case 404: // The record path is not existed
+    case 404: // The record path is not existed. URL error.
       return '404 Page Not Found'
-    case 997: // The error from promise all
+    case 997: // The error from promise all. API request error but need to redirect.
       return 'Something wrong occurs. Please refresh.'
-    case 998: // Record has been edited
+    case 998: // Record has been edited. API request error.
       return 'The currently operating record is not matched with the correspondent one on the server. Syncing from the database now.'
     case 999:
       return 'Network Error'

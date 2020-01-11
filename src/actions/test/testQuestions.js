@@ -4,7 +4,8 @@ import {
   updateQuestionToWp,
   createAnswerContainerToWp,
   updateAnswerContentToWp,
-  removeAnswerFromWp
+  removeAnswerFromWp,
+  getQuestionFromWp
 } from "../../utils/api";
 import { 
   formatForDB, 
@@ -13,6 +14,7 @@ import {
   createAnswerContainer 
 } from "../../utils/helpers";
 import { updateRecord } from "../questionList";
+import { removeQuestionFromStore } from "./shared";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
@@ -61,7 +63,7 @@ function saveQuestion(updatedQuestion) {
 
 export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, postType) {
   return async (dispatch, getState) => {
-    const { test: { testQuestions } } = getState()
+    const { test: { testQuestions, currentQuestionNumber } } = getState()
     const currentQuestion = testQuestions
       ? testQuestions.filter(question => question.id === id)[0]
       : null
@@ -69,6 +71,10 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, p
     let answersWithId = [], updatedQuestionWithAnswerIds = {}
     
     try {
+      // Check the edited question is existed.
+      // If not, throw a 401 error
+      const { data } = await getQuestionFromWp(postType, id)
+
       const questionForWp = formatForWp(updatedQuestion)
       
       const updatingAnswersPromises = 
@@ -124,7 +130,11 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, p
 
       if (currentQuestion === null) dispatch(updateRecord(promises[promises.length - 1]))
     } catch(err) {
-      if (currentQuestion !== null) dispatch(saveQuestion(currentQuestion))
+      // Restore the original question
+      if (err !== 401 && currentQuestion !== null) dispatch(saveQuestion(currentQuestion)) 
+
+      if (err === 401) removeQuestionFromStore(dispatch, testQuestions, currentQuestionNumber, id)
+
       throw err
     }
   }

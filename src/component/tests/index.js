@@ -79,12 +79,12 @@ class Tests extends Component {
     } = this.props 
 
     switch (errorFromAPI) {
-      // Wrong parameter for post type
+      // Wrong parameters for post type or bad URL. Redirect.
       case 400:
       case 404:
       case 997:
         return <WrongParams error={errorGenerator(errorFromAPI)} />
-      // Record mismatched with the server
+      // Records mismatched with the server. Alert pop up.
       case 401:
       case 998:
         openAlert()
