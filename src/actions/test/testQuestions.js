@@ -73,7 +73,7 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, p
     try {
       // Check the edited question is existed.
       // If not, throw a 401 error
-      const { data } = await getQuestionFromWp(postType, id)
+      await getQuestionFromWp(postType, id)
 
       const questionForWp = formatForWp(updatedQuestion)
       
@@ -133,7 +133,10 @@ export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, p
       // Restore the original question
       if (err !== 401 && currentQuestion !== null) dispatch(saveQuestion(currentQuestion)) 
 
-      if (err === 401) removeQuestionFromStore(dispatch, testQuestions, currentQuestionNumber, id)
+      // On test page
+      if (err === 401 && testQuestions !== null) {
+        removeQuestionFromStore(dispatch, testQuestions, currentQuestionNumber, id)
+      }
 
       throw err
     }

@@ -12,6 +12,7 @@ import { withRouter } from 'react-router-dom';
 import { getError } from '../../actions/appStatus';
 import { openBar, closeBar } from '../../actions/snackBar';
 import SnackBar from '../layouts/SnackBar';
+import { removeList } from '../../actions/questionList';
 
 class ActionButton extends React.Component {
   state = {
@@ -32,7 +33,9 @@ class ActionButton extends React.Component {
       getError, 
       initializeFromContent, 
       currentQuestion,
-      isNewlyCreated
+      isNewlyCreated,
+      onClose,
+      removeList
     } = this.props
 
     this.toggleSubmitting()
@@ -51,11 +54,16 @@ class ActionButton extends React.Component {
 
       openBar(message)
     } catch(err) {
-      this.toggleSubmitting()
+      if (err !== 401) {
+        this.toggleSubmitting()
 
-      // This should handle errors of 5xx. 
-      // Won't have any effect on the app.
-      initializeFromContent(currentQuestion)
+        // Restore the original question
+        initializeFromContent(currentQuestion)
+      } else {
+        // Close dialog and remove the already non-existing question from the store
+        onClose() 
+        removeList(currentQuestion.id)
+      }
 
       getError(err)
     }
@@ -137,5 +145,5 @@ const mapStateToProps = (
 
 export default withRouter(connect(
   mapStateToProps,
-  { getError, openBar, closeBar }
+  { getError, openBar, closeBar, removeList}
 )(ActionButton));

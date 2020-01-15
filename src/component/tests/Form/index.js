@@ -77,7 +77,7 @@ class Form extends React.Component {
       isFocus: false,
       countsOfAnswer: 0,
       isLoading: false,
-      editedQuestion: null
+      editedQuestion: null // For question list
     }
   }
 
@@ -349,7 +349,7 @@ class Form extends React.Component {
   // }
 
   render() {
-    const { classes, isNewlyCreated } = this.props
+    const { classes, isNewlyCreated, onClose } = this.props
     const { 
       test: { data: { question, tags, answers, title } }, 
       isFormValidate, 
@@ -440,6 +440,7 @@ class Form extends React.Component {
             isNewlyCreated={isNewlyCreated}
             initializeFromContent={this.initializeFromContent}
             editedQuestion={editedQuestion}
+            onClose={onClose}
           />
         </Grid>
       </Grid>

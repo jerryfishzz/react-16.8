@@ -96,6 +96,7 @@ class CreateDialog extends Component {
               isNewlyCreated={comeFrom === "header"} 
               onSubmit={this.handleSubmit}
               onAddSuggestion={onAddSuggestion}
+              onClose={this.handleClose}
               {...other}
             />
           </div>

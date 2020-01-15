@@ -7,7 +7,8 @@ import {
   CHANGE_ROWSPERPAGE, 
   RESET_QUESTIONLIST, 
   UPDATE_RECORD, 
-  SEARCH_RECORDS 
+  SEARCH_RECORDS, 
+  REMOVE_LIST
 } from "../actions/questionList"
 
 const initialQuestionListState = {
@@ -78,6 +79,11 @@ export default function questionList(state = initialQuestionListState, action) {
       return {
         ...state,
         search: action.search
+      }
+    case REMOVE_LIST:
+      return {
+        ...state,
+        list: state.list.filter(row => row.id !== action.id)
       }
     default:
       return state

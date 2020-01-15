@@ -89,7 +89,7 @@ class Tests extends Component {
       case 998:
         openAlert()
         break
-      // Network error
+      // Network error. Redirect.
       case 999:
         return <NetworkErrorPage error={errorGenerator(errorFromAPI)} />
       default:

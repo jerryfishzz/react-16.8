@@ -9,6 +9,7 @@ export const CHANGE_ROWSPERPAGE = 'CHANGE_ROWSPERPAGE'
 export const RESET_QUESTIONLIST = 'RESET_QUESTIONLIST'
 export const UPDATE_RECORD = 'UPDATE_RECORD'
 export const SEARCH_RECORDS = 'SEARCH_RECORDS'
+export const REMOVE_LIST = 'REMOVE_LIST'
 
 function getList(list) {
   return {
@@ -133,5 +134,12 @@ export function searchRecords(search) {
   return {
     type: SEARCH_RECORDS,
     search
+  }
+}
+
+export function removeList(id) {
+  return {
+    type: REMOVE_LIST,
+    id
   }
 }
