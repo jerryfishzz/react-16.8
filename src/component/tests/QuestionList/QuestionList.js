@@ -28,6 +28,8 @@ import CreateDialog from '../Dialog'
 import Search from './Search';
 import { Loading, ErrorFound } from '../../layouts';
 import { stopLoading, getError, resetAppStatus } from '../../../actions/appStatus';
+import { openAlert } from '../../../actions/errorAlert';
+import ErrorAlert from '../../layouts/ErrorAlert';
 
 const useStyles = makeStyles(({
   titleContainer: {
@@ -64,7 +66,8 @@ const CreateQuestionList = (props) => {
     },
     postType,
     isLoading,
-    errorFromAPI
+    errorFromAPI,
+    openAlert
   } = props
 
   useEffect(() => {
@@ -107,8 +110,18 @@ const CreateQuestionList = (props) => {
 
   if (isLoading) return <Loading />
 
-  if (errorFromAPI === 404 || errorFromAPI === 999) {
-    return <ErrorFound error={errorGenerator(errorFromAPI)} />
+  switch (errorFromAPI) {
+    case 400:
+    case 404:
+    case 997:
+    case 999:
+      return <ErrorFound error={errorGenerator(errorFromAPI)} />
+    case 401:
+    case 998:
+      openAlert()
+      break
+    default:
+      break;
   }
 
   return (
@@ -202,6 +215,7 @@ const CreateQuestionList = (props) => {
           </Paper>
         )}
       </Grid>
+      <ErrorAlert error={errorGenerator(errorFromAPI)} />
     </Grid>
   )
 }
@@ -225,6 +239,7 @@ export default withRouter(connect(
     handleResetQuestionList,
     stopLoading,
     getError,
-    resetAppStatus
+    resetAppStatus,
+    openAlert
   }
 )(CreateQuestionList))

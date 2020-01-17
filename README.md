@@ -52,6 +52,12 @@ var connection = new WebSocket(
 );
 ```
 
+- State: lastAction
+  
+  The display text about the current action for error alert.
+  
+  Not all the actions need this state to monitor, currently used on editing (value: `Editing`) and deleting (value: `Deleting`) actions.
+
 [Material UI]: https://material-ui.com/
 
 [React Select]: https://react-select.com/home

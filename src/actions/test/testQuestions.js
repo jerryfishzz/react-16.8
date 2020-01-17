@@ -15,6 +15,7 @@ import {
 } from "../../utils/helpers";
 import { updateRecord } from "../questionList";
 import { removeQuestionFromStore } from "./shared";
+import { startEditing } from "../appStatus";
 
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS'
 export const CLICK_ANSWER = 'CLICK_ANSWER'
@@ -63,6 +64,8 @@ function saveQuestion(updatedQuestion) {
 
 export function handleSaveQuestionToWp(id, updatedQuestion, removed, cb1, cb2, postType) {
   return async (dispatch, getState) => {
+    dispatch(startEditing())
+
     const { test: { testQuestions, currentQuestionNumber } } = getState()
     const currentQuestion = testQuestions
       ? testQuestions.filter(question => question.id === id)[0]
