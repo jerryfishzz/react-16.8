@@ -72,11 +72,9 @@ export const validateDraft = name => {
 }
 
 export const validateDraftFromString = name => {
-  // console.log(name)
   const { blocks } = JSON.parse(name)
-  // console.log(blocks)
   const arrayOfName = blocks.map(block => block.text)
-// console.log(arrayOfName)
+
   return R.any(isExisted)(arrayOfName)
 }
 
