@@ -83,6 +83,7 @@ function LeftSide(props) {
   } = props
 
   const [open, setOpen] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -95,9 +96,12 @@ function LeftSide(props) {
   // This should be used to prevent this question being chosen again from database. 
   // Implement the simple delete first. Later will work on the above requiremnet.
   const handleDelete = id => {
+    setIsSubmitting(true)
+
     handleRemoveQuestionFromWp(id, postType)
       .then(res => {
         handleClose()
+        setIsSubmitting(false)
 
         // When res is a function, run it.
         // The return from the function will be an error.
@@ -109,6 +113,7 @@ function LeftSide(props) {
       })
       .catch(err => {
         handleClose()
+        setIsSubmitting(false)
         getError(err)
       })
   }
@@ -159,12 +164,18 @@ function LeftSide(props) {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary" autoFocus>
+            <Button 
+              onClick={handleClose} 
+              color="primary" 
+              autoFocus
+              disabled={isSubmitting}
+            >
               No
             </Button>
             <Button 
               onClick={() => handleDelete(currentQuestion.id)} 
               color="secondary" 
+              disabled={isSubmitting}
             >
               Yes
             </Button>

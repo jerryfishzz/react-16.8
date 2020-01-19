@@ -44,9 +44,9 @@ class ActionButton extends React.Component {
       await handleSubmit()
 
       this.setState({ 
+        dialogOpen: false,
         isSubmitting: false,
-        dialogOpen: false
-      });
+      })
 
       const message= !isNewlyCreated
         ? "Question has been editted."
@@ -54,13 +54,16 @@ class ActionButton extends React.Component {
 
       openBar(message)
     } catch(err) {
-      if (err !== 401) {
-        this.toggleSubmitting()
+      this.setState({ 
+        dialogOpen: false,
+        isSubmitting: false,
+      })
 
+      if (err !== 401) {
         // Restore the original question
         initializeFromContent(currentQuestion)
       } else {
-        // Close dialog and remove the already non-existing question from the store
+        // Close the Form dialog and remove the already non-existing question from the store
         onClose() 
         removeList(currentQuestion.id)
       }
@@ -104,12 +107,18 @@ class ActionButton extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleDialogClose} color="primary" autoFocus>
+            <Button 
+              onClick={this.handleDialogClose} 
+              color="primary" 
+              autoFocus
+              disabled={isSubmitting}
+            >
               No
             </Button>
             <Button 
               onClick={this.handleConfirm} 
               color="secondary" 
+              disabled={isSubmitting}
             >
               Yes
             </Button>
