@@ -149,7 +149,6 @@ function LeftSide(props) {
         </IconButton>
         <Dialog
           open={open}
-          onClose={handleClose}
           fullWidth
           maxWidth='sm'
         >

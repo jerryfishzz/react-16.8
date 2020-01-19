@@ -96,10 +96,7 @@ class ActionButton extends React.Component {
         >
           {!isNewlyCreated ? "Edit" : "Create" }
         </Button>
-        <Dialog
-          open={dialogOpen}
-          onClose={this.handleDialogClose}
-        >
+        <Dialog open={dialogOpen}>
           <DialogTitle>Edit Question</DialogTitle>
           <DialogContent>
             <DialogContentText>
