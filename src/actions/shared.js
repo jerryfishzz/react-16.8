@@ -67,27 +67,36 @@ export function initializeAppFromWordPress(cb = null, postType) {
   }
 }
 
-export function shuffleQuestions(postType, questionsNeededToShuffle) {
+export function shuffleQuestions(postType, questionsInStoreBeforeShuffling) {
   return async dispatch => {
     try {
       dispatch(handleResetTest())
       dispatch(resetAppStatus())
 
-      const shuffledQuestions = shuffle(questionsNeededToShuffle)
+      const shuffledQuestions = shuffle(questionsInStoreBeforeShuffling)
 
       const testQuestions = await Promise.all(
         shuffledQuestions.map(async (question, index) => {
-          if (index < QUESTION_COUNTS && !question.hasAnswers) {
-            try {
-              const { data } = await getQuestionFromWp(postType, question.id)
-              const answers = await getAnswersForQuestionFromWp(question.id)
+          if (index < QUESTION_COUNTS) {
+            if (question.hasAnswers) {
+              // Remove the question history
+              return {
+                ...question,
+                isSubmitted: false,
+                selectedAnswers: []
+              }
+            } else {
+              try {
+                const { data } = await getQuestionFromWp(postType, question.id)
+                const answers = await getAnswersForQuestionFromWp(question.id)
 
-              const questionWithoutAnswers = handleFormatQuestionFromWordPress(data)
-              const updatedQuestion = addAnswersToQuestion(answers, questionWithoutAnswers)
+                const questionWithoutAnswers = handleFormatQuestionFromWordPress(data)
+                const updatedQuestion = addAnswersToQuestion(answers, questionWithoutAnswers)
 
-              return addAnswersToQuestion(answers, updatedQuestion)
-            } catch(err) {
-              throw err
+                return addAnswersToQuestion(answers, updatedQuestion)
+              } catch(err) {
+                throw err
+              }
             }
           }
           return question
