@@ -137,7 +137,7 @@ function LeftSide(props) {
           className={classes.title}
         >
           {`Question ${currentQuestionNumber + 1} / 
-            ${testQuestions.length >= QUESTION_COUNTS - offset
+            ${(testQuestions.length >= QUESTION_COUNTS - offset) && (postType !== 'temps')
               ? QUESTION_COUNTS - offset : testQuestions.length}`}
         </Typography>
         <IconButton 
@@ -226,7 +226,7 @@ function LeftSide(props) {
         <Grid item>
           <Button
             onClick={handleNext} 
-            disabled={testQuestions.length >= QUESTION_COUNTS - offset
+            disabled={(testQuestions.length >= QUESTION_COUNTS - offset) && (postType !== 'temps')
               ? currentQuestionNumber === QUESTION_COUNTS - offset - 1
               : currentQuestionNumber === testQuestions.length - 1}
             className={classes.navBtn}

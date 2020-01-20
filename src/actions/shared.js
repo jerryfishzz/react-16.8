@@ -43,7 +43,7 @@ export function initializeAppFromWordPress(cb = null, postType) {
 
         const testQuestions = await Promise.all(
           randomizedQuestions.map(async (question, index) => {
-            if (index < QUESTION_COUNTS) {
+            if (index < QUESTION_COUNTS || postType === 'temps') {
               try {
                 const answers = await getAnswersForQuestionFromWp(question.id)
 
