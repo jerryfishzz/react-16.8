@@ -288,8 +288,12 @@ class Form extends React.Component {
         selectedAnswers: [],
         isSubmitted: false,
       },
+      removed: [],
       isFormValidate: false,
-      isFocus: false
+      isFocus: false,
+      countsOfAnswer: 0,
+      isLoading: false,
+      editedQuestion: null
     })
   }
 
