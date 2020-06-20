@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 
 import App from './App';
 import middleware from './middleware'
+import 'draft-js/dist/Draft.css'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
