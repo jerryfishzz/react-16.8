@@ -17,6 +17,7 @@ import { indigo, red } from '@material-ui/core/colors';
 import { useTheme } from '@material-ui/core/styles';
 
 import DraftEditor from './DraftEditor';
+import MyCKEditor from './MyCKEditor';
 
 const styles = theme => ({
   item: {
@@ -140,6 +141,7 @@ const AnswerForm = ({
                   contents={answers[i].content} 
                   handleDraftChange={handleContentChange(i)}
                 />
+                <MyCKEditor />
               </Grid>
               <Grid item container direction="column" className={classes.specContainer}>
                 <FormControl>
