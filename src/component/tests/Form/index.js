@@ -29,6 +29,7 @@ import {
   getQuestionFromWPForEditting 
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
+import MarkdownEditor from "./MarkdownEditor";
 
 const styles = theme => ({
   item: {
@@ -433,6 +434,7 @@ class Form extends React.Component {
                 contents={this.state.test.data.otherNotes} 
                 handleDraftChange={handleOtherNotesChange}
               />
+              <MarkdownEditor />
             </Grid>
           </Paper>
         </Grid>
