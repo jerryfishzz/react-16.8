@@ -86,7 +86,7 @@ class Form extends React.Component {
     const { isNewlyCreated, currentQuestion, qid, postType, getError } = this.props
 
     if (!isNewlyCreated) {
-      if (qid !== undefined) {
+      if (qid !== undefined) { // Under questionlist route
         this.setState({isLoading: true})
 
         getQuestionFromWPForEditting(postType, qid)
@@ -101,7 +101,7 @@ class Form extends React.Component {
             // alert(err)
             getError(err)
           })
-      } else {
+      } else { // Under test route
         this.initializeFromContent(currentQuestion)
       }
     } else {

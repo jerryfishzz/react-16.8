@@ -24,7 +24,7 @@ function MarkdownEditor() {
   return (
     <MdEditor
       value="## 手把手教你写一个markdown编辑器"
-      style={{ height: "500px", border: 0 }}
+      style={{ height: "200px", border: 0 }}
       renderHTML={(text) => mdParser.render(text)}
       onChange={handleEditorChange}
       readOnly={true}
