@@ -105,15 +105,7 @@ class Form extends React.Component {
         this.initializeFromContent(currentQuestion)
       }
     } else {
-      this.setState(({ test }) => ({
-        test: {
-          ...test,
-          data: {
-            ...test.data,
-          }
-        },
-        countsOfAnswer: 1
-      }))
+      this.setState({ countsOfAnswer: 1 })
     }
   }
 
