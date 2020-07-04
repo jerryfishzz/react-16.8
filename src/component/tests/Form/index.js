@@ -30,6 +30,7 @@ import {
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
 import MarkdownEditor from "./MarkdownEditor";
+import { generateData } from "./dataGenerator";
 
 const styles = theme => ({
   item: {
@@ -60,7 +61,10 @@ class Form extends React.Component {
         id: '',
         data: {
           id: '',
-          question: EditorState.createEmpty(),
+          question: {
+            draft: EditorState.createEmpty(),
+            md: ''
+          },
           title: '',
           tags: [],
           answers: [{
@@ -68,7 +72,10 @@ class Form extends React.Component {
             correctness: false,
             note: EditorState.createEmpty()
           }],
-          otherNotes: EditorState.createEmpty()
+          otherNotes: {
+            draft: EditorState.createEmpty(),
+            md: ''
+          },
         },
         selectedAnswers: [],
         isSubmitted: false,
@@ -110,19 +117,12 @@ class Form extends React.Component {
   }
 
   initializeFromContent = currentQuestion => {
+    const data = generateData(currentQuestion)
+
     this.setState({
       test: {
         ...currentQuestion,
-        data: {
-          ...currentQuestion.data,
-          question: getEditorStateFromContent(currentQuestion.data.question),
-          answers: currentQuestion.data.answers.map(answer => ({
-            ...answer,
-            content: getEditorStateFromContent(answer.content),
-            note: getEditorStateFromContent(answer.note)
-          })),
-          otherNotes: getEditorStateFromContent(currentQuestion.data.otherNotes),
-        }
+        data
       },
       isFormValidate: true,
       countsOfAnswer: currentQuestion.data.answers.length,
@@ -299,12 +299,12 @@ class Form extends React.Component {
   }
 
   validateForm = () => {
-    // todo: validate answer content
-
-    const { test: { data: { question, answers } } } = this.state
+    const { test: { data: { question, answers }}} = this.state
     
-    const isQuestionValidate = this.validateDraft(question)
+    // Validate question not blank
+    const isQuestionValidate = this.validateDraft(question.draft)
 
+    // Validate all the answers not blank
     const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
     const isAnswerValidate = R.all(isExisted)(contentValidatingStates)
 
@@ -322,7 +322,10 @@ class Form extends React.Component {
           ...prevState.test,
           data: {
             ...prevState.test.data,
-            [name]: editorState
+            [name]: {
+              ...[name],
+              draft: editorState,
+            }
           }
         }
       }), 
@@ -332,24 +335,10 @@ class Form extends React.Component {
     );
   };
 
-  // onToggleCode = (e) => {
-  //   e.preventDefault()
-  //   this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
-  // };
-
-  // getFocus = e => {
-  //   setTimeout(this.setState({isFocus: true}), 500)
-    
-  // }
-
-  // loseFocus = e => {
-  //   this.setState({isFocus: false})
-  // }
-
   render() {
     const { classes, isNewlyCreated, onClose } = this.props
     const { 
-      test: { data: { question, tags, answers, title } }, 
+      test: { data: { question, tags, answers, title, otherNotes }}, 
       isFormValidate, 
       countsOfAnswer, 
       isLoading,
@@ -362,7 +351,7 @@ class Form extends React.Component {
     if (isLoading) {
       return <div>Loading...</div>
     }
-console.log(this.state.test)
+
     return (
       <Grid container direction="column">
         <Grid item className={classes.item} style={{width: '100%'}}>
@@ -372,7 +361,7 @@ console.log(this.state.test)
                 <span className={classes.required}>Question</span><span className={classes.astra}>*</span>
               </Typography>
               <DraftEditor 
-                contents={question} 
+                contents={question.draft} 
                 handleDraftChange={handleQuestionChange}
               />
             </Grid>
@@ -424,7 +413,7 @@ console.log(this.state.test)
                 Other Notes
               </Typography>
               <DraftEditor 
-                contents={this.state.test.data.otherNotes} 
+                contents={otherNotes.draft} 
                 handleDraftChange={handleOtherNotesChange}
               />
               <MarkdownEditor />

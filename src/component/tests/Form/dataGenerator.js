@@ -1,41 +1,73 @@
 import { EditorState } from "draft-js";
+import { getEditorStateFromContent } from "../../../utils/helpers";
 
-export const usingEditors = ['draft', 'md']
+const editors = ['draft', 'md']
 
-const draftData = () => ({
-  id: '',
-  question: EditorState.createEmpty(),
-  title: '',
-  tags: [],
-  answers: [{
-    content: EditorState.createEmpty(),
-    correctness: false,
-    note: EditorState.createEmpty()
-  }],
-  otherNotes: EditorState.createEmpty()
-})
+const generateDataForMultiEditors = currentQuestion => {
+  const { data: { question, answers, otherNotes }} = currentQuestion
+  let data, draftQuestion, mdQuestion, draftOtherNotes, mdOtherNotes
 
-const mdData = () => ({
-  id: '',
-  question: '',
-  title: '',
-  tags: [],
-  answers: [{
-    content: '',
-    correctness: false,
-    note: ''
-  }],
-  otherNotes: ''
-})
-
-export const dataGenerator = () => {
-  if (usingEditors.length === 1) {
-    return usingEditors[0] === 'draft'
-      ? draftData()
-      : mdData()
+  if (!question.draft && !question.md) {
+    draftQuestion = getEditorStateFromContent(question)
+    mdQuestion = ''
+  } else {
+    draftQuestion = getEditorStateFromContent(question.draft)
+    mdQuestion = question.md
   }
-  return {
-    draft: draftData(),
-    md: mdData()
+
+  if (!otherNotes.draft && !otherNotes.md) {
+    draftOtherNotes = getEditorStateFromContent(otherNotes)
+    mdOtherNotes = ''
+  } else {
+    draftOtherNotes = getEditorStateFromContent(otherNotes.draft)
+    mdOtherNotes = otherNotes.md
   }
+
+  data = {
+    ...currentQuestion.data,
+    question: {
+      draft: draftQuestion,
+      md: mdQuestion
+    },
+    answers: answers.map(answer => ({
+      ...answer,
+      content: getEditorStateFromContent(answer.content),
+      note: getEditorStateFromContent(answer.note)
+    })),
+    otherNotes: {
+      draft: draftOtherNotes,
+      md: mdOtherNotes
+    },
+  }
+
+  return data
+}
+
+const generateDataForMDEditor = currentQuestion => {
+  const { data: { question, answers, otherNotes }} = currentQuestion
+
+  const data = {
+    ...currentQuestion.data,
+    question: {
+      draft: EditorState.createEmpty(),
+      md: question
+    },
+    answers: answers.map(answer => ({
+      ...answer,
+      content: getEditorStateFromContent(answer.content),
+      note: getEditorStateFromContent(answer.note)
+    })),
+    otherNotes: {
+      draft: EditorState.createEmpty(),
+      md: otherNotes
+    },
+  }
+
+  return data
+}
+
+export const generateData = currentQuestion => {
+  return editors.length === 1 
+    ? generateDataForMDEditor(currentQuestion)
+    : generateDataForMultiEditors(currentQuestion)
 }
