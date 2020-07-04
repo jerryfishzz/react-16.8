@@ -15,11 +15,8 @@ function handleEditorChange({html, text}) {
   console.log('handleEditorChange', html, text)
 }
 
-function MarkdownEditor() {
-  const config = {
-    view: { menu: false, md: false, html: true },
-    canView: { menu: true, md: true, html: true, fullScreen: false, hideMenu: false },
-  }
+function MarkdownEditor(props) {
+  const { mdConfig: { config, isReadOnly }} = props
 
   return (
     <MdEditor
@@ -27,7 +24,7 @@ function MarkdownEditor() {
       style={{ height: "200px", border: 0 }}
       renderHTML={(text) => mdParser.render(text)}
       onChange={handleEditorChange}
-      readOnly={true}
+      readOnly={isReadOnly}
       config={config}
     />
   )

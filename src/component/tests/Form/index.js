@@ -52,6 +52,24 @@ const styles = theme => ({
   },
 });
 
+const mdConfig = {
+  config: {
+    view: {
+      menu: false, 
+      md: false, 
+      html: true 
+    },
+    canView: { 
+      menu: true, 
+      md: true, 
+      html: true, 
+      fullScreen: false, 
+      hideMenu: false 
+    }
+  },
+  isReadOnly: false
+}
+
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -416,7 +434,7 @@ class Form extends React.Component {
                 contents={otherNotes.draft} 
                 handleDraftChange={handleOtherNotesChange}
               />
-              <MarkdownEditor />
+              <MarkdownEditor mdConfig={mdConfig} />
             </Grid>
           </Paper>
         </Grid>
