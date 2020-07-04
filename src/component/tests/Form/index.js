@@ -77,7 +77,7 @@ class Form extends React.Component {
       isFormValidate: false,
       isFocus: false,
       countsOfAnswer: 0,
-      isLoading: false,
+      isLoading: true,
       editedQuestion: null // For question list
     }
   }
@@ -87,13 +87,10 @@ class Form extends React.Component {
 
     if (!isNewlyCreated) {
       if (qid !== undefined) { // Under questionlist route
-        this.setState({isLoading: true})
-
         getQuestionFromWPForEditting(postType, qid)
           .then(res => {
             this.initializeFromContent(res)
             this.setState({
-              isLoading: false,
               editedQuestion: res
             })
           })
@@ -125,7 +122,8 @@ class Form extends React.Component {
         }
       },
       isFormValidate: true,
-      countsOfAnswer: currentQuestion.data.answers.length
+      countsOfAnswer: currentQuestion.data.answers.length,
+      isLoading: false,
     })
   }
 
