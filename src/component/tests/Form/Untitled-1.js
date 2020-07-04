@@ -30,6 +30,7 @@ import {
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
 import MarkdownEditor from "./MarkdownEditor";
+import { usingEditors } from "./dataGenerator";
 
 const styles = theme => ({
   item: {
@@ -60,7 +61,10 @@ class Form extends React.Component {
         id: '',
         data: {
           id: '',
-          question: EditorState.createEmpty(),
+          question: {
+            draft: EditorState.createEmpty(),
+            md: ''
+          },
           title: '',
           tags: [],
           answers: [{
@@ -68,7 +72,10 @@ class Form extends React.Component {
             correctness: false,
             note: EditorState.createEmpty()
           }],
-          otherNotes: EditorState.createEmpty()
+          otherNotes: {
+            draft: EditorState.createEmpty(),
+            md: ''
+          }
         },
         selectedAnswers: [],
         isSubmitted: false,
@@ -99,34 +106,66 @@ class Form extends React.Component {
             getError(err)
           })
       } else { // Under test route
+        console.log(987)
         this.initializeFromContent(currentQuestion)
+        this.setState({
+          isLoading: false
+        })
       }
     } else {
-      this.setState({
-        isLoading: false,
-        countsOfAnswer: 1 
-      })
+      this.setState({ countsOfAnswer: 1 })
     }
   }
 
   initializeFromContent = currentQuestion => {
+    console.log(currentQuestion)
+    const { data: { question, answers, otherNotes }} = currentQuestion
+console.log(question)
+    let transitionData, draftQuestion, mdQuestion, draftOtherNotes, mdOtherNotes
+
+    if (usingEditors.length > 1) {
+      if (!question.draft && !question.md) {
+        draftQuestion = getEditorStateFromContent(question)
+        mdQuestion = ''
+      } else {
+        draftQuestion = getEditorStateFromContent(question.draft)
+        mdQuestion = question.md
+      }
+
+      if (!otherNotes.draft && !otherNotes.md) {
+        draftOtherNotes = getEditorStateFromContent(otherNotes)
+        mdOtherNotes = ''
+      } else {
+        draftOtherNotes = getEditorStateFromContent(otherNotes.draft)
+        mdOtherNotes = otherNotes.md
+      }
+    }
+
+    transitionData = {
+      ...currentQuestion.data,
+      question: {
+        draft: draftQuestion,
+        md: mdQuestion
+      },
+      answers: currentQuestion.data.answers.map(answer => ({
+        ...answer,
+        content: getEditorStateFromContent(answer.content),
+        note: getEditorStateFromContent(answer.note)
+      })),
+      otherNotes: {
+        draft: draftOtherNotes,
+        md: mdOtherNotes
+      },
+    }
+console.log(transitionData)
     this.setState({
       test: {
         ...currentQuestion,
-        data: {
-          ...currentQuestion.data,
-          question: getEditorStateFromContent(currentQuestion.data.question),
-          answers: currentQuestion.data.answers.map(answer => ({
-            ...answer,
-            content: getEditorStateFromContent(answer.content),
-            note: getEditorStateFromContent(answer.note)
-          })),
-          otherNotes: getEditorStateFromContent(currentQuestion.data.otherNotes),
-        }
+        data: transitionData
       },
       isFormValidate: true,
       countsOfAnswer: currentQuestion.data.answers.length,
-      isLoading: false,
+      // isLoading: false,
     })
   }
 
@@ -303,7 +342,7 @@ class Form extends React.Component {
 
     const { test: { data: { question, answers } } } = this.state
     
-    const isQuestionValidate = this.validateDraft(question)
+    const isQuestionValidate = this.validateDraft(question.draft)
 
     const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
     const isAnswerValidate = R.all(isExisted)(contentValidatingStates)
@@ -332,21 +371,8 @@ class Form extends React.Component {
     );
   };
 
-  // onToggleCode = (e) => {
-  //   e.preventDefault()
-  //   this.handleDraftChange(RichUtils.toggleCode(this.state.test.data.otherNotes));
-  // };
-
-  // getFocus = e => {
-  //   setTimeout(this.setState({isFocus: true}), 500)
-    
-  // }
-
-  // loseFocus = e => {
-  //   this.setState({isFocus: false})
-  // }
-
   render() {
+    console.log(789)
     const { classes, isNewlyCreated, onClose } = this.props
     const { 
       test: { data: { question, tags, answers, title } }, 
@@ -372,7 +398,7 @@ console.log(this.state.test)
                 <span className={classes.required}>Question</span><span className={classes.astra}>*</span>
               </Typography>
               <DraftEditor 
-                contents={question} 
+                contents={question.draft} 
                 handleDraftChange={handleQuestionChange}
               />
             </Grid>
@@ -424,7 +450,7 @@ console.log(this.state.test)
                 Other Notes
               </Typography>
               <DraftEditor 
-                contents={this.state.test.data.otherNotes} 
+                contents={this.state.test.data.otherNotes.draft} 
                 handleDraftChange={handleOtherNotesChange}
               />
               <MarkdownEditor />
