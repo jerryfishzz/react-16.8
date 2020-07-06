@@ -334,6 +334,24 @@ class Form extends React.Component {
     }) 
   }
 
+  validateFormForMd = () => {
+    const { test: { data: { question, answers }}} = this.state
+    
+    const regex = /^\s*$/g
+    // Validate question not blank
+    const isQuestionValidate = regex.test(question.md)
+
+    // Validate all the answers not blank
+    const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
+    const isAnswerValidate = R.all(isExisted)(contentValidatingStates)
+
+    this.setState({
+      isFormValidate: (isQuestionValidate && isAnswerValidate)
+        ? true
+        : false
+    }) 
+  }
+
   handleDraftChange = name => editorState => {
     this.setState(
       (prevState) => ({
@@ -342,7 +360,7 @@ class Form extends React.Component {
           data: {
             ...prevState.test.data,
             [name]: {
-              ...[name],
+              ...prevState.test.data[name],
               draft: editorState,
             }
           }
@@ -350,6 +368,26 @@ class Form extends React.Component {
       }), 
       () => {
         if (name === 'question') this.validateForm()
+      }  
+    );
+  };
+
+  handleMdChange = name => text => {
+    this.setState(
+      (prevState) => ({
+        test: {
+          ...prevState.test,
+          data: {
+            ...prevState.test.data,
+            [name]: {
+              ...prevState.test.data[name],
+              md: text,
+            }
+          }
+        }
+      }), 
+      () => {
+        if (name === 'question') this.validateFormForMd()
       }  
     );
   };
@@ -367,9 +405,14 @@ class Form extends React.Component {
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
     const handleQuestionChange = this.handleDraftChange('question')
 
+    const handleOtherNotesChangeForMd = this.handleMdChange('otherNotes')
+    const handleQuestionChangeForMd = this.handleMdChange('question')
+
     if (isLoading) {
       return <div>Loading...</div>
     }
+
+    console.log(otherNotes)
 
     return (
       <Grid container direction="column">
@@ -435,7 +478,10 @@ class Form extends React.Component {
                 contents={otherNotes.draft} 
                 handleDraftChange={handleOtherNotesChange}
               />
-              <MarkdownEditor mdConfig={mdConfig} />
+              <MarkdownEditor 
+                mdConfig={mdConfig} 
+                handleMdChange={handleOtherNotesChangeForMd} 
+              />
             </Grid>
           </Paper>
         </Grid>

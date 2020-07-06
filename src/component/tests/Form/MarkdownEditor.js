@@ -10,13 +10,14 @@ import 'react-markdown-editor-lite/lib/index.css';
 // Initialize a markdown parser
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
-// Finish!
-function handleEditorChange({html, text}) {    
-  console.log('handleEditorChange', html, text)
-}
-
 function MarkdownEditor(props) {
   const { mdConfig: { config, isReadOnly }} = props
+
+  const handleEditorChange = ({html, text}) => {    
+    console.log('handleEditorChange', html, text)
+    const { handleMdChange } = props
+    handleMdChange(text)
+  }
 
   return (
     <MdEditor
