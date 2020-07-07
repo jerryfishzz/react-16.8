@@ -140,7 +140,9 @@ export function handleNetworkError(err) {
 }
 
 export function escapeAndStringify(content) {
-  const contentState = content.getCurrentContent()
+  const draft = content.draft ? content.draft : content
+
+  const contentState = draft.getCurrentContent()
   const contentObject = convertToRaw(contentState)
   const escapedContentObject = {
     ...contentObject,
@@ -150,23 +152,33 @@ export function escapeAndStringify(content) {
     }))
   }
 
-  return JSON.stringify(escapedContentObject)
+  const processedContent = content.draft 
+    ? {...content, draft: escapedContentObject}
+    : escapedContentObject
+
+  return JSON.stringify(processedContent)
 }
 
 function objectizeAndUnescape(string) {
   const objectFromString = JSON.parse(string)
-  // console.log(objectFromString)
+  const draftObject = objectFromString.draft ? objectFromString.draft : objectFromString
+
   const unescapedObject = {
-    ...objectFromString,
-    blocks: objectFromString.blocks.map(block => ({
+    ...draftObject,
+    blocks: draftObject.blocks.map(block => ({
       ...block,
       text: decodeURIComponent(block.text)
     }))
   }
 
-  return unescapedObject
+  const processedUnescapedObject = objectFromString.draft 
+    ? {...objectFromString, draft: unescapedObject}
+    : unescapedObject
+
+  return processedUnescapedObject
 }
 
+// content is string
 export function getEditorStateFromContent(content) {
   return EditorState.createWithContent(convertFromRaw(objectizeAndUnescape(content)))
 }

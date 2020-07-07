@@ -7,20 +7,23 @@ const generateDataForMultiEditors = currentQuestion => {
   const { data: { question, answers, otherNotes }} = currentQuestion
   let data, draftQuestion, mdQuestion, draftOtherNotes, mdOtherNotes
 
-  if (!question.draft && !question.md) {
+  const questionObj = JSON.parse(question)
+  const otherNotesObj = JSON.parse(otherNotes)
+
+  if (!questionObj.draft && !questionObj.md) {
     draftQuestion = getEditorStateFromContent(question)
     mdQuestion = ''
   } else {
-    draftQuestion = getEditorStateFromContent(question.draft)
-    mdQuestion = question.md
+    draftQuestion = getEditorStateFromContent(JSON.stringify(questionObj.draft))
+    mdQuestion = questionObj.md
   }
 
-  if (!otherNotes.draft && !otherNotes.md) {
+  if (!otherNotesObj.draft && !otherNotesObj.md) {
     draftOtherNotes = getEditorStateFromContent(otherNotes)
     mdOtherNotes = ''
   } else {
-    draftOtherNotes = getEditorStateFromContent(otherNotes.draft)
-    mdOtherNotes = otherNotes.md
+    draftOtherNotes = getEditorStateFromContent(JSON.stringify(otherNotesObj.draft))
+    mdOtherNotes = otherNotesObj.md
   }
 
   data = {

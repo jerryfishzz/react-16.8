@@ -480,7 +480,8 @@ class Form extends React.Component {
               />
               <MarkdownEditor 
                 mdConfig={mdConfig} 
-                handleMdChange={handleOtherNotesChangeForMd} 
+                handleMdChange={handleOtherNotesChangeForMd}
+                text={otherNotes.md}
               />
             </Grid>
           </Paper>
