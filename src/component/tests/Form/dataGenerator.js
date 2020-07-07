@@ -3,34 +3,26 @@ import { getEditorStateFromContent } from "../../../utils/helpers";
 
 const editors = ['draft', 'md']
 
+const getInputValue = input => editor => {
+  const inputObj = JSON.parse(input)
+  const value = !inputObj.draft && !inputObj.md
+    ? { draft: getEditorStateFromContent(input), md: '' }
+    : { draft: getEditorStateFromContent(JSON.stringify(inputObj.draft)), md: inputObj.md }
+  
+  return value[editor]
+}
+
 const generateDataForMultiEditors = currentQuestion => {
   const { data: { question, answers, otherNotes }} = currentQuestion
-  let data, draftQuestion, mdQuestion, draftOtherNotes, mdOtherNotes
 
-  const questionObj = JSON.parse(question)
-  const otherNotesObj = JSON.parse(otherNotes)
+  const questionValue = getInputValue(question)
+  const otherNotesValue = getInputValue(otherNotes)
 
-  if (!questionObj.draft && !questionObj.md) {
-    draftQuestion = getEditorStateFromContent(question)
-    mdQuestion = ''
-  } else {
-    draftQuestion = getEditorStateFromContent(JSON.stringify(questionObj.draft))
-    mdQuestion = questionObj.md
-  }
-
-  if (!otherNotesObj.draft && !otherNotesObj.md) {
-    draftOtherNotes = getEditorStateFromContent(otherNotes)
-    mdOtherNotes = ''
-  } else {
-    draftOtherNotes = getEditorStateFromContent(JSON.stringify(otherNotesObj.draft))
-    mdOtherNotes = otherNotesObj.md
-  }
-
-  data = {
+  return {
     ...currentQuestion.data,
     question: {
-      draft: draftQuestion,
-      md: mdQuestion
+      draft: questionValue('draft'),
+      md: questionValue('md')
     },
     answers: answers.map(answer => ({
       ...answer,
@@ -38,12 +30,10 @@ const generateDataForMultiEditors = currentQuestion => {
       note: getEditorStateFromContent(answer.note)
     })),
     otherNotes: {
-      draft: draftOtherNotes,
-      md: mdOtherNotes
+      draft: otherNotesValue('draft'),
+      md: otherNotesValue('md')
     },
   }
-
-  return data
 }
 
 const generateDataForMDEditor = currentQuestion => {
