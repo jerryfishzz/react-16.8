@@ -20,18 +20,6 @@ Just `npm install` and `npm start`, then enjoy it.
 
 - [Wordpress] Wordpress API to communicate with front-end and server-side
 
-## Limitations
-
-This project is still under construction. Not all the functionalities have been implemented.
-
-- Only support multichoice questions with one correct answer.
-
-## Future Progress
-
-This app will be still temporarily based on the current working mode: multichoice questions with one correct answer. New feats will be focus on the following points:
-
-- Mobile supportive. Then it can be called **handy**. It probably looks like my another complete project: [mobile flashcard].
-
 ## Memo for fixes
 
 - The [solution] for Microsoft Edge
