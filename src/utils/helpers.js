@@ -3,6 +3,33 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import uniqid from 'uniqid'
 import { getQuestionFromWp, getAnswersForQuestionFromWp } from './api';
 
+export const strToObj = str => JSON.parse(str)
+export const objToStr = obj => JSON.stringify(obj)
+const getObjKeyValue = (obj, key) => obj[key]
+
+/**
+ * @param {object}
+ * @return {function} Get key and return its value
+ */
+export const curriedGetObjKeyValue = R.curry(getObjKeyValue)
+
+// Line feed \n is always saved as 'n' in WP.
+// So need to replace it by other characters before saving.
+const lineFeedToCode = str => str.replace(/\n/g, '&#10;')
+
+// Line feed string '\n' can be saved properly in WP.
+// But when the front-end reads line feed string, it will turn it to a line feed.
+// So need to escape it before saving.
+const escapeLineFeedString = str => str.replace(/\\n/g, '\\\\n')
+
+/**
+ * @param {string}
+ * @return {string}
+ */
+const processLineFeed = R.pipe(lineFeedToCode, escapeLineFeedString)
+
+export const codeToLineFeed = str => str.replace(/&#10;/g, '\n')
+
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 export const QUESTION_COUNTS = 10
@@ -140,7 +167,9 @@ export function handleNetworkError(err) {
 }
 
 export function escapeAndStringify(content) {
-  const contentState = content.getCurrentContent()
+  const draft = content.draft ? content.draft : content
+
+  const contentState = draft.getCurrentContent()
   const contentObject = convertToRaw(contentState)
   const escapedContentObject = {
     ...contentObject,
@@ -150,23 +179,33 @@ export function escapeAndStringify(content) {
     }))
   }
 
-  return JSON.stringify(escapedContentObject)
+  const processedContent = content.draft 
+    ? {draft: escapedContentObject, md: processLineFeed(content.md)}
+    : escapedContentObject
+
+  return JSON.stringify(processedContent)
 }
 
 function objectizeAndUnescape(string) {
   const objectFromString = JSON.parse(string)
-  // console.log(objectFromString)
+  const draftObject = objectFromString.draft ? objectFromString.draft : objectFromString
+
   const unescapedObject = {
-    ...objectFromString,
-    blocks: objectFromString.blocks.map(block => ({
+    ...draftObject,
+    blocks: draftObject.blocks.map(block => ({
       ...block,
       text: decodeURIComponent(block.text)
     }))
   }
 
-  return unescapedObject
+  const processedUnescapedObject = objectFromString.draft 
+    ? {...objectFromString, draft: unescapedObject}
+    : unescapedObject
+
+  return processedUnescapedObject
 }
 
+// content is string
 export function getEditorStateFromContent(content) {
   return EditorState.createWithContent(convertFromRaw(objectizeAndUnescape(content)))
 }

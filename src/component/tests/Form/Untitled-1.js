@@ -30,7 +30,7 @@ import {
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
 import MarkdownEditor from "./MarkdownEditor";
-import { generateData } from "./dataGenerator";
+import { usingEditors } from "./dataGenerator";
 
 const styles = theme => ({
   item: {
@@ -51,25 +51,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
 });
-
-const mdConfig = {
-  // config: {
-  //   view: {
-  //     menu: false, 
-  //     md: false, 
-  //     html: true 
-  //   },
-  //   canView: { 
-  //     menu: true, 
-  //     md: true, 
-  //     html: true, 
-  //     fullScreen: false, 
-  //     hideMenu: false 
-  //   }
-  // },
-  config: {},
-  isReadOnly: false
-}
 
 class Form extends React.Component {
   constructor(props) {
@@ -94,7 +75,7 @@ class Form extends React.Component {
           otherNotes: {
             draft: EditorState.createEmpty(),
             md: ''
-          },
+          }
         },
         selectedAnswers: [],
         isSubmitted: false,
@@ -125,27 +106,66 @@ class Form extends React.Component {
             getError(err)
           })
       } else { // Under test route
+        console.log(987)
         this.initializeFromContent(currentQuestion)
+        this.setState({
+          isLoading: false
+        })
       }
     } else {
-      this.setState({
-        isLoading: false,
-        countsOfAnswer: 1 
-      })
+      this.setState({ countsOfAnswer: 1 })
     }
   }
 
   initializeFromContent = currentQuestion => {
-    const data = generateData(currentQuestion)
+    console.log(currentQuestion)
+    const { data: { question, answers, otherNotes }} = currentQuestion
+console.log(question)
+    let transitionData, draftQuestion, mdQuestion, draftOtherNotes, mdOtherNotes
 
+    if (usingEditors.length > 1) {
+      if (!question.draft && !question.md) {
+        draftQuestion = getEditorStateFromContent(question)
+        mdQuestion = ''
+      } else {
+        draftQuestion = getEditorStateFromContent(question.draft)
+        mdQuestion = question.md
+      }
+
+      if (!otherNotes.draft && !otherNotes.md) {
+        draftOtherNotes = getEditorStateFromContent(otherNotes)
+        mdOtherNotes = ''
+      } else {
+        draftOtherNotes = getEditorStateFromContent(otherNotes.draft)
+        mdOtherNotes = otherNotes.md
+      }
+    }
+
+    transitionData = {
+      ...currentQuestion.data,
+      question: {
+        draft: draftQuestion,
+        md: mdQuestion
+      },
+      answers: currentQuestion.data.answers.map(answer => ({
+        ...answer,
+        content: getEditorStateFromContent(answer.content),
+        note: getEditorStateFromContent(answer.note)
+      })),
+      otherNotes: {
+        draft: draftOtherNotes,
+        md: mdOtherNotes
+      },
+    }
+console.log(transitionData)
     this.setState({
       test: {
         ...currentQuestion,
-        data
+        data: transitionData
       },
       isFormValidate: true,
       countsOfAnswer: currentQuestion.data.answers.length,
-      isLoading: false,
+      // isLoading: false,
     })
   }
 
@@ -318,30 +338,12 @@ class Form extends React.Component {
   }
 
   validateForm = () => {
-    const { test: { data: { question, answers }}} = this.state
+    // todo: validate answer content
+
+    const { test: { data: { question, answers } } } = this.state
     
-    // Validate question not blank
     const isQuestionValidate = this.validateDraft(question.draft)
 
-    // Validate all the answers not blank
-    const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
-    const isAnswerValidate = R.all(isExisted)(contentValidatingStates)
-
-    this.setState({
-      isFormValidate: (isQuestionValidate && isAnswerValidate)
-        ? true
-        : false
-    }) 
-  }
-
-  validateFormForMd = () => {
-    const { test: { data: { question, answers }}} = this.state
-    
-    const regex = /^\s*$/g
-    // Validate question not blank
-    const isQuestionValidate = !regex.test(question.md)
-
-    // Validate all the answers not blank
     const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
     const isAnswerValidate = R.all(isExisted)(contentValidatingStates)
 
@@ -359,10 +361,7 @@ class Form extends React.Component {
           ...prevState.test,
           data: {
             ...prevState.test.data,
-            [name]: {
-              ...prevState.test.data[name],
-              draft: editorState,
-            }
+            [name]: editorState
           }
         }
       }), 
@@ -372,30 +371,11 @@ class Form extends React.Component {
     );
   };
 
-  handleMdChange = name => text => {
-    this.setState(
-      (prevState) => ({
-        test: {
-          ...prevState.test,
-          data: {
-            ...prevState.test.data,
-            [name]: {
-              ...prevState.test.data[name],
-              md: text,
-            }
-          }
-        }
-      }), 
-      () => {
-        if (name === 'question') this.validateFormForMd()
-      }  
-    );
-  };
-
   render() {
+    console.log(789)
     const { classes, isNewlyCreated, onClose } = this.props
     const { 
-      test: { data: { question, tags, answers, title, otherNotes }}, 
+      test: { data: { question, tags, answers, title } }, 
       isFormValidate, 
       countsOfAnswer, 
       isLoading,
@@ -405,15 +385,10 @@ class Form extends React.Component {
     const handleOtherNotesChange = this.handleDraftChange('otherNotes')
     const handleQuestionChange = this.handleDraftChange('question')
 
-    const handleOtherNotesChangeForMd = this.handleMdChange('otherNotes')
-    const handleQuestionChangeForMd = this.handleMdChange('question')
-
     if (isLoading) {
       return <div>Loading...</div>
     }
-
-    console.log(otherNotes)
-
+console.log(this.state.test)
     return (
       <Grid container direction="column">
         <Grid item className={classes.item} style={{width: '100%'}}>
@@ -475,9 +450,10 @@ class Form extends React.Component {
                 Other Notes
               </Typography>
               <DraftEditor 
-                contents={otherNotes.draft} 
+                contents={this.state.test.data.otherNotes.draft} 
                 handleDraftChange={handleOtherNotesChange}
               />
+              <MarkdownEditor />
             </Grid>
           </Paper>
         </Grid>
