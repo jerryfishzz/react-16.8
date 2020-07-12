@@ -426,11 +426,6 @@ class Form extends React.Component {
                 contents={question.draft} 
                 handleDraftChange={handleQuestionChange}
               />
-              <MarkdownEditor 
-                mdConfig={mdConfig} 
-                handleMdChange={handleQuestionChangeForMd}
-                text={question.md}
-              />
             </Grid>
           </Paper>
         </Grid>
@@ -482,11 +477,6 @@ class Form extends React.Component {
               <DraftEditor 
                 contents={otherNotes.draft} 
                 handleDraftChange={handleOtherNotesChange}
-              />
-              <MarkdownEditor 
-                mdConfig={mdConfig} 
-                handleMdChange={handleOtherNotesChangeForMd}
-                text={otherNotes.md}
               />
             </Grid>
           </Paper>
