@@ -339,7 +339,7 @@ class Form extends React.Component {
     
     const regex = /^\s*$/g
     // Validate question not blank
-    const isQuestionValidate = regex.test(question.md)
+    const isQuestionValidate = !regex.test(question.md)
 
     // Validate all the answers not blank
     const contentValidatingStates = answers.map(answer => this.validateDraft(answer.content))
@@ -425,6 +425,11 @@ class Form extends React.Component {
               <DraftEditor 
                 contents={question.draft} 
                 handleDraftChange={handleQuestionChange}
+              />
+              <MarkdownEditor 
+                mdConfig={mdConfig} 
+                handleMdChange={handleQuestionChangeForMd}
+                text={question.md}
               />
             </Grid>
           </Paper>

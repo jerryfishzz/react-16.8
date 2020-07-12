@@ -3,6 +3,33 @@ import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import uniqid from 'uniqid'
 import { getQuestionFromWp, getAnswersForQuestionFromWp } from './api';
 
+export const strToObj = str => JSON.parse(str)
+export const objToStr = obj => JSON.stringify(obj)
+const getObjKeyValue = (obj, key) => obj[key]
+
+/**
+ * @param {object}
+ * @return {function} Get key and return its value
+ */
+export const curriedGetObjKeyValue = R.curry(getObjKeyValue)
+
+// Line feed \n is always saved as 'n' in WP.
+// So need to replace it by other characters before saving.
+const lineFeedToCode = str => str.replace(/\n/g, '&#10;')
+
+// Line feed string '\n' can be saved properly in WP.
+// But when the front-end reads line feed string, it will turn it to a line feed.
+// So need to escape it before saving.
+const escapeLineFeedString = str => str.replace(/\\n/g, '\\\\n')
+
+/**
+ * @param {string}
+ * @return {string}
+ */
+const processLineFeed = R.pipe(lineFeedToCode, escapeLineFeedString)
+
+export const codeToLineFeed = str => str.replace(/&#10;/g, '\n')
+
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 export const QUESTION_COUNTS = 10
@@ -153,7 +180,7 @@ export function escapeAndStringify(content) {
   }
 
   const processedContent = content.draft 
-    ? {...content, draft: escapedContentObject}
+    ? {draft: escapedContentObject, md: processLineFeed(content.md)}
     : escapedContentObject
 
   return JSON.stringify(processedContent)

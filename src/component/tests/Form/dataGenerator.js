@@ -1,18 +1,14 @@
 import * as R from 'ramda'
 import { EditorState } from "draft-js";
-import { getEditorStateFromContent } from "../../../utils/helpers";
+import { 
+  getEditorStateFromContent, 
+  codeToLineFeed,
+  strToObj,
+  objToStr,
+  curriedGetObjKeyValue
+} from "../../../utils/helpers";
 
 const editors = ['draft', 'md']
-
-const strToObj = str => JSON.parse(str)
-const objToStr = obj => JSON.stringify(obj)
-const getObjKeyValue = (obj, key) => obj[key]
-
-/**
- * @param {object}
- * @return {function} Take key to return its value
- */
-const curriedGetObjKeyValue = R.curry(getObjKeyValue)
 
 /**
  * Turn input string to object which contains draft editor content
@@ -43,7 +39,7 @@ const generateDataForMultiEditors = currentQuestion => {
     ...currentQuestion.data,
     question: {
       draft: questionObj('draft'),
-      md: questionObj('md')
+      md: codeToLineFeed(questionObj('md'))
     },
     answers: answers.map(answer => ({
       ...answer,
@@ -52,7 +48,7 @@ const generateDataForMultiEditors = currentQuestion => {
     })),
     otherNotes: {
       draft: otherNotesObj('draft'),
-      md: otherNotesObj('md')
+      md: codeToLineFeed(otherNotesObj('md'))
     },
   }
 }
@@ -60,7 +56,7 @@ const generateDataForMultiEditors = currentQuestion => {
 const generateDataForMDEditor = currentQuestion => {
   const { data: { question, answers, otherNotes }} = currentQuestion
 
-  const data = {
+  return {
     ...currentQuestion.data,
     question: {
       draft: EditorState.createEmpty(),
@@ -76,8 +72,6 @@ const generateDataForMDEditor = currentQuestion => {
       md: otherNotes
     },
   }
-
-  return data
 }
 
 export const generateData = currentQuestion => {
