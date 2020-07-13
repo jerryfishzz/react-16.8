@@ -13,6 +13,8 @@ const styles = {
 }
 
 const Question = ({ classes, currentQuestion }) => {
+  console.log(currentQuestion)
+
   return (
     <Grid container direction="column">
       <Grid item className={classes.question}>
