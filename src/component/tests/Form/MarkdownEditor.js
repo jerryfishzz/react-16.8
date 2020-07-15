@@ -11,7 +11,7 @@ import 'react-markdown-editor-lite/lib/index.css';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 
 function MarkdownEditor(props) {
-  const { mdConfig: { config, isReadOnly }, text, handleMdChange } = props
+  const { mdConfig: { config, isReadOnly, style }, text, handleMdChange } = props
 
   const handleEditorChange = ({html, text}) => {    
     console.log('handleEditorChange', html, text)
@@ -21,7 +21,7 @@ function MarkdownEditor(props) {
   return (
     <MdEditor
       value={text}
-      style={{ height: "200px", border: 0 }}
+      style={style}
       renderHTML={(text) => mdParser.render(text)}
       onChange={handleEditorChange}
       readOnly={isReadOnly}

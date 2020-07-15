@@ -19,39 +19,74 @@ import { connect } from 'react-redux'
 import { 
   getTheAlphanumericOrder, 
   validateDraftFromString, 
-  getEditorStateFromContent
+  getEditorStateFromContent,
+  strToObj
 } from '../../utils/helpers';
+import { generateData } from './Form/dataGenerator';
+import MarkdownEditor from './Form/MarkdownEditor';
+
+const mdConfig = {
+  config: {
+    view: {
+      menu: false, 
+      md: false, 
+      html: true 
+    },
+    canView: { 
+      menu: true, 
+      md: true, 
+      html: true, 
+      fullScreen: false, 
+      hideMenu: false 
+    }
+  },
+  isReadOnly: true,
+  style: {
+    border: 0
+  }
+}
+
+/**
+ * Take out the draft editor object string from input string
+ * @param {string} inputString 
+ * @return {string} Draft object string
+ */
+const getDraftString = inputString => {
+  const obj = strToObj(inputString)
+  return obj.draft ? obj.draft : inputString
+}
 
 const Notes = ({ currentQuestion, classes }) => {
   let hasNotes = false
-  const { data } = currentQuestion
+  const { data: { answers, otherNotes: otherNotesString }} = currentQuestion
+  const otherNotesDraftString = getDraftString(otherNotesString)
+  const { otherNotes: { draft, md }} = generateData(currentQuestion)
   
-  if (data.answers.length) {
-    for (let i = 0; i < data.answers.length; i++) {
-      if (validateDraftFromString(data.answers[i].note)) {
+  if (answers.length) {
+    for (let i = 0; i < answers.length; i++) {
+      if (validateDraftFromString(answers[i].note)) {
         hasNotes = true
         break
       }
     }
 
     if (!hasNotes) {
-      if (validateDraftFromString(data.otherNotes)) hasNotes = true
+      if (validateDraftFromString(otherNotesDraftString)) hasNotes = true
     }
   } 
 
-  const isJson = str => {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-  }
+  // const isJson = str => {
+  //   try {
+  //       JSON.parse(str);
+  //   } catch (e) {
+  //       return false;
+  //   }
+  //   return true;
+  // }
 
-  const otherNotes = validateDraftFromString(data.otherNotes) 
+  const otherNotes = validateDraftFromString(otherNotesDraftString) || md
     ? <Fragment>
         <Divider variant="inset" className={classes.divider} />
-        
         <ListItem alignItems="flex-start">
           <Tooltip title="Other Notes">
             <ListItemAvatar>
@@ -60,20 +95,12 @@ const Notes = ({ currentQuestion, classes }) => {
               </Avatar>
             </ListItemAvatar>
           </Tooltip> 
-          
-          {isJson(data.otherNotes)
-            ? <ListItemText>
-                <Editor
-                  editorState={getEditorStateFromContent(data.otherNotes)}
-                  readOnly={true}
-                />
-              </ListItemText>
-            : <ListItemText 
-                primary={data.otherNotes}
-              />
-          }
+          <ListItemText>
+            {!md 
+              ? <Editor editorState={draft} readOnly={true} />
+              : <MarkdownEditor mdConfig={mdConfig} text={md} />}
+          </ListItemText>
         </ListItem>
-        
       </Fragment>
     : null
 
@@ -82,14 +109,11 @@ const Notes = ({ currentQuestion, classes }) => {
       {hasNotes
         ? currentQuestion.isSubmitted
           ? <List>
-              {data.answers.map((a, i) => {
+              {answers.map((a, i) => {
                 if (!validateDraftFromString(a.note)) return null
 
                 return (
-                  <ListItem 
-                    key={i}
-                    alignItems="flex-start"
-                  >
+                  <ListItem key={i} alignItems="flex-start">
                     <ListItemAvatar>
                       <Avatar className={classes.avatar}>
                         {getTheAlphanumericOrder(i)}
@@ -108,14 +132,10 @@ const Notes = ({ currentQuestion, classes }) => {
               })}
               {otherNotes}
             </List>
-          : <Typography
-              variant="subtitle1"
-            >
+          : <Typography variant="subtitle1">
               Contents will be displayed after choosing an answer and submitting.
             </Typography>
-        : <Typography
-            variant="subtitle1"
-          >
+        : <Typography variant="subtitle1">
             Nothing to show.
           </Typography>
       }

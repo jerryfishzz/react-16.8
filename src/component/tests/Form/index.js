@@ -53,22 +53,11 @@ const styles = theme => ({
 });
 
 const mdConfig = {
-  // config: {
-  //   view: {
-  //     menu: false, 
-  //     md: false, 
-  //     html: true 
-  //   },
-  //   canView: { 
-  //     menu: true, 
-  //     md: true, 
-  //     html: true, 
-  //     fullScreen: false, 
-  //     hideMenu: false 
-  //   }
-  // },
-  config: {},
-  isReadOnly: false
+  isReadOnly: false,
+  style: {
+    height: "200px", 
+    border: 0
+  }
 }
 
 class Form extends React.Component {

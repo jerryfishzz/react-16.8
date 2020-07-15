@@ -4,7 +4,29 @@ import { withStyles, Typography, Grid } from '@material-ui/core';
 import { connect } from 'react-redux'
 import { Editor } from "draft-js";
 import { getEditorStateFromContent } from "../../../utils/helpers";
+import { generateData } from "../Form/dataGenerator";
+import MarkdownEditor from "../Form/MarkdownEditor";
 
+const mdConfig = {
+  config: {
+    view: {
+      menu: false, 
+      md: false, 
+      html: true 
+    },
+    canView: { 
+      menu: true, 
+      md: true, 
+      html: true, 
+      fullScreen: false, 
+      hideMenu: false 
+    }
+  },
+  isReadOnly: true,
+  style: {
+    border: 0
+  }
+}
 
 const styles = {
 	question: {
@@ -14,15 +36,16 @@ const styles = {
 
 const Question = ({ classes, currentQuestion }) => {
   console.log(currentQuestion)
+  const { question: { draft, md }} = generateData(currentQuestion)
+  // console.log(data)
 
   return (
     <Grid container direction="column">
       <Grid item className={classes.question}>
         <Typography variant="subtitle1">
-          <Editor
-            editorState={getEditorStateFromContent(currentQuestion.data.question)}
-            readOnly={true}
-          />
+          {!md 
+            ? <Editor editorState={draft} readOnly={true} />
+            : <MarkdownEditor mdConfig={mdConfig} text={md} />}
         </Typography>
       </Grid>
       <Grid item>

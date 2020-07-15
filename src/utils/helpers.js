@@ -98,11 +98,15 @@ export const validateDraft = name => {
   return R.any(isExisted)(arrayOfName)
 }
 
-export const validateDraftFromString = name => {
-  const { blocks } = JSON.parse(name)
-  const arrayOfName = blocks.map(block => block.text)
-
-  return R.any(isExisted)(arrayOfName)
+/**
+ * Check draft string to see if it is blank
+ * @param {string} draftString Strigified draft object
+ * @return {boolean}
+ */
+export const validateDraftFromString = draftString => {
+  const { blocks } = JSON.parse(draftString)
+  const draftStrings = blocks.map(block => block.text)
+  return R.any(isExisted)(draftStrings)
 }
 
 export function addAnswersToQuestion(answers, question) {
