@@ -20,7 +20,8 @@ import {
   getTheAlphanumericOrder, 
   validateDraftFromString, 
   getEditorStateFromContent,
-  strToObj
+  strToObj,
+  objToStr
 } from '../../utils/helpers';
 import { generateData } from './Form/dataGenerator';
 import MarkdownEditor from './Form/MarkdownEditor';
@@ -53,7 +54,7 @@ const mdConfig = {
  */
 const getDraftString = inputString => {
   const obj = strToObj(inputString)
-  return obj.draft ? obj.draft : inputString
+  return obj.draft ? objToStr(obj.draft) : inputString
 }
 
 const Notes = ({ currentQuestion, classes }) => {

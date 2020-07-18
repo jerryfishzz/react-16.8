@@ -30,6 +30,9 @@ const processLineFeed = R.pipe(lineFeedToCode, escapeLineFeedString)
 
 export const codeToLineFeed = str => str.replace(/&#10;/g, '\n')
 
+const encodeString = str => encodeURIComponent(str)
+export const decodeString = str => decodeURIComponent(str)
+
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 export const QUESTION_COUNTS = 10
@@ -179,34 +182,32 @@ export function escapeAndStringify(content) {
     ...contentObject,
     blocks: contentObject.blocks.map(block => ({
       ...block,
-      text: encodeURIComponent(block.text)
+      text: encodeString(block.text)
     }))
   }
 
   const processedContent = content.draft 
-    ? {draft: escapedContentObject, md: processLineFeed(content.md)}
+    ? {draft: escapedContentObject, md: encodeString(processLineFeed(content.md))}
     : escapedContentObject
 
   return JSON.stringify(processedContent)
 }
 
-function objectizeAndUnescape(string) {
-  const objectFromString = JSON.parse(string)
-  const draftObject = objectFromString.draft ? objectFromString.draft : objectFromString
-
-  const unescapedObject = {
-    ...draftObject,
-    blocks: draftObject.blocks.map(block => ({
+/**
+ * This function only takes string from draft editor
+ * @param {string} draftString
+ * @return {object} Draft object
+ */
+function objectizeAndUnescape(draftString) {
+  const objectFromString = JSON.parse(draftString)
+  
+  return {
+    ...objectFromString,
+    blocks: objectFromString.blocks.map(block => ({
       ...block,
-      text: decodeURIComponent(block.text)
+      text: decodeString(block.text)
     }))
   }
-
-  const processedUnescapedObject = objectFromString.draft 
-    ? {...objectFromString, draft: unescapedObject}
-    : unescapedObject
-
-  return processedUnescapedObject
 }
 
 // content is string

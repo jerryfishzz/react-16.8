@@ -30,12 +30,11 @@ const mdConfig = {
 
 const styles = {
 	question: {
-    overflowX: 'auto',
-	}
+    width: '100%',
+  }
 }
 
 const Question = ({ classes, currentQuestion }) => {
-  console.log(currentQuestion)
   const { question: { draft, md }} = generateData(currentQuestion)
   // console.log(data)
 

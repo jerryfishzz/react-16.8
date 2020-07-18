@@ -401,8 +401,6 @@ class Form extends React.Component {
       return <div>Loading...</div>
     }
 
-    console.log(otherNotes)
-
     return (
       <Grid container direction="column">
         <Grid item className={classes.item} style={{width: '100%'}}>

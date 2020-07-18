@@ -5,7 +5,8 @@ import {
   codeToLineFeed,
   strToObj,
   objToStr,
-  curriedGetObjKeyValue
+  curriedGetObjKeyValue,
+  decodeString
 } from "../../../utils/helpers";
 
 const editors = ['draft', 'md']
@@ -18,6 +19,7 @@ const editors = ['draft', 'md']
  */
 const makeDraftReadable = inputStr => {
   const inputObj = strToObj(inputStr)
+  
   return !inputObj.draft && !inputObj.md
     ? { draft: getEditorStateFromContent(inputStr), md: '' }
     : { draft: getEditorStateFromContent(objToStr(inputObj.draft)), md: inputObj.md }
@@ -39,7 +41,7 @@ const generateDataForMultiEditors = currentQuestion => {
     ...currentQuestion.data,
     question: {
       draft: questionObj('draft'),
-      md: codeToLineFeed(questionObj('md'))
+      md: codeToLineFeed(decodeString(questionObj('md')))
     },
     answers: answers.map(answer => ({
       ...answer,
@@ -48,7 +50,7 @@ const generateDataForMultiEditors = currentQuestion => {
     })),
     otherNotes: {
       draft: otherNotesObj('draft'),
-      md: codeToLineFeed(otherNotesObj('md'))
+      md: codeToLineFeed(decodeString(otherNotesObj('md')))
     },
   }
 }
