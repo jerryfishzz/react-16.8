@@ -15,20 +15,29 @@ export const curriedGetObjKeyValue = R.curry(getObjKeyValue)
 
 // Line feed \n is always saved as 'n' in WP.
 // So need to replace it by other characters before saving.
-const lineFeedToCode = str => str.replace(/\n/g, '&#10;')
+// All the HTML code used here is modified slightly to
+// avoid conflicting when the code appears in text content.
+const lineFeedToCode = str => str.replace(/\n/g, '&#_10;')
 
-// Line feed string '\n' can be saved properly in WP.
-// But when the front-end reads line feed string, it will turn it to a line feed.
-// So need to escape it before saving.
-const escapeLineFeedString = str => str.replace(/\\n/g, '\\\\n')
+// Back slash and quote cannot be deal with properly
+// when saving directly in WP. Need to escape.
+const escapeBackSlash = str => str.replace(/\\/g, '&#_92;')
+const escapeQuote = str => str.replace(/"/g, '&#_34;')
 
 /**
+ * Encode three special characters: \n, \, and ".
+ * \n must be the first to be encoded. Other two have no priority.
  * @param {string}
  * @return {string}
  */
-const processLineFeed = R.pipe(lineFeedToCode, escapeLineFeedString)
+const encodeSpecialCharacters = R.pipe(lineFeedToCode, escapeBackSlash, escapeQuote)
 
-export const codeToLineFeed = str => str.replace(/&#10;/g, '\n')
+const codeToLineFeed = str => str.replace(/&#_10;/g, '\n')
+const codeToBackSlash = str => str.replace(/&#_92;/g, '\\')
+const codeToQuote = str => str.replace(/&#_34;/g, '"')
+
+// Decode three special characters. No priority when decoding.
+export const decodeSpecialCharacters = R.pipe(codeToLineFeed, codeToBackSlash, codeToQuote)
 
 const encodeString = str => encodeURIComponent(str)
 export const decodeString = str => decodeURIComponent(str)
@@ -187,7 +196,7 @@ export function escapeAndStringify(content) {
   }
 
   const processedContent = content.draft 
-    ? {draft: escapedContentObject, md: encodeString(processLineFeed(content.md))}
+    ? {draft: escapedContentObject, md: encodeSpecialCharacters(content.md)}
     : escapedContentObject
 
   return JSON.stringify(processedContent)

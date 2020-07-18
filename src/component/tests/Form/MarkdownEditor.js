@@ -14,7 +14,7 @@ function MarkdownEditor(props) {
   const { mdConfig: { config, isReadOnly, style }, text, handleMdChange } = props
 
   const handleEditorChange = ({html, text}) => {    
-    console.log('handleEditorChange', html, text)
+    // console.log('handleEditorChange', html, text)
     handleMdChange(text)
   }
 

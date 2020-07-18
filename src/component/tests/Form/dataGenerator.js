@@ -2,11 +2,11 @@ import * as R from 'ramda'
 import { EditorState } from "draft-js";
 import { 
   getEditorStateFromContent, 
-  codeToLineFeed,
   strToObj,
   objToStr,
   curriedGetObjKeyValue,
-  decodeString
+  decodeString,
+  decodeSpecialCharacters
 } from "../../../utils/helpers";
 
 const editors = ['draft', 'md']
@@ -41,7 +41,7 @@ const generateDataForMultiEditors = currentQuestion => {
     ...currentQuestion.data,
     question: {
       draft: questionObj('draft'),
-      md: codeToLineFeed(decodeString(questionObj('md')))
+      md: decodeSpecialCharacters(questionObj('md'))
     },
     answers: answers.map(answer => ({
       ...answer,
@@ -50,7 +50,7 @@ const generateDataForMultiEditors = currentQuestion => {
     })),
     otherNotes: {
       draft: otherNotesObj('draft'),
-      md: codeToLineFeed(decodeString(otherNotesObj('md')))
+      md: decodeSpecialCharacters(otherNotesObj('md'))
     },
   }
 }
