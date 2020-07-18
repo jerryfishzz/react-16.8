@@ -15,20 +15,32 @@ export const curriedGetObjKeyValue = R.curry(getObjKeyValue)
 
 // Line feed \n is always saved as 'n' in WP.
 // So need to replace it by other characters before saving.
-const lineFeedToCode = str => str.replace(/\n/g, '&#10;')
+// All the HTML code used here is modified slightly to
+// avoid conflicting when the code appears in text content.
+const lineFeedToCode = str => str.replace(/\n/g, '&#_10;')
 
-// Line feed string '\n' can be saved properly in WP.
-// But when the front-end reads line feed string, it will turn it to a line feed.
-// So need to escape it before saving.
-const escapeLineFeedString = str => str.replace(/\\n/g, '\\\\n')
+// Back slash and quote cannot be deal with properly
+// when saving directly in WP. Need to escape.
+const escapeBackSlash = str => str.replace(/\\/g, '&#_92;')
+const escapeQuote = str => str.replace(/"/g, '&#_34;')
 
 /**
+ * Encode three special characters: \n, \, and ".
+ * \n must be the first to be encoded. Other two have no priority.
  * @param {string}
  * @return {string}
  */
-const processLineFeed = R.pipe(lineFeedToCode, escapeLineFeedString)
+const encodeSpecialCharacters = R.pipe(lineFeedToCode, escapeBackSlash, escapeQuote)
 
-export const codeToLineFeed = str => str.replace(/&#10;/g, '\n')
+const codeToLineFeed = str => str.replace(/&#_10;/g, '\n')
+const codeToBackSlash = str => str.replace(/&#_92;/g, '\\')
+const codeToQuote = str => str.replace(/&#_34;/g, '"')
+
+// Decode three special characters. No priority when decoding.
+export const decodeSpecialCharacters = R.pipe(codeToLineFeed, codeToBackSlash, codeToQuote)
+
+const encodeString = str => encodeURIComponent(str)
+export const decodeString = str => decodeURIComponent(str)
 
 const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
@@ -98,11 +110,15 @@ export const validateDraft = name => {
   return R.any(isExisted)(arrayOfName)
 }
 
-export const validateDraftFromString = name => {
-  const { blocks } = JSON.parse(name)
-  const arrayOfName = blocks.map(block => block.text)
-
-  return R.any(isExisted)(arrayOfName)
+/**
+ * Check draft string to see if it is blank
+ * @param {string} draftString Strigified draft object
+ * @return {boolean}
+ */
+export const validateDraftFromString = draftString => {
+  const { blocks } = JSON.parse(draftString)
+  const draftStrings = blocks.map(block => block.text)
+  return R.any(isExisted)(draftStrings)
 }
 
 export function addAnswersToQuestion(answers, question) {
@@ -175,34 +191,32 @@ export function escapeAndStringify(content) {
     ...contentObject,
     blocks: contentObject.blocks.map(block => ({
       ...block,
-      text: encodeURIComponent(block.text)
+      text: encodeString(block.text)
     }))
   }
 
   const processedContent = content.draft 
-    ? {draft: escapedContentObject, md: processLineFeed(content.md)}
+    ? {draft: escapedContentObject, md: encodeSpecialCharacters(content.md)}
     : escapedContentObject
 
   return JSON.stringify(processedContent)
 }
 
-function objectizeAndUnescape(string) {
-  const objectFromString = JSON.parse(string)
-  const draftObject = objectFromString.draft ? objectFromString.draft : objectFromString
-
-  const unescapedObject = {
-    ...draftObject,
-    blocks: draftObject.blocks.map(block => ({
+/**
+ * This function only takes string from draft editor
+ * @param {string} draftString
+ * @return {object} Draft object
+ */
+function objectizeAndUnescape(draftString) {
+  const objectFromString = JSON.parse(draftString)
+  
+  return {
+    ...objectFromString,
+    blocks: objectFromString.blocks.map(block => ({
       ...block,
-      text: decodeURIComponent(block.text)
+      text: decodeString(block.text)
     }))
   }
-
-  const processedUnescapedObject = objectFromString.draft 
-    ? {...objectFromString, draft: unescapedObject}
-    : unescapedObject
-
-  return processedUnescapedObject
 }
 
 // content is string

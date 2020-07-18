@@ -2,10 +2,11 @@ import * as R from 'ramda'
 import { EditorState } from "draft-js";
 import { 
   getEditorStateFromContent, 
-  codeToLineFeed,
   strToObj,
   objToStr,
-  curriedGetObjKeyValue
+  curriedGetObjKeyValue,
+  decodeString,
+  decodeSpecialCharacters
 } from "../../../utils/helpers";
 
 const editors = ['draft', 'md']
@@ -18,6 +19,7 @@ const editors = ['draft', 'md']
  */
 const makeDraftReadable = inputStr => {
   const inputObj = strToObj(inputStr)
+  
   return !inputObj.draft && !inputObj.md
     ? { draft: getEditorStateFromContent(inputStr), md: '' }
     : { draft: getEditorStateFromContent(objToStr(inputObj.draft)), md: inputObj.md }
@@ -39,7 +41,7 @@ const generateDataForMultiEditors = currentQuestion => {
     ...currentQuestion.data,
     question: {
       draft: questionObj('draft'),
-      md: codeToLineFeed(questionObj('md'))
+      md: decodeSpecialCharacters(questionObj('md'))
     },
     answers: answers.map(answer => ({
       ...answer,
@@ -48,7 +50,7 @@ const generateDataForMultiEditors = currentQuestion => {
     })),
     otherNotes: {
       draft: otherNotesObj('draft'),
-      md: codeToLineFeed(otherNotesObj('md'))
+      md: decodeSpecialCharacters(otherNotesObj('md'))
     },
   }
 }
@@ -74,6 +76,13 @@ const generateDataForMDEditor = currentQuestion => {
   }
 }
 
+/**
+ * Take the raw data from the server
+ * and return the data object that can be used by the state directly.
+ * Can deal with either when both editors exist or only md editor available.
+ * @param {object} currentQuestion Raw data from the server
+ * @return {object} data The data object which can be used by state directly
+ */
 export const generateData = currentQuestion => {
   return editors.length === 1 
     ? generateDataForMDEditor(currentQuestion)

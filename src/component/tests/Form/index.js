@@ -53,22 +53,11 @@ const styles = theme => ({
 });
 
 const mdConfig = {
-  // config: {
-  //   view: {
-  //     menu: false, 
-  //     md: false, 
-  //     html: true 
-  //   },
-  //   canView: { 
-  //     menu: true, 
-  //     md: true, 
-  //     html: true, 
-  //     fullScreen: false, 
-  //     hideMenu: false 
-  //   }
-  // },
-  config: {},
-  isReadOnly: false
+  isReadOnly: false,
+  style: {
+    height: "200px", 
+    border: 0
+  }
 }
 
 class Form extends React.Component {
@@ -412,8 +401,6 @@ class Form extends React.Component {
       return <div>Loading...</div>
     }
 
-    console.log(otherNotes)
-
     return (
       <Grid container direction="column">
         <Grid item className={classes.item} style={{width: '100%'}}>
@@ -426,6 +413,11 @@ class Form extends React.Component {
                 contents={question.draft} 
                 handleDraftChange={handleQuestionChange}
               />
+              {/* <MarkdownEditor 
+                mdConfig={mdConfig} 
+                handleMdChange={handleQuestionChangeForMd}
+                text={question.md}
+              /> */}
             </Grid>
           </Paper>
         </Grid>
@@ -478,6 +470,11 @@ class Form extends React.Component {
                 contents={otherNotes.draft} 
                 handleDraftChange={handleOtherNotesChange}
               />
+              {/* <MarkdownEditor 
+                mdConfig={mdConfig} 
+                handleMdChange={handleOtherNotesChangeForMd}
+                text={otherNotes.md}
+              /> */}
             </Grid>
           </Paper>
         </Grid>
