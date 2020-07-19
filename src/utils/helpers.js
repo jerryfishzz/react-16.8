@@ -229,6 +229,7 @@ function getTypeFromParams(search) {
   return query.get('type')
 }
 
+// This should be delete after routes are re-organized
 export const getType = ({ pathname, search }) => {
   switch (pathname) {
     case '/tests':
@@ -236,6 +237,19 @@ export const getType = ({ pathname, search }) => {
       return search === '' ? 'examples' : getTypeFromParams(search)
     default:
       return 'examples'
+  }
+}
+
+/**
+ * Take pathname from React router to post type in WP
+ * @param {string} pathname 
+ */
+export const getPostType = pathname => {
+  switch (pathname) {
+    case '/':
+      return 'examples'
+    default:
+      return pathname.slice(1)
   }
 }
 
