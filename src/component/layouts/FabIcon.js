@@ -4,7 +4,7 @@ import { Home, List } from '@material-ui/icons'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
-import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
+import { getRoute, postTypes } from '../../utils/helpers';
 
 const useStyles = makeStyles(theme => ({
   fab: {
@@ -21,11 +21,11 @@ const useStyles = makeStyles(theme => ({
 
 function FabIcon(props) {
   const { 
-    location: { pathname }, 
+    postType, 
     isWrongParams, 
     isNetworkError, 
     isLoading, 
-    type, 
+    route, 
     is404 
   } = props
 
@@ -33,15 +33,12 @@ function FabIcon(props) {
 
   return (
     <Fragment>
-      {(pathname === '/tests' || pathname === '/') && !isWrongParams && 
+      {(postTypes.indexOf(route) !== -1) && !isWrongParams && 
         !isNetworkError && !isLoading && 
         <Tooltip title="Question List">
           <Fab 
             className={classes.fab}
-            href={type === 'examples'
-              ? '/questionlist'
-              : `/questionlist?type=${type}`
-            }
+            href={`/questionlist/${route}`}
             size={props.header ? 'small' : 'large'}
           >
             <List />
@@ -49,13 +46,10 @@ function FabIcon(props) {
         </Tooltip>
       }
       
-      {(pathname === '/questionlist' || is404) && !isLoading &&
+      {(route === 'questionlist' || is404) && !isLoading &&
         <Fab 
           className={classes.fab}
-          href={type === 'examples' || is404 || isNetworkError || isWrongParams
-            ? '/'
-            : `/tests?type=${type}`
-          }
+          href={`/${postType}`}
           size={props.header ? 'small' : 'large'}
         >
           <Home />
@@ -65,22 +59,18 @@ function FabIcon(props) {
   )
 }
 
-const mapStateToProps = (
-  { appStatus, test, questionList }, 
-  { location }
-) => {
-  const type = getType(location) ? getType(location) : BLANK_POSTTYPE
+const mapStateToProps = ({ appStatus, test, questionList }, props) => {
   const is404 = test.testQuestions === null && questionList.totalQuestions === -1
   const isWrongParams = appStatus.errorFromAPI === 404
   const isNetworkError = appStatus.errorFromAPI === 999
 
   return { 
-    type,
+    route: getRoute(props.location.pathname),
     isLoading: appStatus.isLoading,
     is404,
     isWrongParams,
     isNetworkError,
-    location
+    postType: props.match.params.postType
   }
 }
 

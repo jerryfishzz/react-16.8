@@ -12,7 +12,7 @@ import PageNotFound from './pages/PageNotFound';
 import { getError, stopLoading } from './actions/appStatus';
 import LoadingPage from './pages/LoadingPage';
 import NetworkErrorPage from './pages/NetworkErrorPage';
-import { errorGenerator } from './utils/helpers';
+import { errorGenerator, postTypes } from './utils/helpers';
 import './App.css'
 
 const styles = ({
@@ -57,11 +57,11 @@ class App extends Component {
             ? <NetworkErrorPage error={errorGenerator(errorFromAPI)} />
             : <Switch>
                 <Route path='/' exact component={Tests} />
-                <Route path='/examples' exact component={Tests} />
-                <Route path='/questions' exact component={Tests} />
-                <Route path='/temps' exact component={Tests} />
+                {postTypes.map(postType => 
+                  <Route key={postType} path={`/${postType}`} exact component={Tests} />
+                )}
                 <Route path='/fortest' component={ForTest} />
-                <Route path='/questionlist' exact component={QuestionList} />
+                <Route path='/questionlist/:postType' exact component={QuestionList} />
                 <Route component={PageNotFound} />
               </Switch>
         }

@@ -46,6 +46,7 @@ const alphanumericString = 'ABCDEFG'
 export const getTheAlphanumericOrder = R.flip(R.nth)(alphanumericString)
 export const QUESTION_COUNTS = 10
 export const PROMISE_ALL_ERROR = 997
+export const postTypes = ['examples', 'temps', 'questions']
 
 const questionStatusForTest = {
   selectedAnswers: [],
@@ -241,16 +242,12 @@ export const getType = ({ pathname, search }) => {
 }
 
 /**
- * Take pathname from React router to post type in WP
+ * Take pathname from React router to get the route (post type in WP or questionlist)
  * @param {string} pathname 
  */
-export const getPostType = pathname => {
-  switch (pathname) {
-    case '/':
-      return 'examples'
-    default:
-      return pathname.slice(1)
-  }
+export const getRoute = pathname => {
+  const route = pathname.split('/')[1]
+  return route === '' ? 'examples' : route
 }
 
 export function truncateString(content) {

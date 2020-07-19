@@ -23,8 +23,7 @@ import {
 import DraftEditor from "./DraftEditor";
 import { 
   isExisted, 
-  escapeAndStringify, 
-  getEditorStateFromContent, 
+  escapeAndStringify,
   getType, 
   getQuestionFromWPForEditting 
 } from "../../../utils/helpers";

@@ -3,7 +3,6 @@ import Answers from './Answers';
 import { withStyles, Typography, Grid } from '@material-ui/core';
 import { connect } from 'react-redux'
 import { Editor } from "draft-js";
-import { getEditorStateFromContent } from "../../../utils/helpers";
 import { generateData } from "../Form/dataGenerator";
 import MarkdownEditor from "../Form/MarkdownEditor";
 

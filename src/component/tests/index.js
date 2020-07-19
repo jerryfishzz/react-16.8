@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import {withRouter} from 'react-router-dom';
 
 import { initializeAppFromWordPress } from '../../actions/shared';
-import { getType, errorGenerator, BLANK_POSTTYPE, getPostType } from '../../utils/helpers';
+import { errorGenerator, getRoute } from '../../utils/helpers';
 import WrongParams from '../../pages/WrongParams';
 import { stopLoading, getError, resetAppStatus } from '../../actions/appStatus';
 import LoadingPage from '../../pages/LoadingPage';
@@ -133,7 +133,7 @@ const mapStateToProps = (
   { test: { testQuestions }, appStatus: { isLoading, errorFromAPI }},
   { location: { pathname }}) => ({
     testQuestions,
-    postType: getPostType(pathname),
+    postType: getRoute(pathname),
     isLoading,
     errorFromAPI
   })

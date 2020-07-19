@@ -17,7 +17,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { useTheme } from '@material-ui/core/styles';
 
-import { getType, errorGenerator, BLANK_POSTTYPE } from '../../../utils/helpers'
+import { errorGenerator } from '../../../utils/helpers'
 import { 
   handleGetList, 
   handleChangeRowsPerPage, 
@@ -220,16 +220,12 @@ const CreateQuestionList = (props) => {
   )
 }
 
-const mapStatesToProps = ({ questionList, appStatus }, { location }) => {
-  const postType = getType(location) ? getType(location) : BLANK_POSTTYPE
-
-  return {
-    questionList,
-    postType,
-    isLoading: appStatus.isLoading,
-    errorFromAPI: appStatus.errorFromAPI
-  }
-}
+const mapStatesToProps = ({ questionList, appStatus }, { match }) => ({
+  questionList,
+  postType: match.params.postType,
+  isLoading: appStatus.isLoading,
+  errorFromAPI: appStatus.errorFromAPI
+})
 
 export default withRouter(connect(
   mapStatesToProps,
