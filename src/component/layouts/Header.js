@@ -2,23 +2,25 @@ import React, { Fragment, useState } from 'react'
 import { 
   IconButton, 
   AppBar, 
-  Toolbar, 
-  Typography, 
+  Toolbar,
   withStyles, 
   Tooltip
 } from '@material-ui/core';
-import { Shuffle, Add } from '@material-ui/icons';
+import { Add, Home, List } from '@material-ui/icons';
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import CreateDialog from '../tests/Dialog'
-import { shuffleQuestions } from '../../actions/shared.js';
-import { getType, BLANK_POSTTYPE } from '../../utils/helpers';
+import { getRoute, postTypes } from '../../utils/helpers';
 import FabIcon from './FabIcon';
 
 const styles = theme => ({
   title: {
     flexGrow: 1
+  },
+  toolBar: {
+    display: 'flex',
+    justifyContent: 'end'
   },
   fabIcon: {
     [theme.breakpoints.up('sm')]: {
@@ -28,13 +30,11 @@ const styles = theme => ({
 })
 
 const Header = ({ 
-  classes, 
-  shuffleQuestions, 
-  postType, 
-  pathname,
+  classes,
+  postType,
+  route,
   isLoading,
   is404,
-  test: { testQuestions }
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
@@ -46,38 +46,59 @@ const Header = ({
     setDialogOpen(false)
   };
 
-  const handleShuffleQuestions = () => {
-    shuffleQuestions(postType, testQuestions)
-  }
-
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Typography 
-          className={classes.title} 
-          variant="h5" 
-        >
-          CODE TEST
-        </Typography>
-
-        {pathname !== '/questionlist' && !is404 && !isLoading && (
+      <Toolbar className={classes.toolBar}>
+        {!isLoading && (
           <Fragment>
-            {postType !== 'temps' && (
-              <Tooltip title="Shuffle Questions">
+            {!is404 && route !== 'add' &&
+              <Tooltip title="Add Question">
                 <IconButton 
-                  color="inherit"
-                  onClick={handleShuffleQuestions}
-                >
-                  <Shuffle />
+                  color="inherit" 
+                  component={Link} 
+                  to={postTypes.indexOf(route) !== -1
+                    ? `/add/${route}`
+                    : `/add/${postType}`}>
+                  <Add />
                 </IconButton>
               </Tooltip>
-            )}
-            <IconButton 
-              onClick={handleClickOpen} 
-              color="inherit"
-            >
-              <Add />
-            </IconButton>
+            }
+            {postTypes.indexOf(route) !== -1 
+              ? <Tooltip title="Question List">
+                  <IconButton color="inherit" component={Link} to={`/questionlist/${route}`}>
+                    <List />
+                  </IconButton>
+                </Tooltip>
+              : route !== 'add' && 
+                  <Tooltip title="Home">
+                    <IconButton 
+                      color="inherit" 
+                      component={Link} 
+                      to={route === 'questionlist' && !is404
+                        ? `/${postType}`
+                        : '/'}>
+                      <Home />
+                    </IconButton>
+                  </Tooltip>
+            }
+            {route === 'add' &&
+              <Fragment>
+                <Tooltip title="Home">
+                  <IconButton 
+                    color="inherit" 
+                    component={Link} 
+                    to={`/${postType}`}>
+                    <Home />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Question List">
+                  <IconButton color="inherit" component={Link} to={`/questionlist/${postType}`}>
+                    <List />
+                  </IconButton>
+                </Tooltip>
+              </Fragment>
+            }
+            
             <CreateDialog 
               comeFrom="header"
               open={dialogOpen}
@@ -86,6 +107,7 @@ const Header = ({
           </Fragment>
         )}
 
+        {/* Nav Icon when breakpoint below sm */}
         <div className={classes.fabIcon}>
           <FabIcon header={true} />
         </div>
@@ -94,23 +116,17 @@ const Header = ({
   )
 }
 
-const mapStateToProps = (
-  { appStatus, test, questionList }, 
-  { location: { pathname }, location }
-) => {
-  const postType = getType(location) ? getType(location) : BLANK_POSTTYPE
+const mapStateToProps = ({ appStatus, test, questionList }, { location: { pathname }}) => {
   const is404 = test.testQuestions === null && questionList.totalQuestions === -1
 
   return { 
-    postType,
-    pathname,
+    route: getRoute(pathname),
     isLoading: appStatus.isLoading,
     is404,
-    test
+    postType: pathname.split('/')[2]
+    // Here cannot use match property 
+    // since Header is not among any component under routes created by React Router
   }
 }
 
-export default withRouter(connect(
-  mapStateToProps,
-  { shuffleQuestions }
-)(withStyles(styles)(Header)))
+export default withRouter(connect(mapStateToProps)(withStyles(styles)(Header)))

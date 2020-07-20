@@ -14,6 +14,7 @@ import LoadingPage from './pages/LoadingPage';
 import NetworkErrorPage from './pages/NetworkErrorPage';
 import { errorGenerator, postTypes } from './utils/helpers';
 import './App.css'
+import AddQuestion from './pages/AddQuestion';
 
 const styles = ({
 	'@global': {
@@ -61,7 +62,8 @@ class App extends Component {
                   <Route key={postType} path={`/${postType}`} exact component={Tests} />
                 )}
                 <Route path='/fortest' component={ForTest} />
-                <Route path='/questionlist/:postType' exact component={QuestionList} />
+                <Route path='/questionlist/:postType' component={QuestionList} />
+                <Route path='/add/:postType' component={AddQuestion} />
                 <Route component={PageNotFound} />
               </Switch>
         }

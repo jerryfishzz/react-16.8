@@ -13,6 +13,7 @@ import { getError } from '../../actions/appStatus';
 import { openBar, closeBar } from '../../actions/snackBar';
 import SnackBar from '../layouts/SnackBar';
 import { removeList } from '../../actions/questionList';
+import { getRoute } from '../../utils/helpers';
 
 class ActionButton extends React.Component {
   state = {
@@ -134,7 +135,10 @@ const mapStateToProps = (
   { test: { currentQuestionNumber, testQuestions } },
   { location, editedQuestion }
 ) => {
-  if (location.pathname === '/questionlist') {
+  const route = getRoute(location.pathname)
+  if (route === 'add') return {}
+
+  if (route === 'questionlist') {
     return {
       currentQuestion: editedQuestion
     }

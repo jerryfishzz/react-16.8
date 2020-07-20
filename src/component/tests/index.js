@@ -62,7 +62,7 @@ class Tests extends Component {
 
     resetAppStatus()
     initializeAppFromWordPress(null, postType)
-      .then(res => stopLoading())
+      .then(() => stopLoading())
       .catch(err => {
         getError(err)
         stopLoading()
@@ -96,7 +96,7 @@ class Tests extends Component {
         break
     }
     
-    if (isLoading) return <LoadingPage />
+    if (!testQuestions || isLoading) return <LoadingPage />
 
     if(!testQuestions.length) { 
       const info = 'No questions in this test'

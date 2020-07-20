@@ -5,6 +5,9 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import FabIcon from './FabIcon'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { postTypes, getRoute } from '../../utils/helpers';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -22,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function Main({ Component, ...other }) {
+function Main({ Component, route, isLoading, ...other }) {
   const classes = useStyles()
 
   return (
@@ -32,9 +35,18 @@ export default function Main({ Component, ...other }) {
           <Component {...other} />
         </Paper>
       </Grid>
-      <Grid item className={classes.fabIcon}>
-        <FabIcon />
-      </Grid>
+      {postTypes.indexOf(route) !== -1 && !isLoading &&
+        <Grid item className={classes.fabIcon}>
+          <FabIcon />
+        </Grid>
+      }
     </Grid>
   )
 }
+
+const mapStateToProps = ({ appStatus: { isLoading }}, { location: { pathname }}) => ({
+  route: getRoute(pathname),
+  isLoading
+})
+
+export default withRouter(connect(mapStateToProps)(Main)) 

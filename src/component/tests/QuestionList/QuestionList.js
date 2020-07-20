@@ -108,7 +108,7 @@ const CreateQuestionList = (props) => {
   const theme = useTheme();
   const matchSm = useMediaQuery(theme.breakpoints.up('sm'));
 
-  if (isLoading) return <Loading />
+  if (!list || isLoading) return <Loading />
 
   switch (errorFromAPI) {
     case 400:
