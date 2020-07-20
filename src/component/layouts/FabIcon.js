@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react'
 import { Fab, Tooltip, makeStyles } from '@material-ui/core'
-import { Home, List } from '@material-ui/icons'
+import { Home, List, Shuffle } from '@material-ui/icons'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
 import { getRoute, postTypes } from '../../utils/helpers';
+import { shuffleQuestions } from '../../actions/shared';
 
 const useStyles = makeStyles(theme => ({
   fab: {
@@ -25,35 +26,27 @@ function FabIcon(props) {
     isNetworkError, 
     isLoading, 
     route, 
-    is404 
+    is404,
+    shuffleQuestions,
+    test: { testQuestions }
   } = props
 
   const classes = useStyles(props)
 
+  const handleShuffleQuestions = () => {
+    shuffleQuestions(route, testQuestions)
+  }
+
   return (
     <Fragment>
-      {(postTypes.indexOf(route) !== -1) && !isWrongParams && 
-        !isNetworkError && !isLoading && 
-        <Tooltip title="Question List">
-          <Fab 
-            className={classes.fab}
-            href={`/questionlist/${route}`}
-            size={props.header ? 'small' : 'large'}
-          >
-            <List />
-          </Fab>
-        </Tooltip>
-      }
-      
-      {(route === 'questionlist' || is404) && !isLoading &&
+      <Tooltip title="Shuffle Questions">
         <Fab 
           className={classes.fab}
-          href={'/'}
-          size={props.header ? 'small' : 'large'}
+          onClick={handleShuffleQuestions}
         >
-          <Home />
+          <Shuffle />
         </Fab>
-      }
+      </Tooltip>
     </Fragment>
   )
 }
@@ -69,8 +62,9 @@ const mapStateToProps = ({ appStatus, test, questionList }, props) => {
     is404,
     isWrongParams,
     isNetworkError,
-    postType: props.match.params.postType
+    postType: props.match.params.postType,
+    test
   }
 }
 
-export default withRouter(connect(mapStateToProps)(FabIcon)) 
+export default withRouter(connect(mapStateToProps, { shuffleQuestions })(FabIcon)) 
