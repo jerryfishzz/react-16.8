@@ -8,7 +8,10 @@ import {
 } from "../actions/appStatus"
 
 const initialAppStatus = {
-  isLoading: true,
+  isLoading: true, 
+  // Mainly for header. The loading status of Main pages still need to be decided
+  // by their own key elements.
+
   errorFromAPI: 0,
   networkError: false,
   lastAction: ''

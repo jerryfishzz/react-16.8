@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
 
 function FabIcon(props) {
   const { 
-    postType, 
     isWrongParams, 
     isNetworkError, 
     isLoading, 
@@ -49,7 +48,7 @@ function FabIcon(props) {
       {(route === 'questionlist' || is404) && !isLoading &&
         <Fab 
           className={classes.fab}
-          href={`/${postType}`}
+          href={'/'}
           size={props.header ? 'small' : 'large'}
         >
           <Home />

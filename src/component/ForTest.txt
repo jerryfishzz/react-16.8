@@ -1,0 +1,8 @@
+<Tooltip title="Shuffle Questions">
+  <IconButton 
+    color="inherit"
+    onClick={handleShuffleQuestions}
+  >
+    <Shuffle />
+  </IconButton>
+</Tooltip>
