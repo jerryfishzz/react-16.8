@@ -16,20 +16,23 @@ import { red } from '@material-ui/core/colors';
 import Tags from './Tags';
 import ActionButton from '../ActionButton'
 import {  
-  handleCreateQuestion, 
-  handleCreateQuestionToWp, 
+  handleCreateQuestion,
   handleSaveQuestionToWp 
 } from "../../../actions/test/testQuestions";
 import DraftEditor from "./DraftEditor";
 import { 
   isExisted, 
   escapeAndStringify,
-  getType, 
-  getQuestionFromWPForEditting 
+  getQuestionFromWPForEditting, 
+  getRoute,
+  formatForWp,
+  formatAnswer,
+  createAnswerContainer
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
 import MarkdownEditor from "./MarkdownEditor";
 import { generateData } from "./dataGenerator";
+import { addQuestionToWp, createAnswerContainerToWp, updateAnswerContentToWp } from "../../../utils/api";
 
 const styles = theme => ({
   item: {
@@ -233,12 +236,8 @@ class Form extends React.Component {
   }
 
   handleSubmit = () => {
-    const { test, removed } = this.state,
-          { 
-            isNewlyCreated, 
-            handleCreateQuestionToWp, 
-            handleSaveQuestionToWp,
-          } = this.props
+    const { test, removed } = this.state
+    const { isNewlyCreated, handleSaveQuestionToWp, qid } = this.props
     
     const newOtherNotes = escapeAndStringify(test.data.otherNotes)
     const newQuestion = escapeAndStringify(test.data.question)
@@ -260,9 +259,47 @@ class Form extends React.Component {
     }
 
     if (isNewlyCreated) {
-      return handleCreateQuestionToWp(finalTest, this.resetForm, this.props.postType)
+      return this.handleCreateQuestionToWp(finalTest, this.resetForm, this.props.postType)
     } else {
-      return handleSaveQuestionToWp(test.id, finalTest, removed, this.resetRemoved, this.initializeFromContent, this.props.postType)
+      const postType = qid ? this.props.route : this.props.postType
+      return handleSaveQuestionToWp(
+        test.id, 
+        finalTest, 
+        removed, 
+        this.resetRemoved, 
+        this.initializeFromContent, 
+        postType)
+    }
+  }
+
+  async createAnswerToWp(answer, id) {
+    try {
+      const formattedAnswer = formatAnswer(answer)
+      const container = createAnswerContainer(id)
+      const {id: aid} = await createAnswerContainerToWp(container)
+  
+      updateAnswerContentToWp(aid, formattedAnswer)
+  
+      return {
+        ...answer,
+        id: aid
+      }
+    } catch(err) {
+      throw Error('Add answer error')
+    }
+  }
+
+  async handleCreateQuestionToWp(newQuestion, cb, postType) {
+    try {
+      const questionForWp = formatForWp(newQuestion)
+      const { id } = await addQuestionToWp(questionForWp, postType)
+      const answersWithId = await Promise.all(
+        newQuestion.data.answers.map(answer => this.createAnswerToWp(answer, id)))
+
+      cb()
+      return answersWithId
+    } catch(err) {
+      throw err
     }
   }
 
@@ -276,7 +313,10 @@ class Form extends React.Component {
     this.setState({
       test: {
         data: {
-          question: EditorState.createEmpty(),
+          question: {
+            draft: EditorState.createEmpty(),
+            md: ''
+          },
           title: '',
           tags: [],
           answers: [{
@@ -284,7 +324,10 @@ class Form extends React.Component {
             correctness: false,
             note: EditorState.createEmpty()
           }],
-          otherNotes: EditorState.createEmpty()
+          otherNotes: {
+            draft: EditorState.createEmpty(),
+            md: ''
+          },
         },
         selectedAnswers: [],
         isSubmitted: false,
@@ -495,15 +538,23 @@ class Form extends React.Component {
 
 const mapStateToProps = (
   { test: { currentQuestionNumber, testQuestions, editQuestion } },
-  { isNewlyCreated, location, qid }
+  { isNewlyCreated, location: { pathname }, qid }
 ) => {
-  const postType = getType(location)
+  const route = getRoute(pathname)
   
-  if (location.pathname === '/questionlist') {
+  if (route === 'questionlist') {
     return {
       isNewlyCreated,
       qid,
-      postType
+      postType: pathname.split('/')[2]
+    }
+  }
+
+  if (route === 'add') {
+    return {
+      isNewlyCreated,
+      route,
+      postType: pathname.split('/')[2]
     }
   }
 
@@ -516,16 +567,15 @@ const mapStateToProps = (
     currentQuestionNumber,
     editQuestion,
     isNewlyCreated,
-    postType,
-    location
+    postType: pathname.split('/')[2],
+    route
   }
 }
 
 export default withRouter(connect(
   mapStateToProps,
   { 
-    handleCreateQuestion, 
-    handleCreateQuestionToWp,
+    handleCreateQuestion,
     handleSaveQuestionToWp,
     getError
   }

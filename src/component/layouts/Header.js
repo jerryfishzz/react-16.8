@@ -59,7 +59,7 @@ const Header = ({
         {!isLoading && (
           <Fragment>
             {!is404 &&
-              <Tooltip title="New Question">
+              <Tooltip title="Add Question">
                 <IconButton 
                   color="inherit" 
                   component={Link} 
@@ -86,6 +86,25 @@ const Header = ({
                     <Home />
                   </IconButton>
                 </Tooltip>
+            }
+            {route === 'add' &&
+              <Fragment>
+                <Tooltip title="Question List">
+                  <IconButton color="inherit" component={Link} to={`/questionlist/${route}`}>
+                    <List />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Home">
+                  <IconButton 
+                    color="inherit" 
+                    component={Link} 
+                    to={route === 'questionlist' && !is404
+                      ? `/${postType}`
+                      : '/'}>
+                    <Home />
+                  </IconButton>
+                </Tooltip>
+              </Fragment>
             }
             
             <CreateDialog 

@@ -167,48 +167,47 @@ export function handleCreateQuestion(newQuestion, cb) {
   }
 }
 
-async function createAnswerToWp(answer, id) {
-  try {
-    const formattedAnswer = formatAnswer(answer)
-    const container = createAnswerContainer(id)
-    const {id: aid} = await createAnswerContainerToWp(container)
+// export async function createAnswerToWp(answer, id) {
+//   try {
+//     const formattedAnswer = formatAnswer(answer)
+//     const container = createAnswerContainer(id)
+//     const {id: aid} = await createAnswerContainerToWp(container)
 
-    updateAnswerContentToWp(aid, formattedAnswer)
+//     updateAnswerContentToWp(aid, formattedAnswer)
 
-    return {
-      ...answer,
-      id: aid
-    }
-  } catch(err) {
-    throw Error('Add answer error')
-  }
-}
+//     return {
+//       ...answer,
+//       id: aid
+//     }
+//   } catch(err) {
+//     throw Error('Add answer error')
+//   }
+// }
 
-export function handleCreateQuestionToWp(newQuestion, cb, postType) {
-  return async dispatch => {
-    try {
-      const questionForWp = formatForWp(newQuestion)
-      const { id } = await addQuestionToWp(questionForWp, postType)
+// export function handleCreateQuestionToWp(newQuestion, cb, postType) {
+//   return async dispatch => {
+//     try {
+//       const questionForWp = formatForWp(newQuestion)
+//       const { id } = await addQuestionToWp(questionForWp, postType)
       
-      const answersWithId = await Promise.all(newQuestion.data.answers.map(answer => createAnswerToWp(answer, id)))
+//       const answersWithId = await Promise.all(newQuestion.data.answers.map(answer => createAnswerToWp(answer, id)))
 
-      const questionWithWpId = {
-        ...newQuestion,
-        id,
-        data: {
-          ...newQuestion.data,
-          id,
-          answers: answersWithId
-        }
-      }
+//       const questionWithWpId = {
+//         ...newQuestion,
+//         id,
+//         data: {
+//           ...newQuestion.data,
+//           id,
+//           answers: answersWithId
+//         }
+//       }
 
-      dispatch(createQuestion(questionWithWpId))
-      cb()
-    } catch(err) {
-      throw err
-    }
-  }
-}
+//       cb()
+//     } catch(err) {
+//       throw err
+//     }
+//   }
+// }
 
 export function resetTestquestions() {
   return {
