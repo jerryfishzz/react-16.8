@@ -58,7 +58,7 @@ const Header = ({
       <Toolbar className={classes.toolBar}>
         {!isLoading && (
           <Fragment>
-            {!is404 &&
+            {!is404 && route !== 'add' &&
               <Tooltip title="Add Question">
                 <IconButton 
                   color="inherit" 
@@ -76,32 +76,31 @@ const Header = ({
                     <List />
                   </IconButton>
                 </Tooltip>
-              : <Tooltip title="Home">
-                  <IconButton 
-                    color="inherit" 
-                    component={Link} 
-                    to={route === 'questionlist' && !is404
-                      ? `/${postType}`
-                      : '/'}>
-                    <Home />
-                  </IconButton>
-                </Tooltip>
+              : route !== 'add' && 
+                  <Tooltip title="Home">
+                    <IconButton 
+                      color="inherit" 
+                      component={Link} 
+                      to={route === 'questionlist' && !is404
+                        ? `/${postType}`
+                        : '/'}>
+                      <Home />
+                    </IconButton>
+                  </Tooltip>
             }
             {route === 'add' &&
               <Fragment>
-                <Tooltip title="Question List">
-                  <IconButton color="inherit" component={Link} to={`/questionlist/${route}`}>
-                    <List />
-                  </IconButton>
-                </Tooltip>
                 <Tooltip title="Home">
                   <IconButton 
                     color="inherit" 
                     component={Link} 
-                    to={route === 'questionlist' && !is404
-                      ? `/${postType}`
-                      : '/'}>
+                    to={`/${postType}`}>
                     <Home />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Question List">
+                  <IconButton color="inherit" component={Link} to={`/questionlist/${postType}`}>
+                    <List />
                   </IconButton>
                 </Tooltip>
               </Fragment>
