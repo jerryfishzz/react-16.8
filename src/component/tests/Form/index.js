@@ -261,7 +261,8 @@ class Form extends React.Component {
     if (isNewlyCreated) {
       return this.handleCreateQuestionToWp(finalTest, this.resetForm, this.props.postType)
     } else {
-      const postType = qid ? this.props.route : this.props.postType
+      const postType = qid ? this.props.postType : this.props.route
+      
       return handleSaveQuestionToWp(
         test.id, 
         finalTest, 
