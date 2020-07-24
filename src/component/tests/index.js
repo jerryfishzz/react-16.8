@@ -83,11 +83,13 @@ class Tests extends Component {
       case 404:
       case 997:
         return <WrongParams error={errorGenerator(errorFromAPI)} />
+
       // Records mismatched with the server. Alert pop up.
       case 401:
       case 998:
         openAlert()
         break
+        
       // Network error. Redirect.
       case 999:
         return <NetworkErrorPage error={errorGenerator(errorFromAPI)} />

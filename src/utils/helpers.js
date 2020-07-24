@@ -280,7 +280,7 @@ export async function getQuestionFromWPForEditting(postType, id) {
   }
 }
 
-export function errorGenerator(err = null) {
+export function errorGenerator(err = 404) {
   switch (err) {
     case 400: // URL error
       return '400 Parameter Error In The URL'

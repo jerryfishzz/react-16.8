@@ -29,7 +29,7 @@ const ErrorFound = ({ error, stopLoading }) => {
 
   useEffect(() => {
     stopLoading()
-  })
+  }, [])
 
   return (
     <Grid container justify="center" className={classes.container}>
