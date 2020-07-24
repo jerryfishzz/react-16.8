@@ -11,12 +11,10 @@ import { postTypes, getRoute } from '../../utils/helpers';
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: 5,
-    minHeight: 'calc(100% - 64px - 5px)',
-    position: 'relative'
+    minHeight: '100%'
   },
-  paper: {
-    height: '100%'
+  content: {
+    paddingTop: '64px'
   },
   fabIcon: {
     [theme.breakpoints.down('xs')]: {
@@ -30,10 +28,8 @@ function Main({ Component, route, isLoading, ...other }) {
 
   return (
     <Grid container className={classes.container}>
-      <Grid item xs>
-        <Paper className={classes.paper}>
-          <Component {...other} />
-        </Paper>
+      <Grid item xs className={classes.content}>
+        <Component {...other} />
       </Grid>
       {postTypes.indexOf(route) !== -1 && !isLoading &&
         <Grid item className={classes.fabIcon}>

@@ -47,7 +47,7 @@ const Header = ({
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar className={classes.toolBar}>
         {!isLoading && (
           <Fragment>
