@@ -22,11 +22,10 @@ import { openAlert } from '../../actions/errorAlert';
 
 const styles = theme => ({
 	container: {
-    height: 'calc(100% - 64px)',
-    position: 'relative'
+    minHeight: '100%'
   },
-  item: {
-    height: '100%'
+  content: {
+    paddingTop: '64px'
   },
 	paper: {
     [theme.breakpoints.up('sm')]: {
@@ -106,14 +105,14 @@ class Tests extends Component {
     return (
       <Grid container className={classes.container}>
         {/* Left */}
-        <Grid item xs={12} sm={6} className={classes.item}>
+        <Grid item xs={12} sm={6} className={classes.content}>
           <Paper className={classes.paper}>
             <LeftSide />
           </Paper>
         </Grid>
         
         {/* Right */}
-        <Grid item xs={12} sm={6} className={classes.item}>
+        <Grid item xs={12} sm={6} className={classes.content}>
           <Paper className={classes.paper}>
             <RightSide />
           </Paper>
