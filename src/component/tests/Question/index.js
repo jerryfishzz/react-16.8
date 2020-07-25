@@ -28,7 +28,7 @@ const mdConfig = {
 }
 
 const styles = {
-	question: {
+	content: {
     width: '100%',
   }
 }
@@ -39,14 +39,14 @@ const Question = ({ classes, currentQuestion }) => {
 
   return (
     <Grid container direction="column">
-      <Grid item className={classes.question}>
+      <Grid item className={classes.content}>
         <Typography variant="subtitle1">
           {!md 
             ? <Editor editorState={draft} readOnly={true} />
             : <MarkdownEditor mdConfig={mdConfig} text={md} />}
         </Typography>
       </Grid>
-      <Grid item>
+      <Grid item className={classes.content}>
         <Answers />
       </Grid>
     </Grid>

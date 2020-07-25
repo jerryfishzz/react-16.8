@@ -48,9 +48,6 @@ const styles = theme => ({
     }
   },
   selected: {},
-  answer: {
-    overflowX: 'auto'
-  }
 });
 
 class Answers extends React.Component {
@@ -94,7 +91,7 @@ class Answers extends React.Component {
                 primary={
                   <Grid container>
                     <Grid item sm={1}>{getTheAlphanumericOrder(i) + '. '}</Grid>
-                    <Grid item sm={11} className={classes.answer}>
+                    <Grid item sm={11}>
                       <Editor
                         editorState={getEditorStateFromContent(a.content)}
                         readOnly={true}
