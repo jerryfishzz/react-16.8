@@ -250,6 +250,13 @@ export const getRoute = pathname => {
   return route === '' ? 'examples' : route
 }
 
+/**
+ * For questionlist route /questionlist/:postType
+ * to get the route param postType
+ * @param {string} pathname 
+ */
+export const getPostType = pathname => pathname.split('/')[2]
+
 export function truncateString(content) {
   const length = 60
   const string = content.toString()

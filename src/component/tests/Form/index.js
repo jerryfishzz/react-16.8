@@ -27,7 +27,8 @@ import {
   getRoute,
   formatForWp,
   formatAnswer,
-  createAnswerContainer
+  createAnswerContainer,
+  getPostType
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
 import MarkdownEditor from "./MarkdownEditor";
@@ -258,10 +259,10 @@ class Form extends React.Component {
       }
     }
 
-    if (isNewlyCreated) {
+    if (isNewlyCreated) { // Under add route
       return this.handleCreateQuestionToWp(finalTest, this.resetForm, this.props.postType)
     } else {
-      const postType = qid ? this.props.postType : this.props.route
+      const postType = qid ? this.props.postType : this.props.route // True for questionlist route while false for test route
       
       return handleSaveQuestionToWp(
         test.id, 
@@ -273,6 +274,7 @@ class Form extends React.Component {
     }
   }
 
+  // Create answers for new question
   async createAnswerToWp(answer, id) {
     try {
       const formattedAnswer = formatAnswer(answer)
@@ -290,6 +292,7 @@ class Form extends React.Component {
     }
   }
 
+  // Create new question
   async handleCreateQuestionToWp(newQuestion, cb, postType) {
     try {
       const questionForWp = formatForWp(newQuestion)
@@ -547,7 +550,7 @@ const mapStateToProps = (
     return {
       isNewlyCreated,
       qid,
-      postType: pathname.split('/')[2]
+      postType: getPostType(pathname)
     }
   }
 
@@ -568,7 +571,6 @@ const mapStateToProps = (
     currentQuestionNumber,
     editQuestion,
     isNewlyCreated,
-    postType: pathname.split('/')[2],
     route
   }
 }

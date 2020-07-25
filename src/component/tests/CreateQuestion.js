@@ -71,9 +71,12 @@ function CreateQuestion(props) {
   )
 }
 
-const mapStateToProps = ({ appStatus }) => {
+const mapStateToProps = ({ appStatus }, { location }) => {
+  console.log(location)
+
   return { 
-    appStatus
+    appStatus,
+    // postType: 
   }
 }
 

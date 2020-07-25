@@ -83,6 +83,7 @@ const getAnswerNoteCounts = answers => {
   let counts = 0
   answers.map(answer => {
     if(validateDraftFromString(answer.note)) counts++
+    return true
   })
   return counts
 }
