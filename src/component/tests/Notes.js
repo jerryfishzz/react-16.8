@@ -11,8 +11,7 @@ import {
   Tooltip 
 } from '@material-ui/core';
 import NotesIcon from '@material-ui/icons/Notes';
-import indigo from '@material-ui/core/colors/indigo';
-import deepPurple from '@material-ui/core/colors/deepPurple';
+import { deepPurple, green, red } from '@material-ui/core/colors';
 import { Editor } from "draft-js";
 import { connect } from 'react-redux'
 
@@ -47,6 +46,29 @@ const mdConfig = {
   }
 }
 
+const styles = theme => ({
+  root: {
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    height: 'calc(100% - 39.391px)',
+    overflowY: 'auto',
+  },
+  avatarCorrect: {
+    backgroundColor: green[500]
+  },
+  avatarWrong: {
+    backgroundColor: red[500]
+  },
+  avatarOther: {
+    backgroundColor: deepPurple[500]
+  },
+  divider: {
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 10
+  },
+});
+
 /**
  * Take out the draft editor object string from input string
  * @param {string} inputString 
@@ -57,15 +79,27 @@ const getDraftString = inputString => {
   return obj.draft ? objToStr(obj.draft) : inputString
 }
 
+const getAnswerNoteCounts = answers => {
+  let counts = 0
+  answers.map(answer => {
+    if(validateDraftFromString(answer.note)) counts++
+  })
+  return counts
+}
+
 const Notes = ({ currentQuestion, classes }) => {
-  let hasNotes = false
+  let hasNotes = false, hasAnswerNotes = false
+
   const { data: { answers, otherNotes: otherNotesString }} = currentQuestion
   const otherNotesDraftString = getDraftString(otherNotesString)
+  const answerNoteCounts = getAnswerNoteCounts(answers)
+
   const { otherNotes: { draft, md }} = generateData(currentQuestion)
   
   if (answers.length) {
     for (let i = 0; i < answers.length; i++) {
       if (validateDraftFromString(answers[i].note)) {
+        hasAnswerNotes = true
         hasNotes = true
         break
       }
@@ -76,18 +110,9 @@ const Notes = ({ currentQuestion, classes }) => {
     }
   } 
 
-  // const isJson = str => {
-  //   try {
-  //       JSON.parse(str);
-  //   } catch (e) {
-  //       return false;
-  //   }
-  //   return true;
-  // }
-
   const otherNotes = validateDraftFromString(otherNotesDraftString) || md
     ? <Fragment>
-        <Divider variant="inset" className={classes.divider} />
+        {hasAnswerNotes && <Divider className={classes.divider} />}
         <ListItem alignItems="flex-start">
           <Tooltip title="Other Notes">
             <ListItemAvatar>
@@ -105,6 +130,8 @@ const Notes = ({ currentQuestion, classes }) => {
       </Fragment>
     : null
 
+  let renderedDividerCounts = 0
+
   return (
     <div className={classes.root}>
       {hasNotes
@@ -113,22 +140,31 @@ const Notes = ({ currentQuestion, classes }) => {
               {answers.map((a, i) => {
                 if (!validateDraftFromString(a.note)) return null
 
+                renderedDividerCounts++
+
                 return (
-                  <ListItem key={i} alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar className={classes.avatar}>
-                        {getTheAlphanumericOrder(i)}
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText 
-                      primary={
-                        <Editor
-                          editorState={getEditorStateFromContent(a.note)}
-                          readOnly={true}
-                        />
-                      } 
-                    />
-                  </ListItem>
+                  <Fragment key={i}>
+                    <ListItem alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar 
+                          className={a.correctness
+                            ? classes.avatarCorrect
+                            : classes.avatarWrong}>
+                          {getTheAlphanumericOrder(i)}
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText 
+                        primary={
+                          <Editor
+                            editorState={getEditorStateFromContent(a.note)}
+                            readOnly={true}
+                          />
+                        } 
+                      />
+                    </ListItem>
+                    {renderedDividerCounts !== answerNoteCounts && 
+                      <Divider variant="inset" light className={classes.divider} component="li" />}
+                  </Fragment>
                 )
               })}
               {otherNotes}
@@ -144,25 +180,7 @@ const Notes = ({ currentQuestion, classes }) => {
   )
 }
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-    height: 'calc(100% - 39.391px)',
-    overflowY: 'auto',
-  },
-  avatar: {
-    backgroundColor: indigo[500]
-  },
-  avatarOther: {
-    backgroundColor: deepPurple[500]
-  },
-  divider: {
-    marginTop: 10,
-    marginBottom: 10,
-    marginRight: 40
-  },
-});
+
 
 const mapStateToProps = ({ 
   test: { currentQuestionNumber, testQuestions } 

@@ -46,7 +46,7 @@ function RightSide(props) {
         className={`${classes.titleContainer} ${classes.contentWidth}`}
       >
         <Typography variant='h5'>
-          {editQuestion ? "Edit Question" : "Notes"}
+          {editQuestion ? "Edit Question" : "NOTES"}
         </Typography>
       </Grid>	
 
