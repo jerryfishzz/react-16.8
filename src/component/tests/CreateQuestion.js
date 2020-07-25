@@ -9,7 +9,8 @@ import { stopLoading, resetAppStatus } from '../../actions/appStatus';
 
 const useStyles = makeStyles(theme => ({
   columnContainer: {
-    height: '100%'
+    height: '100%',
+    width: '70%',
   },
   contentWidth: {
     width: '100%',
@@ -19,9 +20,6 @@ const useStyles = makeStyles(theme => ({
   },
   titleContainer: {
     minHeight: 72
-  },
-  itemQuestion: {
-    overflowY: 'auto'
   },
   astra: {
     color: red[500]
@@ -40,31 +38,34 @@ function CreateQuestion(props) {
   if (isLoading) return <LoadingPage />
 
   return (
-    <Grid 
-      container 
-      direction="column"
-      alignItems="center"
-      spacing={3} 
-      className={classes.columnContainer}
-    >
+    <Grid container justify="center">
       <Grid 
-        item 
+        item
         container 
-        alignItems="center" 
-        className={`${classes.titleContainer} ${classes.contentWidth}`}
+        direction="column"
+        alignItems="center"
+        spacing={3} 
+        className={classes.columnContainer}
       >
-        <Typography variant='h5'>
-          Add Question
-        </Typography>
-      </Grid>	
-
-      <Grid item xs className={`${classes.itemQuestion} ${classes.contentWidth}`}>
-        <Fragment>
-          <Typography variant="subtitle1" gutterBottom>
-            Items with <span className={classes.astra}>*</span> are required.
+        <Grid 
+          item 
+          container 
+          alignItems="center" 
+          className={`${classes.titleContainer} ${classes.contentWidth}`}
+        >
+          <Typography variant='h5'>
+            Add Question
           </Typography>
-          <Form isNewlyCreated={true} />
-        </Fragment>
+        </Grid>	
+
+        <Grid item xs className={classes.contentWidth}>
+          <Fragment>
+            <Typography variant="subtitle1" gutterBottom>
+              Items with <span className={classes.astra}>*</span> are required.
+            </Typography>
+            <Form isNewlyCreated={true} />
+          </Fragment>
+        </Grid>
       </Grid>
     </Grid>
   )

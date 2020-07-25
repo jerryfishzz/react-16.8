@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux'
 import { Editor } from "draft-js";
 import { CheckCircle, Cancel } from '@material-ui/icons';
-import { green, red } from '@material-ui/core/colors';
+import { green, red, indigo } from '@material-ui/core/colors';
 
 import { 
   getTheAlphanumericOrder, 
@@ -18,7 +18,7 @@ import {
 } from '../../../utils/helpers';
 import { clickAnswer } from '../../../actions/test/testQuestions';
 
-const styles = {
+const styles = theme => ({
   check: {
     color: green[500]
   },
@@ -34,10 +34,9 @@ const styles = {
     border: '1px solid transparent',
     borderRadius: 4,
     '&$selected': {
-      border: '1px solid #3f51b5',
-      backgroundColor: 'transparent',
+      backgroundColor: indigo[50],
       '&:hover': {
-        backgroundColor: 'transparent'
+        backgroundColor: indigo[50]
       }
     },
   },
@@ -49,10 +48,7 @@ const styles = {
     }
   },
   selected: {},
-  answer: {
-    overflowX: 'auto'
-  }
-};
+});
 
 class Answers extends React.Component {
   // Render the check or cross icon
@@ -95,7 +91,7 @@ class Answers extends React.Component {
                 primary={
                   <Grid container>
                     <Grid item sm={1}>{getTheAlphanumericOrder(i) + '. '}</Grid>
-                    <Grid item sm={11} className={classes.answer}>
+                    <Grid item sm={11}>
                       <Editor
                         editorState={getEditorStateFromContent(a.content)}
                         readOnly={true}

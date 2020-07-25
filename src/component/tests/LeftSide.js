@@ -136,7 +136,7 @@ function LeftSide(props) {
           variant='h5'
           className={classes.title}
         >
-          {`Question ${currentQuestionNumber + 1} / 
+          {`QUESTION ${currentQuestionNumber + 1} / 
             ${(testQuestions.length >= QUESTION_COUNTS - offset) && (postType !== 'temps')
               ? QUESTION_COUNTS - offset : testQuestions.length}`}
         </Typography>

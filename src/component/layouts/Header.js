@@ -4,7 +4,9 @@ import {
   AppBar, 
   Toolbar,
   withStyles, 
-  Tooltip
+  Tooltip,
+  Grid,
+  Typography
 } from '@material-ui/core';
 import { Add, Home, List } from '@material-ui/icons';
 import { connect } from 'react-redux'
@@ -16,7 +18,7 @@ import FabIcon from './FabIcon';
 
 const styles = theme => ({
   title: {
-    flexGrow: 1
+    paddingLeft: theme.spacing(2)
   },
   toolBar: {
     display: 'flex',
@@ -47,10 +49,35 @@ const Header = ({
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Toolbar className={classes.toolBar}>
         {!isLoading && (
           <Fragment>
+            {/* Page title section */}
+            {!is404 && (
+              <Grid container alignItems="center">
+                {postTypes.indexOf(route) !== -1 && (
+                  <Fragment>
+                    <Home />
+                    <Typography variant="h6" className={classes.title}>HOME</Typography>
+                  </Fragment>
+                )}
+                {route === 'add' && (
+                  <Fragment>
+                    <Add />
+                    <Typography variant="h6" className={classes.title}>NEW</Typography>
+                  </Fragment>
+                )}
+                {route === 'questionlist' && (
+                  <Fragment>
+                    <List />
+                    <Typography variant="h6" className={classes.title}>LIST</Typography>
+                  </Fragment>
+                )}
+              </Grid>
+            )}
+
+            {/* Nav section */}
             {!is404 && route !== 'add' &&
               <Tooltip title="Add Question">
                 <IconButton 
