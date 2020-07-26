@@ -8,12 +8,19 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import { Add, Home, List } from '@material-ui/icons';
+import { 
+  Add, 
+  Home, 
+  List, 
+  AddBoxOutlined, 
+  HomeOutlined,
+  ListAltOutlined 
+} from '@material-ui/icons';
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom';
 
 import CreateDialog from '../tests/Dialog'
-import { getRoute, postTypes } from '../../utils/helpers';
+import { getRoute, postTypes, getQueryString, getPostType } from '../../utils/helpers';
 import FabIcon from './FabIcon';
 
 const styles = theme => ({
@@ -58,19 +65,19 @@ const Header = ({
               <Grid container alignItems="center">
                 {postTypes.indexOf(route) !== -1 && (
                   <Fragment>
-                    <Home />
+                    <HomeOutlined />
                     <Typography variant="h6" className={classes.title}>HOME</Typography>
                   </Fragment>
                 )}
                 {route === 'add' && (
                   <Fragment>
-                    <Add />
+                    <AddBoxOutlined />
                     <Typography variant="h6" className={classes.title}>NEW</Typography>
                   </Fragment>
                 )}
                 {route === 'questionlist' && (
                   <Fragment>
-                    <List />
+                    <ListAltOutlined />
                     <Typography variant="h6" className={classes.title}>LIST</Typography>
                   </Fragment>
                 )}
@@ -84,8 +91,8 @@ const Header = ({
                   color="inherit" 
                   component={Link} 
                   to={postTypes.indexOf(route) !== -1
-                    ? `/add/${route}`
-                    : `/add/${postType}`}>
+                    ? `/add?type=${route}`
+                    : `/add?type=${postType}`}>
                   <Add />
                 </IconButton>
               </Tooltip>
@@ -114,15 +121,16 @@ const Header = ({
                   <IconButton 
                     color="inherit" 
                     component={Link} 
-                    to={`/${postType}`}>
+                    to={!is404 ? `/${postType}` : '/'}>
                     <Home />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Question List">
-                  <IconButton color="inherit" component={Link} to={`/questionlist/${postType}`}>
-                    <List />
-                  </IconButton>
-                </Tooltip>
+                {!is404 && 
+                  <Tooltip title="Question List">
+                    <IconButton color="inherit" component={Link} to={`/questionlist/${postType}`}>
+                      <List />
+                    </IconButton>
+                  </Tooltip>}
               </Fragment>
             }
             
@@ -143,14 +151,20 @@ const Header = ({
   )
 }
 
-const mapStateToProps = ({ appStatus, test, questionList }, { location: { pathname }}) => {
-  const is404 = test.testQuestions === null && questionList.totalQuestions === -1
+const mapStateToProps = ({ appStatus, test, questionList }, { location }) => {
+  const route = getRoute(location.pathname)
+
+  const is404 = route !== 'add'
+    ? test.testQuestions === null && questionList.totalQuestions === -1
+    : postTypes.indexOf(getQueryString(location)) === -1
 
   return { 
-    route: getRoute(pathname),
+    route,
     isLoading: appStatus.isLoading,
     is404,
-    postType: pathname.split('/')[2]
+    postType: route !== 'add' 
+      ? getPostType(location.pathname) 
+      : getQueryString(location)
     // Here cannot use match property 
     // since Header is not among any component under routes created by React Router
   }

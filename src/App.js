@@ -63,7 +63,7 @@ class App extends Component {
                 )}
                 <Route path='/fortest' component={ForTest} />
                 <Route path='/questionlist/:postType' component={QuestionList} />
-                <Route path='/add/:postType' component={AddQuestion} />
+                <Route path='/add' component={AddQuestion} />
                 <Route component={PageNotFound} />
               </Switch>
         }

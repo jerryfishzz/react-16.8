@@ -28,7 +28,7 @@ import {
 } from '../../actions/test/shared'
 import Question from './Question'
 import { toggleEdit } from '../../actions/test/editQuestion'
-import { getType, BLANK_POSTTYPE, QUESTION_COUNTS } from '../../utils/helpers'
+import { QUESTION_COUNTS, getRoute } from '../../utils/helpers'
 import { getError } from '../../actions/appStatus'
 import { openBar } from '../../actions/snackBar'
 import SnackBar from '../layouts/SnackBar'
@@ -76,7 +76,7 @@ function LeftSide(props) {
     handleBack, 
     handleSubmitQuestion,
     toggleEdit,
-    postType,
+    route,
     handleRemoveQuestionFromWp,
     getError,
     openBar,
@@ -98,7 +98,7 @@ function LeftSide(props) {
   const handleDelete = id => {
     setIsSubmitting(true)
 
-    handleRemoveQuestionFromWp(id, postType)
+    handleRemoveQuestionFromWp(id, route)
       .then(res => {
         handleClose()
         setIsSubmitting(false)
@@ -137,7 +137,7 @@ function LeftSide(props) {
           className={classes.title}
         >
           {`QUESTION ${currentQuestionNumber + 1} / 
-            ${(testQuestions.length >= QUESTION_COUNTS - offset) && (postType !== 'temps')
+            ${(testQuestions.length >= QUESTION_COUNTS - offset) && (route !== 'temps')
               ? QUESTION_COUNTS - offset : testQuestions.length}`}
         </Typography>
         <IconButton 
@@ -226,7 +226,7 @@ function LeftSide(props) {
         <Grid item>
           <Button
             onClick={handleNext} 
-            disabled={(testQuestions.length >= QUESTION_COUNTS - offset) && (postType !== 'temps')
+            disabled={(testQuestions.length >= QUESTION_COUNTS - offset) && (route !== 'temps')
               ? currentQuestionNumber === QUESTION_COUNTS - offset - 1
               : currentQuestionNumber === testQuestions.length - 1}
             className={classes.navBtn}
@@ -243,7 +243,7 @@ function LeftSide(props) {
 
 const mapStateToProps = (
   { test: { editQuestion, currentQuestionNumber, testQuestions, offset } },
-  { location }
+  { location: { pathname }}
 ) => {
   const currentQuestion = testQuestions
     ? testQuestions.length 
@@ -251,15 +251,13 @@ const mapStateToProps = (
         : {}
     : null
   
-  const postType = getType(location) ? getType(location) : BLANK_POSTTYPE
-  
   return { 
     editQuestion,
     currentQuestionNumber,
     testQuestions,
     currentQuestion,
     offset,
-    postType
+    route: getRoute(pathname)
   }
 }
 

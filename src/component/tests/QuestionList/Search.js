@@ -3,7 +3,7 @@ import { makeStyles, fade } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { searchRecords, handleGetList } from '../../../actions/questionList';
-import { getType } from '../../../utils/helpers'
+import { getPostType } from '../../../utils/helpers'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { getError } from '../../../actions/appStatus';
@@ -78,13 +78,9 @@ function Search({ postType, searchRecords, handleGetList, getError }) {
   );
 }
 
-const mapStatesToProps = (state, { location }) => {
-  const postType = getType(location)
-
-  return {
-    postType,
-  }
-}
+const mapStatesToProps = (state, { location: { pathname }}) => ({
+  postType: getPostType(pathname),
+})
 
 export default withRouter(connect(
   mapStatesToProps, 

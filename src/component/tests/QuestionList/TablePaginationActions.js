@@ -8,7 +8,7 @@ import { makeStyles, useTheme } from '@material-ui/styles'
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
 
-import { getType } from '../../../utils/helpers'
+import { getPostType } from '../../../utils/helpers'
 import { 
   handleNextPage, 
   handlePreviousPage, 
@@ -106,14 +106,10 @@ const TablePaginationActions = (props) => {
   );
 }
 
-const mapStatesToProps = ({ questionList }, { location }) => {
-  const postType = getType(location)
-
-  return {
-    questionList,
-    postType
-  }
-}
+const mapStatesToProps = ({ questionList }, { location: { pathname }}) => ({
+  questionList,
+  postType: getPostType(pathname)
+})
 
 export default withRouter(connect(
   mapStatesToProps, 
