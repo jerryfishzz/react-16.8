@@ -230,15 +230,16 @@ function getTypeFromParams(search) {
   return query.get('type')
 }
 
-// This should be delete after routes are re-organized
-export const getType = ({ pathname, search }) => {
-  switch (pathname) {
-    case '/tests':
-    case '/questionlist':
-      return search === '' ? 'examples' : getTypeFromParams(search)
-    default:
-      return 'examples'
+// 
+export const getQueryString = ({ pathname, search }) => {
+  let queryString = ''
+  if (pathname === '/add') {
+    if (search !== '') {
+      const query = new URLSearchParams(search)
+      queryString = query.get('type')
+    }
   }
+  return queryString
 }
 
 /**

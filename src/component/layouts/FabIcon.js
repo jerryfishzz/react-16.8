@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import { Fab, Tooltip, makeStyles } from '@material-ui/core'
-import { Home, List, Shuffle } from '@material-ui/icons'
+import { Shuffle } from '@material-ui/icons'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
-import { getRoute, postTypes } from '../../utils/helpers';
+import { getRoute } from '../../utils/helpers';
 import { shuffleQuestions } from '../../actions/shared';
 
 const useStyles = makeStyles(theme => ({

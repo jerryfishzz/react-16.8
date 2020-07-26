@@ -6,6 +6,8 @@ import Form from './Form'
 import { connect } from 'react-redux';
 import LoadingPage from '../../pages/LoadingPage';
 import { stopLoading, resetAppStatus } from '../../actions/appStatus';
+import { getQueryString, postTypes, errorGenerator } from '../../utils/helpers';
+import { ErrorFound } from '../layouts';
 
 const useStyles = makeStyles(theme => ({
   columnContainer: {
@@ -28,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 function CreateQuestion(props) {
   const classes = useStyles()
-  const { appStatus: { isLoading }, stopLoading, resetAppStatus } = props
+  const { appStatus: { isLoading }, stopLoading, resetAppStatus, postType } = props
 
   useEffect(() => {
     resetAppStatus()
@@ -36,6 +38,12 @@ function CreateQuestion(props) {
   }, [])
 
   if (isLoading) return <LoadingPage />
+
+  if (postTypes.indexOf(postType) === -1) {
+    // Only need to return ErrorFound but not 404 page
+    // because the current component has been wrapped by Main
+    return <ErrorFound error={errorGenerator()} />
+  }
 
   return (
     <Grid container justify="center">
@@ -71,13 +79,9 @@ function CreateQuestion(props) {
   )
 }
 
-const mapStateToProps = ({ appStatus }, { location }) => {
-  console.log(location)
-
-  return { 
-    appStatus,
-    // postType: 
-  }
-}
+const mapStateToProps = ({ appStatus }, { location }) => ({ 
+  appStatus,
+  postType: getQueryString(location)
+})
 
 export default connect(mapStateToProps, { stopLoading, resetAppStatus })(CreateQuestion)

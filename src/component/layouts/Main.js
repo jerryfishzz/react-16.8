@@ -1,8 +1,5 @@
 import React from 'react'
-import { 
-  Paper, 
-  Grid,
-} from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import FabIcon from './FabIcon'
 import { connect } from 'react-redux';
