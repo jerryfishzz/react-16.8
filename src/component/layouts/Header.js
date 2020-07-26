@@ -8,7 +8,14 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
-import { Add, Home, List } from '@material-ui/icons';
+import { 
+  Add, 
+  Home, 
+  List, 
+  AddBoxOutlined, 
+  HomeOutlined,
+  ListAltOutlined 
+} from '@material-ui/icons';
 import { connect } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom';
 
@@ -58,19 +65,19 @@ const Header = ({
               <Grid container alignItems="center">
                 {postTypes.indexOf(route) !== -1 && (
                   <Fragment>
-                    <Home />
+                    <HomeOutlined />
                     <Typography variant="h6" className={classes.title}>HOME</Typography>
                   </Fragment>
                 )}
                 {route === 'add' && (
                   <Fragment>
-                    <Add />
+                    <AddBoxOutlined />
                     <Typography variant="h6" className={classes.title}>NEW</Typography>
                   </Fragment>
                 )}
                 {route === 'questionlist' && (
                   <Fragment>
-                    <List />
+                    <ListAltOutlined />
                     <Typography variant="h6" className={classes.title}>LIST</Typography>
                   </Fragment>
                 )}
