@@ -28,7 +28,8 @@ import {
   formatForWp,
   formatAnswer,
   createAnswerContainer,
-  getPostType
+  getPostType,
+  getQueryString
 } from "../../../utils/helpers";
 import { getError } from "../../../actions/appStatus";
 import MarkdownEditor from "./MarkdownEditor";
@@ -542,8 +543,9 @@ class Form extends React.Component {
 
 const mapStateToProps = (
   { test: { currentQuestionNumber, testQuestions, editQuestion } },
-  { isNewlyCreated, location: { pathname }, qid }
+  { isNewlyCreated, location, qid }
 ) => {
+  const { pathname } = location
   const route = getRoute(pathname)
   
   if (route === 'questionlist') {
@@ -558,7 +560,7 @@ const mapStateToProps = (
     return {
       isNewlyCreated,
       route,
-      postType: pathname.split('/')[2]
+      postType: getQueryString(location)
     }
   }
 
