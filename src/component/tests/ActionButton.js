@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import {
+  withStyles,
   Button,
   Dialog, 
   DialogTitle, 
@@ -14,6 +15,13 @@ import { openBar, closeBar } from '../../actions/snackBar';
 import SnackBar from '../layouts/SnackBar';
 import { removeList } from '../../actions/questionList';
 import { getRoute } from '../../utils/helpers';
+
+const styles = theme => ({
+  container: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2)
+  }
+});
 
 class ActionButton extends React.Component {
   state = {
@@ -86,11 +94,11 @@ class ActionButton extends React.Component {
   }
 
   render() {
-    const { isFormValidate, isNewlyCreated } = this.props;
+    const { classes, isFormValidate, isNewlyCreated } = this.props;
     const { isSubmitting, dialogOpen } = this.state
     
     return (
-      <Fragment>
+      <div className={classes.container}>
         <Button 
           fullWidth
           color="primary" 
@@ -126,7 +134,7 @@ class ActionButton extends React.Component {
           </DialogActions>
         </Dialog>
         <SnackBar />
-      </Fragment>
+      </div>
     );
   }
 }
@@ -156,4 +164,4 @@ const mapStateToProps = (
 export default withRouter(connect(
   mapStateToProps,
   { getError, openBar, closeBar, removeList}
-)(ActionButton));
+)(withStyles(styles)(ActionButton)));

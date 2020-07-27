@@ -183,9 +183,7 @@ const AnswerForm = ({
         justify="space-between" 
         alignItems="center"
       >
-        <Typography variant="subtitle1">
-          Answers
-        </Typography>
+        <Typography variant="button" color="primary">Answers</Typography>
         <Button 
           onClick={onNewAnswer}
           color="primary"
