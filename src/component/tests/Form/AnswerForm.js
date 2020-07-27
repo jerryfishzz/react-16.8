@@ -30,7 +30,8 @@ const styles = theme => ({
     }
   },
   paper: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
+    paddingBottom: theme.spacing(2.5)
   },
   caption: {
     color: theme.palette.text.secondary
@@ -46,7 +47,10 @@ const styles = theme => ({
     }
   },
   avatar: {
-    backgroundColor: indigo[500]
+    backgroundColor: 'white',
+    color: indigo[500],
+    border: `2px solid ${indigo[500]}`,
+    margin: '0 4px'
   },
   delete: {
     [theme.breakpoints.up('lg')]: {
@@ -72,7 +76,6 @@ const AnswerForm = ({
   onAnswerChange,
   onDelete,
   onNewAnswer,
-  isNewlyCreated,
   countsOfAnswer
 }) => {
   const handleContentChange = onAnswerChange('content')
@@ -80,7 +83,6 @@ const AnswerForm = ({
   const handleNoteChange = onAnswerChange('note')
 
   const theme = useTheme();
-  const matchXl = useMediaQuery(theme.breakpoints.up('xl'));
   const matchLg = useMediaQuery(theme.breakpoints.up('lg'));
 
   const answerContent = answers.map((a, i) => {
@@ -90,18 +92,12 @@ const AnswerForm = ({
       <Grid key={i} item className={classes.item}>
         <Paper className={classes.paper}>
           <Grid container spacing={2}>
-            <Grid item container xs={12} lg={isNewlyCreated ? null : 2} xl={isNewlyCreated ? 2 : null}>
+            <Grid item container xs={12} lg={2}>
               <Grid 
                 item 
-                container 
-                direction={isNewlyCreated 
-                  ? (matchXl ? 'column' : 'row') 
-                  : (matchLg ? 'column' : 'row')
-                } 
-                justify={isNewlyCreated 
-                  ? (matchXl ? 'flex-start' : 'space-between') 
-                  : (matchLg ? 'flex-start' : 'space-between')
-                } 
+                container
+                direction={matchLg ? 'column' : 'row'}
+                justify={matchLg ? 'center' : 'space-between'}
                 alignItems="center"
               >
                 <Avatar className={classes.avatar}>
@@ -112,10 +108,7 @@ const AnswerForm = ({
                       onClick={() => onDelete(i, a.id)} 
                       color="secondary"
                       size="small"
-                      className={isNewlyCreated
-                        ? classes.deleteEdit
-                        : classes.delete
-                      }
+                      className={classes.delete}
                     >
                       Delete
                     </Button>
@@ -124,14 +117,7 @@ const AnswerForm = ({
               </Grid>
             </Grid>
 
-            <Grid 
-              item 
-              container 
-              direction="column" 
-              xs={12} 
-              lg={isNewlyCreated ? null : 10} 
-              xl={isNewlyCreated ? 10 : null}
-            >
+            <Grid item container direction="column" xs={12} lg={10}>
               <Grid item container direction="column" className={classes.specContainer}>
                 <Typography variant="caption" gutterBottom className={classes.caption}>
                   <span className={classes.required}>Answer</span><span className={classes.astra}>*</span>
