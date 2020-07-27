@@ -168,9 +168,7 @@ class Tags extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Typography>
-          Tags
-        </Typography>
+        <Typography variant="button" gutterBottom color="primary">Tags</Typography>
         <div className={classes.contentContainer}>
           <NoSsr>
             <CreatableSelect

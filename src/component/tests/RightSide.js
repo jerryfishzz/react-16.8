@@ -45,7 +45,7 @@ function RightSide(props) {
         alignItems="center" 
         className={`${classes.titleContainer} ${classes.contentWidth}`}
       >
-        <Typography variant='h5'>
+        <Typography variant='h5'  color="primary">
           {editQuestion ? "Edit Question" : "NOTES"}
         </Typography>
       </Grid>	

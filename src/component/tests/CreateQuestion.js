@@ -12,13 +12,16 @@ import { ErrorFound } from '../layouts';
 const useStyles = makeStyles(theme => ({
   columnContainer: {
     height: '100%',
-    width: '70%',
+    width: '60%',
   },
   contentWidth: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
       width: '85%'
     }
+  },
+  required: {
+    paddingTop: theme.spacing(3)
   },
   titleContainer: {
     minHeight: 72
@@ -55,20 +58,14 @@ function CreateQuestion(props) {
         spacing={3} 
         className={classes.columnContainer}
       >
-        <Grid 
-          item 
-          container 
-          alignItems="center" 
-          className={`${classes.titleContainer} ${classes.contentWidth}`}
-        >
-          <Typography variant='h5'>
-            Add Question
-          </Typography>
-        </Grid>	
-
         <Grid item xs className={classes.contentWidth}>
           <Fragment>
-            <Typography variant="subtitle1" gutterBottom>
+            <Typography 
+              variant="overline" 
+              gutterBottom
+              display="block"
+              className={classes.required}
+            >
               Items with <span className={classes.astra}>*</span> are required.
             </Typography>
             <Form isNewlyCreated={true} />

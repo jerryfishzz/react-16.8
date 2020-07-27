@@ -451,79 +451,65 @@ class Form extends React.Component {
     return (
       <Grid container direction="column">
         <Grid item className={classes.item} style={{width: '100%'}}>
-          <Paper className={classes.paper}>
-            <Grid container direction="column">
-              <Typography variant="subtitle1"> 
-                <span className={classes.required}>Question</span><span className={classes.astra}>*</span>
-              </Typography>
-              <DraftEditor 
-                contents={question.draft} 
-                handleDraftChange={handleQuestionChange}
-              />
-              {/* <MarkdownEditor 
-                mdConfig={mdConfig} 
-                handleMdChange={handleQuestionChangeForMd}
-                text={question.md}
-              /> */}
-            </Grid>
-          </Paper>
+          <Grid container direction="column">
+            <Typography variant="button" gutterBottom color="primary"> 
+              <span className={classes.required}>Question</span><span className={classes.astra}>*</span>
+            </Typography>
+            <DraftEditor 
+              contents={question.draft} 
+              handleDraftChange={handleQuestionChange}
+            />
+            {/* <MarkdownEditor 
+              mdConfig={mdConfig} 
+              handleMdChange={handleQuestionChangeForMd}
+              text={question.md}
+            /> */}
+          </Grid>
         </Grid>
 
         <Grid item className={classes.item} style={{width: '100%'}}>
-          <Paper className={classes.paper}>
-            <Grid container direction="column">
-              <Typography variant="subtitle1"> 
-                <span className={classes.required}>Title</span>
-              </Typography>
-              <TextField
-                variant="outlined"
-                className={classes.field}
-                value={title}
-                onChange={this.handleChange('title')}
-              />
-            </Grid>
-          </Paper>
-        </Grid>
-
-        <Grid item className={classes.item}>
-          <Paper className={classes.paper}>
-            <Tags 
-              ownedTags={tags} 
-              onTagChange={this.onTagChange}
+          <Grid container direction="column">
+            <Typography variant="button" gutterBottom color="primary">Title</Typography>
+            <TextField
+              variant="outlined"
+              className={classes.field}
+              value={title}
+              onChange={this.handleChange('title')}
             />
-          </Paper>
+          </Grid>
         </Grid>
 
         <Grid item className={classes.item}>
-          <Paper className={classes.paper}>
-            <AnswerForm 
-              answers={answers}
-              isNewlyCreated={isNewlyCreated}
-              onAnswerChange={this.onAnswerChange}
-              onDelete={this.onDelete}
-              onNewAnswer={this.onNewAnswer}
-              countsOfAnswer={countsOfAnswer}
+          <Tags 
+            ownedTags={tags} 
+            onTagChange={this.onTagChange}
+          />
+        </Grid>
+
+        <Grid item className={classes.item}>
+          <AnswerForm 
+            answers={answers}
+            isNewlyCreated={isNewlyCreated}
+            onAnswerChange={this.onAnswerChange}
+            onDelete={this.onDelete}
+            onNewAnswer={this.onNewAnswer}
+            countsOfAnswer={countsOfAnswer}
+          />
+        </Grid>
+
+        <Grid item className={classes.item}>
+          <Grid container direction="column">
+            <Typography variant="button" gutterBottom color="primary"> Other Notes</Typography>
+            <DraftEditor 
+              contents={otherNotes.draft} 
+              handleDraftChange={handleOtherNotesChange}
             />
-          </Paper>
-        </Grid>
-
-        <Grid item className={classes.item}>
-          <Paper className={classes.paper}>
-            <Grid container direction="column">
-              <Typography variant="subtitle1"> 
-                Other Notes
-              </Typography>
-              <DraftEditor 
-                contents={otherNotes.draft} 
-                handleDraftChange={handleOtherNotesChange}
-              />
-              {/* <MarkdownEditor 
-                mdConfig={mdConfig} 
-                handleMdChange={handleOtherNotesChangeForMd}
-                text={otherNotes.md}
-              /> */}
-            </Grid>
-          </Paper>
+            {/* <MarkdownEditor 
+              mdConfig={mdConfig} 
+              handleMdChange={handleOtherNotesChangeForMd}
+              text={otherNotes.md}
+            /> */}
+          </Grid>
         </Grid>
 
         <Grid item className={classes.item}>

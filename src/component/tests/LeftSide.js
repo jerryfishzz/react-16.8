@@ -135,6 +135,7 @@ function LeftSide(props) {
         <Typography
           variant='h5'
           className={classes.title}
+          color="primary"
         >
           {`QUESTION ${currentQuestionNumber + 1} / 
             ${(testQuestions.length >= QUESTION_COUNTS - offset) && (route !== 'temps')
