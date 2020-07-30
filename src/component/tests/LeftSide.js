@@ -126,116 +126,129 @@ function LeftSide(props) {
       spacing={3} 
       className={classes.columnContainer}
     >
-      <Grid 
-        item 
-        container 
-        alignItems="center" 
-        className={classes.contentWidth}
-      >
-        <Typography
-          variant='h5'
-          className={classes.title}
-          color="primary"
+      <Grid item container justify="center">
+        <Grid 
+          item 
+          container 
+          alignItems="center" 
+          className={classes.contentWidth}
         >
-          {`QUESTION ${currentQuestionNumber + 1} / 
-            ${(testQuestions.length >= QUESTION_COUNTS - offset) && (route !== 'temps')
-              ? QUESTION_COUNTS - offset : testQuestions.length}`}
-        </Typography>
-        <IconButton 
-          color={!editQuestion ? 'primary' : 'default'} 
-          onClick={toggleEdit}
-        >
-          <Edit />
-        </IconButton>
-        <IconButton 
-          color='secondary' 
-          onClick={handleClickOpen}
-        >
-          <Delete />
-        </IconButton>
-        <Dialog
-          open={open}
-          fullWidth
-          maxWidth='sm'
-        >
-          <DialogTitle>Delete Question</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Are you sure to delete this question?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button 
-              onClick={handleClose} 
-              color="primary" 
-              autoFocus
-              disabled={isSubmitting}
-            >
-              No
-            </Button>
-            <Button 
-              onClick={() => handleDelete(currentQuestion.id)} 
-              color="secondary" 
-              disabled={isSubmitting}
-            >
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <SnackBar />
-      </Grid>	
+          <Typography
+            variant='h5'
+            className={classes.title}
+            color="primary"
+          >
+            {`QUESTION ${currentQuestionNumber + 1} / 
+              ${(testQuestions.length >= QUESTION_COUNTS - offset) && (route !== 'temps')
+                ? QUESTION_COUNTS - offset : testQuestions.length}`}
+          </Typography>
+          <IconButton 
+            color={!editQuestion ? 'primary' : 'default'} 
+            onClick={toggleEdit}
+          >
+            <Edit />
+          </IconButton>
+          <IconButton 
+            color='secondary' 
+            onClick={handleClickOpen}
+          >
+            <Delete />
+          </IconButton>
+          <Dialog
+            open={open}
+            fullWidth
+            maxWidth='sm'
+          >
+            <DialogTitle>Delete Question</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Are you sure to delete this question?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button 
+                onClick={handleClose} 
+                color="primary" 
+                autoFocus
+                disabled={isSubmitting}
+              >
+                No
+              </Button>
+              <Button 
+                onClick={() => handleDelete(currentQuestion.id)} 
+                color="secondary" 
+                disabled={isSubmitting}
+              >
+                Yes
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <SnackBar />
+        </Grid>
+      </Grid>
 
       <Grid 
-        item 
+        item
+        container
+        justify="center"
         xs 
-        className={`${classes.itemQuestion} ${classes.contentWidth}`}
+        className={classes.itemQuestion}
       >
-        <Question />
-      </Grid>  
+        <Grid item className={classes.contentWidth}>
+          <Question />
+        </Grid>
+      </Grid> 
       
-      <Grid 
-        item 
-        container 
-        justify="space-between" 
+      <Grid
+        item
+        container
+        justify="center"
         className={classes.bottomContainer}
       >
-        <Grid item>
-          <Button
-            onClick={handleBack} 
-            disabled={currentQuestionNumber === 0}
-            className={classes.navBtn}
-            disableRipple
-          >
-            <KeyboardArrowLeft />
-            Back
-          </Button>
-        </Grid>
-        <Grid item xs className={classes.subContainer}>
-          <Button 
-            fullWidth
-            variant="contained"
-            color='primary'
-            onClick={() => handleSubmitQuestion(currentQuestion.id)}
-            disabled={
-              currentQuestion.isSubmitted || 
-              !currentQuestion.selectedAnswers.length
-            }
-          >
-            Submit
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button
-            onClick={handleNext} 
-            disabled={(testQuestions.length >= QUESTION_COUNTS - offset) && (route !== 'temps')
-              ? currentQuestionNumber === QUESTION_COUNTS - offset - 1
-              : currentQuestionNumber === testQuestions.length - 1}
-            className={classes.navBtn}
-            disableRipple
-          >
-            Next
-            <KeyboardArrowRight />
-          </Button>
+        <Grid 
+          item 
+          container 
+          justify="space-between" 
+          className={classes.contentWidth}
+        >
+          <Grid item>
+            <Button
+              onClick={handleBack} 
+              disabled={currentQuestionNumber === 0}
+              className={classes.navBtn}
+              disableRipple
+            >
+              <KeyboardArrowLeft />
+              Back
+            </Button>
+          </Grid>
+          <Grid item xs className={classes.subContainer}>
+            <Button 
+              fullWidth
+              variant="contained"
+              color='primary'
+              onClick={() => handleSubmitQuestion(currentQuestion.id)}
+              disabled={
+                currentQuestion.isSubmitted || 
+                !currentQuestion.selectedAnswers.length
+              }
+            >
+              Submit
+            </Button>
+          </Grid>
+          <Grid item>
+            <Button
+              onClick={handleNext} 
+              disabled={(testQuestions.length >= QUESTION_COUNTS - offset) && (route !== 'temps')
+                ? currentQuestionNumber === QUESTION_COUNTS - offset - 1
+                : currentQuestionNumber === testQuestions.length - 1}
+              className={classes.navBtn}
+              disableRipple
+            >
+              Next
+              <KeyboardArrowRight />
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
