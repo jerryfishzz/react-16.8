@@ -29,13 +29,16 @@ const styles = theme => ({
   },
 	paper: {
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing(5),
+      paddingTop: theme.spacing(5),
+      paddingBottom: theme.spacing(5),
+      paddingLeft: 0,
+      paddingRight: 0,
     },
 		[theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2),
     },
-		height: 'calc(100% - 5px)',
-    marginTop: 5,
+    height: '100%',
+    overflowX: 'hidden' // To get rid of the limit caused by the negative margin for implementing spacing value in Grid
   },
   messageContainer: {
     marging: 20,
@@ -108,14 +111,14 @@ class Tests extends Component {
       <Grid container className={classes.container}>
         {/* Left */}
         <Grid item xs={12} sm={6} className={classes.content}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.paper} elevation={3}>
             <LeftSide />
           </Paper>
         </Grid>
         
         {/* Right */}
         <Grid item xs={12} sm={6} className={classes.content}>
-          <Paper className={classes.paper}>
+          <Paper className={classes.paper} elevation={3}>
             <RightSide />
           </Paper>
         </Grid>
