@@ -53,6 +53,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3),
     marginBottom: -theme.spacing(1.5) // To vertically align with the right
   },
+  progressBar: {
+    width: '85%'
+  },
   navBtn: {
     '&:hover': {
       backgroundColor: 'transparent'
@@ -210,7 +213,7 @@ function LeftSide(props) {
           item 
           container 
           justify="space-between" 
-          className={classes.contentWidth}
+          className={classes.progressBar}
         >
           <Grid item>
             <Button
