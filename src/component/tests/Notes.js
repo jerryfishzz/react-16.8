@@ -51,7 +51,6 @@ const styles = theme => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
     height: 'calc(100% - 39.391px)',
-    overflowY: 'auto',
   },
   avatarCorrect: {
     backgroundColor: green[500]
@@ -67,6 +66,15 @@ const styles = theme => ({
     marginBottom: 10,
     marginRight: 10
   },
+  list: {
+    paddingTop: 0,
+    paddingBottom: theme.spacing(1)
+  },
+  listItem: {
+    paddingTop: 0,
+    paddingLeft: 0,
+    paddingRight: 0
+  }
 });
 
 /**
@@ -114,7 +122,7 @@ const Notes = ({ currentQuestion, classes }) => {
   const otherNotes = validateDraftFromString(otherNotesDraftString) || md
     ? <Fragment>
         {hasAnswerNotes && <Divider className={classes.divider} />}
-        <ListItem alignItems="flex-start">
+        <ListItem alignItems="flex-start" className={classes.listItem}>
           <Tooltip title="Other Notes">
             <ListItemAvatar>
               <Avatar className={classes.avatarOther}>
@@ -137,7 +145,7 @@ const Notes = ({ currentQuestion, classes }) => {
     <div className={classes.root}>
       {hasNotes
         ? currentQuestion.isSubmitted
-          ? <List>
+          ? <List className={classes.list}>
               {answers.map((a, i) => {
                 if (!validateDraftFromString(a.note)) return null
 
@@ -145,7 +153,7 @@ const Notes = ({ currentQuestion, classes }) => {
 
                 return (
                   <Fragment key={i}>
-                    <ListItem alignItems="flex-start">
+                    <ListItem alignItems="flex-start" className={classes.listItem}>
                       <ListItemAvatar>
                         <Avatar 
                           className={a.correctness
