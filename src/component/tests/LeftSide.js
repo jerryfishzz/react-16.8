@@ -50,7 +50,8 @@ const useStyles = makeStyles(theme => ({
     overflowY: 'auto',
   },
   bottomContainer: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
+    marginBottom: -theme.spacing(1.5) // To vertically align with the right
   },
   navBtn: {
     '&:hover': {

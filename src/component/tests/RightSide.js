@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   contentWidth: {
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: '85%'
+      width: '75%'
     }
   },
   titleContainer: {
@@ -39,27 +39,37 @@ function RightSide(props) {
       spacing={3} 
       className={classes.columnContainer}
     >
-      <Grid 
-        item 
-        container 
-        alignItems="center" 
-        className={`${classes.titleContainer} ${classes.contentWidth}`}
-      >
-        <Typography variant='h5'  color="primary">
-          {editQuestion ? "Edit Question" : "NOTES"}
-        </Typography>
-      </Grid>	
+      <Grid item container justify="center" className={classes.titleContainer}>
+        <Grid 
+          item 
+          container 
+          alignItems="center" 
+          className={classes.contentWidth}
+        >
+          <Typography variant='h5'  color="primary">
+            {editQuestion ? "Edit Question" : "NOTES"}
+          </Typography>
+        </Grid>
+      </Grid>
 
-      <Grid item xs className={`${classes.itemQuestion} ${classes.contentWidth}`}>
-        {editQuestion
-          ? <Fragment>
-              <Typography variant="subtitle1" gutterBottom>
-                Items with <span className={classes.astra}>*</span> are required.
-              </Typography>
-              <Form />
-            </Fragment>
-          : <Notes />
-        }
+      <Grid
+        item
+        container
+        justify="center"
+        xs 
+        className={classes.itemQuestion}
+      >
+        <Grid item className={classes.contentWidth}>
+          {editQuestion
+            ? <Fragment>
+                <Typography variant="subtitle1" gutterBottom>
+                  Items with <span className={classes.astra}>*</span> are required.
+                </Typography>
+                <Form />
+              </Fragment>
+            : <Notes />
+          }
+        </Grid>
       </Grid>
     </Grid>
   )
