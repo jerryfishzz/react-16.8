@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   toolBar: {
     display: 'flex',
-    justifyContent: 'end'
+    justifyContent: 'flex-end'
   },
   fabIcon: {
     [theme.breakpoints.up('sm')]: {
@@ -85,6 +85,7 @@ const Header = ({
             )}
 
             {/* Nav section */}
+            {/* Under non-404 and non-add route */}
             {!is404 && route !== 'add' &&
               <Tooltip title="Add Question">
                 <IconButton 
@@ -98,11 +99,13 @@ const Header = ({
               </Tooltip>
             }
             {postTypes.indexOf(route) !== -1 
+              // Under test routes
               ? <Tooltip title="Question List">
                   <IconButton color="inherit" component={Link} to={`/questionlist/${route}`}>
                     <List />
                   </IconButton>
                 </Tooltip>
+              // Under the questionlist route or 404
               : route !== 'add' && 
                   <Tooltip title="Home">
                     <IconButton 
@@ -115,6 +118,7 @@ const Header = ({
                     </IconButton>
                   </Tooltip>
             }
+            {/* Under the add route */}
             {route === 'add' &&
               <Fragment>
                 <Tooltip title="Home">
